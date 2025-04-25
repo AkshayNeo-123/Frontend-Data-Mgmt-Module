@@ -39,9 +39,10 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(userName: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { userName, password }, { responseType: 'text' });
+  login(email: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, { email, password }, { responseType: 'text' });
   }
+  
 
   setLoggedInUser(user: LoggedInUser): void {
     localStorage.setItem('user', JSON.stringify(user));

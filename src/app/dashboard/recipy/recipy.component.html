@@ -1,0 +1,17 @@
+<h4 class="mb-4">Recipe List</h4>
+<table class="table table-bordered table-hover">
+  <thead class="table-dark">
+    <tr>
+      <th>Product Name</th>
+      <th>Comments</th>
+      <th>Project ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let recipe of recipyList">
+      <td>{{ recipe.productName }}</td>
+      <td>{{ recipe.comments }}</td>
+      <td>{{ recipe.projectId }}</td>
+    </tr>
+  </tbody>
+</table>

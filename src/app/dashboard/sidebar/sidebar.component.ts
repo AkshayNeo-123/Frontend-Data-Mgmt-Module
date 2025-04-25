@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,8 +10,14 @@ import { CommonModule } from '@angular/common';
 })
 export class SidebarComponent {
   @Input() isOpen: boolean = true;
+  @Output() sectionChange = new EventEmitter<string>();  // Output to notify parent
 
-  
+  // Method to emit the section change event
+  emitSection(section: string) {
+    this.sectionChange.emit(section);  // Emit the selected section
+  }
+
+  // Method to toggle the sidebar's open/close state
   toggleSidebar() {
     this.isOpen = !this.isOpen;
   }

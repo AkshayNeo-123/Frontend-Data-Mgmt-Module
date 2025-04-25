@@ -1,25 +1,31 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TopbarComponent } from '../topbar/topbar.component';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RecipyComponent } from '../recipy/recipy.component'; // ✅ Import the RecipyComponent
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true,
+  standalone: true, // ✅ Enable standalone
   imports: [
     CommonModule,
     SidebarComponent,
     TopbarComponent,
-    RouterModule
+    RecipyComponent  // ✅ Make sure this is added so <app-recipy> works
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-  isSidebarOpen: boolean = true;
+  isSidebarOpen = true;
+  selectedSection: string = 'dashboard'; 
 
-  toggleSidebar(): void {
+  onToggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+ 
+  onSectionChange(section: string) {
+    this.selectedSection = section;
   }
 }
