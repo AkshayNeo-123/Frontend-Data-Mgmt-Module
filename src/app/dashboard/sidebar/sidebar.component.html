@@ -1,0 +1,51 @@
+<div [ngClass]="{ 'sidebar-collapsed': !isOpen, 'sidebar-expanded': isOpen }" class="sidebar vh-100">
+  <ul class="list-unstyled m-0 p-4">
+    
+      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect">
+          <i class="fas fa-tachometer-alt me-3"></i> 
+          <span *ngIf="isOpen">Dashboard</span>
+      </li>
+
+      
+      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect">
+          <i class="fas fa-users-cog me-3"></i>
+          <span *ngIf="isOpen">Role Master</span>
+      </li>
+
+      <!-- Manage User -->
+      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect">
+          <i class="fas fa-user-cog me-3"></i> 
+          <span *ngIf="isOpen">Manage User</span>
+      </li>
+
+      
+      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect">
+          <i class="fas fa-box-open me-3"></i> 
+          <span *ngIf="isOpen">Materials</span>
+      </li>
+
+   
+      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect">
+          <i class="fas fa-project-diagram me-3"></i> 
+          <span *ngIf="isOpen">Projects</span>
+      </li>
+
+     
+      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect">
+          <i class="fas fa-utensils me-3"></i> <!-- Recipe Icon -->
+          <span *ngIf="isOpen">Recipy</span>
+      </li>
+
+      
+      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect">
+          <i class="fas fa-vial me-3"></i> <!-- Testing Icon -->
+          <span *ngIf="isOpen">Testing</span>
+      </li>
+
+   
+      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect">
+          <i class="fas fa-table me-3"></i> 
+          <span *ngIf="isOpen">Master Tables</span>
+      </li>
+  </ul>
+</div>

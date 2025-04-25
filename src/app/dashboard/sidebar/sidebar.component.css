@@ -1,0 +1,26 @@
+.sidebar {
+    transition: width 0.3s ease;
+    overflow: hidden;
+    background-color: #7ea4f7;
+    color: white;
+  }
+  
+  .sidebar-expanded {
+    width: 220px;
+  }
+  
+  .sidebar-collapsed {
+    width: 90px;
+  }
+  
+  
+  .hover-effect:hover {
+    background-color: rgba(255, 96, 4, 0.1);
+    cursor: pointer;
+  }
+  
+  i {
+    min-width: 20px;
+    font-size: 18px;
+  }
+  

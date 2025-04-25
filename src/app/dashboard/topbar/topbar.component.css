@@ -1,0 +1,42 @@
+.navbar {
+  height: 70px;
+  background-color: rgb(0 96 167) !important;
+}
+
+button.topbar.btn.btn-outline-light {
+  border-radius: 50px !important;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  left: 15px;
+}
+
+
+ul.dropdown-menu.dropdown-menu-end {
+  right: 10px;
+  top: 45px;
+}
+
+
+.dropdown-item {
+  padding: 10px 15px;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #fff;
+  color: #fff;
+}
+
+
+.btn:hover {
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.dropdown-item-text {
+  font-size: 14px;
+}

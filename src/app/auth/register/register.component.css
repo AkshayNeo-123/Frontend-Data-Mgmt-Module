@@ -1,0 +1,23 @@
+.login-container {
+    height: 100vh;
+    background-color: #026e2c; 
+  }
+  
+  .login-box {
+    background-color: #fff;
+  }
+  
+  .heading-underline span {
+    display: inline-block;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+    min-width: 150px;
+  }
+  
+  .login-logo {
+    max-width: 150px; 
+    height: auto;
+    background-color: black;
+    padding: 10px;
+  }
+  
