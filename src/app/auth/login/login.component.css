@@ -1,7 +1,8 @@
 
 .login-container {
     height: 100vh;
-    background-color: #026e2c; 
+    background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+
   }
   
   .login-box {
@@ -31,6 +32,30 @@
     border: none;
     cursor: pointer;
   }
+
+  .login-btn {
+    background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+    border: none;
+    color: #000; 
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: background 0.3s ease, transform 0.2s;
+  }
+  
+ 
+  .login-btn:hover {
+    background: linear-gradient(135deg, #c1f36c 0%, #7edc90 100%);
+    transform: translateY(-2px);
+  }
+  
+ 
+  .login-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  
 
   .login-box {
     max-width: 500px;  

@@ -1,8 +1,8 @@
 .sidebar {
     transition: width 0.3s ease;
     overflow: hidden;
-    background-color: #7ea4f7;
-    color: white;
+    background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+    color: #000;
   }
   
   .sidebar-expanded {
@@ -13,7 +13,7 @@
     width: 90px;
   }
   
-  
+
   .hover-effect:hover {
     background-color: rgba(255, 96, 4, 0.1);
     cursor: pointer;

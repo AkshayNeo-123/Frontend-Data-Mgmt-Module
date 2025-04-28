@@ -1,11 +1,11 @@
 <div class="d-flex">
-  <!-- Sidebar -->
+ 
   <app-sidebar [isOpen]="isSidebarOpen" (sectionChange)="onSectionChange($event)">
   </app-sidebar>
 
  
   <div class="flex-grow-1">
-    <app-topbar (click)="onToggleSidebar()"></app-topbar>
+    <app-topbar (toggleSidebar)="onToggleSidebar()"></app-topbar>
 
     <div class="p-4">
       <ng-container [ngSwitch]="selectedSection">
@@ -45,7 +45,7 @@
                 </button>
               </li>
         
-              <!-- Page numbers -->
+              
               <li 
                 class="page-item" 
                 *ngFor="let page of pageRange; let i = index" 
@@ -59,7 +59,7 @@
                 </button>
               </li>
         
-              <!-- Next button -->
+             
               <li class="page-item" [class.disabled]="currentPage === totalPages">
                 <button class="page-link" (click)="goToNextPage()" aria-label="Next">
                   <span aria-hidden="true">&raquo;</span>
