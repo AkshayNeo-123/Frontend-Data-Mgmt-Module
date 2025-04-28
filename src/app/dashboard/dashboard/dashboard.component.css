@@ -3,3 +3,47 @@
     min-height: 100%;
   }
   
+
+  .card {
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .card-body {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .pagination .page-item .page-link {
+    border-radius: 0.25rem;
+  }
+  
+
+  .pagination {
+    gap: 8px;
+  }
+  
+  .page-link {
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+  
+  .page-item.active .page-link {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: white;
+  }
+  
+  .page-link:hover {
+    background-color: #0b5ed7;
+    color: white;
+  }
+  
+  .page-item.disabled .page-link {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  
+  

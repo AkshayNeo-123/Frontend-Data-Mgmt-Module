@@ -1,3 +1,4 @@
+
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service'; 
@@ -8,9 +9,15 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./topbar.component.css']
 })
 export class TopbarComponent implements OnInit {
+<<<<<<< HEAD
   @Output() toggle = new EventEmitter<void>();  
   userName: string = 'User'; 
   isDropdownOpen: boolean = false; 
+=======
+  @Output() toggleSidebar = new EventEmitter<void>();  
+  userName: string = 'User'; 
+  isDropdownOpen: boolean = false;  
+>>>>>>> c477ba636f07611a056c741a5ee16fc3d0db392e
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -20,22 +27,21 @@ export class TopbarComponent implements OnInit {
   }
 
   onToggleSidebar(): void {
-    this.toggle.emit();
+    this.toggleSidebar.emit(); 
   }
 
   toggleDropdown(event: MouseEvent): void {
     this.isDropdownOpen = !this.isDropdownOpen;
     const dropdownMenu = (event.target as HTMLElement).nextElementSibling;
     if (this.isDropdownOpen) {
-      dropdownMenu?.classList.add('show');  // Show dropdown
+      dropdownMenu?.classList.add('show');  
     } else {
-      dropdownMenu?.classList.remove('show');  // Hide dropdown
+      dropdownMenu?.classList.remove('show');  
     }
   }
 
-  // Perform logout, clear session data, and redirect to login page
   logout(): void {
-    this.authService.performLogout();  // Handle logout logic in AuthService
-    this.router.navigate(['/login']);  // Navigate to login page
+    this.authService.performLogout();  
+    this.router.navigate(['/login']);  
   }
 }
