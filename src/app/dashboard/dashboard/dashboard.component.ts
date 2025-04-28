@@ -4,6 +4,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TopbarComponent } from '../topbar/topbar.component';
 import { GetmaterialsComponent } from '../getmaterials/getmaterials.component';
 import { RecipyComponent } from '../recipy/recipy.component';
+import { FooterComponent } from '../../footer/footer.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +14,8 @@ import { RecipyComponent } from '../recipy/recipy.component';
     SidebarComponent,
     TopbarComponent,
     RecipyComponent,
-    GetmaterialsComponent
+    GetmaterialsComponent,
+    FooterComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
