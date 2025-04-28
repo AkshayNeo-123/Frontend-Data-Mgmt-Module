@@ -1,18 +1,76 @@
 <div class="d-flex">
   <!-- Sidebar -->
-  <app-sidebar 
-    [isOpen]="isSidebarOpen"
-    (sectionChange)="onSectionChange($event)">
+  <app-sidebar [isOpen]="isSidebarOpen" (sectionChange)="onSectionChange($event)">
   </app-sidebar>
 
-  <!-- Main Content -->
+ 
   <div class="flex-grow-1">
     <app-topbar (click)="onToggleSidebar()"></app-topbar>
 
     <div class="p-4">
       <ng-container [ngSwitch]="selectedSection">
         <app-recipy *ngSwitchCase="'recipy'"></app-recipy>
-        <h3 *ngSwitchCase="'dashboard'">Dashboard Content</h3>
+        <h3 class="mb-3" *ngSwitchCase="'dashboard'">Dashboard Content</h3>
+
+    
+        <div *ngSwitchCase="'dashboard'" class="row">
+          <div class="col-md-4 mb-4" *ngFor="let product of paginatedProducts">
+            <div class="card shadow-sm rounded" style="cursor: pointer;" (click)="viewDetails(product)">
+              <div class="card-body">
+                <h5 class="card-title">{{ product.productName }}</h5>
+                <p class="card-text text-muted">{{ product.comments }}</p>
+                <ul class="list-unstyled">
+                  <li><strong>Project ID:</strong> {{ product.projectId }}</li>
+                  <li><strong>Created By:</strong> {{ product.createdBy }}</li>
+                  <li><strong>Created Date:</strong> {{ product.createdDate | date }}</li>
+                  <li><strong>Modified Date:</strong> {{ product.modifiedDate | date }}</li>
+                </ul>
+                <div class="d-flex justify-content-between">
+                  <button class="btn btn-primary">View Details</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        <div *ngSwitchCase="'dashboard'" class="d-flex justify-content-center mt-5">
+          <nav aria-label="Page navigation">
+            <ul class="pagination pagination-lg">
+        
+              <!-- Previous button -->
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <button class="page-link" (click)="goToPreviousPage()" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </button>
+              </li>
+        
+              <!-- Page numbers -->
+              <li 
+                class="page-item" 
+                *ngFor="let page of pageRange; let i = index" 
+                [class.active]="currentPage === i + 1"
+              >
+                <button 
+                  class="page-link" 
+                  (click)="goToPage(i + 1)"
+                >
+                  {{ i + 1 }}
+                </button>
+              </li>
+        
+              <!-- Next button -->
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <button class="page-link" (click)="goToNextPage()" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </button>
+              </li>
+        
+            </ul>
+          </nav>
+        </div>
+        
+
         <h3 *ngSwitchCase="'role-master'">Role Master Content</h3>
         <h3 *ngSwitchCase="'manage-user'">Manage User Content</h3>
         <h3 *ngSwitchCase="'materials'">Materials Content</h3>
