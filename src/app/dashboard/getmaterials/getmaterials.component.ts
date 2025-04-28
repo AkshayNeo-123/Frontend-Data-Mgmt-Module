@@ -40,7 +40,7 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
   constructor(
     private materialService: MaterialService, 
     private dialog: MatDialog,
-    private snackBar: MatSnackBar  // Optional: for success/error messages
+    private snackBar: MatSnackBar  
   ) { }
 
   ngOnInit(): void {

@@ -4,6 +4,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TopbarComponent } from '../topbar/topbar.component';
 import { RecipyComponent } from '../recipy/recipy.component'; 
 import { GetmaterialsComponent } from '../getmaterials/getmaterials.component';
+import { FooterComponent } from '../../footer/footer.component';
 // import { RecipyComponent } from '../recipy/recipy.component';
 
 @Component({
@@ -14,8 +15,8 @@ import { GetmaterialsComponent } from '../getmaterials/getmaterials.component';
     SidebarComponent,
     TopbarComponent,
     RecipyComponent,  
-    GetmaterialsComponent
-    
+    GetmaterialsComponent,
+    FooterComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']

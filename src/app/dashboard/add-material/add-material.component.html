@@ -1,93 +1,93 @@
-<h2 mat-dialog-title>Add Material</h2>
+<div class="">
+  <h2 mat-dialog-title>Add Material</h2>
 
-<form [formGroup]="materialForm" (ngSubmit)="onSubmit()">
-  <div mat-dialog-content>
+  <form [formGroup]="materialForm" (ngSubmit)="onSubmit()">
+    <div mat-dialog-content>
 
-    <!-- First Row: Material Type + Designation -->
-    <div class="row">
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Material Type</mat-label>
-        <input matInput type="number" formControlName="materialsType" placeholder="Enter material type">
+      <div class="row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Material Type</mat-label>
+          <input matInput type="number" formControlName="materialsType" placeholder="Enter material type">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Designation</mat-label>
+          <input matInput formControlName="designation" placeholder="Enter designation">
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Manufacturer ID</mat-label>
+          <input matInput type="number" formControlName="manufacturerId" placeholder="Enter manufacturer ID">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Additive ID</mat-label>
+          <input matInput type="number" formControlName="additiveId" placeholder="Enter Additive ID">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Polymer ID</mat-label>
+          <input matInput type="number" formControlName="mainPolymerId" placeholder="Enter Polymer ID">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Quantity</mat-label>
+          <input matInput type="number" formControlName="quantity" placeholder="Enter quantity">
+        </mat-form-field>
+      </div>
+
+      <!-- Third Row: Density + Test Method -->
+      <div class="row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Density</mat-label>
+          <input matInput type="number" formControlName="density" placeholder="Enter density">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Test Method</mat-label>
+          <input matInput formControlName="testMethod" placeholder="Enter test method">
+        </mat-form-field>
+      </div>
+
+      <!-- Fourth Row: TDS File Path + MSDS File Path -->
+      <div class="row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>TDS File Path</mat-label>
+          <input matInput formControlName="tdsFilePath" placeholder="Enter TDS file path">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>MSDS File Path</mat-label>
+          <input matInput formControlName="msdsFilePath" placeholder="Enter MSDS file path">
+        </mat-form-field>
+      </div>
+
+      <!-- Fifth Row: Storage Location + MVR MFR -->
+      <div class="row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Storage Location</mat-label>
+          <input matInput type="number" formControlName="storageLocation" placeholder="Enter storage location">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>MVR MFR</mat-label>
+          <input matInput type="number" formControlName="MVR_MFR" placeholder="Enter MVR MFR">
+        </mat-form-field>
+      </div>
+
+      <!-- Full Row: Description -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" placeholder="Enter description"></textarea>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Designation</mat-label>
-        <input matInput formControlName="designation" placeholder="Enter designation">
-      </mat-form-field>
     </div>
 
-    <!-- Second Row: Manufacturer ID + Quantity -->
-    <div class="row">
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Manufacturer ID</mat-label>
-        <input matInput type="number" formControlName="manufacturerId" placeholder="Enter manufacturer ID">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Additive ID</mat-label>
-        <input matInput type="number" formControlName="additiveId" placeholder="Enter Additive ID">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Polymer ID</mat-label>
-        <input matInput type="number" formControlName="mainPolymerId" placeholder="Enter Polymer ID">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Quantity</mat-label>
-        <input matInput type="number" formControlName="quantity" placeholder="Enter quantity">
-      </mat-form-field>
-    </div>
-
-    <!-- Third Row: Density + Test Method -->
-    <div class="row">
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Density</mat-label>
-        <input matInput type="number" formControlName="density" placeholder="Enter density">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Test Method</mat-label>
-        <input matInput formControlName="testMethod" placeholder="Enter test method">
-      </mat-form-field>
-    </div>
-
-    <!-- Fourth Row: TDS File Path + MSDS File Path -->
-    <div class="row">
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>TDS File Path</mat-label>
-        <input matInput formControlName="tdsFilePath" placeholder="Enter TDS file path">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>MSDS File Path</mat-label>
-        <input matInput formControlName="msdsFilePath" placeholder="Enter MSDS file path">
-      </mat-form-field>
-    </div>
-
-    <!-- Fifth Row: Storage Location + MVR MFR -->
-    <div class="row">
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Storage Location</mat-label>
-        <input matInput type="number" formControlName="storageLocation" placeholder="Enter storage location">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>MVR MFR</mat-label>
-        <input matInput type="number" formControlName="MVR_MFR" placeholder="Enter MVR MFR">
-      </mat-form-field>
-    </div>
-
-    <!-- Full Row: Description -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Description</mat-label>
-      <textarea matInput formControlName="description" placeholder="Enter description"></textarea>
-    </mat-form-field>
-
-  </div>
-
-  <mat-dialog-actions align="end">
-    <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-raised-button color="primary" type="submit">Add Material</button>
-  </mat-dialog-actions>
-</form>
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="onCancel()">Cancel</button>
+      <button mat-raised-button color="primary" type="submit">Add Material</button>
+    </mat-dialog-actions>
+  </form>
+</div>

@@ -17,7 +17,12 @@
   }
   
   .pagination .page-item .page-link {
-    border-radius: 0.25rem;
+    border-radius: 83%;
+    width: 55px;
+    height: 55px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
   }
   
 
@@ -31,13 +36,13 @@
   }
   
   .page-item.active .page-link {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
+    background-color: #05ec8c;
+    border-color: #05ec8c;
     color: white;
   }
   
   .page-link:hover {
-    background-color: #0b5ed7;
+    background-color: #05ec8c;
     color: white;
   }
   
