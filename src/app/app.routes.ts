@@ -27,7 +27,12 @@ export const routes: Routes = [
         path: '',
         redirectTo: 'recipy', // or default dashboard child
         pathMatch: 'full'
-      }
+      },
+      {
+        path: 'getmaterials',
+        loadComponent: () => import('./dashboard/getmaterials/getmaterials.component').then(m => m.GetmaterialsComponent),
+      },
+      
     ]
   },
   {

@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TopbarComponent } from '../topbar/topbar.component';
-import { RecipyComponent } from '../recipy/recipy.component'; // ✅ Import the RecipyComponent
+import { RecipyComponent } from '../recipy/recipy.component'; 
+import { GetmaterialsComponent } from '../getmaterials/getmaterials.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +12,8 @@ import { RecipyComponent } from '../recipy/recipy.component'; // ✅ Import the 
     CommonModule,
     SidebarComponent,
     TopbarComponent,
-    RecipyComponent  // ✅ Make sure this is added so <app-recipy> works
+    RecipyComponent,  // ✅ Make sure this is added so <app-recipy> works
+    GetmaterialsComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']

@@ -1,0 +1,107 @@
+<div class="container">
+  <h4 class="fw-bold">Materials Table</h4>
+
+  <div class="d-flex justify-content-end align-items-center mb-3">
+   
+    <button mat-raised-button class="mr-3 add-material-btn me-4" (click)="openAddMaterialDialog()">
+      <i class="fas fa-plus me-2"></i> Add Material
+    </button>  
+  
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search">
+    </mat-form-field>
+  </div>
+  
+
+  <div class="table-responsive">
+    <table mat-table [dataSource]="dataSource" matSort 
+           class="table table-bordered table-striped table-hover mat-elevation-z8">
+
+           <ng-container matColumnDef="materialId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Material ID</th>
+            <td mat-cell *matCellDef="let element">{{element.materialId}}</td>
+          </ng-container>
+          
+      <ng-container matColumnDef="materialsType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Material Type</th>
+        <td mat-cell *matCellDef="let element">{{element.materialsType}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="designation">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Designation</th>
+        <td mat-cell *matCellDef="let element">{{element.designation}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="manufacturerId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Manufacturer ID</th>
+        <td mat-cell *matCellDef="let element">{{element.manufacturerId}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+        <td mat-cell *matCellDef="let element">{{element.quantity}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="density">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Density</th>
+        <td mat-cell *matCellDef="let element">{{element.density}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="testMethod">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Test Method</th>
+        <td mat-cell *matCellDef="let element">{{element.testMethod}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="tdsFilePath">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>TDS File Path</th>
+        <td mat-cell *matCellDef="let element">{{element.tdsFilePath}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="msdsFilePath">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>MSDS File Path</th>
+        <td mat-cell *matCellDef="let element">{{element.msdsFilePath}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="storageLocation">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Storage Location</th>
+        <td mat-cell *matCellDef="let element">{{element.storageLocation}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+        <td mat-cell *matCellDef="let element">{{element.description}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="mvR_MFR">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>MVR/MFR</th>
+        <td mat-cell *matCellDef="let element">{{element.MVR_MFR}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdBy">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Created By</th>
+        <td mat-cell *matCellDef="let element">{{element.createdBy}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</th>
+        <td mat-cell *matCellDef="let element">{{element.createdDate | date}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <i class="fas fa-eye me-3 action-icon"></i>
+          <i class="fas fa-pencil-alt me-3 action-icon"></i>
+          {{ element.MaterialId }}
+          <i class="fas fa-trash-alt action-icon" (click)="deleteMaterial(element.materialId)"></i>        </td>
+      </ng-container>
+      
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+</div>
