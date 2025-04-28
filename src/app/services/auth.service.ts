@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> c477ba636f07611a056c741a5ee16fc3d0db392e
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -9,11 +5,7 @@ import { Observable } from 'rxjs';
 export interface LoggedInUser {
   name: string;
   email?: string;
-<<<<<<< HEAD
   userid: number;
-=======
- 
->>>>>>> c477ba636f07611a056c741a5ee16fc3d0db392e
 }
 
 @Injectable({
