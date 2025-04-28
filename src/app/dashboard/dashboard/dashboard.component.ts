@@ -5,6 +5,7 @@ import { TopbarComponent } from '../topbar/topbar.component';
 import { GetmaterialsComponent } from '../getmaterials/getmaterials.component';
 import { RecipyComponent } from '../recipy/recipy.component';
 import { FooterComponent } from '../../footer/footer.component';
+import { ProjectComponent } from '../project/project.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +16,8 @@ import { FooterComponent } from '../../footer/footer.component';
     TopbarComponent,
     RecipyComponent,
     GetmaterialsComponent,
-    FooterComponent
+    FooterComponent,
+    ProjectComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']

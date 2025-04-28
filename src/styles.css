@@ -3,3 +3,84 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+h4 {
+    font-weight: 600;
+  }
+    
+  mat-form-field {
+    width: 25%;
+    margin-bottom: 20px;
+  }
+  
+  .add-material-btn {
+    font-size: 16px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin-bottom: 40px;
+  
+    background-color: #4caf50; 
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-material-btn:hover {
+    background-color: #388e3c; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  table {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    border-collapse: collapse; 
+    /* table-layout: fixed; */
+  }
+  
+  .mat-header-cell {
+    font-weight: bold;
+    background-color: #f8f9fa;
+    color: #343a40;
+    border: 1px solid #ddd; 
+  }
+  
+  .mat-cell, .mat-header-cell {
+    padding: 16px;
+    font-size: 14px;
+    border: 1px solid #ddd; 
+  }
+  
+  .mat-row:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
+  }
+  
+  .mat-row, .mat-header-row {
+    display: table-row;
+  }
+  
+  .action-icon {
+    font-size: 20px;  
+    cursor: pointer; 
+    transition: transform 0.2s ease-in-out;
+  }
+  
+ 
+  .fas.fa-eye {
+    color: #28a745;
+  }
+  
+  .fas.fa-pencil-alt {
+    color: #007bff; 
+  }
+  
+  .fas.fa-trash-alt {
+    color: #dc3545; 
+  }
+  
+ 
+  .action-icon:hover {
+    transform: scale(1.2); 
+  }
+  
