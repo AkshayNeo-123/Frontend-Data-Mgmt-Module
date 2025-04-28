@@ -2,12 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TopbarComponent } from '../topbar/topbar.component';
-<<<<<<< HEAD
 import { RecipyComponent } from '../recipy/recipy.component'; 
 import { GetmaterialsComponent } from '../getmaterials/getmaterials.component';
-=======
-import { RecipyComponent } from '../recipy/recipy.component';
->>>>>>> c477ba636f07611a056c741a5ee16fc3d0db392e
+// import { RecipyComponent } from '../recipy/recipy.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,12 +13,9 @@ import { RecipyComponent } from '../recipy/recipy.component';
     CommonModule,
     SidebarComponent,
     TopbarComponent,
-<<<<<<< HEAD
-    RecipyComponent,  // ✅ Make sure this is added so <app-recipy> works
+    RecipyComponent,  
     GetmaterialsComponent
-=======
-    RecipyComponent
->>>>>>> c477ba636f07611a056c741a5ee16fc3d0db392e
+    
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']

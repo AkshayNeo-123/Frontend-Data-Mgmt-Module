@@ -9,15 +9,9 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./topbar.component.css']
 })
 export class TopbarComponent implements OnInit {
-<<<<<<< HEAD
-  @Output() toggle = new EventEmitter<void>();  
-  userName: string = 'User'; 
-  isDropdownOpen: boolean = false; 
-=======
   @Output() toggleSidebar = new EventEmitter<void>();  
   userName: string = 'User'; 
   isDropdownOpen: boolean = false;  
->>>>>>> c477ba636f07611a056c741a5ee16fc3d0db392e
 
   constructor(private authService: AuthService, private router: Router) {}
 
