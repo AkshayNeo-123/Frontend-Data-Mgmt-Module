@@ -28,7 +28,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'; // Optional for showi
 export class GetmaterialsComponent implements AfterViewInit, OnInit {
 
   displayedColumns: string[] = [
-   'materialId', 'materialsType', 'designation', 'manufacturerId', 'quantity', 'density', 'testMethod', 
+   'materialId', 'materialsType', 'designation', 'manufacturerId', 'quantity', 'density', 'testMethod', 'AdditiveId','MainPolymerId',
     'tdsFilePath', 'msdsFilePath', 'storageLocation', 'description', 'mvR_MFR', 'createdBy', 
     'createdDate',"actions"
   ];  

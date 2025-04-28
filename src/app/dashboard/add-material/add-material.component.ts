@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators ,ReactiveFormsModule} from '@angular/forms';
 import { MaterialService } from '../../services/material.service';
 import { Material } from '../../models/material.model';
-import { MatDialogRef } from '@angular/material/dialog'; // if you want to close dialog after adding
+import { MatDialogRef } from '@angular/material/dialog'; 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr'; // Import ToastrService
+import { ToastrService } from 'ngx-toastr'; 
 
 @Component({
   selector: 'app-add-material',
@@ -36,6 +36,8 @@ export class AddMaterialComponent {
       materialsType: ['', Validators.required],
       designation: ['', Validators.required],
       manufacturerId: [null, Validators.required],
+      additiveId: [null, Validators.required],
+      mainPolymerId: [null, Validators.required],
       quantity: [null, Validators.required],
       density: [null, Validators.required],
       testMethod: ['', Validators.required],
@@ -49,13 +51,24 @@ export class AddMaterialComponent {
 
   onSubmit() {
     if (this.materialForm.valid) {
-      const newMaterial: Material = this.materialForm.value;
-
+      const userJson = localStorage.getItem('user');
+      const user = userJson ? JSON.parse(userJson) : null;
+  
+      if (!user) {
+        console.error('No user found in localStorage!');
+        return;
+      }
+  
+      const newMaterial: Material = {
+        ...this.materialForm.value, 
+        createdBy: user.userId, 
+        createdDate: new Date().toISOString(), 
+      };
+  
       this.materialService.addMaterial(newMaterial).subscribe({
         next: (response) => {
           console.log('Material added successfully', response);
-          // this.toastr.success('Material added successfully!', 'Success'); 
-          this.dialogRef.close(true); // 👈 close the dialog after success
+          this.dialogRef.close(true);
         },
         error: (error) => {
           console.error('Error adding material:', error);
@@ -63,8 +76,9 @@ export class AddMaterialComponent {
       });
     }
   }
+  
 
   onCancel() {
-    this.dialogRef.close(); // 👈 close dialog on cancel too
+    this.dialogRef.close(); 
   }
 }

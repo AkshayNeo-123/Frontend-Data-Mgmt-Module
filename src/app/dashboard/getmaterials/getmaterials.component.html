@@ -38,6 +38,14 @@
         <td mat-cell *matCellDef="let element">{{element.manufacturerId}}</td>
       </ng-container>
 
+      <ng-container matColumnDef="AdditiveId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Additive ID</th>
+        <td mat-cell *matCellDef="let element">{{element.additiveId}}</td>
+      </ng-container>
+      <ng-container matColumnDef="MainPolymerId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>MainPolymer ID</th>
+        <td mat-cell *matCellDef="let element">{{element.mainPolymerId}}</td>
+      </ng-container>
       <ng-container matColumnDef="quantity">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
         <td mat-cell *matCellDef="let element">{{element.quantity}}</td>
@@ -75,7 +83,7 @@
 
       <ng-container matColumnDef="mvR_MFR">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>MVR/MFR</th>
-        <td mat-cell *matCellDef="let element">{{element.MVR_MFR}}</td>
+        <td mat-cell *matCellDef="let element">{{element.mvR_MFR}}</td>
       </ng-container>
 
       <ng-container matColumnDef="createdBy">

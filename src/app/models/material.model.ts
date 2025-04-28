@@ -1,5 +1,5 @@
 export interface Material {
-  materialId: number; 
+   materialId: number; 
     materialsType: number;
     designation: string;
     manufacturerId: number;
@@ -11,6 +11,8 @@ export interface Material {
     storageLocation: number;
     description: string;
     MVR_MFR: number;
+    AdditiveId:number;
+    MainPolymerId:number;
     createdBy: number;
     createdDate: string;
     modifiedBy: number | null;

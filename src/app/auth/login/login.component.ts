@@ -40,18 +40,20 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     if (this.loginForm.invalid) return;
-
+  
     this.isLoading = true;
-    const { email, password } = this.loginForm.value;
-
-    console.log('Login form values:', { email, password });
-
+    const { email, password } = this.loginForm.value; // ✨ Only email and password
+  
     this.authService.login(email, password).subscribe({
       next: (response: any) => {
         this.isLoading = false;
-        localStorage.setItem('token', response.token); // Adjust according to response format
-        this.authService.setLoggedInUser({ name: email });
-
+  
+        this.authService.setLoggedInUser({
+          name: response.email,
+          email: response.email,
+          userid: response.userId
+        });
+  
         this.showSnackBar('Login successful!', 'success');
         this.router.navigate(['/dashboard']);
       },
@@ -62,6 +64,7 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+  
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
