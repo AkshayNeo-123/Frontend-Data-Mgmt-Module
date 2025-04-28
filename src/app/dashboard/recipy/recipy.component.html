@@ -1,17 +1,30 @@
-<h4 class="mb-4">Recipe List</h4>
-<table class="table table-bordered table-hover">
-  <thead class="table-dark">
-    <tr>
-      <th>Product Name</th>
-      <th>Comments</th>
-      <th>Project ID</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let recipe of recipyList">
-      <td>{{ recipe.productName }}</td>
-      <td>{{ recipe.comments }}</td>
-      <td>{{ recipe.projectId }}</td>
-    </tr>
-  </tbody>
+<div>
+  <h4 class="fw-bold">Recipe Table</h4>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Filter</mat-label>
+    <input matInput (input)="applyFilter($event)" placeholder="Search">
+  </mat-form-field>
+</div>
+
+<table mat-table [dataSource]="dataSource" matSort class="styled-table table table-bordered table-striped table-hover mat-elevation-z8">
+  <ng-container matColumnDef="productName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
+    <td mat-cell *matCellDef="let recipe"> {{recipe.productName}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="comments">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Comments </th>
+    <td mat-cell *matCellDef="let recipe"> {{recipe.comments}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="projectId">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Project ID </th>
+    <td mat-cell *matCellDef="let recipe"> {{recipe.projectId}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+
+<mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>

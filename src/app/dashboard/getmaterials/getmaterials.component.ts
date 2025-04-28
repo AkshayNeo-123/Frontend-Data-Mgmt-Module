@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Material } from '../../models/material.model';
 import { MaterialService } from '../../services/material.service';
 import { AddMaterialComponent } from '../add-material/add-material.component';
-import { MatSnackBar } from '@angular/material/snack-bar'; // Optional for showing messages
+import { MatSnackBar } from '@angular/material/snack-bar'; 
 
 @Component({
   selector: 'app-getmaterials',
@@ -40,7 +40,7 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
   constructor(
     private materialService: MaterialService, 
     private dialog: MatDialog,
-    private snackBar: MatSnackBar  // Optional: for success/error messages
+    private snackBar: MatSnackBar 
   ) { }
 
   ngOnInit(): void {
@@ -76,7 +76,7 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.loadMaterials();  // Reload materials if the dialog was closed successfully
+        this.loadMaterials();  
       }
     });
   }
@@ -89,7 +89,7 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
     }
     this.dataSource.data = this.dataSource.data.filter(material => material.materialId !== materialId);
 
-    console.log('Deleting Material with ID:', materialId);  // Add this line for debugging
+    console.log('Deleting Material with ID:', materialId); 
     this.materialService.deleteMaterial(materialId).subscribe(
       (response) => {
         // this.loadMaterials();
