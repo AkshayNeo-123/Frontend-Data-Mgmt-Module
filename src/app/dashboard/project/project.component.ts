@@ -10,6 +10,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { AddprojectComponent } from '../addproject/addproject.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-project',
@@ -34,7 +36,7 @@ export class ProjectComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 // element: any;
 
-  constructor(private projectService: ProjectService) {}
+  constructor(private projectService: ProjectService,private dialog: MatDialog,) {}
 
   ngOnInit() {
     this.loadProjects();
@@ -59,8 +61,17 @@ export class ProjectComponent implements OnInit {
     
   //   }
 
+  openAddProjectDialog() {
+      const dialogRef = this.dialog.open(AddprojectComponent, {
+        width: '80%',  
+        maxWidth: '800px',
+        disableClose: true,
+      });
+    }
+
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
+  
 }
