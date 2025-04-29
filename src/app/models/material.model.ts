@@ -17,6 +17,7 @@ export interface Material {
     createdDate: string;
     modifiedBy: number | null;
     modifiedDate: string | null;
+    
   }
 
 

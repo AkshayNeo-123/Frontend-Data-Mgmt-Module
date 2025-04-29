@@ -13,6 +13,7 @@ export interface LoggedInUser {
 })
 export class AuthService {
   private apiUrl = 'https://localhost:7030/api/Account';
+  // https://localhost:7030/api/Account/login
 
   constructor(private http: HttpClient) {}
 
