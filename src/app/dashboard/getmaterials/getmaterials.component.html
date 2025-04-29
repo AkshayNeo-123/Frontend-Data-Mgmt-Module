@@ -39,12 +39,12 @@
       </ng-container>
 
       <ng-container matColumnDef="AdditiveId">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Additive ID</th>
-        <td mat-cell *matCellDef="let element">{{element.additiveId}}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Additive Name</th>
+        <td mat-cell *matCellDef="let element">{{element.additive.additiveName}}</td>
       </ng-container>
       <ng-container matColumnDef="MainPolymerId">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>MainPolymer ID</th>
-        <td mat-cell *matCellDef="let element">{{element.mainPolymerId}}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>MainPolymer Name</th>
+        <td mat-cell *matCellDef="let element">{{element.mainPolymer.polymerName}}</td>
       </ng-container>
       <ng-container matColumnDef="quantity">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>

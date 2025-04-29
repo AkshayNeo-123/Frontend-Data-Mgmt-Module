@@ -26,11 +26,13 @@ import { MatInputModule } from '@angular/material/input';
   ]
 })
 export class ProjectComponent implements OnInit {
+
   displayedColumns: string[] = ['projectName', 'projectType', 'area', 'status', 'startDate', 'endDate','actions'];
   dataSource = new MatTableDataSource<Project>([]); // Using your Project model
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+// element: any;
 
   constructor(private projectService: ProjectService) {}
 
@@ -53,6 +55,9 @@ export class ProjectComponent implements OnInit {
       }
     });
   }
+  // UpdateProject(projectId: any) {
+    
+  //   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
