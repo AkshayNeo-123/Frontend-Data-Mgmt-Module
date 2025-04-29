@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
+import { ManageusersComponent } from './dashboard/manageusers/manageusers.component';
 
 export const routes: Routes = [
   {
@@ -37,6 +38,10 @@ export const routes: Routes = [
         path: 'getproject',
         loadComponent: () => import('./dashboard/project/project.component').then(m => m.ProjectComponent),
       },
+      {
+        path: 'manageusers',
+        component: ManageusersComponent
+      }
       
     ]
   },

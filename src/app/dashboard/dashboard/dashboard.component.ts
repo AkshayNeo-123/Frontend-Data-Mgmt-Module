@@ -1,3 +1,9 @@
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatButtonModule } from '@angular/material/button';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -6,6 +12,8 @@ import { GetmaterialsComponent } from '../getmaterials/getmaterials.component';
 import { RecipyComponent } from '../recipy/recipy.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { ProjectComponent } from '../project/project.component';
+import { ManageusersComponent } from '../manageusers/manageusers.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +25,15 @@ import { ProjectComponent } from '../project/project.component';
     RecipyComponent,
     GetmaterialsComponent,
     FooterComponent,
-    ProjectComponent
+    ProjectComponent,
+    ManageusersComponent,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatButtonModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
