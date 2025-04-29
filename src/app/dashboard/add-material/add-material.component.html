@@ -19,9 +19,14 @@
 
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Manufacturer ID</mat-label>
-        <input matInput type="number" formControlName="manufacturerId">
+        <mat-label>Manufacturer</mat-label>
+        <mat-select formControlName="manufacturerId">
+          <mat-option *ngFor="let manufacturer of manufacturers" [value]="manufacturer.id">
+            {{ manufacturer.contactName }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
+      
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Additive</mat-label>

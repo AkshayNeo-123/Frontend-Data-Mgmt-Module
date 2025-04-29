@@ -32,6 +32,7 @@ export class AddMaterialComponent implements OnInit {
   materialForm: FormGroup;
   additives: any[] = [];
   mainPolymers: any[] = [];
+  manufacturers: any[] = [];
 
   materialTypes = [
     { value: MaterialTypeEnum.RawMaterial, viewValue: 'Raw Material' },
@@ -99,9 +100,6 @@ export class AddMaterialComponent implements OnInit {
     this.commonService.getAdditives().subscribe({
       next: (res) => {
         this.additives = res;
-        if (this.isEditMode) {
-          this.materialForm.patchValue({ additiveId: this.data.additiveId });
-        }
       },
       error: (err) => console.error('Failed to load additives:', err)
     });
@@ -109,12 +107,17 @@ export class AddMaterialComponent implements OnInit {
     this.commonService.getMainPolymers().subscribe({
       next: (res) => {
         this.mainPolymers = res;
-        if (this.isEditMode) {
-          this.materialForm.patchValue({ mainPolymerId: this.data.mainPolymerId });
-        }
       },
       error: (err) => console.error('Failed to load main polymers:', err)
     });
+
+    this.commonService.getManufacture().subscribe({
+      next: (res) => {
+        this.manufacturers = res;
+      },
+      error: (err) => console.error('Failed to load manufacturers:', err)
+    });
+    
 
     if (this.isEditMode) {
       this.materialForm.patchValue({

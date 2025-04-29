@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class CommonService {
   private apiUrl = 'https://localhost:7030/api'; 
+ private GetManufacture='https://localhost:7030/api/Contact/GetAllManufacturer';
 
   constructor(private http: HttpClient) {}
 
@@ -18,4 +19,9 @@ export class CommonService {
   getMainPolymers(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/MainPolymer`);
   }
+
+ getManufacture(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.GetManufacture}`);
+  }
+
 }
