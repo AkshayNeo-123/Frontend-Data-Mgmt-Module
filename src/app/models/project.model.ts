@@ -1,4 +1,5 @@
 export interface Project {
+  projectId: number;
     projectName: string;
     projectType: number;
     area: number;
@@ -19,7 +20,7 @@ export interface Project {
     projectType: ProjectType;
     area: Area;
     priority: Priority;
-    project_Description: string;
+    projectDescription: string;
     startDate: string; // use ISO string format (e.g., "2025-04-28T00:00:00Z")
     endDate?: string;  // optional if not marked [Required] in backend
   }

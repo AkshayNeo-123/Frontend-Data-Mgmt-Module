@@ -11,7 +11,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-addproject',
@@ -60,7 +61,8 @@ export class AddprojectComponent {
   constructor(
     private fb: FormBuilder,
     private projectservice:ProjectService,
-    private dialogRef: MatDialogRef<AddprojectComponent>
+    private dialogRef: MatDialogRef<AddprojectComponent>,
+    private route:Router
   ) {
     this.projectForm = this.fb.group({
       projectName: ['', Validators.required],
@@ -93,6 +95,11 @@ export class AddprojectComponent {
         next: (response) => {
           console.log('Project added successfully', response);
           this.dialogRef.close(true);
+      
+          // Force reload by navigating to a dummy route and then to the same route
+          // this.route.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          //   this.route.navigate(['/GetAllProject']);
+          // });
         },
         error: (error) => {
           console.error('Error adding project:', error);

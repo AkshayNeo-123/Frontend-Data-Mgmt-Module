@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
+import { ProjectComponent } from './dashboard/project/project.component';
 
 export const routes: Routes = [
   {
@@ -49,4 +50,8 @@ export const routes: Routes = [
     path: '**',
     redirectTo: 'auth/login',
   },
+  {
+    path: 'GetAllProject',
+    component: ProjectComponent
+  }
 ];

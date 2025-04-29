@@ -19,4 +19,8 @@ private addProject='https://localhost:7030/api/Projects/AddProject';
     return this.http.post<AddPRoject>('https://localhost:7030/api/Projects/AddProject',project)
     
   }
+  deleteProject(projectId: number): Observable<any> {
+    const url = `https://localhost:7030/api/Projects/DeleteProject?id=${projectId}`;
+    return this.http.delete(url);
+}
 }

@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AddprojectComponent } from '../addproject/addproject.component';
 import { MatDialog } from '@angular/material/dialog';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-project',
@@ -25,6 +26,7 @@ import { MatDialog } from '@angular/material/dialog';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
+    RouterModule
   ]
 })
 export class ProjectComponent implements OnInit {
@@ -48,15 +50,16 @@ export class ProjectComponent implements OnInit {
   }
 
   loadProjects() {
-    this.projectService.getAllProjects().subscribe({
-      next: (data) => {
+    this.projectService.getAllProjects()
+      .subscribe((data: Project[]) => {
+        console.log('Loaded materials:', data);
         this.dataSource.data = data;
-      },
-      error: (error) => {
-        console.error('Error fetching projects:', error);
-      }
-    });
+      }, error => {
+        console.error('Error fetching materials:', error);
+      });
   }
+ 
+  
   // UpdateProject(projectId: any) {
     
   //   }
@@ -72,6 +75,22 @@ export class ProjectComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.dataSource.filter = filterValue;
+  }
+
+  deleteProject(id: number) {
+    if (confirm('Are you sure you want to delete this project?')) {
+      this.projectService.deleteProject(id).subscribe({
+        next: () => {
+          console.log(`Project with ID ${id} deleted successfully.`);
+          this.dataSource.data = this.dataSource.data.filter(project => project.projectId !== id);
+  
+          this.loadProjects();
+        },
+        error: (error) => {
+          console.error('Error deleting project:', error);
+        }
+      });
+    }
   }
   
 }
