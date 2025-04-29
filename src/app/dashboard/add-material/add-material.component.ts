@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators ,ReactiveFormsModule} from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MaterialService } from '../../services/material.service';
-import { Material } from '../../models/material.model';
-import { MatDialogRef } from '@angular/material/dialog'; 
+import { Material, MaterialTypeEnum, MvrMfrType, StorageLocation } from '../../models/material.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr'; 
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-add-material',
@@ -20,20 +21,27 @@ import { ToastrService } from 'ngx-toastr';
     MatInputModule,
     MatButtonModule,
     MatDialogModule,
-   
+    MatSelectModule,
+    MatOptionModule
   ]
 })
 export class AddMaterialComponent {
   materialForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private materialService: MaterialService,
-    private dialogRef: MatDialogRef<AddMaterialComponent> ,
-    // private toastr: ToastrService 
-  ) {
+  priorities = [
+    { value: 1, viewValue: 'High' },
+    { value: 2, viewValue: 'Medium' },
+    { value: 3, viewValue: 'Low' }
+  ];
+  
+
+  private fb = inject(FormBuilder);
+  private dialogRef = inject(MatDialogRef<AddMaterialComponent>);
+  private materialService = inject(MaterialService);
+
+  constructor() {
     this.materialForm = this.fb.group({
-      materialsType: ['', Validators.required],
+      priority: [null, Validators.required], 
       designation: ['', Validators.required],
       manufacturerId: [null, Validators.required],
       additiveId: [null, Validators.required],
@@ -49,36 +57,31 @@ export class AddMaterialComponent {
     });
   }
 
+
   onSubmit() {
     if (this.materialForm.valid) {
       const userJson = localStorage.getItem('user');
       const user = userJson ? JSON.parse(userJson) : null;
-  
-      if (!user) {
-        console.error('No user found in localStorage!');
-        return;
-      }
-  
+
+      if (!user) return console.error('No user found in localStorage!');
+
       const newMaterial: Material = {
-        ...this.materialForm.value, 
-        createdBy: user.userId, 
-        createdDate: new Date().toISOString(), 
+        ...this.materialForm.value,
+        createdBy: user.userId,
+        createdDate: new Date().toISOString(),
+        modifiedBy: null,
+        modifiedDate: null,
+        materialId: 0 
       };
-  
+
       this.materialService.addMaterial(newMaterial).subscribe({
-        next: (response) => {
-          console.log('Material added successfully', response);
-          this.dialogRef.close(true);
-        },
-        error: (error) => {
-          console.error('Error adding material:', error);
-        }
+        next: (res) => this.dialogRef.close(true),
+        error: (err) => console.error('Error adding material:', err)
       });
     }
   }
-  
 
   onCancel() {
-    this.dialogRef.close(); 
+    this.dialogRef.close();
   }
 }

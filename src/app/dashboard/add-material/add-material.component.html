@@ -1,13 +1,17 @@
 <h2 mat-dialog-title>Add Material</h2>
-
 <form [formGroup]="materialForm" (ngSubmit)="onSubmit()">
   <div mat-dialog-content>
-
     <div class="row">
+
       <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Material Type</mat-label>
-        <input matInput type="number" formControlName="materialsType" placeholder="Enter material type">
+        <mat-label>Priority</mat-label>
+        <mat-select formControlName="priority">
+          <mat-option *ngFor="let priority of priorities" [value]="priority.value">
+            {{ priority.viewValue }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
+      
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Designation</mat-label>
@@ -18,66 +22,53 @@
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Manufacturer ID</mat-label>
-        <input matInput type="number" formControlName="manufacturerId" placeholder="Enter manufacturer ID">
+        <input matInput type="number" formControlName="manufacturerId">
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Additive ID</mat-label>
-        <input matInput type="number" formControlName="additiveId" placeholder="Enter Additive ID">
+        <input matInput type="number" formControlName="additiveId">
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Polymer ID</mat-label>
-        <input matInput type="number" formControlName="mainPolymerId" placeholder="Enter Polymer ID">
+        <input matInput type="number" formControlName="mainPolymerId">
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Quantity</mat-label>
-        <input matInput type="number" formControlName="quantity" placeholder="Enter quantity">
+        <input matInput type="number" formControlName="quantity">
       </mat-form-field>
     </div>
 
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Density</mat-label>
-        <input matInput type="number" formControlName="density" placeholder="Enter density">
+        <input matInput type="number" formControlName="density">
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Test Method</mat-label>
-        <input matInput formControlName="testMethod" placeholder="Enter test method">
+        <input matInput formControlName="testMethod">
       </mat-form-field>
     </div>
 
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>TDS File Path</mat-label>
-        <input matInput formControlName="tdsFilePath" placeholder="Enter TDS file path">
+        <input matInput formControlName="tdsFilePath">
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>MSDS File Path</mat-label>
-        <input matInput formControlName="msdsFilePath" placeholder="Enter MSDS file path">
-      </mat-form-field>
-    </div>
-
-    <div class="row">
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Storage Location</mat-label>
-        <input matInput type="number" formControlName="storageLocation" placeholder="Enter storage location">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>MVR MFR</mat-label>
-        <input matInput type="number" formControlName="MVR_MFR" placeholder="Enter MVR MFR">
+        <input matInput formControlName="msdsFilePath">
       </mat-form-field>
     </div>
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Description</mat-label>
-      <textarea matInput formControlName="description" placeholder="Enter description"></textarea>
+      <textarea matInput formControlName="description"></textarea>
     </mat-form-field>
-
   </div>
 
   <mat-dialog-actions align="end">
