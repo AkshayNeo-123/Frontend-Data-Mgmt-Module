@@ -12,4 +12,9 @@ export class UserService {
   getAllUsers(): Observable<any[]>{
     return this.http.get<any[]>(this.baseUrl);
   }
+
+  deleteUser(id: number){
+    return this.http.delete(`https://localhost:7030/api/User/${id}`);
+  }
+
 }

@@ -58,7 +58,18 @@ export class ManageusersComponent implements OnInit {
   }
 
   deleteUser(id: number) {
-    console.log('Delete user id:', id);
+    if(confirm('Are you sure you want to delete this user?')){
+      this.userService.deleteUser(id).subscribe({
+        next: () => {
+          this.dataSource.data = this.dataSource.data.filter(user => user.userId !== id);
+          alert('User deleted successfully!!');
+        },
+        error: err =>{
+          console.error('Error deleting user:', err);
+          alert('Failed to delete the user!!')
+        }
+      });
+    }
   }
 
   applyFilter(event: Event) {
