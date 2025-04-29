@@ -2,16 +2,14 @@
 <form [formGroup]="materialForm" (ngSubmit)="onSubmit()">
   <div mat-dialog-content>
     <div class="row">
-
       <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Priority</mat-label>
-        <mat-select formControlName="priority">
-          <mat-option *ngFor="let priority of priorities" [value]="priority.value">
-            {{ priority.viewValue }}
+        <mat-label>Material Type</mat-label>
+        <mat-select formControlName="materialsType">
+          <mat-option *ngFor="let type of materialTypes" [value]="type.value">
+            {{ type.viewValue }}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Designation</mat-label>
@@ -26,13 +24,21 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Additive ID</mat-label>
-        <input matInput type="number" formControlName="additiveId">
+        <mat-label>Additive</mat-label>
+        <mat-select formControlName="additiveId">
+          <mat-option *ngFor="let additive of additives" [value]="additive.id">
+            {{ additive.additiveName }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
-
+      
       <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Polymer ID</mat-label>
-        <input matInput type="number" formControlName="mainPolymerId">
+        <mat-label>Main Polymer</mat-label>
+        <mat-select formControlName="mainPolymerId">
+          <mat-option *ngFor="let polymer of mainPolymers" [value]="polymer.id">
+            {{ polymer.polymerName }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
@@ -65,10 +71,31 @@
       </mat-form-field>
     </div>
 
+    <div class="row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Storage Location</mat-label>
+        <mat-select formControlName="storageLocation">
+          <mat-option *ngFor="let location of storageLocations" [value]="location.value">
+            {{ location.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>MVR/MFR Type</mat-label>
+        <mat-select formControlName="MVR_MFR">
+          <mat-option *ngFor="let type of mvrMfrTypes" [value]="type.value">
+            {{ type.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+<div class="row">
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Description</mat-label>
       <textarea matInput formControlName="description"></textarea>
     </mat-form-field>
+    </div>
   </div>
 
   <mat-dialog-actions align="end">
