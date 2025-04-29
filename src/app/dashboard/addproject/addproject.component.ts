@@ -9,9 +9,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-addproject',
@@ -60,7 +60,9 @@ export class AddprojectComponent {
   constructor(
     private fb: FormBuilder,
     private projectservice:ProjectService,
-    private dialogRef: MatDialogRef<AddprojectComponent>
+    private dialogRef: MatDialogRef<AddprojectComponent>,
+  private toastr: ToastrService
+    
   ) {
     this.projectForm = this.fb.group({
       projectName: ['', Validators.required],
@@ -92,15 +94,20 @@ export class AddprojectComponent {
       this.projectservice.AddProject(newProject).subscribe({
         next: (response) => {
           console.log('Project added successfully', response);
+         
           this.dialogRef.close(true);
         },
+        
         error: (error) => {
           console.error('Error adding project:', error);
         }
+      
       });
     } else {
       this.projectForm.markAllAsTouched(); 
     }
+   
+
   }
 
   

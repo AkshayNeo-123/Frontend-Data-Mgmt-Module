@@ -1,16 +1,16 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MaterialService } from '../../services/material.service';
-import { CommonService } from '../../services/common.service'; // Import the CommonService
+import { CommonService } from '../../services/common.service';
 import { Material, MaterialTypeEnum, MvrMfrType, StorageLocation } from '../../models/material.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-material',
@@ -30,8 +30,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AddMaterialComponent implements OnInit {
   materialForm: FormGroup;
-
-  additives: any[] = []; 
+  additives: any[] = [];
   mainPolymers: any[] = [];
 
   materialTypes = [
@@ -66,12 +65,15 @@ export class AddMaterialComponent implements OnInit {
     { value: StorageLocation.HazardousStorage, viewValue: 'Hazardous Storage' }
   ];
 
-  private fb = inject(FormBuilder);
-  private dialogRef = inject(MatDialogRef<AddMaterialComponent>);
-  private materialService = inject(MaterialService);
-  private commonService = inject(CommonService); // Inject CommonService
-
-  constructor() {
+  constructor(
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<AddMaterialComponent>,
+    private materialService: MaterialService,
+    private commonService: CommonService,
+    private toastr: ToastrService,
+    
+    @Inject(MAT_DIALOG_DATA) public data: Material
+  ) {
     this.materialForm = this.fb.group({
       materialsType: [null, Validators.required],
       designation: ['', Validators.required],
@@ -89,45 +91,90 @@ export class AddMaterialComponent implements OnInit {
     });
   }
 
+  get isEditMode(): boolean {
+    return !!this.data;
+  }
+
   ngOnInit(): void {
-    // Fetch additives from the API
     this.commonService.getAdditives().subscribe({
-      next: (additives) => {
-        this.additives = additives; // Store the additives for the dropdown
+      next: (res) => {
+        this.additives = res;
+        if (this.isEditMode) {
+          this.materialForm.patchValue({ additiveId: this.data.additiveId });
+        }
       },
-      error: (err) => console.error('Error fetching additives:', err)
+      error: (err) => console.error('Failed to load additives:', err)
     });
 
-       this.commonService.getMainPolymers().subscribe({
-      next: (mainPolymers) => {
-        this.mainPolymers = mainPolymers; // Store the main polymers for the dropdown
+    this.commonService.getMainPolymers().subscribe({
+      next: (res) => {
+        this.mainPolymers = res;
+        if (this.isEditMode) {
+          this.materialForm.patchValue({ mainPolymerId: this.data.mainPolymerId });
+        }
       },
-      error: (err) => console.error('Error fetching main polymers:', err)
+      error: (err) => console.error('Failed to load main polymers:', err)
     });
+
+    if (this.isEditMode) {
+      this.materialForm.patchValue({
+        materialsType: this.data.materialsType,
+        additiveId : this.data.additiveId,
+        mainPolymerId:this.data.mainPolymerId,
+        designation: this.data.designation,
+        manufacturerId: this.data.manufacturerId,
+        quantity: this.data.quantity,
+        density: this.data.density,
+        testMethod: this.data.testMethod,
+        tdsFilePath: this.data.tdsFilePath,
+        msdsFilePath: this.data.msdsFilePath,
+        storageLocation: this.data.storageLocation,
+        description: this.data.description,
+        MVR_MFR: this.data.mvR_MFR
+      });
+    }
   }
 
   onSubmit() {
     if (this.materialForm.valid) {
       const userJson = localStorage.getItem('user');
       const user = userJson ? JSON.parse(userJson) : null;
-
-      if (!user) return console.error('No user found in localStorage!');
-
+  
+      if (!user) {
+        console.error('No user found in localStorage!');
+        this.toastr.error('User not found. Please log in again.', 'Error');
+        return;
+      }
+  
       const newMaterial: Material = {
         ...this.materialForm.value,
         createdBy: user.userId,
         createdDate: new Date().toISOString(),
-        modifiedBy: null,
-        modifiedDate: null,
-        materialId: 0
+        modifiedBy: user.userId,
+        modifiedDate: new Date().toISOString(),
+        materialId: this.isEditMode ? this.data.materialId : 0
       };
-
-      this.materialService.addMaterial(newMaterial).subscribe({
-        next: (res) => this.dialogRef.close(true),
-        error: (err) => console.error('Error adding material:', err)
+  
+      const request$ = this.isEditMode
+        ? this.materialService.updateMaterial(newMaterial)
+        : this.materialService.addMaterial(newMaterial);
+  
+      request$.subscribe({
+        next: () => {
+          this.toastr.success(
+            this.isEditMode ? 'Material updated successfully!' : 'Material added successfully!',
+            'Success'
+          );
+          this.dialogRef.close(true);
+        },
+        error: (err) => {
+          console.error('Error saving material:', err);
+          this.toastr.error('Failed to save material. Please try again.', 'Error');
+        }
       });
     }
   }
+  
 
   onCancel() {
     this.dialogRef.close();

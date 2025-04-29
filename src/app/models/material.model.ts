@@ -10,14 +10,13 @@ export interface Material {
     msdsFilePath: string;
     storageLocation: StorageLocation;
     description: string;
-    MVR_MFR: MvrMfrType;
-    AdditiveId:number;
-    MainPolymerId:number;
+    mvR_MFR: MvrMfrType;
+    additiveId:number;
+    mainPolymerId:number;
     createdBy: number;
     createdDate: string;
     modifiedBy: number | null;
     modifiedDate: string | null;
-    
   }
 
 

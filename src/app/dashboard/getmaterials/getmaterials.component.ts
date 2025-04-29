@@ -10,7 +10,15 @@ import { Material, MaterialTypeEnum, MvrMfrType,StorageLocation } from '../../mo
 import { MaterialService } from '../../services/material.service';
 import { AddMaterialComponent } from '../add-material/add-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { provideToastr, ToastrService } from 'ngx-toastr';
 
+
+// bootstrapApplication(AppComponent, {
+//   providers: [
+//     provideAnimations(), 
+//     provideToastr(), 
+//   ]
+// });
 @Component({
   selector: 'app-getmaterials',
   standalone: true,
@@ -23,7 +31,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule
-  ]
+  ],
+  
 })
 export class GetmaterialsComponent implements AfterViewInit, OnInit {
 
@@ -53,7 +62,8 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
   constructor(
     private materialService: MaterialService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -80,11 +90,12 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  openAddMaterialDialog() {
+  openAddMaterialDialog(material?: Material) {
     const dialogRef = this.dialog.open(AddMaterialComponent, {
       width: '80%',
       maxWidth: '800px',
       disableClose: true,
+      data: material 
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -94,6 +105,8 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
     });
   }
 
+
+  
 
   deleteMaterial(materialId: number) {
     if (materialId == null || materialId === undefined) {
@@ -113,6 +126,8 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
         console.error('Error deleting material:', error);
       }
     );
+    this.toastr.success('Material deleted successfully');
+
   }
 
 

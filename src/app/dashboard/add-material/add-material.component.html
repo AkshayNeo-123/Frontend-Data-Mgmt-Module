@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Add Material</h2>
+<h2 mat-dialog-title>{{ isEditMode ? 'Update Material' : 'Add Material' }}</h2>
 <form [formGroup]="materialForm" (ngSubmit)="onSubmit()">
   <div mat-dialog-content>
     <div class="row">
@@ -31,7 +31,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      
+
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Main Polymer</mat-label>
         <mat-select formControlName="mainPolymerId">
@@ -90,16 +90,19 @@
         </mat-select>
       </mat-form-field>
     </div>
-<div class="row">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Description</mat-label>
-      <textarea matInput formControlName="description"></textarea>
-    </mat-form-field>
+
+    <div class="row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
     </div>
   </div>
 
   <mat-dialog-actions align="end">
     <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-raised-button color="primary" type="submit">Add Material</button>
+    <button mat-raised-button color="primary" type="submit">
+      {{ isEditMode ? 'Update Material' : 'Add Material' }}
+    </button>
   </mat-dialog-actions>
 </form>
