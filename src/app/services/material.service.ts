@@ -11,6 +11,7 @@ export class MaterialService {
   private apiUrl = 'https://localhost:7030/api/Materials/GetMaterials';
   private addMaterialapi = 'https://localhost:7030/api/Materials/AddMaterials'; 
   private deleteMaterialapi = 'https://localhost:7030/api/Materials/'; 
+  private updateMaterialApi = 'https://localhost:7030/api/Materials/UpdateMaterials';
 
   constructor(private http: HttpClient) { }
 
@@ -26,6 +27,11 @@ export class MaterialService {
   deleteMaterial(materialId: number): Observable<any> {
     const url = `https://localhost:7030/api/Materials/${materialId}`;
     return this.http.delete(url);
+  }
+
+   // Method to update a material
+   updateMaterial(material: Material): Observable<Material> {
+    return this.http.put<Material>(`${this.updateMaterialApi}/${material.materialId}`, material);
   }
   
 }

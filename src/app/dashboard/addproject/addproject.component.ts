@@ -9,7 +9,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
@@ -97,13 +96,17 @@ export class AddprojectComponent {
           this.projectservice.triggerRefresh();
           this.dialogRef.close(true);
         },
+        
         error: (error) => {
           console.error('Error adding project:', error);
         }
+      
       });
     } else {
       this.projectForm.markAllAsTouched(); 
     }
+   
+
   }
 
   
