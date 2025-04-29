@@ -8,9 +8,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
+
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
 
 @Component({
   selector: 'app-update-project',
@@ -26,9 +30,26 @@ import { CommonModule } from '@angular/common';
     RouterModule,
     CommonModule
     
+    
   ],
   providers: [
-    MatDatepickerModule
+    {
+      provide: MomentDateAdapter,
+      useFactory: () => new MomentDateAdapter('en'),
+    },
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: {
+        parse: {
+          dateInput: 'LL', // Example format
+        },
+        display: {
+          dateInput: 'LL', // Example format
+          monthYearLabel: 'MM YYYY', // Example format
+          dateA11yLabel: 'LL', // Example format
+        },
+      },
+    },
   ],
   templateUrl: './update-project.component.html',
   styleUrls: ['./update-project.component.css']
@@ -58,6 +79,8 @@ export class UpdateProjectComponent implements OnInit {
     private fb: FormBuilder,
     private projectService: ProjectService,
     private router:Router,
+    private toastr: ToastrService,
+
     private dialogRef: MatDialogRef<UpdateProjectComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
@@ -75,20 +98,42 @@ export class UpdateProjectComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.projectForm.valid) {
-      console.log('Updating project with ID:', this.data.projectId);
-console.log('Form data:', this.projectForm.value);
-      this.projectService.updateProject(this.data.projectId, this.projectForm.value).subscribe(() => {
-        alert('Project updated successfully');
-        this.projectService.triggerRefresh();
-        this.dialogRef.close(true)// close dialog and return success
-       
+      const userJson = localStorage.getItem('user');
+      const user = userJson ? JSON.parse(userJson) : null;
+  
+      if (!user) {
+        console.error('No user found in localStorage!');
+        return;
+      }
+  
+      const updatedProject: UpdateProject = {
+        ...this.projectForm.value,
+        modifiedBy: user.userId,
+        modifiedDate: new Date().toISOString()
+      };
+  
+      this.projectService.updateProject(this.data.projectId, updatedProject).subscribe({
+        next: (response) => {
+          console.log('Project updated successfully', response);
+          this.toastr.success('Project updated successfully!');
+          this.projectService.triggerRefresh();
+          this.dialogRef.close(true);
+        },
+        error: (error) => {
+          console.error('Error updating project:', error);
+          this.toastr.error('Failed to update project!');
+        }
       });
+    } else {
+      this.projectForm.markAllAsTouched(); 
     }
   }
+  
+  
 
   onCancel() {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 }

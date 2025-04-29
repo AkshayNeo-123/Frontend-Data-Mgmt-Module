@@ -12,6 +12,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
+import {provideNativeDateAdapter} from '@angular/material/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-addproject',
@@ -29,9 +31,7 @@ import { Router, RouterModule } from '@angular/router';
     CommonModule
     
   ],
-  providers: [
-    MatDatepickerModule
-  ],
+  providers: [provideNativeDateAdapter()],
   templateUrl: './addproject.component.html',
   styleUrls: ['./addproject.component.css']
 })
@@ -59,6 +59,7 @@ export class AddprojectComponent {
 
   constructor(
     private fb: FormBuilder,
+    private toastr: ToastrService,
     private projectservice:ProjectService,
     private dialogRef: MatDialogRef<AddprojectComponent>,
     private route:Router
@@ -93,6 +94,7 @@ export class AddprojectComponent {
       this.projectservice.AddProject(newProject).subscribe({
         next: (response) => {
           console.log('Project added successfully', response);
+          this.toastr.success('Project Added successfully');
           this.projectservice.triggerRefresh();
           this.dialogRef.close(true);
         },
