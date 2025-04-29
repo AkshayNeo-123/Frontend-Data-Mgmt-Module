@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatDialog } from '@angular/material/dialog'; 
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Material } from '../../models/material.model';
+import { Material, MaterialTypeEnum, MvrMfrType,StorageLocation } from '../../models/material.model';
 import { MaterialService } from '../../services/material.service';
 import { AddMaterialComponent } from '../add-material/add-material.component';
-import { MatSnackBar } from '@angular/material/snack-bar'; 
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-getmaterials',
@@ -27,20 +27,33 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class GetmaterialsComponent implements AfterViewInit, OnInit {
 
+  getMaterialTypeName(type: MaterialTypeEnum): string {
+    return MaterialTypeEnum[type];
+  }
+
+
+  getMvrMfrTypeName(type: MvrMfrType): string {
+    return MvrMfrType[type];
+  }
+
+  getStorageLocationName(type:StorageLocation):string{
+    return StorageLocation[type];
+  }
+
   displayedColumns: string[] = [
-   'materialId', 'materialsType', 'designation', 'manufacturerId', 'quantity', 'density', 'testMethod', 'AdditiveId','MainPolymerId',
-    'tdsFilePath', 'msdsFilePath', 'storageLocation', 'description', 'mvR_MFR', 'createdBy', 
-    'createdDate',"actions"
-  ];  
+  'materialsType', 'designation', 'manufacturerId', 'quantity', 'density', 'testMethod', 'AdditiveId', 'MainPolymerId',
+    'tdsFilePath', 'msdsFilePath', 'storageLocation', 'description', 'mvR_MFR', 'createdBy',
+    'createdDate', "actions"
+  ];
   dataSource = new MatTableDataSource<Material>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
-    private materialService: MaterialService, 
+    private materialService: MaterialService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar 
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -55,7 +68,7 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
   loadMaterials() {
     this.materialService.getMaterials()
       .subscribe((data: Material[]) => {
-        console.log('Loaded materials:', data); 
+        console.log('Loaded materials:', data);
         this.dataSource.data = data;
       }, error => {
         console.error('Error fetching materials:', error);
@@ -69,18 +82,18 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
 
   openAddMaterialDialog() {
     const dialogRef = this.dialog.open(AddMaterialComponent, {
-      width: '80%',  
+      width: '80%',
       maxWidth: '800px',
       disableClose: true,
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.loadMaterials();  
+        this.loadMaterials();
       }
     });
   }
-  
+
 
   deleteMaterial(materialId: number) {
     if (materialId == null || materialId === undefined) {
@@ -89,19 +102,19 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
     }
     this.dataSource.data = this.dataSource.data.filter(material => material.materialId !== materialId);
 
-    console.log('Deleting Material with ID:', materialId); 
+    console.log('Deleting Material with ID:', materialId);
     this.materialService.deleteMaterial(materialId).subscribe(
       (response) => {
         // this.loadMaterials();
         console.log('Material deleted successfully:', response);
-       
+
       },
       (error) => {
         console.error('Error deleting material:', error);
       }
     );
   }
-  
-  
-  
+
+
+
 }
