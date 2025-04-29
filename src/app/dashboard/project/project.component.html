@@ -2,7 +2,7 @@
   <h4 class="fw-bold">Project Table</h4>
 
   <div class="d-flex justify-content-start align-items-center mb-3">
-    <button mat-raised-button color="primary"  class="me-4 add-material-btn">
+    <button mat-raised-button color="primary"  class="me-4 add-material-btn" (click)="openAddProjectDialog()">
       <i class="fas fa-plus me-2"></i> Add Project
     </button>
 
@@ -55,7 +55,10 @@
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
         <td mat-cell *matCellDef="let element"> 
-          {{ element.status === 1 ? 'Active' : 'Inactive' }} 
+          {{ element.status === 1 ? 'Planed': 
+        element.status===2?'OnGoing':
+        element.status===3?'Completed':'not planed'
+        }} 
         </td>
       </ng-container>
 
