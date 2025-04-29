@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { AddprojectComponent } from '../addproject/addproject.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
+import { UpdateProjectComponent } from '../update-project/update-project.component';
 
 @Component({
   selector: 'app-project',
@@ -40,8 +41,12 @@ export class ProjectComponent implements OnInit {
 
   constructor(private projectService: ProjectService,private dialog: MatDialog,) {}
 
+
   ngOnInit() {
     this.loadProjects();
+    this.projectService.refreshProjects$.subscribe(() => {
+      this.loadProjects();
+    });
   }
 
   ngAfterViewInit() {
@@ -71,6 +76,13 @@ export class ProjectComponent implements OnInit {
         disableClose: true,
       });
     }
+    editProject(project: any): void {
+      const dialogRef = this.dialog.open(UpdateProjectComponent, {
+        width: '800px',
+        data: project
+      });
+      // this.dataSource.data = this.dataSource.data.filter(project => project.projectId !== id);
+    }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
@@ -82,6 +94,7 @@ export class ProjectComponent implements OnInit {
       this.projectService.deleteProject(id).subscribe({
         next: () => {
           console.log(`Project with ID ${id} deleted successfully.`);
+          alert("deleted successfully");
           this.dataSource.data = this.dataSource.data.filter(project => project.projectId !== id);
   
           this.loadProjects();

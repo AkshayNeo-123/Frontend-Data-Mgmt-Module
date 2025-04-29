@@ -94,12 +94,8 @@ export class AddprojectComponent {
       this.projectservice.AddProject(newProject).subscribe({
         next: (response) => {
           console.log('Project added successfully', response);
+          this.projectservice.triggerRefresh();
           this.dialogRef.close(true);
-      
-          // Force reload by navigating to a dummy route and then to the same route
-          // this.route.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          //   this.route.navigate(['/GetAllProject']);
-          // });
         },
         error: (error) => {
           console.error('Error adding project:', error);
