@@ -21,7 +21,7 @@
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Manufacturer</mat-label>
         <mat-select formControlName="manufacturerId">
-          <mat-option *ngFor="let manufacturer of manufacturers" [value]="manufacturer.id">
+          <mat-option *ngFor="let manufacturer of manufacturers" [value]="manufacturer.contactId">
             {{ manufacturer.contactName }}
           </mat-option>
         </mat-select>
@@ -105,7 +105,7 @@
   </div>
 
   <mat-dialog-actions align="end">
-    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-button  type="button" (click)="onCancel()">Cancel</button>
     <button mat-raised-button color="primary" type="submit">
       {{ isEditMode ? 'Update Material' : 'Add Material' }}
     </button>

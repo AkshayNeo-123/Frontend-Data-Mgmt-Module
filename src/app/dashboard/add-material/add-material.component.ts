@@ -180,6 +180,6 @@ export class AddMaterialComponent implements OnInit {
   
 
   onCancel() {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 }
