@@ -1,83 +1,113 @@
-<h2 mat-dialog-title>Add Material</h2>
-
+<h2 mat-dialog-title>{{ isEditMode ? 'Update Material' : 'Add Material' }}</h2>
 <form [formGroup]="materialForm" (ngSubmit)="onSubmit()">
   <div mat-dialog-content>
-
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Material Type</mat-label>
-        <input matInput type="number" formControlName="materialsType" placeholder="Enter material type">
+        <mat-select formControlName="materialsType">
+          <mat-option *ngFor="let type of materialTypes" [value]="type.value">
+            {{ type.viewValue }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
 
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Designation</mat-label>
+        <input matInput formControlName="designation" placeholder="Enter designation">
+      </mat-form-field>
     </div>
 
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Manufacturer ID</mat-label>
-        <input matInput type="number" formControlName="manufacturerId" placeholder="Enter manufacturer ID">
+        <mat-label>Manufacturer</mat-label>
+        <mat-select formControlName="manufacturerId">
+          <mat-option *ngFor="let manufacturer of manufacturers" [value]="manufacturer.contactId">
+            {{ manufacturer.contactName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Additive</mat-label>
+        <mat-select formControlName="additiveId">
+          <mat-option *ngFor="let additive of additives" [value]="additive.id">
+            {{ additive.additiveName }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Additive ID</mat-label>
-        <input matInput type="number" formControlName="additiveId" placeholder="Enter Additive ID">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Polymer ID</mat-label>
-        <input matInput type="number" formControlName="mainPolymerId" placeholder="Enter Polymer ID">
+        <mat-label>Main Polymer</mat-label>
+        <mat-select formControlName="mainPolymerId">
+          <mat-option *ngFor="let polymer of mainPolymers" [value]="polymer.id">
+            {{ polymer.polymerName }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Quantity</mat-label>
-        <input matInput type="number" formControlName="quantity" placeholder="Enter quantity">
+        <input matInput type="number" formControlName="quantity">
       </mat-form-field>
     </div>
 
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Density</mat-label>
-        <input matInput type="number" formControlName="density" placeholder="Enter density">
+        <input matInput type="number" formControlName="density">
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Test Method</mat-label>
-        <input matInput formControlName="testMethod" placeholder="Enter test method">
+        <input matInput formControlName="testMethod">
       </mat-form-field>
     </div>
 
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>TDS File Path</mat-label>
-        <input matInput formControlName="tdsFilePath" placeholder="Enter TDS file path">
+        <input matInput formControlName="tdsFilePath">
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>MSDS File Path</mat-label>
-        <input matInput formControlName="msdsFilePath" placeholder="Enter MSDS file path">
+        <input matInput formControlName="msdsFilePath">
       </mat-form-field>
     </div>
 
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Storage Location</mat-label>
-        <input matInput type="number" formControlName="storageLocation" placeholder="Enter storage location">
+        <mat-select formControlName="storageLocation">
+          <mat-option *ngFor="let location of storageLocations" [value]="location.value">
+            {{ location.viewValue }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
-        <mat-label>MVR MFR</mat-label>
-        <input matInput type="number" formControlName="MVR_MFR" placeholder="Enter MVR MFR">
+        <mat-label>MVR/MFR Type</mat-label>
+        <mat-select formControlName="MVR_MFR">
+          <mat-option *ngFor="let type of mvrMfrTypes" [value]="type.value">
+            {{ type.viewValue }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Description</mat-label>
-      <textarea matInput formControlName="description" placeholder="Enter description"></textarea>
-    </mat-form-field>
-
+    <div class="row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+    </div>
   </div>
 
   <mat-dialog-actions align="end">
-    <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-raised-button color="primary" type="submit">Add Material</button>
+    <button mat-button  type="button" (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" type="submit">
+      {{ isEditMode ? 'Update Material' : 'Add Material' }}
+    </button>
   </mat-dialog-actions>
 </form>

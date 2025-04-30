@@ -1,7 +1,4 @@
-/* .container {
-    padding: 20px;
-  } */
-  
+
   h4 {
     font-weight: 600;
   }
@@ -12,24 +9,23 @@
     border-radius: 4px;
     margin-bottom: 40px;
   
-    background-color: #4caf50; /* Blue */
+    background-color: #4caf50; 
     color: white;
     border: none;
     transition: background-color 0.3s ease;
   }
   
   .add-material-btn:hover {
-    background-color: #388e3c; /* Darker Blue on hover */
+    background-color: #388e3c; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
   
   
   .add-material-btn:focus {
-    outline: none;  /* Remove the default focus outline */
+    outline: none;  
   }
   
   
-
   mat-form-field {
     width: 25%;
     margin-bottom: 20px;

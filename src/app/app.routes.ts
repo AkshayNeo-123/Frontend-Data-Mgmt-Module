@@ -32,6 +32,11 @@ export const routes: Routes = [
         path: 'getmaterials',
         loadComponent: () => import('./dashboard/getmaterials/getmaterials.component').then(m => m.GetmaterialsComponent),
       },
+
+      {
+        path: 'getproject',
+        loadComponent: () => import('./dashboard/project/project.component').then(m => m.ProjectComponent),
+      },
       
     ]
   },
