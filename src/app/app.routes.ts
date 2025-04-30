@@ -6,6 +6,7 @@ import { AllMainPolymersComponent } from './dashboard/MainPolymerData/all-main-p
 import { AddadditivesComponent } from './dashboard/additiveData/addadditives/addadditives.component';
 import { GetAllAdditivesComponent } from './dashboard/additiveData/get-all-additives/get-all-additives.component';
 import { GetAdditivebyidComponent } from './dashboard/additiveData/get-additivebyid/get-additivebyid.component';
+import { ManageusersComponent } from './dashboard/manageusers/manageusers.component';
 
 export const routes: Routes = [
   {
@@ -75,7 +76,11 @@ export const routes: Routes = [
       {
         path: 'get-additivebyid/:id',
         component: GetAdditivebyidComponent
-      },
+      },{
+        path: 'manageusers',
+        component: ManageusersComponent
+      }
+      
     ]
   },
   

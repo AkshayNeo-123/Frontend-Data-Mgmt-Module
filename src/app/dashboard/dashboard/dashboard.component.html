@@ -10,7 +10,7 @@
     <div class="p-4">
       <ng-container [ngSwitch]="selectedSection">
         <app-recipy *ngSwitchCase="'recipy'"></app-recipy>
-        <h3 class="mb-3" *ngSwitchCase="'dashboard'">Dashboard Content</h3>
+        <h3 class="mb-3" *ngSwitchCase="'dashboard'">Dashboard</h3>
 
     
         <div *ngSwitchCase="'dashboard'" class="row">
@@ -72,7 +72,8 @@
         
 
         <h3 *ngSwitchCase="'role-master'">Role Master Content</h3>
-        <h3 *ngSwitchCase="'manage-user'">Manage User Content</h3>
+        <!-- <h3 *ngSwitchCase="'manage-user'">Manage User Content</h3> -->
+        <app-manageusers *ngSwitchCase="'manageusers'"></app-manageusers>
         <app-getmaterials *ngSwitchCase="'getmaterials'"></app-getmaterials>
         <app-project *ngSwitchCase="'getproject'"></app-project>        
         <h3 *ngSwitchCase="'testing'">Testing Content</h3>
