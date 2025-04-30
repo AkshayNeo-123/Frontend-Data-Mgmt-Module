@@ -50,9 +50,8 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
   }
 
   displayedColumns: string[] = [
-  'materialsType', 'designation', 'manufacturerId', 'quantity', 'density', 'testMethod', 'AdditiveId', 'MainPolymerId',
-    'tdsFilePath', 'msdsFilePath', 'storageLocation', 'description', 'mvR_MFR', 'createdBy',
-    'createdDate', "actions"
+  'materialsType','manufacturerId', 'quantity', 'density', 'AdditiveId', 'MainPolymerId',
+    'storageLocation', 'mvR_MFR',"actions"
   ];
   dataSource = new MatTableDataSource<Material>([]);
 
