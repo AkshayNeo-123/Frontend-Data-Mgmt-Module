@@ -1,14 +1,11 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
-<<<<<<< HEAD
 import { ProjectComponent } from './dashboard/project/project.component';
-=======
-import { GetAdditivebyidComponent } from './dashboard/additiveData/get-additivebyid/get-additivebyid.component';
-import { GetAllAdditivesComponent } from './dashboard/additiveData/get-all-additives/get-all-additives.component';
-import { AddadditivesComponent } from './dashboard/additiveData/addadditives/addadditives.component';
 import { AddcontactsComponent } from './dashboard/contactsData/addcontacts/addcontacts.component';
 import { AllMainPolymersComponent } from './dashboard/MainPolymerData/all-main-polymers/all-main-polymers.component';
->>>>>>> c772854fa3baa539cb2f1d7ca69741454f1bb7d0
+import { AddadditivesComponent } from './dashboard/additiveData/addadditives/addadditives.component';
+import { GetAllAdditivesComponent } from './dashboard/additiveData/get-all-additives/get-all-additives.component';
+import { GetAdditivebyidComponent } from './dashboard/additiveData/get-additivebyid/get-additivebyid.component';
 
 export const routes: Routes = [
   {
@@ -50,7 +47,8 @@ export const routes: Routes = [
       {
         path: 'contacts',
         loadComponent: () => import('./dashboard/contacts/contacts.component').then(m => m.ContactsComponent),
-        pathMatch: 'full', // Ensures that this is the default path when navigating to 'contacts'
+        pathMatch: 'full',
+         // Ensures that this is the default path when navigating to 'contacts'
       },
       // {
       //   path: 'addcontacts',
