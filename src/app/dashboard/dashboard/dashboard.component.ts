@@ -14,6 +14,7 @@ import { FooterComponent } from '../../footer/footer.component';
 import { ProjectComponent } from '../project/project.component';
 import { ManageusersComponent } from '../manageusers/manageusers.component';
 import { FormsModule } from '@angular/forms';
+import { RolemasterComponent } from '../rolemaster/rolemaster.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,6 +28,7 @@ import { FormsModule } from '@angular/forms';
     FooterComponent,
     ProjectComponent,
     ManageusersComponent,
+    RolemasterComponent,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,

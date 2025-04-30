@@ -26,11 +26,6 @@
       <input matInput name="phone" [(ngModel)]="newUser.phone" />
     </mat-form-field>
 
-    <!-- <mat-form-field appearance="outline" class="w-100 mb-3">
-      <mat-label>Role ID</mat-label>
-      <input matInput type="number" name="roleId" [(ngModel)]="newUser.roleId" required />
-    </mat-form-field> -->
-
     <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Role</mat-label>
       
@@ -39,14 +34,8 @@
         @for (item of roles; track item.roleId) {
           <option [value]="item.roleId">{{ item.roleName }}</option>
         }
-        <!-- <option *ngFor="let role of roles" [value]="role.roleId">{{ role.roleName }}</option> -->
       </select>
     </mat-form-field>
-
-    <!-- <mat-form-field appearance="outline" class="w-100 mb-3">
-      <mat-label>Status</mat-label>
-      <input matInput name="status" [(ngModel)]="newUser.status" required />
-    </mat-form-field> -->
 
     <mat-form-field appearance="outline" class="w-100 mb-3">
         <mat-label>Status</mat-label>

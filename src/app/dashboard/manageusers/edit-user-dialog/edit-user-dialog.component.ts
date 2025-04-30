@@ -48,7 +48,7 @@ export class EditUserDialogComponent {
   }
 
   onCancel() {
-    alert('User updation cancelled!!')
+    // alert('User updation cancelled!!')
     this.dialogRef.close(false);
   }
 }

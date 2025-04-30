@@ -21,7 +21,7 @@
     <input matInput [(ngModel)]="user.phone" name="phone">
   </mat-form-field>
 
-  <!-- Role Dropdown -->
+  <!-- role dropdown -->
   <mat-form-field appearance="outline" class="w-100 mb-3">
     <mat-label>Role</mat-label>
     <select matNativeControl [(ngModel)]="user.roleId" name="roleId" required>
@@ -30,7 +30,7 @@
     </select>
   </mat-form-field>
 
-  <!-- Status Dropdown -->
+  <!-- status dropdown -->
   <mat-form-field appearance="outline" class="w-100 mb-3">
     <mat-label>Status</mat-label>
     <select matNativeControl [(ngModel)]="user.status" name="status" required>
@@ -40,7 +40,7 @@
   </mat-form-field>
 
   <div class="text-end">
-    <button mat-raised-button color="primary" type="submit">Update</button>
     <button mat-button type="button" (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" type="submit">Update</button>
   </div>
 </form>
