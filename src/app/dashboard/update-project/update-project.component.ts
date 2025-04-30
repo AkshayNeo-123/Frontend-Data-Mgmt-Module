@@ -74,6 +74,11 @@ export class UpdateProjectComponent implements OnInit {
     { value: 2, viewValue: 'Medium' },
     { value: 3, viewValue: 'High' }
   ];
+  status = [
+    { value: 1, viewValue: 'Planed' },
+    { value: 2, viewValue: 'ONGoing' },
+    { value: 3, viewValue: 'Completed' }
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -92,6 +97,7 @@ export class UpdateProjectComponent implements OnInit {
       projectType: [this.data.projectType, Validators.required],
       area: [this.data.area, Validators.required],
       priority: [this.data.priority, Validators.required],
+      // status: ['', Validators.required],
       project_Description: [this.data.project_Description, Validators.required],
       startDate: [new Date(this.data.startDate), Validators.required],
       endDate: [new Date(this.data.endDate), Validators.required]
