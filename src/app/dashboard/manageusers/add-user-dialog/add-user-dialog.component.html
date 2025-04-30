@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>Add New User</h2>
+<mat-dialog-content>
+  <form #userForm="ngForm">
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>First Name</mat-label>
+      <input matInput name="firstName" [(ngModel)]="newUser.firstName" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Last Name</mat-label>
+      <input matInput name="lastName" [(ngModel)]="newUser.lastName" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" name="email" [(ngModel)]="newUser.email" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" name="password" [(ngModel)]="newUser.passwordHash" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Phone</mat-label>
+      <input matInput name="phone" [(ngModel)]="newUser.phone" />
+    </mat-form-field>
+
+    <!-- <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Role ID</mat-label>
+      <input matInput type="number" name="roleId" [(ngModel)]="newUser.roleId" required />
+    </mat-form-field> -->
+
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+        <mat-label>Role</mat-label>
+        <select matNativeControl [(ngModel)]="newUser.roleId" name="roleId" required>
+          <option value="" disabled selected>Select Role</option>
+          <option [value]="1">Admin</option>
+          <option [value]="2">Sales Person</option>
+        </select>
+      </mat-form-field>
+
+    <!-- <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Status</mat-label>
+      <input matInput name="status" [(ngModel)]="newUser.status" required />
+    </mat-form-field> -->
+
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+        <mat-label>Status</mat-label>
+        <select matNativeControl [(ngModel)]="newUser.status" name="status" required>
+          <option value="Active">Active</option>
+          <option value="InActive">InActive</option>
+        </select>
+      </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="onSubmit()">Add User</button>
+</mat-dialog-actions>

@@ -7,7 +7,10 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { UserService } from '../../services/user.service';
-import { error } from 'console';
+import { MatDialog } from '@angular/material/dialog';
+import { AddUserDialogComponent } from './add-user-dialog/add-user-dialog.component';
+import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
+
 
 @Component({
   selector: 'app-manageusers',
@@ -30,11 +33,27 @@ export class ManageusersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private dialog: MatDialog) {}
+
+  openAddUserDialog() {
+    const dialogRef = this.dialog.open(AddUserDialogComponent, {
+      width: '500px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fetchUsers(); // refreshing user list
+      }
+    });
+  }
 
   ngOnInit(): void {
+    this.fetchUsers();
+  }
+
+  fetchUsers(): void {
     this.userService.getAllUsers().subscribe({
-      next: (users) =>{
+      next: (users) => {
         this.dataSource = new MatTableDataSource(users);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -49,12 +68,19 @@ export class ManageusersComponent implements OnInit {
     
   }
 
-  openAddUserDialog() {
-    console.log("Add User dialog clicked");
-  }
+  
 
   editUser(user: any) {
-    console.log('Edit user:', user);
+    const dialogRef = this.dialog.open(EditUserDialogComponent, {
+      width: '500px',
+      data: user
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fetchUsers();
+      }
+    });    
   }
 
   deleteUser(id: number) {
