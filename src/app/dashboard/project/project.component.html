@@ -2,7 +2,7 @@
   <h4 class="fw-bold">Project Table</h4>
 
   <div class="d-flex justify-content-start align-items-center mb-3">
-    <button mat-raised-button color="primary"  class="me-4 add-material-btn">
+    <button mat-raised-button color="primary"  class="me-4 add-material-btn" (click)="openAddProjectDialog()">
       <i class="fas fa-plus me-2"></i> Add Project
     </button>
 
@@ -25,41 +25,74 @@
       <!-- Project Type Column -->
       <ng-container matColumnDef="projectType">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Project Type </th>
-        <td mat-cell *matCellDef="let element"> {{element.projectType}} </td>
+        <td mat-cell *matCellDef="let element">
+          {{ 
+            element.projectType === 1 ? 'Pre Development' :
+            element.projectType === 2 ? 'Application Development' :
+            element.projectType === 3 ? 'Service' :
+            'Unknown'
+          }}
+        </td>
       </ng-container>
+       <!-- <ng-container matColumnDef="projectType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Project Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.projectType}} </td>
+      </ng-container> -->
 
       <!-- Area Column -->
       <ng-container matColumnDef="area">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Area </th>
-        <td mat-cell *matCellDef="let element"> {{element.area}} </td>
+        <td mat-cell *matCellDef="let element"> 
+          {{
+            element.area===1 ? 'Rotomolding':
+            element.area === 2 ? 'Injection Molding' :
+            element.area === 3 ? 'Blow Molding' :'Unknown'
+            }} 
+            </td>
       </ng-container>
 
       <!-- Status Column -->
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
         <td mat-cell *matCellDef="let element"> 
-          {{ element.status === 1 ? 'Active' : 'Inactive' }} 
+          {{ element.status }} - 
+          {{ element.status === 1 ? 'Planed': 
+        element.status===2?'OnGoing':
+        element.status===3?'Completed':'not planed'
+        }} 
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Priority">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Priority </th>
+        <td mat-cell *matCellDef="let element"> 
+          {{ element.priority === 1 ? 'Low': 
+        element.priority===2?'Medium':
+        element.priority===3?'High':'not planed'
+        }} 
         </td>
       </ng-container>
 
       <!-- Start Date Column -->
       <ng-container matColumnDef="startDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
-        <td mat-cell *matCellDef="let element"> {{element.startDate | date:'yyyy-MM-dd'}} </td>
+        <td mat-cell *matCellDef="let element"> {{
+        element.startDate === 01-01-0001 ? 'Not Decided':
+        element.startDate | date:'dd-MM-yyyy'
+        }} </td>
       </ng-container>
 
       <!-- End Date Column -->
       <ng-container matColumnDef="endDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> End Date </th>
-        <td mat-cell *matCellDef="let element"> {{element.endDate | date:'yyyy-MM-dd'}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.endDate | date:'dd-MM-yyyy'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let element">
-          <i class="fas fa-eye me-3 action-icon"></i>
-          <i class="fas fa-pencil-alt me-3 action-icon"></i>
-          <i class="fas fa-trash-alt action-icon"></i>        </td>
+          <!-- <i class="fas fa-eye me-3 action-icon" (click)="ViewById(element.materialId)"></i> -->
+          <i class="fas fa-pencil-alt me-3 action-icon" (click)="editProject(element)"></i>
+          <i class="fas fa-trash-alt action-icon"(click)="deleteProject(element.projectId)"></i>        </td>
       </ng-container>
             <!-- Header and Row definitions -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

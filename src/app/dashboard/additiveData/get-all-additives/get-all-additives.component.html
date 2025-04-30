@@ -1,0 +1,43 @@
+
+<div>
+    <button class="btn btn-primary" (click)="navigateToAddAdditives()">Add Additives</button>
+    </div>
+<div class="container">
+    <h2>All Additives</h2>
+    
+    <!-- Table to display all additives -->
+    <table class="table table-striped" *ngIf="allAdditives.length > 0">
+      <thead>
+        <tr>
+          <!-- <th scope="col">#</th> -->
+          <th scope="col">Additive Name</th>
+          <th scope="col">Created By</th>
+          <th scope="col">Created Date</th>
+          <th scope="col">Modified By</th>
+          <th scope="col">Modified Date</th>
+          <th  scope="col">Action</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let additive of allAdditives; let i = index">
+          <!-- <td>{{ additive.id }}</td> -->
+          <td>{{ additive.additiveName }}</td>
+          <td>{{ additive.createdBy || 'N/A' }}</td>
+          <td>{{ additive.createdDate  }}</td>
+          <td>{{ additive.modifiedBy || 'N/A' }}</td>
+          <td>{{ additive.modifiedDate }}</td>
+
+          <td><button class="btn btn-secondary" (click)="navigateToGetDetails(additive.id)">Details</button></td>
+          <td><button class="btn btn-secondary" (click)="deleteAdditivesData(additive.id)">Delete</button></td>
+          <td><button class="btn btn-secondary" (click)="navigateToUpdateAdditives(additive.id)">Edit</button></td>
+
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Display message if no additives are available -->
+    <p *ngIf="allAdditives.length === 0">No additives found.</p>
+  </div>
+
+  

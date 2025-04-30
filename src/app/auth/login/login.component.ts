@@ -1,10 +1,10 @@
 import { HttpClientModule } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import Swal from 'sweetalert2'; // Import SweetAlert2
 
 @Component({
   selector: 'app-login',
@@ -13,8 +13,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-    HttpClientModule,
-    MatSnackBarModule
+    HttpClientModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -23,14 +22,22 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   isLoading = false;
   showPassword = false;
+  errorMessage='';
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private snackBar: MatSnackBar
+    private cdRef: ChangeDetectorRef
   ) {}
 
+  ngAfterViewInit(): void {
+    // Wait a moment to allow autofill to happen
+    setTimeout(() => {
+      this.loginForm.updateValueAndValidity();
+      this.cdRef.detectChanges(); // Make Angular aware of changes
+    }, 500);
+  }
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -54,13 +61,29 @@ export class LoginComponent implements OnInit {
           userid: response.userId
         });
   
-        this.showSnackBar('Login successful!', 'success');
+        // Show Swal message on successful login
+        Swal.fire({
+          title: 'Login Successful!',
+          text: 'You have logged in successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+
         this.router.navigate(['/dashboard']);
       },
-      error: (err) => {
-        this.isLoading = false;
-        this.showSnackBar('Login failed. Please check your credentials.', 'error');
-        console.error(err);
+      
+      error:(error)=>{
+
+        console.error('loginFailed',error);
+        this.errorMessage=JSON.stringify(error.error.message)
+
+        Swal.fire({
+              title: 'Login Failed',
+              text: this.errorMessage,
+              icon: 'error',
+              confirmButtonText: 'Try Again'
+            });
+        
       }
     });
   }
@@ -68,14 +91,5 @@ export class LoginComponent implements OnInit {
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
-  }
-
-  private showSnackBar(message: string, type: 'success' | 'error') {
-    this.snackBar.open(message, 'Close', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      panelClass: type === 'success' ? ['snackbar-success'] : ['snackbar-error']
-    });
   }
 }

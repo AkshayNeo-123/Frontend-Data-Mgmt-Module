@@ -1,0 +1,31 @@
+<div class="container mt-4">
+  <h2 class="text-center">Update Additive</h2>
+
+  <form #form="ngForm" (ngSubmit)="updateAdditivesData(form)">
+    <div class="mb-3">
+      <label for="additiveName" class="form-label">Additive Name</label>
+      <input
+        type="text"
+        id="additiveName"
+        class="form-control"
+        name="additiveName"
+        [(ngModel)]="additives.additiveName"
+        required
+      />
+    </div>
+
+  
+    <!-- </div> -->
+
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+      Update Additive
+    </button>
+
+    <div *ngIf="successMessage" class="alert alert-success mt-3">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+      {{ errorMessage }}
+    </div>
+  </form>
+</div>

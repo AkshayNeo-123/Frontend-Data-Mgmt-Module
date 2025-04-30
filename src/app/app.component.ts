@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
-import { CommonModule } from '@angular/common';
+import { TopbarComponent } from './dashboard/topbar/topbar.component';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet,MatTableModule],
+  imports: [RouterOutlet,MatTableModule,TopbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

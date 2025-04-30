@@ -12,6 +12,12 @@ import { GetmaterialsComponent } from '../getmaterials/getmaterials.component';
 import { RecipyComponent } from '../recipy/recipy.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { ProjectComponent } from '../project/project.component';
+import { MastertableComponent } from '../mastertable/mastertable.component';
+import { AddadditivesComponent } from '../additiveData/addadditives/addadditives.component';
+import { GetAllAdditivesComponent } from '../additiveData/get-all-additives/get-all-additives.component';
+import { AllMainPolymersComponent } from '../MainPolymerData/all-main-polymers/all-main-polymers.component';
+import { RouterOutlet } from '@angular/router';
+import { ContactsComponent } from '../contacts/contacts.component';
 import { ManageusersComponent } from '../manageusers/manageusers.component';
 import { FormsModule } from '@angular/forms';
 import { RolemasterComponent } from '../rolemaster/rolemaster.component';
@@ -27,6 +33,11 @@ import { RolemasterComponent } from '../rolemaster/rolemaster.component';
     GetmaterialsComponent,
     FooterComponent,
     ProjectComponent,
+    MastertableComponent,
+    ContactsComponent,
+    AddadditivesComponent,
+    GetAllAdditivesComponent,
+    AllMainPolymersComponent,
     ManageusersComponent,
     RolemasterComponent,
     FormsModule,
