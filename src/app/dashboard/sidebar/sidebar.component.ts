@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MastertableComponent } from '../mastertable/mastertable.component';
 
 @Component({
   selector: 'app-sidebar',

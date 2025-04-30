@@ -1,5 +1,10 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
+import { GetAdditivebyidComponent } from './dashboard/additiveData/get-additivebyid/get-additivebyid.component';
+import { GetAllAdditivesComponent } from './dashboard/additiveData/get-all-additives/get-all-additives.component';
+import { AddadditivesComponent } from './dashboard/additiveData/addadditives/addadditives.component';
+import { AddcontactsComponent } from './dashboard/contactsData/addcontacts/addcontacts.component';
+import { AllMainPolymersComponent } from './dashboard/MainPolymerData/all-main-polymers/all-main-polymers.component';
 
 export const routes: Routes = [
   {
@@ -15,6 +20,7 @@ export const routes: Routes = [
       }
     ]
   },
+  
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -24,22 +30,53 @@ export const routes: Routes = [
         loadComponent: () => import('./dashboard/recipy/recipy.component').then(m => m.RecipyComponent),
       },
       {
-        path: '',
-        redirectTo: 'recipy', // or default dashboard child
-        pathMatch: 'full'
-      },
-      {
         path: 'getmaterials',
         loadComponent: () => import('./dashboard/getmaterials/getmaterials.component').then(m => m.GetmaterialsComponent),
       },
-
       {
         path: 'getproject',
         loadComponent: () => import('./dashboard/project/project.component').then(m => m.ProjectComponent),
       },
-      
+      {
+        path: 'mastertable',
+        loadComponent: () => import('./dashboard/mastertable/mastertable.component').then(m => m.MastertableComponent),
+      },
+
+      // Contact Routes
+      {
+        path: 'contacts',
+        loadComponent: () => import('./dashboard/contacts/contacts.component').then(m => m.ContactsComponent),
+        pathMatch: 'full', // Ensures that this is the default path when navigating to 'contacts'
+      },
+      // {
+      //   path: 'addcontacts',
+      //   component: AddcontactsComponent, // Route for adding a new contact
+      // },
+      // {
+      //   path: 'getcontactsdetails/:contactId',
+      //   component: GetcontactsdetailsComponent, // Route for viewing a contact's details
+      // },
+      // {
+      //   path: 'editcontacts/:contactId',  // You may want to add an 'edit' route as well
+      //   loadComponent: () => import('./dashboard/contactsData/editcontacts/editcontacts.component').then(m => m.EditcontactsComponent),
+      // },
+
+      // Additive Routes
+      {
+        path: 'addadditives',
+        component: AddadditivesComponent,
+      },
+      {
+        path: 'get-all-additives',
+        component: GetAllAdditivesComponent,
+      },
+      {
+        path: 'get-additivebyid/:id',
+        component: GetAdditivebyidComponent
+      },
     ]
   },
+  
   {
     path: '',
     redirectTo: 'auth/login',
@@ -48,5 +85,5 @@ export const routes: Routes = [
   {
     path: '**',
     redirectTo: 'auth/login',
-  },
+  }
 ];

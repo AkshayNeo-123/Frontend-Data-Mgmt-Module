@@ -6,6 +6,12 @@ import { GetmaterialsComponent } from '../getmaterials/getmaterials.component';
 import { RecipyComponent } from '../recipy/recipy.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { ProjectComponent } from '../project/project.component';
+import { MastertableComponent } from '../mastertable/mastertable.component';
+import { AddadditivesComponent } from '../additiveData/addadditives/addadditives.component';
+import { GetAllAdditivesComponent } from '../additiveData/get-all-additives/get-all-additives.component';
+import { AllMainPolymersComponent } from '../MainPolymerData/all-main-polymers/all-main-polymers.component';
+import { RouterOutlet } from '@angular/router';
+import { ContactsComponent } from '../contacts/contacts.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +23,12 @@ import { ProjectComponent } from '../project/project.component';
     RecipyComponent,
     GetmaterialsComponent,
     FooterComponent,
-    ProjectComponent
+    ProjectComponent,
+    MastertableComponent,
+    ContactsComponent,
+    AddadditivesComponent,
+    GetAllAdditivesComponent,
+    AllMainPolymersComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
