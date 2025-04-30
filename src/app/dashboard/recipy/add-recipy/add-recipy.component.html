@@ -1,0 +1,47 @@
+<h2 mat-dialog-title>Add New Recipe</h2>
+
+<form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+  <div mat-dialog-content>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Product Name</mat-label>
+      <input matInput formControlName="productName" required placeholder="Enter product name">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Comments</mat-label>
+      <input matInput formControlName="comments" placeholder="Enter comments">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Project Name</mat-label>
+      <input matInput formControlName="projectName" placeholder="Enter project name">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Additive</mat-label>
+      <mat-select formControlName="additiveName">
+        <mat-option *ngFor="let additive of additives" [value]="additive">
+          {{ additive }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Main Polymer</mat-label>
+      <mat-select formControlName="polymerName">
+        <mat-option *ngFor="let polymer of polymers" [value]="polymer">
+          {{ polymer }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="recipeForm.invalid">
+      Save
+    </button>
+  </mat-dialog-actions>
+</form>
