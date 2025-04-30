@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import Swal from 'sweetalert2'; // Import SweetAlert2
 
 @Component({
   selector: 'app-login',
@@ -13,8 +13,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-    HttpClientModule,
-    MatSnackBarModule
+    HttpClientModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -27,8 +26,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService,
-    private snackBar: MatSnackBar
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -54,12 +52,26 @@ export class LoginComponent implements OnInit {
           userid: response.userId
         });
   
-        this.showSnackBar('Login successful!', 'success');
+        // Show Swal message on successful login
+        Swal.fire({
+          title: 'Login Successful!',
+          text: 'You have logged in successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         this.isLoading = false;
-        this.showSnackBar('Login failed. Please check your credentials.', 'error');
+
+        // Show Swal error message
+        Swal.fire({
+          title: 'Login Failed',
+          text: 'Please check your credentials.',
+          icon: 'error',
+          confirmButtonText: 'Try Again'
+        });
         console.error(err);
       }
     });
@@ -68,14 +80,5 @@ export class LoginComponent implements OnInit {
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
-  }
-
-  private showSnackBar(message: string, type: 'success' | 'error') {
-    this.snackBar.open(message, 'Close', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      panelClass: type === 'success' ? ['snackbar-success'] : ['snackbar-error']
-    });
   }
 }
