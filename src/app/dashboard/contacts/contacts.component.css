@@ -1,20 +1,24 @@
-/* contacts.component.css */
 
-/* Container padding */
 .container {
   padding: 24px;
 }
 
-/* Page heading */
+
 h4.fw-bold {
   font-size: 1.5rem;
   margin-bottom: 1rem;
   text-align: center;
 }
 
-/* Add contact button styling */
+
 .add-contact-btn {
-  margin-right: 16px;
-  background-color: #3fb545;
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-bottom: 40px;
+
+  background-color: #4caf50; 
   color: white;
+  border: none;
+  transition: background-color 0.3s ease;
 }

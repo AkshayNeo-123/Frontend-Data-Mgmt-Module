@@ -4,7 +4,7 @@ export interface Project {
     area: number;
     status: number;
     project_Description: string;
-    startDate: string;       // ISO string (or Date if you want to parse it later)
+    startDate: string;      
     endDate: string;
     isDelete: number;
     createdBy: number;

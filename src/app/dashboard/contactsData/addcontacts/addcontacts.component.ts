@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { Console } from 'console';
 
 @Component({
   selector: 'app-addcontacts',
@@ -35,6 +36,7 @@ export class AddcontactsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('Data passed to dialog:', this.data);
     this.isEditMode = !!this.data;
 
     this.contactForm = this.fb.group({
@@ -49,9 +51,6 @@ export class AddcontactsComponent implements OnInit {
       phone: [this.data?.phone || '', Validators.required]
     });
   }
-
-
-  
 
   onSubmit(): void {
     if (this.contactForm.valid) {
@@ -70,18 +69,20 @@ export class AddcontactsComponent implements OnInit {
       };
 
       if (this.isEditMode) {
-        // Update contact
-        this.contactService.updateContact({ ...contactPayload, contactId: this.data.contactId }).subscribe({
+        console.log(this.data.contactid,contactPayload)
+        console.log('Updating contact with ID:', this.data.contactid);
+        this.contactService.updateContact(this.data.contactId, contactPayload).subscribe({
           next: () => {
-            console.log('Contact updated');
+            alert('Contact updated');
             this.dialogRef.close(true);
           },
           error: (err) => console.error('Update failed', err)
         });
       } else {
+        console.log('Adding new contact');
         this.contactService.addContacts(contactPayload).subscribe({
           next: () => {
-            console.log('Contact added');
+            alert('Contact added');
             this.dialogRef.close(true);
           },
           error: (err) => console.error('Add failed', err)
