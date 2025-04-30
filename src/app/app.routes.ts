@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
-import { GetAdditivebyidComponent } from './dashboard/additiveData/get-additivebyid/get-additivebyid.component';
-import { GetAllAdditivesComponent } from './dashboard/additiveData/get-all-additives/get-all-additives.component';
-import { AddadditivesComponent } from './dashboard/additiveData/addadditives/addadditives.component';
+import { ProjectComponent } from './dashboard/project/project.component';
 import { AddcontactsComponent } from './dashboard/contactsData/addcontacts/addcontacts.component';
 import { AllMainPolymersComponent } from './dashboard/MainPolymerData/all-main-polymers/all-main-polymers.component';
+import { AddadditivesComponent } from './dashboard/additiveData/addadditives/addadditives.component';
+import { GetAllAdditivesComponent } from './dashboard/additiveData/get-all-additives/get-all-additives.component';
+import { GetAdditivebyidComponent } from './dashboard/additiveData/get-additivebyid/get-additivebyid.component';
+import { ManageusersComponent } from './dashboard/manageusers/manageusers.component';
 
 export const routes: Routes = [
   {
@@ -46,7 +48,8 @@ export const routes: Routes = [
       {
         path: 'contacts',
         loadComponent: () => import('./dashboard/contacts/contacts.component').then(m => m.ContactsComponent),
-        pathMatch: 'full', // Ensures that this is the default path when navigating to 'contacts'
+        pathMatch: 'full',
+         // Ensures that this is the default path when navigating to 'contacts'
       },
       // {
       //   path: 'addcontacts',
@@ -73,7 +76,11 @@ export const routes: Routes = [
       {
         path: 'get-additivebyid/:id',
         component: GetAdditivebyidComponent
-      },
+      },{
+        path: 'manageusers',
+        component: ManageusersComponent
+      }
+      
     ]
   },
   
@@ -85,5 +92,9 @@ export const routes: Routes = [
   {
     path: '**',
     redirectTo: 'auth/login',
+  },
+  {
+    path: 'GetAllProject',
+    component: ProjectComponent
   }
 ];

@@ -1,8 +1,10 @@
 export interface Project {
+  projectId: number;
     projectName: string;
     projectType: number;
     area: number;
     status: number;
+    priority:number;
     project_Description: string;
     startDate: string;      
     endDate: string;
@@ -16,29 +18,25 @@ export interface Project {
 
   export interface AddPRoject {
     projectName: string;
-    projectType: ProjectType;
-    area: Area;
-    priority: Priority;
-    project_Description: string;
+    projectType: number;
+    area: number;
+    priority: number;
+    projectDescription: string;
     startDate: string; // use ISO string format (e.g., "2025-04-28T00:00:00Z")
     endDate?: string;  // optional if not marked [Required] in backend
   }
   
   // Optionally, define the enums if used as enums in backend
-  export enum ProjectType {
-    Internal = 0,
-    Client = 1,
-    Research = 2
+ 
+
+  export interface UpdateProject {
+    projectId: number;
+    projectName: string;
+    projectType: number;
+    area: number;
+    priority:number;
+    project_Description: string;
+    startDate: string;
+    endDate: string;
   }
   
-  export enum Area {
-    Development = 0,
-    Testing = 1,
-    Deployment = 2
-  }
-  
-  export enum Priority {
-    Low = 0,
-    Medium = 1,
-    High = 2
-  }

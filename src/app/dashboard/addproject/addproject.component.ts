@@ -10,7 +10,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+
+import {provideNativeDateAdapter} from '@angular/material/core';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -29,9 +31,7 @@ import { ToastrService } from 'ngx-toastr';
     CommonModule
     
   ],
-  providers: [
-    MatDatepickerModule
-  ],
+  providers: [provideNativeDateAdapter()],
   templateUrl: './addproject.component.html',
   styleUrls: ['./addproject.component.css']
 })
@@ -59,10 +59,10 @@ export class AddprojectComponent {
 
   constructor(
     private fb: FormBuilder,
+    private toastr: ToastrService,
     private projectservice:ProjectService,
     private dialogRef: MatDialogRef<AddprojectComponent>,
-  private toastr: ToastrService
-    
+    private route:Router
   ) {
     this.projectForm = this.fb.group({
       projectName: ['', Validators.required],
@@ -94,7 +94,8 @@ export class AddprojectComponent {
       this.projectservice.AddProject(newProject).subscribe({
         next: (response) => {
           console.log('Project added successfully', response);
-         
+          this.toastr.success('Project Added successfully');
+          this.projectservice.triggerRefresh();
           this.dialogRef.close(true);
         },
         

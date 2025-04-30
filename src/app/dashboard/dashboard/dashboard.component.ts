@@ -1,3 +1,9 @@
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatButtonModule } from '@angular/material/button';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -12,6 +18,8 @@ import { GetAllAdditivesComponent } from '../additiveData/get-all-additives/get-
 import { AllMainPolymersComponent } from '../MainPolymerData/all-main-polymers/all-main-polymers.component';
 import { RouterOutlet } from '@angular/router';
 import { ContactsComponent } from '../contacts/contacts.component';
+import { ManageusersComponent } from '../manageusers/manageusers.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,6 +37,14 @@ import { ContactsComponent } from '../contacts/contacts.component';
     AddadditivesComponent,
     GetAllAdditivesComponent,
     AllMainPolymersComponent,
+    ManageusersComponent,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatButtonModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']

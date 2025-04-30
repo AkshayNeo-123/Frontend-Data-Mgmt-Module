@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,6 +12,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AddprojectComponent } from '../addproject/addproject.component';
 import { MatDialog } from '@angular/material/dialog';
+import { RouterModule } from '@angular/router';
+import { UpdateProjectComponent } from '../update-project/update-project.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-project',
@@ -25,21 +28,26 @@ import { MatDialog } from '@angular/material/dialog';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
+    RouterModule
   ]
 })
 export class ProjectComponent implements OnInit {
 
-  displayedColumns: string[] = ['projectName', 'projectType', 'area', 'status', 'startDate', 'endDate','actions'];
+  displayedColumns: string[] = ['projectName', 'projectType', 'area', 'status', 'Priority', 'startDate', 'endDate','actions'];
   dataSource = new MatTableDataSource<Project>([]); // Using your Project model
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 // element: any;
 
-  constructor(private projectService: ProjectService,private dialog: MatDialog,) {}
+  constructor(private projectService: ProjectService,private dialog: MatDialog,private toastr: ToastrService) {}
+
 
   ngOnInit() {
     this.loadProjects();
+    this.projectService.refreshProjects$.subscribe(() => {
+      this.loadProjects();
+    });
   }
 
   ngAfterViewInit() {
@@ -48,30 +56,64 @@ export class ProjectComponent implements OnInit {
   }
 
   loadProjects() {
-    this.projectService.getAllProjects().subscribe({
-      next: (data) => {
+    this.projectService.getAllProjects()
+      .subscribe((data: Project[]) => {
+        console.log('Loaded materials:', data);
         this.dataSource.data = data;
-      },
-      error: (error) => {
-        console.error('Error fetching projects:', error);
-      }
-    });
+      }, error => {
+        console.error('Error fetching materials:', error);
+      });
   }
+ 
+  
   // UpdateProject(projectId: any) {
     
   //   }
 
   openAddProjectDialog() {
       const dialogRef = this.dialog.open(AddprojectComponent, {
-        width: '80%',  
+        width: '800%',  
         maxWidth: '800px',
         disableClose: true,
       });
     }
+    editProject(project: any): void {
+      const dialogRef = this.dialog.open(UpdateProjectComponent, {
+        maxWidth: '800%', 
+        width: '800px',
+        data: project
+      });
+      // dialogRef.afterClosed().subscribe(result => {
+      //   if (result === true) {
+      //     this.toastr.success('Project updated successfully!');
+      //     this.projectService.triggerRefresh();
+      //   }
+      // });
+    }
+     
+    
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.dataSource.filter = filterValue;
+  }
+
+  deleteProject(id: number) {
+    if (confirm('Are you sure you want to delete this project?')) {
+      this.projectService.deleteProject(id).subscribe({
+        next: () => {
+          console.log(`Project with ID ${id} deleted successfully.`);
+          // alert("deleted successfully");
+          this.toastr.success('Project deleted successfully');
+          this.dataSource.data = this.dataSource.data.filter(project => project.projectId !== id);
+  
+          this.loadProjects();
+        },
+        error: (error) => {
+          console.error('Error deleting project:', error);
+        }
+      });
+    }
   }
   
 }
