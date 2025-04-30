@@ -30,4 +30,8 @@ export class UserService {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
 
+  getRoles() {
+    return this.http.get<any[]>('https://localhost:7030/api/Role');
+  }
+
 }
