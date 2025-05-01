@@ -1,8 +1,10 @@
 export interface Material {
    materialId: number; 
+   materialName:string;
     materialsType: MaterialTypeEnum;
     designation: string;
     manufacturerId: number;
+    supplierId:number;
     quantity: number;
     density: number;
     testMethod: string;
@@ -17,6 +19,7 @@ export interface Material {
     createdDate: string;
     modifiedBy: number | null;
     modifiedDate: string | null;
+    
   }
 
 
@@ -62,4 +65,7 @@ export interface Material {
       Silo_2,
       HazardousStorage
   }
+
+
+  
  
