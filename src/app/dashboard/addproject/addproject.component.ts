@@ -55,6 +55,9 @@ export class AddprojectComponent implements OnInit {
   minEndDate: Date = new Date();
   projectTypes: any[] = [];
 areas: any[] = [];
+priorities: any[] = [];
+status: any[] = [];
+
 
   // projectTypes = [
   //   { value: 1, viewValue: 'Pre Development' },
@@ -68,11 +71,11 @@ areas: any[] = [];
   //   { value: 3, viewValue: 'Blow Molding' }
   // ];
 
-  priorities = [
-    { value: 1, viewValue: 'High' },
-    { value: 2, viewValue: 'Medium' },
-    { value: 3, viewValue: 'Low' }
-  ];
+  // priorities = [
+  //   { value: 1, viewValue: 'High' },
+  //   { value: 2, viewValue: 'Medium' },
+  //   { value: 3, viewValue: 'Low' }
+  // ];
 
   constructor(
     private fb: FormBuilder,
@@ -83,9 +86,10 @@ areas: any[] = [];
   ) {
     this.projectForm = this.fb.group({
       projectName: ['', Validators.required],
-      projectType: [null],
-      area: [null,],
-      priority: [null],
+      statusId: ['', Validators.required],
+      projectTypeId: ['',null],
+      AreaId: ['',null],
+      priorityPriorityId: ['',null],
       projectDescription: ['', Validators.required],
       startDate: [null],
       endDate: [null] // Optional
@@ -116,7 +120,64 @@ areas: any[] = [];
       next: (data) => (this.areas = data),
       error: (err) => console.error('Error fetching areas:', err)
     });
+    this.projectservice.getPriorities().subscribe({
+      next: (data) => (this.priorities = data),
+      error: (err) => console.error('Error fetching areas:', err)
+    });
+    this.projectservice.getStatus().subscribe({
+      next: (data) => (this.status = data),
+      error: (err) => console.error('Error fetching areas:', err)
+    });
   }
+
+  // onSubmit(): void {
+  //   if (this.projectForm.valid) {
+  //     const userJson = localStorage.getItem('user');
+  //     const user = userJson ? JSON.parse(userJson) : null;
+  
+  //     if (!user) {
+  //       console.error('No user found in localStorage!');
+  //       return;
+  //     }
+  
+  //     // Get raw form values
+  //     const rawFormValue = this.projectForm.value;
+  
+  //     // Convert blank strings to null
+  //     const cleanedFormValue = Object.fromEntries(
+  //       Object.entries(rawFormValue).map(([key, value]) =>
+  //         value === '' ? [key, null] : [key, value]
+  //       )
+  //     );
+  
+  //     const newProject: AddPRoject = {
+  //       ...cleanedFormValue,
+  //       createdBy: user.userId,
+  //       createdDate: new Date().toISOString()
+  //     };
+  
+  //     console.log(newProject);
+  
+  //     this.projectservice.AddProject(newProject).subscribe({
+  //       next: (response) => {
+  //         console.log('Project added successfully', response);
+  //         this.toastr.success('Save successfully');
+  //         this.projectservice.triggerRefresh();
+  //         this.dialogRef.close(true);
+  //       },
+  //       error: (error) => {
+  //         console.error('Error adding project:', error);
+  //         this.toastr.error('Something went wrong?');
+  //       }
+  //     });
+  //   } else {
+  //     this.projectForm.markAllAsTouched();
+  //   }
+  // }
+  
+
+
+
 
   onSubmit(): void {
     if (this.projectForm.valid) {
@@ -126,23 +187,42 @@ areas: any[] = [];
       if (!user) {
         console.error('No user found in localStorage!');
         return;
-      }
+      }const rawFormValue = this.projectForm.value;
 
+      // Convert blank strings to null
+      const cleanedFormValue = Object.fromEntries(
+        Object.entries(rawFormValue).map(([key, value]) =>
+          value === '' ? [key, null] : [key, value]
+        )
+      );
+  
       const newProject: AddPRoject = {
-        ...this.projectForm.value,
+        ...cleanedFormValue,
         createdBy: user.userId,
-        createdDate: new Date().toISOString()
+        createdDate: new Date().toISOString(),
+        projectName: '',
+        statusId: 0,
+        projectDescription: ''
       };
+
+      // const newProject: AddPRoject = {
+      //   ...this.projectForm.value,
+
+      //   createdBy: user.userId,
+      //   createdDate: new Date().toISOString()
+      // };
+      console.log(newProject);
 
       this.projectservice.AddProject(newProject).subscribe({
         next: (response) => {
           console.log('Project added successfully', response);
-          this.toastr.success('Project Added successfully');
+          this.toastr.success('Save successfully');
           this.projectservice.triggerRefresh();
           this.dialogRef.close(true);
         },
         error: (error) => {
           console.error('Error adding project:', error);
+          this.toastr.error('Something went wrong?');
         }
       });
     } else {

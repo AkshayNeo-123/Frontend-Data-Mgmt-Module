@@ -104,7 +104,9 @@ export class ProjectComponent implements OnInit {
         next: () => {
           console.log(`Project with ID ${id} deleted successfully.`);
           // alert("deleted successfully");
-          this.toastr.success('Project deleted successfully');
+          this.toastr.success('Project deleted successfully','success',{
+            timeOut: 5000 
+          });
           this.dataSource.data = this.dataSource.data.filter(project => project.projectId !== id);
   
           this.loadProjects();

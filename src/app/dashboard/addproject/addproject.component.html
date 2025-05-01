@@ -1,17 +1,30 @@
 <h2 mat-dialog-title>Add Project</h2>
+<mat-hint class="global-hint">Note:- (Required mandatory fields are marked with *)</mat-hint>
 
 <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
   <div mat-dialog-content>
     <div class="row">
-      <mat-form-field appearance="outline" class="half-width">
+      <mat-form-field appearance="outline" class="full-width">
         <mat-label>Project Name</mat-label>
         <input matInput formControlName="projectName" placeholder="Enter Project Name" />
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Project Status</mat-label>
+        <mat-select formControlName="statusId" placeholder="--Select--">
+          <mat-option  value="">--Select--</mat-option>
+          <mat-option *ngFor="let type of status" [value]="type.id">
+            {{ type.status }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
 
       <!-- Project Type -->
 <mat-form-field appearance="outline" class="half-width">
   <mat-label>Project Type</mat-label>
-  <mat-select formControlName="projectTypeId">
+  <mat-select formControlName="projectTypeId" placeholder="--Select--">
+    <mat-option  value="">--Select--</mat-option>
     <mat-option *ngFor="let type of projectTypes" [value]="type.id">
       {{ type.projectTypeName }}
     </mat-option>
@@ -23,7 +36,8 @@
       <!-- Area -->
 <mat-form-field appearance="outline" class="half-width">
   <mat-label>Area</mat-label>
-  <mat-select formControlName="area">
+  <mat-select formControlName="AreaId" placeholder="--Select--">
+    <mat-option  value="">--Select--</mat-option>
     <mat-option *ngFor="let area of areas" [value]="area.id">
       {{ area.area }}
     </mat-option>
@@ -32,13 +46,12 @@
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Project Priority</mat-label>
-        <mat-select formControlName="priority" >
-          <!-- Disabled placeholder option - won't show a checkmark -->
-          <mat-option disabled [value]="''">Select One</mat-option>
+        <mat-select formControlName="projectTypeId" placeholder="--Select--">
+          <mat-option  value="">--Select--</mat-option>
           
           <!-- Priority options -->
-          <mat-option *ngFor="let priority of priorities" [value]="priority.value">
-            {{ priority.viewValue }}
+          <mat-option *ngFor="let priority of priorities" [value]="priority.id">
+            {{ priority.priority }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -70,7 +83,7 @@
   </div>
 
   <mat-dialog-actions align="end">
-    <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-raised-button color="primary" type="submit">Add Project</button>
+    <button mat-raised-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" type="submit">Save</button>
   </mat-dialog-actions>
 </form>

@@ -33,6 +33,13 @@ getProjectTypes() {
 getAreas() {
   return this.http.get<any[]>('https://localhost:7030/api/Areas/GetAllAreas');
 }
+getPriorities() {
+  return this.http.get<any[]>('https://localhost:7030/api/Priorities/GetAllPriorities');
+}
+
+getStatus() {
+  return this.http.get<any[]>('https://localhost:7030/api/Status/GetAllStatus');
+}
 
 refreshProjects$ = new Subject<void>();
 

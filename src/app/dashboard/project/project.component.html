@@ -47,19 +47,14 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
         <td mat-cell *matCellDef="let element"> 
         
-          {{ element.status === 1 ? 'Planned': 
-        element.status===2?'OnGoing':
-        element.status===3?'Completed':'not planed'
-        }} 
+          {{ element.status.status}} 
         </td>
       </ng-container>
       <ng-container matColumnDef="Priority">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Priority </th>
         <td mat-cell *matCellDef="let element"> 
-          {{ element.priority === 1 ? 'Low': 
-        element.priority===2?'Medium':
-        element.priority===3?'High':'not planed'
-        }} 
+          {{element. priorities===null?'Not Mention':
+            element.priorities.priority}} 
         </td>
       </ng-container>
 
