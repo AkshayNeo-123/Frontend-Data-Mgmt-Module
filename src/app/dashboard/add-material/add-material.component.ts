@@ -35,6 +35,10 @@ export class AddMaterialComponent implements OnInit {
   manufacturers: any[] = [];
   suppliers:any[]=[];
 
+  nonZeroValidator(control: any) {
+    return control.value && control.value !== 0 ? null : { nonZero: true };
+  }
+  
   materialTypes = [
     { value: MaterialTypeEnum.RawMaterial, viewValue: 'Raw Material' },
     { value: MaterialTypeEnum.FinishedGood, viewValue: 'Finished Good' },
@@ -77,20 +81,22 @@ export class AddMaterialComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Material
   ) {
     this.materialForm = this.fb.group({
-      materialsType: [null, Validators.required],
+      // materialsType: [null, Validators.required],
       materialName: ['', Validators.required], 
-      manufacturerId: [null, Validators.required],
-      additiveId: [null, Validators.required],
-      mainPolymerId: [null, Validators.required],
-      quantity: [''],
-      density:[''],
+      manufacturerId: [0, [this.nonZeroValidator]],
+      additiveId: [0, [this.nonZeroValidator]],
+      mainPolymerId: [0, [this.nonZeroValidator]],
+      supplierId: [0, [this.nonZeroValidator]],
+      
+      density: [0], 
+      quantity: [0, [Validators.min(0), Validators.max(20)]],
+
       testMethod: [''],
       tdsFilePath: [''],
       msdsFilePath:[''],
-      storageLocation: [''],
+      storageLocation: [0],
       description: [''],
-      MVR_MFR:[''],
-      supplierId: [null, Validators.required]
+      MVR_MFR:[0,'']
     });
   }
 
@@ -136,15 +142,17 @@ export class AddMaterialComponent implements OnInit {
         testMethod: this.data.testMethod,
         tdsFilePath: this.data.tdsFilePath,
         msdsFilePath: this.data.msdsFilePath,
-        storageLocation: this.data.storageLocation,
+        storageLocation: +this.data.storageLocation,
         description: this.data.description,
         MVR_MFR: this.data.mvR_MFR,  
       });
     }
   }
   
-
   onSubmit() {
+    console.log('Form Valid:', this.materialForm.valid);
+    console.log('Form Value:', this.materialForm.value);
+  
     if (this.materialForm.valid) {
       const userJson = localStorage.getItem('user');
       const user = userJson ? JSON.parse(userJson) : null;
@@ -155,8 +163,11 @@ export class AddMaterialComponent implements OnInit {
         return;
       }
   
+      const formValue = { ...this.materialForm.value };
+      formValue.storageLocation = +formValue.storageLocation; 
+  
       const newMaterial: Material = {
-        ...this.materialForm.value,
+        ...formValue,
         createdBy: user.userId,
         createdDate: new Date().toISOString(),
         modifiedBy: user.userId,
@@ -171,19 +182,29 @@ export class AddMaterialComponent implements OnInit {
       request$.subscribe({
         next: () => {
           this.toastr.success(
-            this.isEditMode ? 'Material updated successfully!' : 'Material added successfully!',
+            this.isEditMode ? 'Updated successfully.' : 'Saved successfully.',
             'Success'
           );
           this.dialogRef.close(true);
         },
         error: (err) => {
           console.error('Error saving material:', err);
-          this.toastr.error('Failed to save material. Please try again.', 'Error');
+          this.toastr.error('Exception message "Something went wrong"Failed to save material. Please try again.', 'Error');
         }
       });
     }
   }
   
+  
+onFileSelected(event: Event, controlName: string) {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    this.materialForm.get(controlName)?.setValue(file.name);
+  
+  }
+}
+
+
 
   onCancel() {
     this.dialogRef.close(false);

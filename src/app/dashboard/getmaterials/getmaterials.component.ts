@@ -52,8 +52,8 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
   }
 
   displayedColumns: string[] = [
-  'materialName','materialsType','manufacturerId', 'quantity', 'density', 'AdditiveId', 'MainPolymerId',
-    'storageLocation', 'mvR_MFR',"actions"
+    'materialId','AdditiveId', 'MainPolymerId', 'materialName','manufacturerId', 'quantity', 'storageLocation',  'density',
+   'mvR_MFR',"testMethod","actions"
   ];
   dataSource = new MatTableDataSource<Material>([]);
 
@@ -116,7 +116,7 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
       width: '350px',
       data: {
         title: 'Confirm Deletion',
-        message: 'Are you sure you want to delete this material?'
+        message: 'Do you really want to delete this record?'
       }
     });
   
@@ -125,7 +125,7 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
         this.materialService.deleteMaterial(materialId).subscribe({
           next: (res: any) => {
             this.dataSource.data = this.dataSource.data.filter(material => material.materialId !== materialId);
-            this.toastr.success('Material deleted successfully');
+            this.toastr.success('Deleted successfully.');
           },
           error: (err: any) => {
             console.error('Error:', err);
