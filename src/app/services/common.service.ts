@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class CommonService {
   private apiUrl = 'https://localhost:7030/api'; 
  private GetManufacture='https://localhost:7030/api/Contact/GetAllManufacturer';
-
+private GetSupplier="https://localhost:7030/api/Contact/GetAllSupplier";
   constructor(private http: HttpClient) {}
 
   // Method to get additives from the API
@@ -22,6 +22,10 @@ export class CommonService {
 
  getManufacture(): Observable<any[]> {
     return this.http.get<any[]>(`${this.GetManufacture}`);
+  }
+
+  getSupplier(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.GetSupplier}`);
   }
 
 }

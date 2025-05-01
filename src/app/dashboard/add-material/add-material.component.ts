@@ -33,6 +33,7 @@ export class AddMaterialComponent implements OnInit {
   additives: any[] = [];
   mainPolymers: any[] = [];
   manufacturers: any[] = [];
+  suppliers:any[]=[];
 
   materialTypes = [
     { value: MaterialTypeEnum.RawMaterial, viewValue: 'Raw Material' },
@@ -77,18 +78,19 @@ export class AddMaterialComponent implements OnInit {
   ) {
     this.materialForm = this.fb.group({
       materialsType: [null, Validators.required],
-      designation: ['', Validators.required],
+      materialName: ['', Validators.required], 
       manufacturerId: [null, Validators.required],
       additiveId: [null, Validators.required],
       mainPolymerId: [null, Validators.required],
-      quantity: [null, Validators.required],
-      density: [null, Validators.required],
-      testMethod: ['', Validators.required],
-      tdsFilePath: ['', Validators.required],
-      msdsFilePath: ['', Validators.required],
-      storageLocation: [null, Validators.required],
+      quantity: [''],
+      density:[''],
+      testMethod: [''],
+      tdsFilePath: [''],
+      msdsFilePath:[''],
+      storageLocation: [''],
       description: [''],
-      MVR_MFR: [null, Validators.required]
+      MVR_MFR:[''],
+      supplierId: [null, Validators.required]
     });
   }
 
@@ -97,35 +99,38 @@ export class AddMaterialComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.commonService.getAdditives().subscribe({
-      next: (res) => {
-        this.additives = res;
-      },
-      error: (err) => console.error('Failed to load additives:', err)
+    // Existing API calls
+    this.commonService.getAdditives().subscribe({ 
+      next: (res) => { this.additives = res; }, 
+      error: (err) => console.error('Failed to load additives:', err) 
     });
-
+  
     this.commonService.getMainPolymers().subscribe({
-      next: (res) => {
-        this.mainPolymers = res;
-      },
+      next: (res) => { this.mainPolymers = res; },
       error: (err) => console.error('Failed to load main polymers:', err)
     });
-
+  
     this.commonService.getManufacture().subscribe({
-      next: (res) => {
-        this.manufacturers = res;
-      },
+      next: (res) => { this.manufacturers = res; },
       error: (err) => console.error('Failed to load manufacturers:', err)
     });
-    
-
+  
+    // Fetch the suppliers data
+    this.commonService.getSupplier().subscribe({
+      next: (res) => {
+        this.suppliers = res; 
+      },
+      error: (err) => console.error('Failed to load suppliers:', err)
+    });
+  
     if (this.isEditMode) {
       this.materialForm.patchValue({
         materialsType: this.data.materialsType,
+        materialName: this.data.materialName,
         additiveId : this.data.additiveId,
         mainPolymerId:this.data.mainPolymerId,
-        designation: this.data.designation,
         manufacturerId: this.data.manufacturerId,
+        supplierId: this.data.supplierId,
         quantity: this.data.quantity,
         density: this.data.density,
         testMethod: this.data.testMethod,
@@ -133,10 +138,11 @@ export class AddMaterialComponent implements OnInit {
         msdsFilePath: this.data.msdsFilePath,
         storageLocation: this.data.storageLocation,
         description: this.data.description,
-        MVR_MFR: this.data.mvR_MFR
+        MVR_MFR: this.data.mvR_MFR,  
       });
     }
   }
+  
 
   onSubmit() {
     if (this.materialForm.valid) {
