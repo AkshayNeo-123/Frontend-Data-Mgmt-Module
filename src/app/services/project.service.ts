@@ -26,6 +26,14 @@ updateProject(id: number, project: UpdateProject): Observable<any> {
   return this.http.put(`https://localhost:7030/api/Projects/UpdateProject?id=${id}`, project);
 }
 
+getProjectTypes() {
+  return this.http.get<any[]>('https://localhost:7030/api/ProjectType/GetAllProjectTypes');
+}
+
+getAreas() {
+  return this.http.get<any[]>('https://localhost:7030/api/Areas/GetAllAreas');
+}
+
 refreshProjects$ = new Subject<void>();
 
 triggerRefresh() {

@@ -1,14 +1,14 @@
-import { Component, Inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { ProjectService } from '../../services/project.service';
-import { Project, UpdateProject } from '../../models/project.model';
+import { UpdateProject } from '../../models/project.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_LOCALE, MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
@@ -29,33 +29,32 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
     MatNativeDateModule,
     RouterModule,
     CommonModule
-    
-    
   ],
   providers: [
-    {
-      provide: MomentDateAdapter,
-      useFactory: () => new MomentDateAdapter('en'),
-    },
-    {
-      provide: MAT_DATE_FORMATS,
-      useValue: {
-        parse: {
-          dateInput: 'LL', // Example format
-        },
-        display: {
-          dateInput: 'LL', // Example format
-          monthYearLabel: 'MM YYYY', // Example format
-          dateA11yLabel: 'LL', // Example format
-        },
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+  {
+    provide: MAT_DATE_FORMATS,
+    useValue: {
+      parse: {
+        dateInput: 'DD-MM-YYYY',
+      },
+      display: {
+        dateInput: 'DD-MM-YYYY',
+        monthYearLabel: 'MMMM YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'MMMM YYYY',
       },
     },
+  },
   ],
   templateUrl: './update-project.component.html',
   styleUrls: ['./update-project.component.css']
 })
 export class UpdateProjectComponent implements OnInit {
   projectForm!: FormGroup;
+
+  minStartDate: Date = new Date();
+  minEndDate: Date = new Date();
 
   projectTypes = [
     { value: 1, viewValue: 'Pre Development' },
@@ -74,6 +73,7 @@ export class UpdateProjectComponent implements OnInit {
     { value: 2, viewValue: 'Medium' },
     { value: 3, viewValue: 'High' }
   ];
+
   status = [
     { value: 1, viewValue: 'Planed' },
     { value: 2, viewValue: 'ONGoing' },
@@ -83,13 +83,11 @@ export class UpdateProjectComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private projectService: ProjectService,
-    private router:Router,
+    private router: Router,
     private toastr: ToastrService,
-
     private dialogRef: MatDialogRef<UpdateProjectComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
-
 
   ngOnInit(): void {
     this.projectForm = this.fb.group({
@@ -97,10 +95,19 @@ export class UpdateProjectComponent implements OnInit {
       projectType: [this.data.projectType, Validators.required],
       area: [this.data.area, Validators.required],
       priority: [this.data.priority, Validators.required],
-      // status: ['', Validators.required],
       project_Description: [this.data.project_Description, Validators.required],
       startDate: [new Date(this.data.startDate), Validators.required],
       endDate: [new Date(this.data.endDate), Validators.required]
+    });
+
+    this.projectForm.get('startDate')?.valueChanges.subscribe((startDate: Date) => {
+      if (startDate) {
+        this.minEndDate = new Date(startDate);
+        const endDate = this.projectForm.get('endDate')?.value;
+        if (endDate && new Date(endDate) < new Date(startDate)) {
+          this.projectForm.get('endDate')?.setValue(null);
+        }
+      }
     });
   }
 
@@ -108,18 +115,18 @@ export class UpdateProjectComponent implements OnInit {
     if (this.projectForm.valid) {
       const userJson = localStorage.getItem('user');
       const user = userJson ? JSON.parse(userJson) : null;
-  
+
       if (!user) {
         console.error('No user found in localStorage!');
         return;
       }
-  
+
       const updatedProject: UpdateProject = {
         ...this.projectForm.value,
         modifiedBy: user.userId,
         modifiedDate: new Date().toISOString()
       };
-  
+
       this.projectService.updateProject(this.data.projectId, updatedProject).subscribe({
         next: (response) => {
           console.log('Project updated successfully', response);
@@ -133,13 +140,11 @@ export class UpdateProjectComponent implements OnInit {
         }
       });
     } else {
-      this.projectForm.markAllAsTouched(); 
+      this.projectForm.markAllAsTouched();
     }
   }
-  
-  
 
-  onCancel() {
+  onCancel(): void {
     this.dialogRef.close(false);
   }
 }

@@ -1,10 +1,10 @@
 export interface Project {
   projectId: number;
     projectName: string;
-    projectType: number;
-    area: number;
+    areaId: number;
     status: number;
     priority:number;
+    ProjectTypeId?:number;
     project_Description: string;
     startDate: string;       // ISO string (or Date if you want to parse it later)
     endDate: string;
@@ -18,7 +18,7 @@ export interface Project {
 
   export interface AddPRoject {
     projectName: string;
-    projectType: number;
+    ProjectTypeId?:number;
     area: number;
     priority: number;
     projectDescription: string;

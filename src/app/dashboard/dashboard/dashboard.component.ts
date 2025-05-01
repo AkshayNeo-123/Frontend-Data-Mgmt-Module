@@ -20,6 +20,9 @@ import { RouterOutlet } from '@angular/router';
 import { ContactsComponent } from '../contacts/contacts.component';
 import { ManageusersComponent } from '../manageusers/manageusers.component';
 import { FormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'app-dashboard',
@@ -44,7 +47,9 @@ import { FormsModule } from '@angular/forms';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']

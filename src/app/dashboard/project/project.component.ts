@@ -33,7 +33,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ProjectComponent implements OnInit {
 
-  displayedColumns: string[] = ['projectName', 'projectType', 'area', 'status', 'Priority', 'startDate', 'endDate','actions'];
+  displayedColumns: string[] = ['area','projectName', 'projectType','Priority', 'status',  'startDate', 'endDate','actions'];
   dataSource = new MatTableDataSource<Project>([]); // Using your Project model
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -108,7 +108,7 @@ export class ProjectComponent implements OnInit {
           this.dataSource.data = this.dataSource.data.filter(project => project.projectId !== id);
   
           this.loadProjects();
-        },
+        },  
         error: (error) => {
           console.error('Error deleting project:', error);
         }

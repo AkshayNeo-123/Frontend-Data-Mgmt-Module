@@ -15,4 +15,14 @@ textarea[matInput] {
   .full-width {
     flex: 1 1 100%;
   }
+
+  ::ng-deep .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple):not([value]) {
+    background: inherit !important;
+  }
   
+  ::ng-deep .mat-select-panel .mat-option:not(.mat-option-multiple):not([value]) .mat-pseudo-checkbox {
+    display: none !important;
+  }
+  ::ng-deep .mat-option-pseudo-checkbox {
+    display: none !important;
+  }

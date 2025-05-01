@@ -8,29 +8,35 @@
         <input matInput formControlName="projectName" placeholder="Enter Project Name" />
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Project Type</mat-label>
-        <mat-select formControlName="projectType">
-          <mat-option *ngFor="let type of projectTypes" [value]="type.value">
-            {{ type.viewValue }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <!-- Project Type -->
+<mat-form-field appearance="outline" class="half-width">
+  <mat-label>Project Type</mat-label>
+  <mat-select formControlName="projectTypeId">
+    <mat-option *ngFor="let type of projectTypes" [value]="type.id">
+      {{ type.projectTypeName }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
     </div>
 
     <div class="row">
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Area</mat-label>
-        <mat-select formControlName="area">
-          <mat-option *ngFor="let area of areas" [value]="area.value">
-            {{ area.viewValue }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <!-- Area -->
+<mat-form-field appearance="outline" class="half-width">
+  <mat-label>Area</mat-label>
+  <mat-select formControlName="area">
+    <mat-option *ngFor="let area of areas" [value]="area.id">
+      {{ area.area }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Priority</mat-label>
-        <mat-select formControlName="priority">
+        <mat-label>Project Priority</mat-label>
+        <mat-select formControlName="priority" >
+          <!-- Disabled placeholder option - won't show a checkmark -->
+          <mat-option disabled [value]="''">Select One</mat-option>
+          
+          <!-- Priority options -->
           <mat-option *ngFor="let priority of priorities" [value]="priority.value">
             {{ priority.viewValue }}
           </mat-option>
@@ -45,20 +51,21 @@
     </div>
 
     <div class="row">
-        <mat-form-field appearance="outline" class="half-width">
-          <mat-label>Start Date</mat-label>
-          <input matInput [matDatepicker]="startPicker" formControlName="startDate" />
-          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-          <mat-datepicker #startPicker></mat-datepicker>
-        </mat-form-field>
-          
+        <!-- START DATE -->
+<mat-form-field appearance="outline" class="half-width">
+  <mat-label>Start Date</mat-label>
+  <input matInput [matDatepicker]="startPicker" formControlName="startDate" [min]="minStartDate" />
+  <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+  <mat-datepicker #startPicker></mat-datepicker>
+</mat-form-field>
 
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>End Date</mat-label>
-        <input matInput [matDatepicker]="endPicker" formControlName="endDate" placeholder="Choose a date">
-        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-        <mat-datepicker #endPicker></mat-datepicker>
-      </mat-form-field>
+<!-- END DATE -->
+<mat-form-field appearance="outline" class="half-width">
+  <mat-label>End Date</mat-label>
+  <input matInput [matDatepicker]="endPicker" formControlName="endDate" [min]="minEndDate" />
+  <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+  <mat-datepicker #endPicker></mat-datepicker>
+</mat-form-field>
     </div>
   </div>
 
