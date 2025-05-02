@@ -176,7 +176,8 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
       priority: [Number(this.data.priorityId)],
       project_Description: [this.data.project_Description, Validators.required],
       startDate: [this.data.startDate == null ? null : new Date(this.data.startDate),[this.noPastDateValidator()]
-      
+        // this.validateDateIsAfterToday(isInvalidDate(this.data.startDate) ? null : new Date(this.data.startDate)),
+        // 
       ],
       endDate: [this.data.endDate == null ? null : new Date(this.data.endDate)
         // this.validateDateIsAfterToday(isInvalidDate(this.data.endDate) ? null : new Date(this.data.endDate))
