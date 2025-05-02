@@ -17,8 +17,7 @@
       flex: 1 1 100%; /* Stack fields on smaller screens */
     }
   }
-<<<<<<< HEAD
-=======
+
   
   .global-hint {
     font-weight: bold;
@@ -27,5 +26,26 @@
     display: block;
     padding-left: 3%;
   }
->>>>>>> 7ee7321197c6db487bd0dfbced23523a58a699ba
+
+
+
+  
+
+  .custom-file-box {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    background-color: #fff;
+    transition: border-color 0.3s;
+  }
+  
+  .custom-file-box:hover {
+    border-color: #888;
+  }
+  
+  .custom-file-box input[type="file"] {
+    border: none;
+    outline: none;
+    width: 100%;
+  }
   
