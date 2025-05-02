@@ -9,7 +9,7 @@
   import { MatIconModule } from '@angular/material/icon';
   import { MatOptionModule } from '@angular/material/core';
   import { MatSelectModule } from '@angular/material/select';
-import { ToastrService } from 'ngx-toastr';
+  import { ToastrService } from 'ngx-toastr';
 
   @Component({
     selector: 'app-add-user-dialog',

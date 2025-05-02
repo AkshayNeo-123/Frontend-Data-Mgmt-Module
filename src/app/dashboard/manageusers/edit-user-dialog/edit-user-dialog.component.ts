@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatOptionModule } from '@angular/material/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-user-dialog',
@@ -33,7 +34,8 @@ export class EditUserDialogComponent implements OnInit{
   constructor(
     private dialogRef: MatDialogRef<EditUserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private userService: UserService
+    private userService: UserService,
+    private toastr: ToastrService
   ) {
     this.user = { ...data }; // cloning data to avoid direct mutation
   }
@@ -46,15 +48,37 @@ export class EditUserDialogComponent implements OnInit{
     this.showPassword = !this.showPassword;
   }
 
-  onSubmit() {
+  onSubmit(form: NgForm) {
+     
+    if(form.invalid){
+      this.toastr.warning(
+        'Enter a valid password',
+        'Warning', {
+          timeOut:5000
+        }
+      )
+      return;
+    }
     this.userService.updateUser(this.user.userId, this.user).subscribe({
       next: () => {
-        alert('Updated successfully!');
+        // alert('Updated successfully!');
+        this.toastr.success(
+          'Updated successfully!',
+          'Success',{
+            timeOut:5000
+          }
+        );
         this.dialogRef.close(true);
       },
       error: err => {
         console.error(err);
-        alert('Failed to update user!');
+        // alert('Failed to update user!');
+        this.toastr.error(
+          'Something went wrong!' ,
+          'Error',{
+            timeOut:5000
+          }
+        );
       }
     });
   }
@@ -76,3 +100,6 @@ export class EditUserDialogComponent implements OnInit{
     this.dialogRef.close(false);
   }
 }
+
+
+
