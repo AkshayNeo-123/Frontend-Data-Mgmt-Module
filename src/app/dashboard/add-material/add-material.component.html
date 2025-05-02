@@ -1,113 +1,122 @@
-<h2 mat-dialog-title>{{ isEditMode ? 'Update Material' : 'Add Material' }}</h2>
+<h2 mat-dialog-title>{{ isEditMode ? 'Update Material' : 'New Material' }}</h2>
+<mat-hint class="global-hint">All fields marked with an asterisk (*) are required</mat-hint>
+
 <form [formGroup]="materialForm" (ngSubmit)="onSubmit()">
   <div mat-dialog-content>
     <div class="row">
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Material Type</mat-label>
-        <mat-select formControlName="materialsType">
-          <mat-option *ngFor="let type of materialTypes" [value]="type.value">
-            {{ type.viewValue }}
-          </mat-option>
-        </mat-select>
+      <mat-form-field class="half-width" appearance="outline">
+        <mat-label>Material Name</mat-label>
+        <input matInput formControlName="materialName" />
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Designation</mat-label>
-        <input matInput formControlName="designation" placeholder="Enter designation">
-      </mat-form-field>
-    </div>
-
-    <div class="row">
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Manufacturer</mat-label>
-        <mat-select formControlName="manufacturerId">
-          <mat-option *ngFor="let manufacturer of manufacturers" [value]="manufacturer.contactId">
-            {{ manufacturer.contactName }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      
-
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Additive</mat-label>
-        <mat-select formControlName="additiveId">
-          <mat-option *ngFor="let additive of additives" [value]="additive.id">
-            {{ additive.additiveName }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Main Polymer</mat-label>
-        <mat-select formControlName="mainPolymerId">
-          <mat-option *ngFor="let polymer of mainPolymers" [value]="polymer.id">
-            {{ polymer.polymerName }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Quantity</mat-label>
-        <input matInput type="number" formControlName="quantity">
-      </mat-form-field>
-    </div>
-
-    <div class="row">
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Density</mat-label>
-        <input matInput type="number" formControlName="density">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Test Method</mat-label>
-        <input matInput formControlName="testMethod">
-      </mat-form-field>
-    </div>
-
-    <div class="row">
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>TDS File Path</mat-label>
-        <input matInput formControlName="tdsFilePath">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>MSDS File Path</mat-label>
-        <input matInput formControlName="msdsFilePath">
-      </mat-form-field>
-    </div>
-
-    <div class="row">
-      <mat-form-field appearance="outline" class="half-width">
+      <mat-form-field class="half-width" appearance="outline">
         <mat-label>Storage Location</mat-label>
-        <mat-select formControlName="storageLocation">
-          <mat-option *ngFor="let location of storageLocations" [value]="location.value">
-            {{ location.viewValue }}
+        <mat-select formControlName="storageLocationId">
+          <mat-option value="">--- Select ---</mat-option>
+          <mat-option *ngFor="let location of storageLocations" [value]="location.id">
+            {{ location.name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>MVR/MFR Type</mat-label>
-        <mat-select formControlName="MVR_MFR">
-          <mat-option *ngFor="let type of mvrMfrTypes" [value]="type.value">
-            {{ type.viewValue }}
+      <mat-form-field class="half-width" appearance="outline">
+        <mat-label>Manufacturer*</mat-label>
+        <mat-select formControlName="manufacturerId">
+          <mat-option [value]="0">--- Select ---</mat-option>
+          <mat-option *ngFor="let m of manufacturers" [value]="m.contactId">
+            {{ m.contactName }}
           </mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
 
-    <div class="row">
-      <mat-form-field appearance="outline" class="full-width">
+      <mat-form-field class="half-width" appearance="outline">
+        <mat-label>Supplier*</mat-label>
+        <mat-select formControlName="supplierId">
+          <mat-option [value]="0">--- Select ---</mat-option>
+          <mat-option *ngFor="let s of suppliers" [value]="s.contactId">
+            {{ s.contactName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="half-width" appearance="outline">
+        <mat-label>Additive*</mat-label>
+        <mat-select formControlName="additiveId">
+          <mat-option [value]="0">--- Select ---</mat-option>
+          <mat-option *ngFor="let a of additives" [value]="a.id">
+            {{ a.additiveName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="half-width" appearance="outline">
+        <mat-label>Main Polymer*</mat-label>
+        <mat-select formControlName="mainPolymerId">
+          <mat-option [value]="0">--- Select ---</mat-option>
+          <mat-option *ngFor="let p of mainPolymers" [value]="p.id">
+            {{ p.polymerName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="half-width" appearance="outline">
+        <mat-label>Density [g/cm³]</mat-label>
+        <input matInput type="number" formControlName="density" min="0" step="0.01" />
+      </mat-form-field>
+
+      <mat-form-field class="half-width" appearance="outline">
+        <mat-label>Quantity [Kg]</mat-label>
+        <input matInput type="number" formControlName="quantity" min="0" max="20" />
+      </mat-form-field>
+
+      <mat-form-field class="half-width" appearance="outline">
+        <mat-label>Test Method</mat-label>
+        <input matInput formControlName="testMethod" />
+      </mat-form-field>
+
+      <mat-form-field class="half-width" appearance="outline">
+        <mat-label>MVR/MFR </mat-label>
+        <mat-select formControlName="mvrMfrId">
+          <mat-option value="">--- Select ---</mat-option>
+          <mat-option *ngFor="let item of mvrMfrTypes" [value]="item.id">
+            {{ item.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- TDS File Upload -->
+      <div class="file-upload-outline half-width">
+        <label class="file-label">TDS (Upload PDF)</label>
+        <input type="file" (change)="onFileSelected($event, 'tdsFilePath')" />
+        <mat-hint>{{ materialForm.get('tdsFilePath')?.value }}</mat-hint>
+      </div>
+
+      <!-- MSDS File Upload -->
+      <div class="file-upload-outline half-width">
+        <label class="file-label">MSDS (Upload PDF)</label>
+        <input type="file" (change)="onFileSelected($event, 'msdsFilePath')" />
+        <mat-hint>{{ materialForm.get('msdsFilePath')?.value }}</mat-hint>
+      </div>
+
+
+      <mat-form-field class="full-width" appearance="outline">
         <mat-label>Description</mat-label>
         <textarea matInput formControlName="description"></textarea>
       </mat-form-field>
     </div>
   </div>
 
+<<<<<<< HEAD
   <mat-dialog-actions align="end">
     <button mat-button  type="button" (click)="onCancel()">Cancel</button>
     <button mat-raised-button color="primary" type="submit">
       {{ isEditMode ? 'Update Material' : 'Add Material' }}
     </button>
   </mat-dialog-actions>
+=======
+  <div mat-dialog-actions align="end">
+    <button mat-flat-button color="primary" type="submit">{{ isEditMode ? 'Update' : 'Save' }}</button>
+    <button mat-button type="button" (click)="onCancel()">Cancel</button>
+  </div>
+>>>>>>> a47c10692b1d75105cb74e241ac18e8a2e641320
 </form>

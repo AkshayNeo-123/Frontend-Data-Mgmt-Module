@@ -1,4 +1,4 @@
-
+/* 
   h4 {
     font-weight: 600;
   }
@@ -31,15 +31,7 @@
     margin-bottom: 20px;
   }
   
-  table {
-    width: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: #fff;
-    border-collapse: collapse; 
-    /* table-layout: fixed; */
-  }
-  
+ 
   .mat-header-cell {
     font-weight: bold;
     background-color: #f8f9fa;
@@ -62,11 +54,6 @@
     display: table-row;
   }
   
-  .mat-column-designation, .mat-column-quantity, .mat-column-density, .mat-column-description, .mat-column-createdDate .mat-column-actions{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
   
   .mat-column-actions {
     min-width: 150px; 
@@ -96,3 +83,4 @@
   .action-icon:hover {
     transform: scale(1.2); 
   }
+  

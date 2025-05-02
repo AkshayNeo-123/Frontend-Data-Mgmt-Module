@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MaterialService } from '../../services/material.service';
 import { CommonService } from '../../services/common.service';
-import { Material, MaterialTypeEnum, MvrMfrType, StorageLocation } from '../../models/material.model';
+import { Material } from '../../models/material.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -33,63 +33,37 @@ export class AddMaterialComponent implements OnInit {
   additives: any[] = [];
   mainPolymers: any[] = [];
   manufacturers: any[] = [];
-
-  materialTypes = [
-    { value: MaterialTypeEnum.RawMaterial, viewValue: 'Raw Material' },
-    { value: MaterialTypeEnum.FinishedGood, viewValue: 'Finished Good' },
-    { value: MaterialTypeEnum.PackagingMaterial, viewValue: 'Packaging Material' },
-    { value: MaterialTypeEnum.Additive, viewValue: 'Additive' },
-    { value: MaterialTypeEnum.Resin, viewValue: 'Resin' },
-    { value: MaterialTypeEnum.Compound, viewValue: 'Compound' },
-    { value: MaterialTypeEnum.Masterbatch, viewValue: 'Masterbatch' },
-    { value: MaterialTypeEnum.Catalyst, viewValue: 'Catalyst' },
-    { value: MaterialTypeEnum.Stabilizer, viewValue: 'Stabilizer' }
-  ];
-
-  mvrMfrTypes = [
-    { value: MvrMfrType._190C_2_16kg, viewValue: '190 °C / 2.16 kg' },
-    { value: MvrMfrType._190C_5kg, viewValue: '190 °C / 5 kg' },
-    { value: MvrMfrType._200C_5kg, viewValue: '200 °C / 5 kg' },
-    { value: MvrMfrType._220C_10kg, viewValue: '220 °C / 10 kg' },
-    { value: MvrMfrType._230C_5kg, viewValue: '230 °C / 5 kg' }
-  ];
-
-  storageLocations = [
-    { value: StorageLocation.Warehouse_A, viewValue: 'Warehouse A' },
-    { value: StorageLocation.Warehouse_B, viewValue: 'Warehouse B' },
-    { value: StorageLocation.ColdStorage, viewValue: 'Cold Storage' },
-    { value: StorageLocation.ProductionArea, viewValue: 'Production Area' },
-    { value: StorageLocation.QualityLab, viewValue: 'Quality Lab' },
-    { value: StorageLocation.OutdoorYard, viewValue: 'Outdoor Yard' },
-    { value: StorageLocation.Silo_1, viewValue: 'Silo 1' },
-    { value: StorageLocation.Silo_2, viewValue: 'Silo 2' },
-    { value: StorageLocation.HazardousStorage, viewValue: 'Hazardous Storage' }
-  ];
-
+  suppliers: any[] = [];
+  mvrMfrTypes: any[] = [];
+  storageLocations: any[] = [];
+  
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<AddMaterialComponent>,
     private materialService: MaterialService,
     private commonService: CommonService,
     private toastr: ToastrService,
-    
     @Inject(MAT_DIALOG_DATA) public data: Material
   ) {
     this.materialForm = this.fb.group({
-      materialsType: [null, Validators.required],
-      designation: ['', Validators.required],
-      manufacturerId: [null, Validators.required],
-      additiveId: [null, Validators.required],
-      mainPolymerId: [null, Validators.required],
-      quantity: [null, Validators.required],
-      density: [null, Validators.required],
-      testMethod: ['', Validators.required],
-      tdsFilePath: ['', Validators.required],
-      msdsFilePath: ['', Validators.required],
-      storageLocation: [null, Validators.required],
-      description: [''],
-      MVR_MFR: [null, Validators.required]
+      materialName: ['', Validators.required],
+      manufacturerId: [0, [this.nonZeroValidator]],
+      additiveId: [0, [this.nonZeroValidator]],
+      mainPolymerId: [0, [this.nonZeroValidator]],
+      supplierId: [0, [this.nonZeroValidator]],
+      density: [0],
+      quantity: [0, [Validators.min(0), Validators.max(20)]],
+      testMethod: [''],
+      tdsFilePath: [''],
+      msdsFilePath: [''],
+      storageLocationId: [''],
+      mvrMfrId: [''],
+      description: ['']
     });
+  }
+
+  nonZeroValidator(control: any) {
+    return control.value && control.value !== 0 ? null : { nonZero: true };
   }
 
   get isEditMode(): boolean {
@@ -98,82 +72,104 @@ export class AddMaterialComponent implements OnInit {
 
   ngOnInit(): void {
     this.commonService.getAdditives().subscribe({
-      next: (res) => {
-        this.additives = res;
-      },
-      error: (err) => console.error('Failed to load additives:', err)
+      next: (res) => { this.additives = res; },
+      error: (err) => console.error('Additives load failed:', err)
     });
 
     this.commonService.getMainPolymers().subscribe({
-      next: (res) => {
-        this.mainPolymers = res;
-      },
-      error: (err) => console.error('Failed to load main polymers:', err)
+      next: (res) => { this.mainPolymers = res; },
+      error: (err) => console.error('Polymers load failed:', err)
     });
 
     this.commonService.getManufacture().subscribe({
-      next: (res) => {
-        this.manufacturers = res;
-      },
-      error: (err) => console.error('Failed to load manufacturers:', err)
+      next: (res) => { this.manufacturers = res; },
+      error: (err) => console.error('Manufacturers load failed:', err)
     });
-    
+
+    this.commonService.getSupplier().subscribe({
+      next: (res) => { this.suppliers = res; },
+      error: (err) => console.error('Suppliers load failed:', err)
+    });
+
+    this.materialService.getMvrMfr().subscribe({
+      next: (res) => { this.mvrMfrTypes = res; },
+      error: (err) => console.error('MVR/MFR load failed:', err)
+    });
+
+    this.materialService.getStorageLocation().subscribe({
+      next: (res) => { this.storageLocations = res; },
+      error: (err) => console.error('Storage locations load failed:', err)
+    });
 
     if (this.isEditMode) {
       this.materialForm.patchValue({
-        materialsType: this.data.materialsType,
-        additiveId : this.data.additiveId,
-        mainPolymerId:this.data.mainPolymerId,
-        designation: this.data.designation,
+        materialName: this.data.materialName,
+        additiveId: this.data.additiveId,
+        mainPolymerId: this.data.mainPolymerId,
         manufacturerId: this.data.manufacturerId,
-        quantity: this.data.quantity,
+        supplierId: this.data.supplierId,
         density: this.data.density,
+        quantity: this.data.quantity,
         testMethod: this.data.testMethod,
         tdsFilePath: this.data.tdsFilePath,
         msdsFilePath: this.data.msdsFilePath,
-        storageLocation: this.data.storageLocation,
-        description: this.data.description,
-        MVR_MFR: this.data.mvR_MFR
+        storageLocationId: this.data.storageLocationId,
+        mvrMfrId: this.data.mvrMfrId,
+        description: this.data.description
       });
     }
   }
 
   onSubmit() {
-    if (this.materialForm.valid) {
-      const userJson = localStorage.getItem('user');
-      const user = userJson ? JSON.parse(userJson) : null;
+    if (!this.materialForm.valid) return;
   
-      if (!user) {
-        console.error('No user found in localStorage!');
-        this.toastr.error('User not found. Please log in again.', 'Error');
-        return;
+    const formValue = { ...this.materialForm.value };
+  
+    // Convert optional empty dropdowns to null
+    formValue.storageLocationId = formValue.storageLocationId === '' ? null : formValue.storageLocationId;
+    formValue.mvrMfrId = formValue.mvrMfrId === '' ? null : formValue.mvrMfrId;
+  
+    const material: Material = {
+      ...formValue,
+      createdDate: new Date().toISOString(),
+      modifiedDate: new Date().toISOString(),
+      materialId: this.isEditMode ? this.data.materialId : 0
+    };
+  
+    const request$ = this.isEditMode
+      ? this.materialService.updateMaterial(material)
+      : this.materialService.addMaterial(material);
+  
+    request$.subscribe({
+      next: () => {
+        this.toastr.success(this.isEditMode ? 'Updated successfully.' : 'Saved successfully.', 'Success');
+        this.dialogRef.close(true);
+      },
+      error: (err) => {
+        console.error('Save error:', err);
+        this.toastr.error('Something went wrong while saving material.', 'Error');
       }
+    });
+  }
+
+  onFileSelected(event: Event, controlName: string): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
   
-      const newMaterial: Material = {
-        ...this.materialForm.value,
-        createdBy: user.userId,
-        createdDate: new Date().toISOString(),
-        modifiedBy: user.userId,
-        modifiedDate: new Date().toISOString(),
-        materialId: this.isEditMode ? this.data.materialId : 0
-      };
+    if (file) {
+      this.materialForm.get(controlName)?.setValue(file.name); // show file name immediately
   
-      const request$ = this.isEditMode
-        ? this.materialService.updateMaterial(newMaterial)
-        : this.materialService.addMaterial(newMaterial);
-  
-      request$.subscribe({
-        next: () => {
-          this.toastr.success(
-            this.isEditMode ? 'Material updated successfully!' : 'Material added successfully!',
-            'Success'
-          );
-          this.dialogRef.close(true);
+      this.materialService.postFileMaterial(file).subscribe({
+        next: (res) => {
+          console.log('File uploaded successfully:', res);
+          
+          // ✅ Save the full relative path into the form
+          const filePath = `${res.fileName}`;
+          this.materialForm.get(controlName)?.setValue(filePath);
         },
         error: (err) => {
-          console.error('Error saving material:', err);
-          this.toastr.error('Failed to save material. Please try again.', 'Error');
-        }
+          console.error('File upload failed:', err);
+        },
       });
     }
   }

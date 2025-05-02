@@ -1,22 +1,20 @@
 .row {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap; /* important for responsiveness */
-}
-
-.half-width {
-  flex: 1;
-  min-width: 250px; /* Makes it responsive, will stack if small screen */
-}
-
-.full-width {
-  width: 100%;
-}
-
-.buttons {
-  margin-top: 10px;
-}
-
-button {
-  margin-right: 10px;
-}
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  .half-width {
+    flex: 1 1 48%; /* 2 fields per row */
+  }
+  
+  .full-width {
+    flex:  100%; /* Full width for the field */
+  }
+  
+  @media (max-width: 768px) {
+    .half-width {
+      flex: 1 1 100%; /* Stack fields on smaller screens */
+    }
+  }
+  

@@ -107,19 +107,37 @@ import { ToastrService } from 'ngx-toastr';
     }  
 
     onSubmit(form: NgForm) {
-      if (form.invalid) {
-        alert('Please fill all fields correctly.');
-        return;
-      }
+      // if (form.invalid) {
+      //   // alert('Please fill all fields correctly.');
+        // this.toastr.error(
+        //   'Saved successfully!' ,
+        //   'Success',{
+        //     timeOut:5000
+        //   }
+        // );
+      //   return;
+      // }
     
       if (!this.newUser.firstName || !this.newUser.lastName || !this.newUser.email || !this.newUser.passwordHash || !this.newUser.confirmPasswordHash || !this.newUser.phone || !this.newUser.roleId) {
-        alert('All fields are required.');
+        // alert('All fields are required.');
+        this.toastr.error(
+          'All fields are required.' ,
+          'Error',{
+            timeOut:5000
+          }
+        );
         return;
       }
     
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailPattern.test(this.newUser.email)) {
-        alert('Invalid email format.');
+        // alert('Invalid email format.');
+        this.toastr.error(
+          'Invalid email format!' ,
+          'Error',{
+            timeOut:5000
+          }
+        );
         return;
       }
       const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{6,}$/;
@@ -134,12 +152,24 @@ import { ToastrService } from 'ngx-toastr';
       }
     
       if (this.newUser.passwordHash !== this.newUser.confirmPasswordHash) {
-        alert('Passwords do not match.');
+        // alert('Passwords do not match.');
+        this.toastr.error(
+          'Passwords do not match!' ,
+          'Error',{
+            timeOut:5000
+          }
+        );
         return;
       }
     
       if (!/^\d{10}$/.test(this.newUser.phone)) {
-        alert('Phone number must be 10 digits.');
+        // alert('Phone number must be 10 digits.');
+        this.toastr.error(
+          'Phone number must be 10 digits.' ,
+          'Error',{
+            timeOut:5000
+          }
+        );
         return;
       }
     
@@ -150,16 +180,24 @@ import { ToastrService } from 'ngx-toastr';
     
       this.userService.addUser(this.newUser).subscribe({
         next: (res) => {
-          alert('Saved successfully!');
-          // this.toastr.success(
-          //   'Saved successfully!' ,
-          //   'Success'
-          // );
+          // alert('Saved successfully!');
+          this.toastr.success(
+            'Saved successfully!' ,
+            'Success',{
+              timeOut:5000
+            }
+          );
           this.dialogRef.close(true);
         },
         error: (err) => {
           console.error(err);
-          alert('Failed to add user.');
+          // alert('Failed to add user.');
+          this.toastr.error(
+            'Something went wrong' ,
+            'Error',{
+              timeOut:5000
+            }
+          );
         }
       });
     }
