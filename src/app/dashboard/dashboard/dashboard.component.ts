@@ -13,13 +13,13 @@ import { RecipyComponent } from '../recipy/recipy.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { ProjectComponent } from '../project/project.component';
 import { MastertableComponent } from '../mastertable/mastertable.component';
-import { AddadditivesComponent } from '../additiveData/addadditives/addadditives.component';
-import { GetAllAdditivesComponent } from '../additiveData/get-all-additives/get-all-additives.component';
 import { AllMainPolymersComponent } from '../MainPolymerData/all-main-polymers/all-main-polymers.component';
 import { RouterOutlet } from '@angular/router';
 import { ContactsComponent } from '../contacts/contacts.component';
 import { ManageusersComponent } from '../manageusers/manageusers.component';
 import { FormsModule } from '@angular/forms';
+import { GetAllAdditivesComponent } from '../get-all-additives/get-all-additives.component';
+import { AddAdditiveComponent } from '../additiveData/addadditives/addadditives.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,7 +34,7 @@ import { FormsModule } from '@angular/forms';
     ProjectComponent,
     MastertableComponent,
     ContactsComponent,
-    AddadditivesComponent,
+   
     GetAllAdditivesComponent,
     AllMainPolymersComponent,
     ManageusersComponent,

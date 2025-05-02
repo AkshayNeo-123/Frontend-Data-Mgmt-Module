@@ -7,7 +7,7 @@
 h4.fw-bold {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  text-align: center;
+  /* text-align: center; */
 }
 
 
@@ -17,8 +17,23 @@ h4.fw-bold {
   border-radius: 4px;
   margin-bottom: 40px;
 
-  background-color: #4caf50; 
+  background-color: #4caf50 !important; 
   color: white;
   border: none;
   transition: background-color 0.3s ease;
+}
+
+.add-contact-btn:hover {
+  /* background-color: #388e3c;  */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.mat-header-cell {
+  font-weight: bold;
+  background-color: #f8f9fa;
+  color: #343a40;
+  border: 1px solid #ddd; 
+}
+.add-contact-btn:focus {
+  outline: none;  
 }

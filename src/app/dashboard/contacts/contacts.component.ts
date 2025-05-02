@@ -8,10 +8,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { Contact, ContactDTO, ContactTyps } from '../../models/contacts';
+import { Contact, ContactTyps } from '../../models/contacts';
 import { ContactsService } from '../../services/contacts.service';
 import { Router, RouterModule } from '@angular/router';
 import { AddcontactsComponent } from '../contactsData/addcontacts/addcontacts.component';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-contacts',
@@ -42,7 +44,8 @@ export class ContactsComponent implements OnInit, AfterViewInit {
   constructor(
     private contactService: ContactsService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private toastr:ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -75,13 +78,16 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     console.log('Data passed to dialog:', contact);
       const dialogRef = this.dialog.open(AddcontactsComponent, {
         width: '80%',  
-        maxWidth: '900px',
+        maxWidth: '600px',
         disableClose: true,
         data: contact
       });
     
       dialogRef.afterClosed().subscribe(result => {
+
         if (result) {
+                  this.toastr.success('Added successfully');
+
           this.fetchContacts();  
         }
       });
@@ -97,25 +103,46 @@ export class ContactsComponent implements OnInit, AfterViewInit {
       });
       console.log('Editing contact:', contact);
       dialogRef.afterClosed().subscribe(result => {
+        
+
         if (result) {
+                  this.toastr.success('Updated successfully');
+
           this.fetchContacts(); 
         }
       });
     }
 
-   
-  deleteContactsDetails(id: number): void {
-    if (!confirm('Do you really want to delete this contact?')) return;
-
-    this.contactService.deleteContact(id).subscribe({
-      next: () => {
-        this.dataSource.data = this.dataSource.data.filter(c => c.contactId !== id);
-        alert('Contact deleted successfully');
-      },
-      error: (err) => {
-        console.error('Error deleting contact', err);
-        alert('Failed to delete contact');
+    deleteContactsDetails(contactId: number) {
+      if (contactId == null || contactId === undefined) {
+        console.error('Invalid ID:', contactId);
+        return;
       }
-    });
+    
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you really want to delete this contact?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.dataSource.data = this.dataSource.data.filter(material => material.contactId !== contactId);
+    
+          console.log('Deleting Contact with ID:', contactId);
+          this.contactService.deleteContact(contactId).subscribe(
+            (response) => {
+              console.log('Contact deleted successfully:', response);
+              this.toastr.success('deleted successfully');
+            },
+            (error) => {
+              console.error('Error deleting contact:', error);
+              this.toastr.error('Failed to delete contact');
+            }
+          );
+        }
+      });
+    }
   }
-}

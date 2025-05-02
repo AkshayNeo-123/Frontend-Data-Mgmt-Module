@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { Console } from 'console';
+import { MatRadioModule } from '@angular/material/radio';
 
 @Component({
   selector: 'app-addcontacts',
@@ -21,7 +22,8 @@ import { Console } from 'console';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatRadioModule
   ]
 })
 export class AddcontactsComponent implements OnInit {
@@ -38,10 +40,11 @@ export class AddcontactsComponent implements OnInit {
   ngOnInit(): void {
     console.log('Data passed to dialog:', this.data);
     this.isEditMode = !!this.data;
-
+  console.log("See the data ",this.data)
     this.contactForm = this.fb.group({
+      contactId:[this.data?.contactId||null],
       contactName: [this.data?.contactName || '', Validators.required],
-      contactType: [this.data?.contactType || 1, Validators.required],
+      contactType: [this.data?.contactType ||null, Validators.required],
       addressLine1: [this.data?.addressLine1 || '', Validators.required],
       addressLine2: [this.data?.addressLine2 || ''],
       city: [this.data?.city || '', Validators.required],
@@ -69,11 +72,11 @@ export class AddcontactsComponent implements OnInit {
       };
 
       if (this.isEditMode) {
-        console.log(this.data.contactid,contactPayload)
-        console.log('Updating contact with ID:', this.data.contactid);
+        console.log(this.data.contactId,contactPayload)
+        console.log('Updating contact with ID:', this.data.contactId);
         this.contactService.updateContact(this.data.contactId, contactPayload).subscribe({
           next: () => {
-            alert('Contact updated');
+            // alert('Contact updated');
             this.dialogRef.close(true);
           },
           error: (err) => console.error('Update failed', err)
@@ -82,7 +85,7 @@ export class AddcontactsComponent implements OnInit {
         console.log('Adding new contact');
         this.contactService.addContacts(contactPayload).subscribe({
           next: () => {
-            alert('Contact added');
+            // alert('Contact added');
             this.dialogRef.close(true);
           },
           error: (err) => console.error('Add failed', err)
@@ -94,4 +97,37 @@ export class AddcontactsComponent implements OnInit {
   onCancel() {
     this.dialogRef.close(false);
   }
+  states = [
+    { value: 'CA', viewValue: 'California' },
+    { value: 'TX', viewValue: 'Texas' },
+    { value: 'NY', viewValue: 'New York' },
+    { value: 'FL', viewValue: 'Florida' },
+    { value: 'IL', viewValue: 'Illinois' },
+    { value: 'WA', viewValue: 'Washington' },
+  
+    { value: 'ON', viewValue: 'Ontario' },
+    { value: 'QC', viewValue: 'Quebec' },
+    { value: 'BC', viewValue: 'British Columbia' },
+    { value: 'AB', viewValue: 'Alberta' },
+    { value: 'MB', viewValue: 'Manitoba' },
+  
+    { value: 'MH', viewValue: 'Maharashtra' },
+    { value: 'DL', viewValue: 'Delhi' },
+    { value: 'KA', viewValue: 'Karnataka' },
+    { value: 'TN', viewValue: 'Tamil Nadu' },
+    { value: 'WB', viewValue: 'West Bengal' },
+    { value: 'RJ', viewValue: 'Rajasthan' },
+  
+    { value: 'NSW', viewValue: 'New South Wales' },
+    { value: 'VIC', viewValue: 'Victoria' },
+    { value: 'QLD', viewValue: 'Queensland' },
+    { value: 'WA-AU', viewValue: 'Western Australia' },
+    { value: 'SA', viewValue: 'South Australia' },
+  
+    { value: 'ENG', viewValue: 'England' },
+    { value: 'SCT', viewValue: 'Scotland' },
+    { value: 'WLS', viewValue: 'Wales' },
+    { value: 'NIR', viewValue: 'Northern Ireland' }
+  ];
+  
 }

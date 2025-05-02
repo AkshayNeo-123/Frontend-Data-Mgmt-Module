@@ -1,18 +1,28 @@
-<div class="container">
-    <h2>Add Additive</h2>
-    <form #additiveForm="ngForm" (ngSubmit)="addAdditivesData(additiveForm)">
-      <div class="form-group">
-        <label for="additiveName">Additive Name</label>
+<h2 mat-dialog-title>{{ isEditMode ? 'Update Additive' : 'New Additive' }}</h2>
+
+<form [formGroup]="additiveForm" (ngSubmit)="onSubmit()">
+  <div mat-dialog-content>
+    <div class="row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Additive Name</mat-label>
         <input
-          type="text"
-          id="additiveName"
-          class="form-control"
-          name="additiveName"
-          [(ngModel)]="additive.additiveName"
+          matInput
+          formControlName="additiveName"
+          placeholder="Enter additive name"
           required
         />
-      </div>
-      <button type="submit" class="btn btn-primary" [disabled]="!additiveForm.form.valid">Submit</button>
-    </form>
+        <mat-error *ngIf="additiveForm.controls['additiveName'].hasError('required')">
+          Additive Name is required
+        </mat-error>
+      </mat-form-field>
+    </div>
   </div>
-  
+    <div>
+  <mat-dialog-actions align="end" class="buttons">
+    <button mat-button type="button" (click)="onCancel()">Cancel</button>
+    <button mat-button class="primary-button" type="submit">
+      {{ isEditMode ? 'Update' : 'Save' }}
+    </button>
+  </mat-dialog-actions>
+    </div>
+</form>

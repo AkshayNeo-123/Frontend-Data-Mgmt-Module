@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Contact, ContactDTO } from '../models/contacts';
+import { Contact } from '../models/contacts';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class ContactsService {
     return this.http.get<Contact[]>(`${this.baseUrl}/GetAll`);
   }
 
-  addContacts(contact: Contact): Observable<ContactDTO> {
+  addContacts(contact: Contact): Observable<Contact> {
     return this.http.post<Contact>(`${this.baseUrl}`, contact);
 }
 
