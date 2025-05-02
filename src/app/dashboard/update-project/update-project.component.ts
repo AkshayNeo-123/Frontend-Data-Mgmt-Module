@@ -176,7 +176,7 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
       priority: [Number(this.data.priorityId)],
       project_Description: [this.data.project_Description, Validators.required],
       startDate: [this.data.startDate == null ? null : new Date(this.data.startDate),[this.noPastDateValidator()]
-  
+      
       ],
       endDate: [this.data.endDate == null ? null : new Date(this.data.endDate)
         // this.validateDateIsAfterToday(isInvalidDate(this.data.endDate) ? null : new Date(this.data.endDate))
@@ -359,17 +359,13 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
       this.projectservice.updateProject(this.data.projectId, updatedProject).subscribe({
         next: (response) => {
           console.log('Project updated successfully', response);
-          this.toastr.success('Updated successfully!','Success',{
-            timeOut:5000
-          });
+          this.toastr.success('Updated successfully!');
           this.projectservice.triggerRefresh();
           this.dialogRef.close(true);
         },
         error: (error) => {
           console.error('Error updating project:', error);
-          this.toastr.error('Something Went Wrong!','Error',{
-            timeOut:5000
-          });
+          this.toastr.error('Something Went Wrong!');
         }
       });
     } else {
