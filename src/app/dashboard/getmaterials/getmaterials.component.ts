@@ -6,21 +6,16 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Material, MaterialTypeEnum, MvrMfrType,StorageLocation } from '../../models/material.model';
+import { Material } from '../../models/material.model';
 import { MaterialService } from '../../services/material.service';
 import { AddMaterialComponent } from '../add-material/add-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { provideToastr, ToastrService } from 'ngx-toastr';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
-import { nextTick } from 'process';
+import { saveAs } from 'file-saver'; 
+import { HttpClient } from '@angular/common/http';
 
 
-// bootstrapApplication(AppComponent, {
-//   providers: [
-//     provideAnimations(), 
-//     provideToastr(), 
-//   ]
-// });
 @Component({
   selector: 'app-getmaterials',
   templateUrl: './getmaterials.component.html',
@@ -32,28 +27,18 @@ import { nextTick } from 'process';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+
   ],
   
 })
 export class GetmaterialsComponent implements AfterViewInit, OnInit {
+  downloadBaseUrl: string = 'https://localhost:7030/api/File/FileDownload?url=';
 
-  getMaterialTypeName(type: MaterialTypeEnum): string {
-    return MaterialTypeEnum[type];
-  }
-
-
-  getMvrMfrTypeName(type: MvrMfrType): string {
-    return MvrMfrType[type];
-  }
-
-  getStorageLocationName(type:StorageLocation):string{
-    return StorageLocation[type];
-  }
 
   displayedColumns: string[] = [
-    'materialId','AdditiveId', 'MainPolymerId', 'materialName','manufacturerId', 'quantity', 'storageLocation',  'density',
-   'mvR_MFR',"testMethod","actions"
+   'materialId','AdditiveId', 'MainPolymerId', 'materialName','manufacturerId', 'quantity',  'storageLocationId',
+   'density','mvrMfrId',"testMethod",'tdsFilePath','msdsFilePath',"actions"
   ];
   dataSource = new MatTableDataSource<Material>([]);
 
@@ -61,6 +46,7 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
+    private http: HttpClient,
     private materialService: MaterialService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -86,16 +72,6 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
       });
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    console.log("Filtering with value:", filterValue); 
-  
-    // Apply the filter to the dataSource
-    this.dataSource.filter = filterValue;
-  }
-  
-  
-
   openAddMaterialDialog(material?: Material) {
     const dialogRef = this.dialog.open(AddMaterialComponent, {
       width: '80%',
@@ -108,6 +84,27 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
       if (result) {
         this.loadMaterials();
       }
+    });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
+  }
+  
+ downloadFile(filePath: string): void {
+    const apiUrl = `${this.downloadBaseUrl}${encodeURIComponent(filePath)}`;
+
+    this.http.get(apiUrl, { responseType: 'blob' }).subscribe({
+      next: (blob: Blob) => {
+        // Extract the file name from the URL, you can adjust this logic based on your file name structure
+        const filename = filePath.split('/').pop() || 'downloaded-file';
+        saveAs(blob, filename);  // Trigger the download
+      },
+      error: (error: any) => {
+        console.error('Error downloading file:', error);
+        alert('There was an error downloading the file.');
+      },
     });
   }
 

@@ -7,9 +7,10 @@
     </button>
 
     <mat-form-field appearance="outline" class="search-field">
-      <mat-label>Search</mat-label>
+      <mat-label>Search for Name</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Search">
     </mat-form-field>
+    
   </div>
 
   <div class="table-responsive">
@@ -44,9 +45,9 @@
         <td mat-cell *matCellDef="let element">{{ element.quantity || '-' }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="storageLocation">
+      <ng-container matColumnDef="storageLocationId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Storage Location</th>
-        <td mat-cell *matCellDef="let element">{{ getStorageLocationName(element.storageLocation) || '-' }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.storageLocation?.name || '-' }}</td>
       </ng-container>
 
       <ng-container matColumnDef="density">
@@ -54,9 +55,9 @@
         <td mat-cell *matCellDef="let element">{{ element.density || '-' }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="mvR_MFR">
+      <ng-container matColumnDef="mvrMfrId">
         <th mat-header-cell *matHeaderCellDef>MVR/MFR</th>
-        <td mat-cell *matCellDef="let element">{{ getMvrMfrTypeName(element.mvR_MFR) || '-' }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.mvrMfr?.name || '-' }}</td>
       </ng-container>
 
       <ng-container matColumnDef="testMethod">
@@ -64,8 +65,26 @@
         <td mat-cell *matCellDef="let element">{{ element.testMethod || '-' }}</td>
       </ng-container>
 
+      <ng-container matColumnDef="tdsFilePath">
+        <th mat-header-cell *matHeaderCellDef>TDS</th>
+        <td mat-cell *matCellDef="let element">
+          <a *ngIf="element.tdsFilePath" (click)="downloadFile(element.tdsFilePath)">
+            <i class="fas fa-file-download action-icon" style="color: blue;"></i>
+          </a>
+          <span *ngIf="!element.tdsFilePath">-</span>
+        </td>
+      </ng-container>
       
-
+      <ng-container matColumnDef="msdsFilePath">
+        <th mat-header-cell *matHeaderCellDef>MSDS</th>
+        <td mat-cell *matCellDef="let element">
+          <a *ngIf="element.msdsFilePath" (click)="downloadFile(element.msdsFilePath)">
+            <i class="fas fa-file-download action-icon" style="color: blue;"></i>
+          </a>
+          <span *ngIf="!element.msdsFilePath">-</span>
+        </td>
+      </ng-container>
+      
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef style="width: 150px;">Actions</th>
         <td mat-cell *matCellDef="let element" style="width: 150px;">
