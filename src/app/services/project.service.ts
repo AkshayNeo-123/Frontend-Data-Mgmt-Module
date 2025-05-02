@@ -41,6 +41,20 @@ getStatus() {
   return this.http.get<any[]>('https://localhost:7030/api/Status/GetAllStatus');
 }
 
+exportData(): void {
+  this.http.get('https://localhost:7030/api/Projects/Expoted file', { responseType: 'blob' })
+    .subscribe((response: Blob) => {
+      const a = document.createElement('a');
+      const file = new Blob([response], { type: 'application/csv' });
+      a.href = URL.createObjectURL(file);
+      a.download = 'projects.csv';
+      a.click();
+    });
+  }
+  getLatestProjectCode(): Observable<string> {
+    return this.http.get('https://localhost:7030/api/Projects/GetLastProjectNumber',{ responseType: 'text' });
+  }
+
 refreshProjects$ = new Subject<void>();
 
 triggerRefresh() {

@@ -15,4 +15,9 @@ textarea[matInput] {
   .full-width {
     flex: 1 1 100%;
   }
-  
+  .top-right-btn {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+  }
+ 

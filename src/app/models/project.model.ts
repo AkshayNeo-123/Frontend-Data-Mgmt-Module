@@ -18,6 +18,7 @@ export interface Project {
 
   export interface AddPRoject {
     projectName: string;
+    ProjectNumber:string;
     ProjectTypeId?:number;
     statusId:number;
     areaId?: number;

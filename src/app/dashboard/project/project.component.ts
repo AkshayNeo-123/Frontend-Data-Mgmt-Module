@@ -15,6 +15,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { UpdateProjectComponent } from '../update-project/update-project.component';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-project',
@@ -33,14 +35,13 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ProjectComponent implements OnInit {
 
-  displayedColumns: string[] = ['area','projectName', 'projectType','Priority', 'status',  'startDate', 'endDate','actions'];
+  displayedColumns: string[] = ['area','projectName','projectNumber', 'projectType','Priority', 'status',  'startDate', 'endDate','actions'];
   dataSource = new MatTableDataSource<Project>([]); // Using your Project model
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-// element: any;
 
-  constructor(private projectService: ProjectService,private dialog: MatDialog,private toastr: ToastrService) {}
+  constructor(private projectService: ProjectService,private dialog: MatDialog,private toastr: ToastrService,private location: Location) {}
 
 
   ngOnInit() {
@@ -60,15 +61,15 @@ export class ProjectComponent implements OnInit {
       .subscribe((data: Project[]) => {
         console.log('Loaded materials:', data);
         this.dataSource.data = data;
+    //     this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
       }, error => {
         console.error('Error fetching materials:', error);
       });
   }
  
   
-  // UpdateProject(projectId: any) {
-    
-  //   }
+
 
   openAddProjectDialog() {
       const dialogRef = this.dialog.open(AddprojectComponent, {
@@ -79,16 +80,11 @@ export class ProjectComponent implements OnInit {
     }
     editProject(project: any): void {
       const dialogRef = this.dialog.open(UpdateProjectComponent, {
-        maxWidth: '800%', 
+        maxWidth: '800%',
         width: '800px',
         data: project
       });
-      // dialogRef.afterClosed().subscribe(result => {
-      //   if (result === true) {
-      //     this.toastr.success('Project updated successfully!');
-      //     this.projectService.triggerRefresh();
-      //   }
-      // });
+    
     }
      
     
@@ -98,24 +94,44 @@ export class ProjectComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
+
   deleteProject(id: number) {
-    if (confirm('Are you sure you want to delete this project?')) {
-      this.projectService.deleteProject(id).subscribe({
-        next: () => {
-          console.log(`Project with ID ${id} deleted successfully.`);
-          // alert("deleted successfully");
-          this.toastr.success('Project deleted successfully','success',{
-            timeOut: 5000 
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        width: '350px',
+        data: {
+          title: 'Confirm Deletion',
+          message: 'Are you sure you want to delete this Project?'
+        }
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === true) {
+          this.projectService.deleteProject(id).subscribe({
+            next: (res: any) => {
+              this.dataSource.data = this.dataSource.data.filter(material => material.projectId !== id);
+              this.toastr.success(' deleted successfully','success',{
+                timeOut:5000
+              });
+            },
+            error: (err: any) => {
+              console.error('Error:', err);
+              this.toastr.error('Something went wrong!','error',{
+                timeOut:5000
+              });
+            }
           });
-          this.dataSource.data = this.dataSource.data.filter(project => project.projectId !== id);
-  
-          this.loadProjects();
-        },  
-        error: (error) => {
-          console.error('Error deleting project:', error);
+          
+        } else {
+          this.toastr.info('Deletion cancelled');
         }
       });
     }
-  }
+    onExport() {
+      this.projectService.exportData();
+    }
+
+    goBack(): void {
+      this.location.back();
+    }
   
 }

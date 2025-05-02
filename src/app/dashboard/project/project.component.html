@@ -1,5 +1,12 @@
+<!-- <button mat-stroked-button color="accent" (click)="goBack()" class="mb-3">
+  <i class="fas fa-arrow-left me-2"></i> Back
+</button> -->
 <div class="container">
-  <h4 class="fw-bold">Project Table</h4>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold">Project</h4>
+    <i class="fas fa-download action-icon" (click)="onExport()" title="Export Projects"></i>
+  </div>
+<!-- <i class="fa fa-download" (click)="onExport()" title="Export Projects"></i> -->
 
   <div class="d-flex justify-content-start align-items-center mb-3">
     <button mat-raised-button color="primary"  class="me-4 add-material-btn" (click)="openAddProjectDialog()">
@@ -8,7 +15,7 @@
 
     <mat-form-field appearance="outline" class="search-field">
       <mat-label>Search</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Search">
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search For Project Name">
     </mat-form-field>
   </div>
 
@@ -20,7 +27,7 @@
       <ng-container matColumnDef="area">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Area </th>
         <td mat-cell *matCellDef="let element"> 
-          {{element.areas===null? 'not selected':
+          {{element.areas===null? '-':
           element.areas.area
         }}
             </td>
@@ -32,11 +39,19 @@
         <td mat-cell *matCellDef="let element"> {{element.projectName}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="projectNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Project Number </th>
+        <td mat-cell *matCellDef="let element"> {{
+        element.projectNumber===null?'-':
+        element.projectNumber
+        }} </td>
+      </ng-container>
+
       <!-- Project Type Column -->
       <ng-container matColumnDef="projectType">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Project Type </th>
         <td mat-cell *matCellDef="let element">
-          {{element.projectTypes===null? 'not selected':
+          {{element.projectTypes===null? '-':
             element.projectTypes.projectTypeName}}
         </td>
       </ng-container>
@@ -53,7 +68,7 @@
       <ng-container matColumnDef="Priority">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Priority </th>
         <td mat-cell *matCellDef="let element"> 
-          {{element. priorities===null?'Not Mention':
+          {{element. priorities===null?'-':
             element.priorities.priority}} 
         </td>
       </ng-container>
@@ -62,7 +77,7 @@
       <ng-container matColumnDef="startDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
         <td mat-cell *matCellDef="let element"> {{
-        element.startDate == '0001-01-01T00:00:00' ? 'Not Decided':
+        element.startDate == null ? '-':
         element.startDate | date:'dd-MM-yyyy'
         }} </td>
       </ng-container>
@@ -71,7 +86,7 @@
       <ng-container matColumnDef="endDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> End Date </th>
         <td mat-cell *matCellDef="let element"> {{
-          element.endDate == '0001-01-01T00:00:00' ? 'Not Decided':
+          element.endDate == null ? '-':
         element.endDate | date:'dd-MM-yyyy'}} </td>
       </ng-container>
 

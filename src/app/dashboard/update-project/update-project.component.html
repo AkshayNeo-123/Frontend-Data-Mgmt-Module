@@ -4,86 +4,121 @@
   <div mat-dialog-content>
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Project Name</mat-label>
-        <input matInput formControlName="projectName" />
+        <mat-label>Project Number</mat-label>
+        <input matInput formControlName="projectNumber" readonly />
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Project Type</mat-label>
-        <mat-select formControlName="projectType">
-          <mat-option *ngFor="let type of projectTypes" [value]="type.value">
-            {{ type.viewValue }}
+        <mat-label>Project Status</mat-label>
+        <mat-select formControlName="status" placeholder="--Select--">
+          <mat-option value="null">--Select--</mat-option>
+          <mat-option *ngFor="let s of status" [value]="s.id">
+            {{ s.status }}
           </mat-option>
         </mat-select>
+        <mat-error *ngIf="projectForm.get('status')?.errors?.['required']">
+          Status is required
+        </mat-error>
       </mat-form-field>
     </div>
-
+    
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Area</mat-label>
-        <mat-select formControlName="area">
-          <mat-option *ngFor="let area of areas" [value]="area.value">
-            {{ area.viewValue }}
+        <mat-select formControlName="area" placeholder="--Select--">
+          <mat-option value="">--Select--</mat-option>
+          <mat-option *ngFor="let area of areas" [value]="area.id">
+            {{ area.area }}
           </mat-option>
         </mat-select>
       </mat-form-field>
-
+      
       <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Priority</mat-label>
-        <mat-select formControlName="priority">
-          <mat-option *ngFor="let priority of priorities" [value]="priority.value">
-            {{ priority.viewValue }}
+        <mat-label>Project Type</mat-label>
+        <mat-select formControlName="projectType" placeholder="--Select--">
+          <mat-option value="">--Select--</mat-option>
+          <mat-option *ngFor="let type of projectTypes" [value]="type.id">
+            {{ type.projectTypeName }}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
-    <!-- <div class="row">
-      <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Status</mat-label>
-        <mat-select formControlName="status">
-          <mat-option *ngFor="let s of status" [value]="s.value">
-            {{ s.viewValue }}
-          </mat-option>
-        </mat-select>
+    
+    <div class="row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Project Name</mat-label>
+        <input matInput formControlName="projectName" />
+        <mat-error *ngIf="projectForm.get('projectName')?.errors?.['required']">
+          Project name is required
+        </mat-error>
       </mat-form-field>
-  </div> -->
-<div class="row">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Project Description</mat-label>
-      <textarea matInput formControlName="project_Description"></textarea>
-    </mat-form-field>
-</div>
+    </div>
+    
+    <div class="row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Project Description</mat-label>
+        <textarea matInput formControlName="project_Description"></textarea>
+        <mat-error *ngIf="projectForm.get('project_Description')?.errors?.['required']">
+          Project description is required
+        </mat-error>
+      </mat-form-field>
+    </div>
 
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Start Date</mat-label>
+        <mat-label>Project Start Date</mat-label>
         <input
-          matInput
-          [matDatepicker]="startPicker"
-          formControlName="startDate"
-          [min]="minStartDate"
-        />
-        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-        <mat-datepicker #startPicker></mat-datepicker>
+  matInput
+  [readonly]="IsStartDateEnabled"
+  [matDatepicker]="startPicker"
+  formControlName="startDate"
+  [min]="minStartDate"
+/>
+<!-- <mat-hint>Cannot select today's date</mat-hint> -->
+
+<mat-datepicker-toggle
+  matSuffix
+  [for]="startPicker"
+  [disabled]="IsStartDateEnabled">
+</mat-datepicker-toggle>
+
+<mat-datepicker
+  #startPicker
+  [disabled]="IsStartDateEnabled">
+</mat-datepicker>
       </mat-form-field>
 
+
       <mat-form-field appearance="outline" class="half-width">
-        <mat-label>End Date</mat-label>
+        <mat-label>Project End Date</mat-label>
         <input
           matInput
           [matDatepicker]="endPicker"
           formControlName="endDate"
-          [min]="minEndDate"
+          [min]="minEndDate2"
         />
         <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
         <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
+      
+    </div>
+    
+    <div class="row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Project Priority</mat-label>
+        <mat-select formControlName="priority" placeholder="--Select--">
+          <mat-option value="">--Select--</mat-option>
+          <mat-option *ngFor="let priority of priorities" [value]="priority.id">
+            {{ priority.priority }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
   </div>
 
   <mat-dialog-actions align="end">
-    <button mat-button type="button" (click)="onCancel()">Cancel</button>
-    <button mat-raised-button color="primary" type="submit">Update</button>
+    <!-- <button mat-button type="button" (click)="onReset()">Reset</button> -->
+    <button mat-raised-button color="primary" type="submit" >Update</button>
+    <button mat-raised-button type="button" (click)="onCancel()">Cancel</button>
   </mat-dialog-actions>
-
 </form>
