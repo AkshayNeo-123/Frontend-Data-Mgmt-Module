@@ -11,12 +11,12 @@
           <span *ngIf="isOpen">Recipe</span>
       </li>
 
-      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('role-master')">
+      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('rolemaster')">
           <i class="fas fa-users-cog me-3"></i> 
           <span *ngIf="isOpen">Role Master</span>
       </li>
 
-      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('manage-user')">
+      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('manageusers')">
           <i class="fas fa-user-cog me-3"></i> 
           <span *ngIf="isOpen">Manage User</span>
       </li>
@@ -36,9 +36,9 @@
           <span *ngIf="isOpen">Testing</span>
       </li>
 
-      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('master-tables')">
-          <i class="fas fa-table me-3"></i> 
-          <span *ngIf="isOpen">Master Tables</span>
-      </li>
+      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('contacts')">
+        <i class="fas fa-vial me-3"></i> 
+        <span *ngIf="isOpen">Master Table</span>
+    </li>
   </ul>
 </div>

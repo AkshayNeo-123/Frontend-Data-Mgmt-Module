@@ -1,0 +1,47 @@
+.edit-user-dialog {
+    padding: 20px;
+  }
+  
+  .edit-user-dialog h2 {
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  mat-dialog-content {
+    max-height: 65vh;
+    overflow: auto;
+  }
+
+  .half-width {
+    flex: 1;
+    min-width: 125px; 
+  }
+  
+  .edit-user-dialog form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .edit-user-dialog .form-field {
+    width: 100%;
+  }
+  
+  .edit-user-dialog button {
+    width: 100%;
+  }
+  
+  .row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; /* important for responsiveness */
+  }
+
+  .global-hint {
+    font-weight: bold;
+    color: #ab2a2a;
+    font-size: 13px;
+    display: block;
+    padding-left: 3%;
+  }

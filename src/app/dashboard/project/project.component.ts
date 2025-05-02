@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,6 +12,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AddprojectComponent } from '../addproject/addproject.component';
 import { MatDialog } from '@angular/material/dialog';
+import { RouterModule } from '@angular/router';
+import { UpdateProjectComponent } from '../update-project/update-project.component';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-project',
@@ -25,21 +30,25 @@ import { MatDialog } from '@angular/material/dialog';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
+    RouterModule
   ]
 })
 export class ProjectComponent implements OnInit {
 
-  displayedColumns: string[] = ['projectName', 'projectType', 'area', 'status', 'startDate', 'endDate','actions'];
+  displayedColumns: string[] = ['area','projectName','projectNumber', 'projectType','Priority', 'status',  'startDate', 'endDate','actions'];
   dataSource = new MatTableDataSource<Project>([]); // Using your Project model
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-// element: any;
 
-  constructor(private projectService: ProjectService,private dialog: MatDialog,) {}
+  constructor(private projectService: ProjectService,private dialog: MatDialog,private toastr: ToastrService,private location: Location) {}
+
 
   ngOnInit() {
     this.loadProjects();
+    this.projectService.refreshProjects$.subscribe(() => {
+      this.loadProjects();
+    });
   }
 
   ngAfterViewInit() {
@@ -48,30 +57,81 @@ export class ProjectComponent implements OnInit {
   }
 
   loadProjects() {
-    this.projectService.getAllProjects().subscribe({
-      next: (data) => {
+    this.projectService.getAllProjects()
+      .subscribe((data: Project[]) => {
+        console.log('Loaded materials:', data);
         this.dataSource.data = data;
-      },
-      error: (error) => {
-        console.error('Error fetching projects:', error);
-      }
-    });
+    //     this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
+      }, error => {
+        console.error('Error fetching materials:', error);
+      });
   }
-  // UpdateProject(projectId: any) {
-    
-  //   }
+ 
+  
+
 
   openAddProjectDialog() {
       const dialogRef = this.dialog.open(AddprojectComponent, {
-        width: '80%',  
+        width: '800%',  
         maxWidth: '800px',
         disableClose: true,
       });
     }
+    editProject(project: any): void {
+      const dialogRef = this.dialog.open(UpdateProjectComponent, {
+        maxWidth: '800%',
+        width: '800px',
+        data: project
+      });
+    
+    }
+     
+    
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.dataSource.filter = filterValue;
   }
+
+
+  deleteProject(id: number) {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        width: '350px',
+        data: {
+          title: 'Confirm Deletion',
+          message: 'Are you sure you want to delete this Project?'
+        }
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === true) {
+          this.projectService.deleteProject(id).subscribe({
+            next: (res: any) => {
+              this.dataSource.data = this.dataSource.data.filter(material => material.projectId !== id);
+              this.toastr.success(' deleted successfully','success',{
+                timeOut:5000
+              });
+            },
+            error: (err: any) => {
+              console.error('Error:', err);
+              this.toastr.error('Something went wrong!','error',{
+                timeOut:5000
+              });
+            }
+          });
+          
+        } else {
+          this.toastr.info('Deletion cancelled');
+        }
+      });
+    }
+    onExport() {
+      this.projectService.exportData();
+    }
+
+    goBack(): void {
+      this.location.back();
+    }
   
 }

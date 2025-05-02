@@ -1,0 +1,23 @@
+.row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; 
+  }
+  
+  .half-width {
+    flex: 1;
+    min-width: 250px; 
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .buttons {
+    margin-top: 10px;
+  }
+  
+  button {
+    margin-right: 10px;
+  }
+  

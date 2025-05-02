@@ -1,8 +1,12 @@
 export interface Recipe {
+    id: number;
     productName: string;
-    comments: string;
-    projectId: number;
-    createdDate: string;
-    additiveId: number;
-    mainPolymerId: number;
+//   comments: string;
+  projectName?: string;
+//   createdDate: string;
+//   createdBy: string;
+//   modifiedDate?: string;
+//   modifiedBy: string;
+  additiveName?: string;     
+  polymerName?: string; 
   }

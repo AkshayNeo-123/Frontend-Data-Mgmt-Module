@@ -142,12 +142,16 @@ export class AddMaterialComponent implements OnInit {
   
     request$.subscribe({
       next: () => {
-        this.toastr.success(this.isEditMode ? 'Updated successfully.' : 'Saved successfully.', 'Success');
+        this.toastr.success(this.isEditMode ? 'Updated successfully.' : 'Saved successfully.', 'Success',{
+          timeOut:5000
+        });
         this.dialogRef.close(true);
       },
       error: (err) => {
         console.error('Save error:', err);
-        this.toastr.error('Something went wrong while saving material.', 'Error');
+        this.toastr.error('Something went wrong while saving material.', 'Error',{
+          timeOut:5000
+        });
       }
     });
   }

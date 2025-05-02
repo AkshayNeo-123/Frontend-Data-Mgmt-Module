@@ -1,0 +1,16 @@
+<div class="container mt-4">
+    <h2>Additive Details</h2>
+  
+    <div *ngIf="additive" class="card mt-3">
+      <div class="card-body">
+        <h5 class="card-title">Additive Name: {{ additive.additiveName }}</h5>
+        <p class="card-text"><strong>Created By:</strong> {{ additive.createdBy || 'N/A' }}</p>
+        <p class="card-text"><strong>Created Date:</strong> {{ additive.createdDate || 'N/A' }}</p>
+        <p class="card-text"><strong>Modified By:</strong> {{ additive.modifiedBy || 'N/A' }}</p>
+        <p class="card-text"><strong>Modified Date:</strong> {{ additive.modifiedDate || 'N/A' }}</p>
+      </div>
+    </div>
+  
+    <p *ngIf="!additive">No Additive details found.</p>
+  </div>
+  

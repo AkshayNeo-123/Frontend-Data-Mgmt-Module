@@ -10,7 +10,7 @@
     <div class="p-4">
       <ng-container [ngSwitch]="selectedSection">
         <app-recipy *ngSwitchCase="'recipy'"></app-recipy>
-        <h3 class="mb-3" *ngSwitchCase="'dashboard'">Dashboard Content</h3>
+        <h3 class="mb-3" *ngSwitchCase="'dashboard'">Dashboard</h3>
 
     
         <div *ngSwitchCase="'dashboard'" class="row">
@@ -71,14 +71,24 @@
         </div>
         
 
-        <h3 *ngSwitchCase="'role-master'">Role Master Content</h3>
-        <h3 *ngSwitchCase="'manage-user'">Manage User Content</h3>
+        <!-- <h3 *ngSwitchCase="'rolemaster'">Role Master Content</h3> -->
+        <app-rolemaster *ngSwitchCase="'rolemaster'"></app-rolemaster>
+        <!-- <h3 *ngSwitchCase="'manage-user'">Manage User Content</h3> -->
+        <app-manageusers *ngSwitchCase="'manageusers'"></app-manageusers>
         <app-getmaterials *ngSwitchCase="'getmaterials'"></app-getmaterials>
         <app-project *ngSwitchCase="'getproject'"></app-project>        
         <h3 *ngSwitchCase="'testing'">Testing Content</h3>
-        <h3 *ngSwitchCase="'master-tables'">Master Tables Content</h3>
+        <app-mastertable *ngSwitchCase="'mastertable'"></app-mastertable>
+        <app-contacts *ngSwitchCase="'contacts'">contacts</app-contacts>
+        <!-- <h3 *ngSwitchCase="'contacts'">Testing Content</h3> -->
+        <h3 *ngSwitchCase="'get-all-additives'">Testing Content</h3>
+        <h3 *ngSwitchCase="'all-main-polymers'">Testing Content</h3>
+
+        <!-- <h3 *ngSwitchCase="'master-tables'">Master Tables Content</h3> -->
+        
       </ng-container>
     </div>
   </div>
 </div>
 <app-footer></app-footer>
+

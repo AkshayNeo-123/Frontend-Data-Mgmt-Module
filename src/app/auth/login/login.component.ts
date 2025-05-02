@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -22,13 +22,22 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   isLoading = false;
   showPassword = false;
+  errorMessage='';
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdRef: ChangeDetectorRef
   ) {}
 
+  ngAfterViewInit(): void {
+    // Wait a moment to allow autofill to happen
+    setTimeout(() => {
+      this.loginForm.updateValueAndValidity();
+      this.cdRef.detectChanges(); // Make Angular aware of changes
+    }, 500);
+  }
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -62,17 +71,19 @@ export class LoginComponent implements OnInit {
 
         this.router.navigate(['/dashboard']);
       },
-      error: (err) => {
-        this.isLoading = false;
+      
+      error:(error)=>{
 
-        // Show Swal error message
+        console.error('loginFailed',error);
+        this.errorMessage=JSON.stringify(error.error.message)
+
         Swal.fire({
-          title: 'Login Failed',
-          text: 'Please check your credentials.',
-          icon: 'error',
-          confirmButtonText: 'Try Again'
-        });
-        console.error(err);
+              title: 'Login Failed',
+              text: this.errorMessage,
+              icon: 'error',
+              confirmButtonText: 'Try Again'
+            });
+        
       }
     });
   }

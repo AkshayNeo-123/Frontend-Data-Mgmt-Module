@@ -1,3 +1,9 @@
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatButtonModule } from '@angular/material/button';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -6,6 +12,18 @@ import { GetmaterialsComponent } from '../getmaterials/getmaterials.component';
 import { RecipyComponent } from '../recipy/recipy.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { ProjectComponent } from '../project/project.component';
+import { MastertableComponent } from '../mastertable/mastertable.component';
+import { AddadditivesComponent } from '../additiveData/addadditives/addadditives.component';
+import { GetAllAdditivesComponent } from '../additiveData/get-all-additives/get-all-additives.component';
+import { AllMainPolymersComponent } from '../MainPolymerData/all-main-polymers/all-main-polymers.component';
+import { RouterOutlet } from '@angular/router';
+import { ContactsComponent } from '../contacts/contacts.component';
+import { ManageusersComponent } from '../manageusers/manageusers.component';
+import { FormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { RolemasterComponent } from '../rolemaster/rolemaster.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +35,23 @@ import { ProjectComponent } from '../project/project.component';
     RecipyComponent,
     GetmaterialsComponent,
     FooterComponent,
-    ProjectComponent
+    ProjectComponent,
+    MastertableComponent,
+    ContactsComponent,
+    AddadditivesComponent,
+    GetAllAdditivesComponent,
+    AllMainPolymersComponent,
+    ManageusersComponent,
+    RolemasterComponent,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']

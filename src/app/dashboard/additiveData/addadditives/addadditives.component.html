@@ -1,0 +1,18 @@
+<div class="container">
+    <h2>Add Additive</h2>
+    <form #additiveForm="ngForm" (ngSubmit)="addAdditivesData(additiveForm)">
+      <div class="form-group">
+        <label for="additiveName">Additive Name</label>
+        <input
+          type="text"
+          id="additiveName"
+          class="form-control"
+          name="additiveName"
+          [(ngModel)]="additive.additiveName"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!additiveForm.form.valid">Submit</button>
+    </form>
+  </div>
+  
