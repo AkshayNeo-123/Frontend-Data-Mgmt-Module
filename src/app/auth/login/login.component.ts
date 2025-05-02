@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
 
         Swal.fire({
               title: 'Login Failed',
-              text: 'Invalid Username or Password',
+              text: this.errorMessage,
               icon: 'error',
               confirmButtonText: 'Try Again'
             });
