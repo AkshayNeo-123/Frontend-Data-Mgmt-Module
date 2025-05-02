@@ -1,55 +1,4 @@
-/* 
-  .mat-column-polymerName {
-    max-width: 300px;
-    width: 300px;
-    text-align: center;
-  }
-  
-  .mat-column-actions {
-    width: 150px;
-    text-align: center;
-  }
-   
- 
- 
- 
-  .bordered-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  
-  .bordered-table td {
-    border: 1px solid #ccc;
-    vertical-align: middle;
-    white-space: nowrap;
-  }
-  
-  .bordered-table th {
-    border: 1px solid #ccc;
-  
-    background-color: #f1f1f1;
-    font-weight: bold;
-    text-align: center;
-  }
-  
- 
-  
-  .bordered-table tr:hover {
-    background-color: #f9f9f9;
-  }
-  
-  .mat-header-cell {
-    font-weight: bold;
-    background-color: #f8f9fa;
-    color: #343a40;
-    border: 1px solid #ddd; 
-  }
-  
-  
-   
-  
-  .add-additive-btn {
+.add-additives-btn {
     font-size: 16px;
     padding: 8px 16px;
     border-radius: 4px;
@@ -61,24 +10,7 @@
     transition: background-color 0.3s ease;
   }
   
-  .add-additive-btn:hover {
+  .add-additives-btn:hover {
     background-color: #388e3c; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
-  
-  
-  .add-additive-btn:focus {
-    outline: none;  
-  }
-  
-  
-  .search-field {
-    width: 250px;
-    min-width: 200px;
-  }
-    */ 
-
-/* 
-    .add-additive-btn{
-        border-radius: 4px;
-    } */
