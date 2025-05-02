@@ -27,14 +27,36 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="w-100 mb-3">
+    <!-- <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Account Status</mat-label>
       <select matNativeControl [(ngModel)]="newUser.status" name="status" required>
         <option value="" disabled selected>---Select---</option>
         <option value="Active">Active</option>
         <option value="InActive">InActive</option>
       </select>
+    </mat-form-field> -->
+
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Account Status</mat-label>
+      <mat-select [(ngModel)]="newUser.status" name="status" #statusControl="ngModel" required>
+        <mat-option disabled value="">---Select---</mat-option>
+        <mat-option value="Active">Active</mat-option>
+        <mat-option value="InActive">InActive</mat-option>
+      </mat-select>
+      <mat-error *ngIf="statusControl.invalid && statusControl.touched">
+        Account Status is required
+      </mat-error>
     </mat-form-field>
+
+    <!-- <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Account Status</mat-label>
+      <mat-select [(ngModel)]="newUser.status" name="status" required>
+        <mat-option disabled value="">---Select---</mat-option>
+        <mat-option value="Active">Active</mat-option>
+        <mat-option value="InActive">InActive</mat-option>
+      </mat-select>
+      <mat-error *ngIf="status.invalid && status.touched">Status is required</mat-error>
+    </mat-form-field> -->
 
     <!-- <ng-container matColumnDef="manufacturerId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Manufacturer Name</th>
@@ -48,7 +70,7 @@
       </ng-container>
     </mat-form-field> -->
 
-    <mat-form-field appearance="outline" class="w-100 mb-3">
+    <!-- <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Role</mat-label>
       <select matNativeControl [(ngModel)]="newUser.roleId" name="roleId" #role="ngModel" required>
         <option value="" disabled selected>---Select---</option>
@@ -56,6 +78,17 @@
           <option [value]="item.roleId">{{ item.roleName }}</option>
         }
       </select>
+      <mat-error *ngIf="role.invalid && role.touched">Role is required</mat-error>
+    </mat-form-field> -->
+
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Role</mat-label>
+      <mat-select [(ngModel)]="newUser.roleId" name="roleId" #role="ngModel" required>
+        <mat-option disabled value="">---Select---</mat-option>
+        @for (item of roles; track item.roleId) {
+          <mat-option [value]="item.roleId">{{ item.roleName }}</mat-option>
+        }
+      </mat-select>
       <mat-error *ngIf="role.invalid && role.touched">Role is required</mat-error>
     </mat-form-field>
 
@@ -76,13 +109,11 @@
       <button mat-icon-button matSuffix type="button" (click)="toggleConfirmPasswordVisibility()" tabindex="-1">
         <mat-icon>{{ showConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
       </button>
-      <mat-error *ngIf="confirmPassword.invalid && confirmPassword.touched">
-        Confirm Password is required.
-      </mat-error>
-      <mat-error *ngIf="newUser.passwordHash !== newUser.confirmPasswordHash">
-        Passwords do not match.
-      </mat-error>
     </mat-form-field>
+    <div *ngIf="(confirmPassword.value !== password.value && confirmPassword.dirty) ||(confirmPassword.invalid && confirmPassword.touched)" class="text-danger" style="margin-top: -32px;
+    margin-left: 21px; margin-bottom: 16px;">
+      <small>Passwords do not match.</small>
+    </div>
 
     <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Phone Number</mat-label>

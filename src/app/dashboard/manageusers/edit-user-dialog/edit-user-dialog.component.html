@@ -1,6 +1,7 @@
-<h1 mat-dialog-title>Edit User</h1> <br>
+<h2 mat-dialog-title>Update User</h2>
 <mat-dialog-content>
 <form (ngSubmit)="onSubmit()">
+  <mat-hint class="global-hint">All fields marked with an asterisk (*) are required.</mat-hint><br>
   <mat-form-field appearance="outline" class="w-100 mb-3">
     <mat-label>User ID</mat-label>
     <input matInput [value]="'PRO'+(user.userId.toString().padStart(3, '0'))" name="userId" disabled>
@@ -22,32 +23,68 @@
     <input matInput [(ngModel)]="user.email" name="email">
   </mat-form-field>
 
+  <!-- status dropdown -->
   <mat-form-field appearance="outline" class="w-100 mb-3">
-    <mat-label>Phone</mat-label>
-    <input matInput [(ngModel)]="user.phone" name="phone">
+    <mat-label>Account Status</mat-label>
+    <mat-select [(ngModel)]="user.status" name="status" #statusControl="ngModel" required>
+      <mat-option disabled value="">---Select---</mat-option>
+      <mat-option value="Active">Active</mat-option>
+      <mat-option value="InActive">InActive</mat-option>
+    </mat-select>
+    <mat-error *ngIf="statusControl.invalid && statusControl.touched">
+      Account Status is required
+    </mat-error>
   </mat-form-field>
+
+
 
   <!-- role dropdown -->
   <mat-form-field appearance="outline" class="w-100 mb-3">
     <mat-label>Role</mat-label>
-    <select matNativeControl [(ngModel)]="user.roleId" name="roleId" required>
-      <option [value]="1">Admin</option>
-      <option [value]="2">Sales Person</option>
-    </select>
+    <mat-select [(ngModel)]="user.roleId" name="roleId" #role="ngModel" required>
+      <mat-option disabled value="">---Select---</mat-option>
+      @for (item of roles; track item.roleId) {
+        <mat-option [value]="item.roleId">{{ item.roleName }}</mat-option>
+      }
+    </mat-select>
+    <mat-error *ngIf="role.invalid && role.touched">Role is required</mat-error>
   </mat-form-field>
+
+  <!-- <mat-form-field appearance="outline" class="w-100 mb-3">
+    <mat-label>Password</mat-label>
+    <input matInput [(ngModel)]="user.passwordHash" name="password">
+    <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()" tabindex="-1">
+      <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+    </button>
+  </mat-form-field> -->
 
   <mat-form-field appearance="outline" class="w-100 mb-3">
     <mat-label>Password</mat-label>
-    <input matInput [(ngModel)]="user.passwordHash" name="password">
+    <input matInput 
+           [type]="showPassword ? 'text' : 'password'" 
+           [(ngModel)]="user.passwordHash" 
+           name="password">
+    <button mat-icon-button matSuffix type="button" 
+            (click)="togglePasswordVisibility()" 
+            tabindex="-1">
+      <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+    </button>
   </mat-form-field>
 
-  <!-- status dropdown -->
+  <!-- <mat-form-field appearance="outline" class="w-100 mb-3">
+    <mat-label>Confirm Password</mat-label>
+    <input matInput [type]="showConfirmPassword ? 'text' : 'password'" name="confirmPassword" [(ngModel)]="newUser.confirmPasswordHash" #confirmPassword="ngModel" required />
+    <button mat-icon-button matSuffix type="button" (click)="toggleConfirmPasswordVisibility()" tabindex="-1">
+      <mat-icon>{{ showConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+    </button> -->
+    <!-- <mat-error *ngIf="confirmPassword.invalid && confirmPassword.touched">
+      Confirm Password is required.
+    </mat-error>
+  </mat-form-field> -->
+
   <mat-form-field appearance="outline" class="w-100 mb-3">
-    <mat-label>Status</mat-label>
-    <select matNativeControl [(ngModel)]="user.status" name="status" required>
-      <option value="Active">Active</option>
-      <option value="InActive">InActive</option>
-    </select>
+    <mat-label>Phone</mat-label>
+    <input matInput [(ngModel)]="user.phone" name="phone">
   </mat-form-field>
 
   <mat-dialog-actions align="end">

@@ -6,7 +6,10 @@
   import { MatInputModule } from '@angular/material/input';
   import { MatButtonModule } from '@angular/material/button';
   import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
+  import { MatIconModule } from '@angular/material/icon';
+  import { MatOptionModule } from '@angular/material/core';
+  import { MatSelectModule } from '@angular/material/select';
+import { ToastrService } from 'ngx-toastr';
 
   @Component({
     selector: 'app-add-user-dialog',
@@ -18,6 +21,8 @@ import { MatIconModule } from '@angular/material/icon';
       MatInputModule,
       MatDialogModule,
       MatButtonModule,
+      MatSelectModule,
+      MatOptionModule,
       MatIconModule
     ],
     templateUrl: './add-user-dialog.component.html',
@@ -32,13 +37,22 @@ import { MatIconModule } from '@angular/material/icon';
       passwordHash: '',
       confirmPasswordHash: '',
       phone: '',
-      roleId: null,
+      roleId: '',
       status: ''
     };
+    get passwordsMatch(): boolean {
+
+      var data =  this.newUser.passwordHash === this.newUser.confirmPasswordHash;
+      console.log(this.newUser.passwordHash)
+      console.log(this.newUser.confirmPasswordHash)
+      console.log(data)
+      return data;
+    }
     roles: any[] = [];
     constructor(
       private dialogRef: MatDialogRef<AddUserDialogComponent>,
-      private userService: UserService
+      private userService: UserService,
+      private toastr: ToastrService
     ) {
       this.newUser.userId = '';
       this.loadRoles();
@@ -137,6 +151,10 @@ import { MatIconModule } from '@angular/material/icon';
       this.userService.addUser(this.newUser).subscribe({
         next: (res) => {
           alert('Saved successfully!');
+          // this.toastr.success(
+          //   'Saved successfully!' ,
+          //   'Success'
+          // );
           this.dialogRef.close(true);
         },
         error: (err) => {

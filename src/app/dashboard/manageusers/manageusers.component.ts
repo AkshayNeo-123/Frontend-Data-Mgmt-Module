@@ -48,7 +48,8 @@ export class ManageusersComponent implements OnInit {
 
   openAddUserDialog() {
     const dialogRef = this.dialog.open(AddUserDialogComponent, {
-      width: '500px'
+      width: '80%',
+      maxWidth: '800px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -81,7 +82,8 @@ export class ManageusersComponent implements OnInit {
 
   editUser(user: any) {
     const dialogRef = this.dialog.open(EditUserDialogComponent, {
-      width: '500px',
+      width: '80%',
+      maxWidth: '800px',
       data: user
     });
   
