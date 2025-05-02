@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>{{ isEditMode ? 'Update Additive' : 'New Additive' }}</h2>
-<form [formGroup]="additiveForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="mainPolymerForm" (ngSubmit)="onSubmit()">
   <mat-hint class="global-hint">All fields marked with an asterisk (*) are required</mat-hint>
 
   <div mat-dialog-content>
@@ -8,8 +8,8 @@
         <mat-label> Name</mat-label>
         <input
           matInput
-          formControlName="additiveName"
-          placeholder="Enter additive name"
+          formControlName="polymerName"
+          placeholder="Enter mainpolymer name"
           required
         />
         <!-- <mat-error *ngIf="additiveForm.controls['additiveName'].hasError('required')">

@@ -3,8 +3,6 @@ import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { ProjectComponent } from './dashboard/project/project.component';
 import { AddcontactsComponent } from './dashboard/contactsData/addcontacts/addcontacts.component';
 import { AllMainPolymersComponent } from './dashboard/MainPolymerData/all-main-polymers/all-main-polymers.component';
-import { AddadditivesComponent } from './dashboard/additiveData/addadditives/addadditives.component';
-import { GetAllAdditivesComponent } from './dashboard/additiveData/get-all-additives/get-all-additives.component';
 import { GetAdditivebyidComponent } from './dashboard/additiveData/get-additivebyid/get-additivebyid.component';
 import { ManageusersComponent } from './dashboard/manageusers/manageusers.component';
 
@@ -49,37 +47,37 @@ export const routes: Routes = [
         path: 'contacts',
         loadComponent: () => import('./dashboard/contacts/contacts.component').then(m => m.ContactsComponent),
         pathMatch: 'full',
-         // Ensures that this is the default path when navigating to 'contacts'
-      },
-      // {
-      //   path: 'addcontacts',
-      //   component: AddcontactsComponent, // Route for adding a new contact
-      // },
-      // {
-      //   path: 'getcontactsdetails/:contactId',
-      //   component: GetcontactsdetailsComponent, // Route for viewing a contact's details
-      // },
-      // {
-      //   path: 'editcontacts/:contactId',  // You may want to add an 'edit' route as well
-      //   loadComponent: () => import('./dashboard/contactsData/editcontacts/editcontacts.component').then(m => m.EditcontactsComponent),
-      // },
-
-      // Additive Routes
-      {
-        path: 'addadditives',
-        component: AddadditivesComponent,
       },
       {
         path: 'get-all-additives',
-        component: GetAllAdditivesComponent,
+        loadComponent: () => import('./dashboard/get-all-additives/get-all-additives.component').then(m => m.GetAllAdditivesComponent),
+        pathMatch: 'full',
       },
       {
-        path: 'get-additivebyid/:id',
-        component: GetAdditivebyidComponent
-      },{
-        path: 'manageusers',
-        component: ManageusersComponent
-      }
+        path: 'all-main-polymers',
+        loadComponent: () => import('./dashboard/MainPolymerData/all-main-polymers/all-main-polymers.component').then(m => m.AllMainPolymersComponent),
+        pathMatch: 'full',
+         // Ensures that this is the default path when navigating to 'contacts'
+      },
+
+      
+
+      // Additive Routes
+      // {
+      //   path: 'addadditives',
+      //   component: AddadditivesComponent,
+      // },
+      // {
+      //   path: 'get-all-additives',
+      //   component: GetAllAdditivesComponent,
+      // },
+      // {
+      //   path: 'get-additivebyid/:id',
+      //   component: GetAdditivebyidComponent
+      // },{
+      //   path: 'manageusers',
+      //   component: ManageusersComponent
+      // }
       
     ]
   },

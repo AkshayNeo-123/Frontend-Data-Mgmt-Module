@@ -8,10 +8,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ContactDTO, ContactTyps } from '../../models/contacts';
+import { Contact, ContactTyps } from '../../models/contacts';
 import { ContactsService } from '../../services/contacts.service';
 import { Router, RouterModule } from '@angular/router';
 import { AddcontactsComponent } from '../contactsData/addcontacts/addcontacts.component';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
+import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 
 @Component({
   selector: 'app-contacts',
@@ -32,8 +35,8 @@ import { AddcontactsComponent } from '../contactsData/addcontacts/addcontacts.co
   styleUrls: ['./contacts.component.css']
 })
 export class ContactsComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = [ 'contactName', 'contactType', 'actions'];
-  dataSource = new MatTableDataSource<ContactDTO>([]);
+  displayedColumns: string[] = ['contactName', 'contactType', 'actions'];
+  dataSource = new MatTableDataSource<Contact>([]);
   allTypes = ContactTyps;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -42,7 +45,8 @@ export class ContactsComponent implements OnInit, AfterViewInit {
   constructor(
     private contactService: ContactsService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private toastr:ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -58,6 +62,7 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     this.contactService.getAllContacts().subscribe({
       next: (data) => {
         this.dataSource.data = data;
+        console.log(data);
       },
       error: (err) => {
         console.error('Error fetching contacts', err);
@@ -70,24 +75,25 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue;
   }
 
-  openAddContactDialog() {
+  openAddContactDialog(contact?:Contact) {
+    console.log('Data passed to dialog:', contact);
       const dialogRef = this.dialog.open(AddcontactsComponent, {
         width: '80%',  
-        maxWidth: '900px',
+        maxWidth: '600px',
         disableClose: true,
+        data: contact
       });
     
       dialogRef.afterClosed().subscribe(result => {
+
         if (result) {
+                  this.toastr.success('Added successfully');
+
           this.fetchContacts();  
         }
       });
+      
     }
-    
-
-
-
-
 
     editContact(contact: any) {
       const dialogRef = this.dialog.open(AddcontactsComponent, {
@@ -96,32 +102,43 @@ export class ContactsComponent implements OnInit, AfterViewInit {
         disableClose: true,
         data: contact
       });
-    
+      console.log('Editing contact:', contact);
       dialogRef.afterClosed().subscribe(result => {
+        
+
         if (result) {
+                  this.toastr.success('Updated successfully');
+
           this.fetchContacts(); 
         }
       });
     }
 
-    // openContactDetails(contact: any) {
-    //   this.dialog.open(GetcontactsdetailsComponent, {
-    //     width: '600px',
-    //     data: contact
-    //   });
-    // }
-  deleteContactsDetails(id: number): void {
-    if (!confirm('Do you really want to delete this contact?')) return;
-
-    this.contactService.deleteContact(id).subscribe({
-      next: () => {
-        this.dataSource.data = this.dataSource.data.filter(c => c.contactId !== id);
-        alert('Contact deleted successfully');
-      },
-      error: (err) => {
-        console.error('Error deleting contact', err);
-        alert('Failed to delete contact');
-      }
-    });
+    deleteContactsDetails(contactId: number) {
+       const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+                  width: '350px',
+                  data: {
+                    title: 'Confirm Deletion',
+                    message: 'Do you really want to delete this record?'
+                  }
+                });
+            
+            dialogRef.afterClosed().subscribe(result => {
+              if (result === true) {
+          this.dataSource.data = this.dataSource.data.filter(material => material.contactId !== contactId);
+    
+          console.log('Deleting Contact with ID:', contactId);
+          this.contactService.deleteContact(contactId).subscribe(
+            (response) => {
+              console.log('Contact deleted successfully:', response);
+              this.toastr.success('deleted successfully');
+            },
+            (error) => {
+              console.error('Error deleting contact:', error);
+              this.toastr.error('Failed to delete contact');
+            }
+          );
+        }
+      });
+    }
   }
-}

@@ -15,4 +15,17 @@ textarea[matInput] {
   .full-width {
     flex: 1 1 100%;
   }
-  
+  .top-right-btn {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+  }
+  .global-hint {
+    font-weight: bold;
+    color: #ab2a2a;
+    font-size: 13px;
+    display: block;
+    /* margin-bottom: 12px; */
+    padding-left: 3%;
+  }
+ 

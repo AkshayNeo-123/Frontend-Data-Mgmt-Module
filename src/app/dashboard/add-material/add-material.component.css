@@ -17,4 +17,15 @@
       flex: 1 1 100%; /* Stack fields on smaller screens */
     }
   }
+<<<<<<< HEAD
+=======
+  
+  .global-hint {
+    font-weight: bold;
+    color: #ab2a2a;
+    font-size: 13px;
+    display: block;
+    padding-left: 3%;
+  }
+>>>>>>> 7ee7321197c6db487bd0dfbced23523a58a699ba
   

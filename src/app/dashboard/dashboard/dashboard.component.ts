@@ -13,14 +13,17 @@ import { RecipyComponent } from '../recipy/recipy.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { ProjectComponent } from '../project/project.component';
 import { MastertableComponent } from '../mastertable/mastertable.component';
-import { AddadditivesComponent } from '../additiveData/addadditives/addadditives.component';
-import { GetAllAdditivesComponent } from '../additiveData/get-all-additives/get-all-additives.component';
 import { AllMainPolymersComponent } from '../MainPolymerData/all-main-polymers/all-main-polymers.component';
 import { RouterOutlet } from '@angular/router';
 import { ContactsComponent } from '../contacts/contacts.component';
 import { ManageusersComponent } from '../manageusers/manageusers.component';
 import { FormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { RolemasterComponent } from '../rolemaster/rolemaster.component';
+import { GetAllAdditivesComponent } from '../get-all-additives/get-all-additives.component';
+import { AddAdditiveComponent } from '../additiveData/addadditives/addadditives.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -35,7 +38,7 @@ import { RolemasterComponent } from '../rolemaster/rolemaster.component';
     ProjectComponent,
     MastertableComponent,
     ContactsComponent,
-    AddadditivesComponent,
+   
     GetAllAdditivesComponent,
     AllMainPolymersComponent,
     ManageusersComponent,
@@ -46,7 +49,9 @@ import { RolemasterComponent } from '../rolemaster/rolemaster.component';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
