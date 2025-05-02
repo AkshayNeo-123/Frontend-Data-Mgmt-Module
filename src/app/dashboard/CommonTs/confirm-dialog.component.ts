@@ -12,8 +12,8 @@ import { CommonModule } from '@angular/common';
     <h2 mat-dialog-title>{{ data.title }}</h2>
     <mat-dialog-content>{{ data.message }}</mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button mat-button (click)="onNoClick()">No</button>
-      <button mat-raised-button color="warn" (click)="onYesClick()">Yes</button>
+    <button mat-raised-button color="warn" (click)="onYesClick()">Yes</button>
+      <button mat-raised-button (click)="onNoClick()">No</button>
     </mat-dialog-actions>
   `
 })

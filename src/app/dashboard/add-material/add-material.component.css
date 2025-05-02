@@ -5,16 +5,16 @@
   }
   
   .half-width {
-    flex: 1 1 48%; /* 2 fields per row */
+    flex: 1 1 48%; 
   }
   
   .full-width {
-    flex:  100%; /* Full width for the field */
+    flex:  100%; 
   }
   
   @media (max-width: 768px) {
     .half-width {
-      flex: 1 1 100%; /* Stack fields on smaller screens */
+      flex: 1 1 100%; 
     }
   }
   
@@ -23,7 +23,6 @@
     color: #ab2a2a;
     font-size: 13px;
     display: block;
-    /* margin-bottom: 12px; */
     padding-left: 3%;
   }
   
