@@ -360,13 +360,17 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
       this.projectservice.updateProject(this.data.projectId, updatedProject).subscribe({
         next: (response) => {
           console.log('Project updated successfully', response);
-          this.toastr.success('Updated successfully!');
+          this.toastr.success('Updated successfully!','Success',{
+            timeOut:5000
+          });
           this.projectservice.triggerRefresh();
           this.dialogRef.close(true);
         },
         error: (error) => {
           console.error('Error updating project:', error);
-          this.toastr.error('Something Went Wrong!');
+          this.toastr.error('Something Went Wrong!','Error',{
+            timeOut:5000
+          });
         }
       });
     } else {
