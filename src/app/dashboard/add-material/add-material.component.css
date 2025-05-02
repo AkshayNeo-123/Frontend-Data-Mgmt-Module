@@ -5,16 +5,16 @@
   }
   
   .half-width {
-    flex: 1 1 48%; 
+    flex: 1 1 48%; /* 2 fields per row */
   }
   
   .full-width {
-    flex:  100%; 
+    flex:  100%; /* Full width for the field */
   }
   
   @media (max-width: 768px) {
     .half-width {
-      flex: 1 1 100%; 
+      flex: 1 1 100%; /* Stack fields on smaller screens */
     }
   }
   

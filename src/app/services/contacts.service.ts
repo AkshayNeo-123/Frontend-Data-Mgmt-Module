@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Contact, ContactDTO } from '../models/contacts';
+import { Contact } from '../models/contacts';
 
 @Injectable({
   providedIn: 'root'
@@ -13,27 +13,27 @@ export class ContactsService {
    contactid?:number;
   constructor(private http: HttpClient) {}
 
-  getAllContacts(): Observable<ContactDTO[]> {
-    return this.http.get<ContactDTO[]>(`${this.baseUrl}/GetAll`);
+  getAllContacts(): Observable<Contact[]> {
+    return this.http.get<Contact[]>(`${this.baseUrl}/GetAll`);
   }
 
-  addContacts(contact: ContactDTO): Observable<ContactDTO> {
+  addContacts(contact: Contact): Observable<Contact> {
     return this.http.post<Contact>(`${this.baseUrl}`, contact);
 }
 
-updateContact(contact: any) {
-  return this.http.put(`/api/contacts/${contact.contactId}`, contact);
+updateContact(id:number,contact: Contact):Observable<Contact> {
+  return this.http.put<Contact>(`${this.baseUrl}?id=${id}`, contact);
 }
 
-getContact(id:number):Observable<ContactDTO>
+getContact(id:number):Observable<Contact>
 
 {
   console.log(`Fetching contact with ID: ${id}`);
-  return this.http.get<ContactDTO>(`${this.baseUrl}/${this.contactid}`);
+  return this.http.get<Contact>(`${this.baseUrl}/${this.contactid}`);
 }
 
 deleteContact(id: number): Observable<any> {
-  return this.http.delete<ContactDTO>(`${this.baseUrl}?id=${id}`);
+  return this.http.delete<Contact>(`${this.baseUrl}?id=${id}`);
 }
 
 

@@ -1,12 +1,51 @@
-<table mat-table [dataSource]="dataSource" matSort class="table table-bordered">
+<div class="container mt-4">
+  <h4 class="fw-bold mb-3">Main Polymer</h4>
+
+  <div class="d-flex justify-content-start align-items-center mb-3">
+    <button   style=" font-size: 16px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin-bottom: 40px;
   
-    <ng-container matColumnDef="polymerName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Polymer Name</th>
-      <td mat-cell *matCellDef="let element">{{ element.polymerName }}</td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="['polymerName']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['polymerName'];"></tr>
-  
-  </table>
-  
+    background-color: #4caf50; 
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;;"
+    class="mr-3 add-additives-btn me-4"
+    (click)="openMainPolymerDialog()">
+    <i class="fas fa-plus me-2"></i> Add Main Polymer
+  </button>
+
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search for main polymer name</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search additives" />
+    </mat-form-field>
+  </div>
+
+  <div>
+    <table mat-table [dataSource]="dataSource" matSort 
+           class="table table-bordered table-wrapper table-striped table-hover mat-elevation-z8 wrpamaintable">
+
+      <ng-container matColumnDef="polymerName">
+        <th  mat-header-cell *matHeaderCellDef class="text-center" mat-sort-header>Main Polymer Name</th>
+        
+        <td mat-cell *matCellDef="let element" >
+          {{ element.polymerName}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef >Actions</th>
+        <td mat-cell *matCellDef="let element" >
+          <i class="fas fa-pencil-alt me-3 action-icon text-primary" matTooltip="Edit" (click)="editMainPolymerData(element)"></i>
+          <i class="fas fa-trash-alt action-icon text-danger" matTooltip="Delete" (click)="deleteAdditivesData(element.id)"></i>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+</div>

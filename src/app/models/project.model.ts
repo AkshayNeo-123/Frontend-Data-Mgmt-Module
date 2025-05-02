@@ -6,7 +6,7 @@ export interface Project {
     priority:number;
     ProjectTypeId?:number;
     project_Description: string;
-    startDate: string;       // ISO string (or Date if you want to parse it later)
+    startDate: string;      
     endDate: string;
     isDelete: number;
     createdBy: number;

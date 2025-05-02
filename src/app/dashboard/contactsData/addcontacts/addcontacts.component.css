@@ -1,23 +1,33 @@
 .row {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap; 
-  }
-  
-  .half-width {
-    flex: 1;
-    min-width: 250px; 
-  }
-  
-  .full-width {
-    width: 100%;
-  }
-  
-  .buttons {
-    margin-top: 10px;
-  }
-  
-  button {
-    margin-right: 10px;
-  }
-  
+  display: flex;
+  gap: 13px;
+  flex-wrap: wrap; 
+}
+
+/* .half-width {
+  flex: 1;
+  min-width: 250px; 
+} */
+
+.full-width {
+  width: 100%;
+}
+.global-hint {
+  font-weight: bold;
+  color: #ab2a2a;
+  font-size: 13px;
+  display: block;
+  padding-left: 3%;
+}
+
+.buttons {
+  margin-top: 10px;
+}
+
+button {
+  margin-right: 10px;
+}
+::ng-deep .dropdown-panel {
+  max-height: 300px !important; 
+  overflow-y: visible
+}

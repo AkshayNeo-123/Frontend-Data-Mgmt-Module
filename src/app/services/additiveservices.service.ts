@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddAdditives, Additives, UpdateAdditive } from '../models/contacts';
+import {  Additives } from '../models/contacts';
 
 @Injectable({
   providedIn: 'root'
@@ -14,18 +14,19 @@ export class AdditiveservicesService {
   constructor(private http:HttpClient) { }
 
 
-  addAdditive(additive:AddAdditives):Observable<AddAdditives>{
-    return this.http.post<AddAdditives>(this.baseUrl,additive,{withCredentials:true});
+  addAdditive(additive:Additives):Observable<Additives>{
+    return this.http.post<Additives>(this.baseUrl,additive,{withCredentials:true});
   }
 
   getAllAdditives():Observable<Additives[]>{
     console.log("This return id value")
 
     return this.http.get<Additives[]>(this.baseUrl);
+    // console.log(this.getAllAdditives)
   }
 
-  updateAdditives(id: number, additiveData: UpdateAdditive): Observable<UpdateAdditive> {
-    return this.http.put<UpdateAdditive>(`${this.baseUrl}/${id}`, additiveData);
+  updateAdditives(id: number, additiveData: Additives): Observable<Additives> {
+    return this.http.put<Additives>(`${this.baseUrl}/${id}`, additiveData);
   }
   
   getAdditivesById(id:number):Observable<Additives>{
