@@ -3,11 +3,30 @@ mat-form-field {
   }
   
   mat-dialog-content {
-    max-height: 70vh;
+    max-height: 65vh;
+    max-width: 200%;
     overflow: auto;
   }
-  
+
+  .half-width {
+    flex: 1;
+    min-width: 125px; 
+  }
+
   mat-dialog-actions {
     margin-top: 15px;
   }
   
+  .global-hint {
+    font-weight: bold;
+    color: #ab2a2a;
+    font-size: 13px;
+    display: block;
+    padding-left: 3%;
+  }
+
+  .row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; /* important for responsiveness */
+  }

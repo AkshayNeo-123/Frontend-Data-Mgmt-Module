@@ -23,6 +23,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { RolemasterComponent } from '../rolemaster/rolemaster.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -41,6 +42,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
     GetAllAdditivesComponent,
     AllMainPolymersComponent,
     ManageusersComponent,
+    RolemasterComponent,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
