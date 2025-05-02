@@ -33,7 +33,12 @@ export class AddMaterialComponent implements OnInit {
   additives: any[] = [];
   mainPolymers: any[] = [];
   manufacturers: any[] = [];
+  suppliers:any[]=[];
 
+  nonZeroValidator(control: any) {
+    return control.value && control.value !== 0 ? null : { nonZero: true };
+  }
+  
   materialTypes = [
     { value: MaterialTypeEnum.RawMaterial, viewValue: 'Raw Material' },
     { value: MaterialTypeEnum.FinishedGood, viewValue: 'Finished Good' },
@@ -76,19 +81,22 @@ export class AddMaterialComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Material
   ) {
     this.materialForm = this.fb.group({
-      materialsType: [null, Validators.required],
-      designation: ['', Validators.required],
-      manufacturerId: [null, Validators.required],
-      additiveId: [null, Validators.required],
-      mainPolymerId: [null, Validators.required],
-      quantity: [null, Validators.required],
-      density: [null, Validators.required],
-      testMethod: ['', Validators.required],
-      tdsFilePath: ['', Validators.required],
-      msdsFilePath: ['', Validators.required],
-      storageLocation: [null, Validators.required],
+      // materialsType: [null, Validators.required],
+      materialName: ['', Validators.required], 
+      manufacturerId: [0, [this.nonZeroValidator]],
+      additiveId: [0, [this.nonZeroValidator]],
+      mainPolymerId: [0, [this.nonZeroValidator]],
+      supplierId: [0, [this.nonZeroValidator]],
+      
+      density: [0], 
+      quantity: [0, [Validators.min(0), Validators.max(20)]],
+
+      testMethod: [''],
+      tdsFilePath: [''],
+      msdsFilePath:[''],
+      storageLocation: [0],
       description: [''],
-      MVR_MFR: [null, Validators.required]
+      MVR_MFR:[0,'']
     });
   }
 
@@ -97,48 +105,54 @@ export class AddMaterialComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.commonService.getAdditives().subscribe({
-      next: (res) => {
-        this.additives = res;
-      },
-      error: (err) => console.error('Failed to load additives:', err)
+    // Existing API calls
+    this.commonService.getAdditives().subscribe({ 
+      next: (res) => { this.additives = res; }, 
+      error: (err) => console.error('Failed to load additives:', err) 
     });
-
+  
     this.commonService.getMainPolymers().subscribe({
-      next: (res) => {
-        this.mainPolymers = res;
-      },
+      next: (res) => { this.mainPolymers = res; },
       error: (err) => console.error('Failed to load main polymers:', err)
     });
-
+  
     this.commonService.getManufacture().subscribe({
-      next: (res) => {
-        this.manufacturers = res;
-      },
+      next: (res) => { this.manufacturers = res; },
       error: (err) => console.error('Failed to load manufacturers:', err)
     });
-    
-
+  
+    // Fetch the suppliers data
+    this.commonService.getSupplier().subscribe({
+      next: (res) => {
+        this.suppliers = res; 
+      },
+      error: (err) => console.error('Failed to load suppliers:', err)
+    });
+  
     if (this.isEditMode) {
       this.materialForm.patchValue({
         materialsType: this.data.materialsType,
+        materialName: this.data.materialName,
         additiveId : this.data.additiveId,
         mainPolymerId:this.data.mainPolymerId,
-        designation: this.data.designation,
         manufacturerId: this.data.manufacturerId,
+        supplierId: this.data.supplierId,
         quantity: this.data.quantity,
         density: this.data.density,
         testMethod: this.data.testMethod,
         tdsFilePath: this.data.tdsFilePath,
         msdsFilePath: this.data.msdsFilePath,
-        storageLocation: this.data.storageLocation,
+        storageLocation: +this.data.storageLocation,
         description: this.data.description,
-        MVR_MFR: this.data.mvR_MFR
+        MVR_MFR: this.data.mvR_MFR,  
       });
     }
   }
-
+  
   onSubmit() {
+    console.log('Form Valid:', this.materialForm.valid);
+    console.log('Form Value:', this.materialForm.value);
+  
     if (this.materialForm.valid) {
       const userJson = localStorage.getItem('user');
       const user = userJson ? JSON.parse(userJson) : null;
@@ -149,8 +163,11 @@ export class AddMaterialComponent implements OnInit {
         return;
       }
   
+      const formValue = { ...this.materialForm.value };
+      formValue.storageLocation = +formValue.storageLocation; 
+  
       const newMaterial: Material = {
-        ...this.materialForm.value,
+        ...formValue,
         createdBy: user.userId,
         createdDate: new Date().toISOString(),
         modifiedBy: user.userId,
@@ -165,19 +182,29 @@ export class AddMaterialComponent implements OnInit {
       request$.subscribe({
         next: () => {
           this.toastr.success(
-            this.isEditMode ? 'Material updated successfully!' : 'Material added successfully!',
+            this.isEditMode ? 'Updated successfully.' : 'Saved successfully.',
             'Success'
           );
           this.dialogRef.close(true);
         },
         error: (err) => {
           console.error('Error saving material:', err);
-          this.toastr.error('Failed to save material. Please try again.', 'Error');
+          this.toastr.error('Exception message "Something went wrong"Failed to save material. Please try again.', 'Error');
         }
       });
     }
   }
   
+  
+onFileSelected(event: Event, controlName: string) {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    this.materialForm.get(controlName)?.setValue(file.name);
+  
+  }
+}
+
+
 
   onCancel() {
     this.dialogRef.close(false);

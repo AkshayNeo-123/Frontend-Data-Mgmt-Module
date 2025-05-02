@@ -11,6 +11,8 @@ import { MaterialService } from '../../services/material.service';
 import { AddMaterialComponent } from '../add-material/add-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { provideToastr, ToastrService } from 'ngx-toastr';
+import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
+import { nextTick } from 'process';
 
 
 // bootstrapApplication(AppComponent, {
@@ -21,7 +23,6 @@ import { provideToastr, ToastrService } from 'ngx-toastr';
 // });
 @Component({
   selector: 'app-getmaterials',
-  standalone: true,
   templateUrl: './getmaterials.component.html',
   styleUrls: ['./getmaterials.component.css'],
   imports: [
@@ -30,7 +31,8 @@ import { provideToastr, ToastrService } from 'ngx-toastr';
     MatPaginatorModule,
     MatSortModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    ConfirmDialogComponent
   ],
   
 })
@@ -50,8 +52,8 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
   }
 
   displayedColumns: string[] = [
-  'materialsType','manufacturerId', 'quantity', 'density', 'AdditiveId', 'MainPolymerId',
-    'storageLocation', 'mvR_MFR',"actions"
+    'materialId','AdditiveId', 'MainPolymerId', 'materialName','manufacturerId', 'quantity', 'storageLocation',  'density',
+   'mvR_MFR',"testMethod","actions"
   ];
   dataSource = new MatTableDataSource<Material>([]);
 
@@ -86,8 +88,13 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    console.log("Filtering with value:", filterValue); 
+  
+    // Apply the filter to the dataSource
     this.dataSource.filter = filterValue;
   }
+  
+  
 
   openAddMaterialDialog(material?: Material) {
     const dialogRef = this.dialog.open(AddMaterialComponent, {
@@ -104,31 +111,32 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
     });
   }
 
-
-  
-
   deleteMaterial(materialId: number) {
-    if (materialId == null || materialId === undefined) {
-      console.error('Invalid ID:', materialId);
-      return;
-    }
-    this.dataSource.data = this.dataSource.data.filter(material => material.materialId !== materialId);
-
-    console.log('Deleting Material with ID:', materialId);
-    this.materialService.deleteMaterial(materialId).subscribe(
-      (response) => {
-        // this.loadMaterials();
-        console.log('Material deleted successfully:', response);
-
-      },
-      (error) => {
-        console.error('Error deleting material:', error);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Confirm Deletion',
+        message: 'Do you really want to delete this record?'
       }
-    );
-    this.toastr.success('Material deleted successfully');
-
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.materialService.deleteMaterial(materialId).subscribe({
+          next: (res: any) => {
+            this.dataSource.data = this.dataSource.data.filter(material => material.materialId !== materialId);
+            this.toastr.success('Deleted successfully.');
+          },
+          error: (err: any) => {
+            console.error('Error:', err);
+            this.toastr.error('Something went wrong!');
+          }
+        });
+        
+      } else {
+        this.toastr.info('Deletion cancelled');
+      }
+    });
   }
-
-
 
 }

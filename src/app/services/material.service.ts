@@ -26,8 +26,9 @@ export class MaterialService {
 
   deleteMaterial(materialId: number): Observable<any> {
     const url = `https://localhost:7030/api/Materials/${materialId}`;
-    return this.http.delete(url);
+    return this.http.delete(url, { responseType: 'text' });
   }
+  
 
    // Method to update a material
    updateMaterial(material: Material): Observable<Material> {
