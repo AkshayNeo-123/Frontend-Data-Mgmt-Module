@@ -26,3 +26,25 @@
     padding-left: 3%;
   }
   
+
+
+  
+
+  .custom-file-box {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    background-color: #fff;
+    transition: border-color 0.3s;
+  }
+  
+  .custom-file-box:hover {
+    border-color: #888;
+  }
+  
+  .custom-file-box input[type="file"] {
+    border: none;
+    outline: none;
+    width: 100%;
+  }
+  
