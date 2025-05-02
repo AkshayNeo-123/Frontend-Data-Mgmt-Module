@@ -10,7 +10,8 @@ import { UserService } from '../../services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddUserDialogComponent } from './add-user-dialog/add-user-dialog.component';
 import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
-
+import { Location } from '@angular/common';
+// import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manageusers',
@@ -27,13 +28,23 @@ import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.com
   styleUrl: './manageusers.component.css'
 })
 export class ManageusersComponent implements OnInit {
-  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'roleId', 'status', 'actions'];
+  // displayedColumns: string[] = ['userId', 'firstName', 'lastName', 'email', 'roleId', 'status', 'actions'];
+  displayedColumns: string[] = ['userId', 'firstName', 'status', 'roleId', 'actions'];
   dataSource = new MatTableDataSource<any>();
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private userService: UserService, private dialog: MatDialog) {}
+  constructor(
+    private userService: UserService,
+    private dialog: MatDialog,
+    private location: Location
+    // private router: Router
+    ) {}
+
+  goToBack() {
+    this.location.back();
+    // this.router.navigate(['/dashboard']);
+  }
 
   openAddUserDialog() {
     const dialogRef = this.dialog.open(AddUserDialogComponent, {
@@ -68,8 +79,6 @@ export class ManageusersComponent implements OnInit {
     
   }
 
-  
-
   editUser(user: any) {
     const dialogRef = this.dialog.open(EditUserDialogComponent, {
       width: '500px',
@@ -84,11 +93,11 @@ export class ManageusersComponent implements OnInit {
   }
 
   deleteUser(id: number) {
-    if(confirm('Are you sure you want to delete this user?')){
+    if(confirm('Do you really want to delete this record?')){
       this.userService.deleteUser(id).subscribe({
         next: () => {
           this.dataSource.data = this.dataSource.data.filter(user => user.userId !== id);
-          alert('User deleted successfully!!');
+          alert('Deleted successfully!!');
         },
         error: err =>{
           console.error('Error deleting user:', err);
@@ -102,4 +111,9 @@ export class ManageusersComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.dataSource.filter = filterValue;
   }
+
+  getFormattedUserId(id: number): string {
+    return 'PRO' + id.toString().padStart(3, '0');
+  }
+
 }

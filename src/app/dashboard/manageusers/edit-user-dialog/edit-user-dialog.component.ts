@@ -37,7 +37,7 @@ export class EditUserDialogComponent {
   onSubmit() {
     this.userService.updateUser(this.user.userId, this.user).subscribe({
       next: () => {
-        alert('User updated successfully!');
+        alert('Updated successfully!');
         this.dialogRef.close(true);
       },
       error: err => {
