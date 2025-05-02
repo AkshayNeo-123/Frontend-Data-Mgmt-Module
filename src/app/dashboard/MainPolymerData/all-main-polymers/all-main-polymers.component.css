@@ -1,9 +1,18 @@
-.custom-table-container {
-    max-width: 900px;
-    margin: auto;
-    overflow-x: auto;
+/* 
+  .mat-column-polymerName {
+    max-width: 300px;
+    width: 300px;
+    text-align: center;
   }
   
+  .mat-column-actions {
+    width: 150px;
+    text-align: center;
+  }
+   
+ 
+ 
+ 
   .bordered-table {
     width: 100%;
     border-collapse: collapse;
@@ -12,9 +21,7 @@
   
   .bordered-table td {
     border: 1px solid #ccc;
-    /* text-align: center; */
     vertical-align: middle;
-    /* padding: 8px; */
     white-space: nowrap;
   }
   
@@ -23,19 +30,15 @@
   
     background-color: #f1f1f1;
     font-weight: bold;
-    /* text-align: center; */
-    margin: auto;
+    text-align: center;
   }
   
+ 
   
   .bordered-table tr:hover {
     background-color: #f9f9f9;
   }
   
-  /* td.mat-cell.text-center,
-  th.mat-header-cell.text-center {
-    text-align: center !important;
-  } */
   .mat-header-cell {
     font-weight: bold;
     background-color: #f8f9fa;
@@ -44,10 +47,7 @@
   }
   
   
-  .toolbar {
-    justify-content: flex-start;
-  }
-  
+   
   
   .add-additive-btn {
     font-size: 16px;
@@ -76,4 +76,9 @@
     width: 250px;
     min-width: 200px;
   }
-  
+    */ 
+
+/* 
+    .add-additive-btn{
+        border-radius: 4px;
+    } */

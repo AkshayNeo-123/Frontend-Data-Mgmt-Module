@@ -14,6 +14,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AddcontactsComponent } from '../contactsData/addcontacts/addcontacts.component';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 
 @Component({
   selector: 'app-contacts',
@@ -114,21 +115,16 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     }
 
     deleteContactsDetails(contactId: number) {
-      if (contactId == null || contactId === undefined) {
-        console.error('Invalid ID:', contactId);
-        return;
-      }
-    
-      Swal.fire({
-        title: 'Are you sure?',
-        text: 'Do you really want to delete this contact?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, delete it!'
-      }).then((result) => {
-        if (result.isConfirmed) {
+       const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+                  width: '350px',
+                  data: {
+                    title: 'Confirm Deletion',
+                    message: 'Do you really want to delete this record?'
+                  }
+                });
+            
+            dialogRef.afterClosed().subscribe(result => {
+              if (result === true) {
           this.dataSource.data = this.dataSource.data.filter(material => material.contactId !== contactId);
     
           console.log('Deleting Contact with ID:', contactId);

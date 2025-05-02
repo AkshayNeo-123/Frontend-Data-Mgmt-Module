@@ -38,28 +38,23 @@
 
       <li class="d-flex align-items-center justify-content-between fw-bold mb-3 p-2 hover-effect">
         <div class="d-flex align-items-center" (click)="emitSection('contacts')">
-          <i class="fas fa-vial me-3"></i> 
+          <i class="fas fa-address-book me-3"></i> 
           <span *ngIf="isOpen">Contacts</span>
         </div>
-      
-        <!-- <mat-icon *ngIf="isOpen" class="text-success" (click)="openAddContactDialog($event)">person_add</mat-icon> -->
       </li>
-
+    
       <li class="d-flex align-items-center justify-content-between fw-bold mb-3 p-2 hover-effect">
         <div class="d-flex align-items-center" (click)="emitSection('get-all-additives')">
-          <i class="fas fa-vial me-3"></i> 
+          <i class="fas fa-flask me-3"></i> 
           <span *ngIf="isOpen">Additives</span>
         </div>
-      
-        <!-- <mat-icon *ngIf="isOpen" class="text-success" (click)="openAddContactDialog($event)">person_add</mat-icon> -->
       </li>
+    
       <li class="d-flex align-items-center justify-content-between fw-bold mb-3 p-2 hover-effect">
         <div class="d-flex align-items-center" (click)="emitSection('all-main-polymers')">
-          <i class="fas fa-vial me-3"></i> 
-          <span *ngIf="isOpen">MainPolymer</span>
+          <i class="fas fa-cubes me-3"></i> 
+          <span *ngIf="isOpen">Main Polymer</span>
         </div>
-      
-        <!-- <mat-icon *ngIf="isOpen" class="text-success" (click)="openAddContactDialog($event)">person_add</mat-icon> -->
       </li>
       
   </ul>

@@ -1,33 +1,35 @@
-<div class="container">
-  <h4 class="fw-bold  mb-4">Additives</h4>
+<div class="container mt-4">
+  <h4 class="fw-bold mb-3">Additives</h4>
 
-  <div class="toolbar d-flex align-items-center mb-3">
-    
-    <button mat-raised-button class="mr-3 add-additive-btn me-4" (click)="openAddAdditiveDialog()">
+  <div class="d-flex justify-content-start align-items-center mb-3">
+    <button
+      style="color: white; background-color: #4caf50;"
+      mat-raised-button
+      class="mr-3 add-additive-btn me-4"
+      (click)="openAddAdditiveDialog()">
       <i class="fas fa-plus me-2"></i> Add Additive
     </button>
 
     <mat-form-field appearance="outline" class="search-field">
-      <mat-label>Search</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Search">
+      <mat-label>Search for additive name</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search additives" />
     </mat-form-field>
   </div>
 
-  <div class="custom-table-container">
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 bordered-table">
+  <div class="table-responsive">
+    <table mat-table [dataSource]="dataSource" matSort
+           class="table table-bordered table-striped table-hover mat-elevation-z8">
 
       <ng-container matColumnDef="additiveName">
-        <th mat-header-cell *matHeaderCellDef class="text-center">AdditiveName</th>
-        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.additiveName }} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center">Additive Name</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.additiveName }}</td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Actions</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center">Actions</th>
         <td mat-cell *matCellDef="let element" class="text-center">
-          <i  class="fas fa-pencil-alt me-3 action-icon text-primary" (click)="editAdditiveData(element)"></i>
-
-          <i class="fas fa-trash-alt action-icon" (click)="deleteAdditivesData(element.id)"></i>
-
+          <i class="fas fa-pencil-alt me-3 action-icon text-primary" (click)="editAdditiveData(element)"></i>
+          <i class="fas fa-trash-alt action-icon text-danger" (click)="deleteAdditivesData(element.id)"></i>
         </td>
       </ng-container>
 

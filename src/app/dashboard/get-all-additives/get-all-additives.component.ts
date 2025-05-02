@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 
 @Component({
   selector: 'app-get-all-additives',
@@ -109,22 +110,18 @@ export class GetAllAdditivesComponent implements OnInit {
 
 
     deleteAdditivesData(additiveId: number) {
-      if (additiveId == null || additiveId === undefined) {
-        console.error('Invalid ID:', additiveId);
-        return;
-      }
-    
-      Swal.fire({
-        title: 'Are you sure?',
-        text: 'Do you want to delete this additive?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, delete it!'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.dataSource.data = this.dataSource.data.filter(additive => additive.id !== additiveId);
+
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            width: '350px',
+            data: {
+              title: 'Confirm Deletion',
+              message: 'Do you really want to delete this record?'
+            }
+          });
+      
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === true) {
+            this.dataSource.data = this.dataSource.data.filter(additive => additive.id !== additiveId);
     
           this.getAllAdditivesService.deleteAdditives(additiveId).subscribe(
             (response) => {
@@ -133,7 +130,7 @@ export class GetAllAdditivesComponent implements OnInit {
             },
             (error) => {
               console.error('Error deleting additive:', error);
-              this.toaster.error('Failed to delete additive');
+              this.toaster.error('Deletion cancelled');
             }
           );
         }

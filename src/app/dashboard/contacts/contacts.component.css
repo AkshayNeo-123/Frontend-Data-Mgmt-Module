@@ -1,4 +1,4 @@
-
+/* 
 .container {
   padding: 24px;
 }
@@ -7,7 +7,7 @@
 h4.fw-bold {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  /* text-align: center; */
+  text-align: center; 
 }
 
 
@@ -24,7 +24,7 @@ h4.fw-bold {
 }
 
 .add-contact-btn:hover {
-  /* background-color: #388e3c;  */
+   background-color: #388e3c;  
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
@@ -36,4 +36,4 @@ h4.fw-bold {
 }
 .add-contact-btn:focus {
   outline: none;  
-}
+} */

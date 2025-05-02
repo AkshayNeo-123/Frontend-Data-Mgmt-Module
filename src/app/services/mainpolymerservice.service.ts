@@ -14,4 +14,16 @@ export class MainpolymerserviceService {
   getAllPolymers():Observable<MainPolymer[]>{
   return this.http.get<MainPolymer[]>(this.baseUrl)
   }
+
+  addMainPolymers(mainPolymer:MainPolymer):Observable<MainPolymer>{
+    return this.http.post<MainPolymer>(`${this.baseUrl}`,mainPolymer);
+  }
+
+  updateMainPolymer(id:number,contact: MainPolymer):Observable<MainPolymer> {
+    return this.http.put<MainPolymer>(`${this.baseUrl}/${id}`, contact);
+  }
+
+  deletePolymer(id: number): Observable<any> {
+    return this.http.delete<MainPolymer>(`${this.baseUrl}/${id}`);
+  }
 }

@@ -9,10 +9,11 @@ export interface Contact {
     zip: number;
     email: string;
     phone?: string;
-     createdBy :number;
- updatedBy :number;
-createdDate :Date;
-updatedDate :Date;
+    // isDelete?:boolean;
+     createdBy? :number;
+ updatedBy? :number;
+createdDate? :Date;
+updatedDate? :Date;
 }
 
 // export interface ContactDTO{
@@ -69,6 +70,6 @@ export interface Additives{
 
 
         export interface MainPolymer{
-            id:number;
+            id?:number;
             polymerName:string;
         }

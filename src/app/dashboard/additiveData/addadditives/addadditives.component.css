@@ -17,6 +17,14 @@
     /* width: 100%; */
   }
 
+  .global-hint {
+    font-weight: bold;
+    color: #ab2a2a;
+    font-size: 13px;
+    display: block;
+    padding-left: 3%;
+  }
+
   
 
 
