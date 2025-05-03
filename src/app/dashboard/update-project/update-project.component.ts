@@ -92,14 +92,19 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
   
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      if(selectedDate < today){
+      if(selectedDate > today){
         console.log("hahah")
         this.IsStartDateEnabled = true;
-        return selectedDate < today ? { pastDate: false } : null;
+        // return selectedDate < today ? { pastDate: false } : null;
        
       }
+      // if(selectedDate==null){
+      //   this.IsStartDateEnabled = true;
+      // }
   
-      return selectedDate < today ? { pastDate: true } : null;
+      // return  null;
+      return selectedDate < today ? { pastDate: false } : null;
+
     };
   }
   // ngOnInit(): void {
@@ -167,6 +172,7 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
     this.loadMasterData();
     const isInvalidDate = (dateStr: string): boolean =>
       !dateStr || dateStr === '0001-01-01T00:00:00';
+    this.IsStartDateEnabled = this.data.startDate == null;
   
     this.projectForm = this.fb.group({
       projectNumber: [{ value: this.data.projectNumber, disabled: true }],
@@ -175,7 +181,7 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
       area: [Number(this.data.areaId)],
       priority: [Number(this.data.priorityId)],
       project_Description: [this.data.project_Description, Validators.required],
-      startDate: [this.data.startDate == null ? null : new Date(this.data.startDate),[this.noPastDateValidator()]
+      startDate: [this.data.startDate == null ? null: new Date(this.data.startDate),this.noPastDateValidator()
         // this.validateDateIsAfterToday(isInvalidDate(this.data.startDate) ? null : new Date(this.data.startDate)),
         // 
       ],
@@ -203,59 +209,59 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
     // this.projectForm.get('startDate')?.clearValidators();
     // this.projectForm.get('startDate')?.updateValueAndValidity();
 
-    this.projectForm.get('startDate')?.valueChanges.subscribe((startDate: any) => {
-      const parsedStartDate = moment.isMoment(startDate)
-        ? startDate.toDate()
-        : startDate instanceof Date
-        ? startDate
-        : new Date(startDate);
+    // this.projectForm.get('startDate')?.valueChanges.subscribe((startDate: any) => {
+    //   const parsedStartDate = moment.isMoment(startDate)
+    //     ? startDate.toDate()
+    //     : startDate instanceof Date
+    //     ? startDate
+    //     : new Date(startDate);
   
-      if (!isNaN(parsedStartDate.getTime())) {
-        this.minEndDate = parsedStartDate;
+    //   if (!isNaN(parsedStartDate.getTime())) {
+    //     this.minEndDate = parsedStartDate;
   
-        const endDateCtrl = this.projectForm.get('endDate');
-        const endDateVal = endDateCtrl?.value;
+    //     const endDateCtrl = this.projectForm.get('endDate');
+    //     const endDateVal = endDateCtrl?.value;
   
-        if (endDateVal) {
-          const parsedEndDate = moment.isMoment(endDateVal)
-            ? endDateVal.toDate()
-            : endDateVal instanceof Date
-            ? endDateVal
-            : new Date(endDateVal);
+    //     if (endDateVal) {
+    //       const parsedEndDate = moment.isMoment(endDateVal)
+    //         ? endDateVal.toDate()
+    //         : endDateVal instanceof Date
+    //         ? endDateVal
+    //         : new Date(endDateVal);
   
-          if (parsedEndDate < parsedStartDate) {
-            endDateCtrl?.setValue(null);
-          }
-        }
-      } else {
-        this.minEndDate = this.getTomorrowDate();
-      }
-    });
+    //       if (parsedEndDate < parsedStartDate) {
+    //         endDateCtrl?.setValue(null);
+    //       }
+    //     }
+    //   } else {
+    //     this.minEndDate = this.getTomorrowDate();
+    //   }
+    // });
   }
   
 
-  endAfterStartValidator() {
-    return (group: AbstractControl) => {
-      const start = group.get('startDate')?.value;
-      const end = group.get('endDate')?.value;
+  // endAfterStartValidator() {
+  //   return (group: AbstractControl) => {
+  //     const start = group.get('startDate')?.value;
+  //     const end = group.get('endDate')?.value;
   
-      if (!start || !end) {
-        group.get('endDate')?.setErrors(null);
-        return null;
-      }
+  //     if (!start || !end) {
+  //       group.get('endDate')?.setErrors(null);
+  //       return null;
+  //     }
   
-      const startDate = new Date(start);
-      const endDate = new Date(end);
+  //     const startDate = new Date(start);
+  //     const endDate = new Date(end);
   
-      if (endDate <= startDate) {
-        group.get('endDate')?.setErrors({ endBeforeStart: true });
-      } else {
-        group.get('endDate')?.setErrors(null);
-      }
+  //     if (endDate <= startDate) {
+  //       group.get('endDate')?.setErrors({ endBeforeStart: true });
+  //     } else {
+  //       group.get('endDate')?.setErrors(null);
+  //     }
   
-      return null;
-    };
-  }
+  //     return null;
+  //   };
+  // }
   
 
   // Helper method to validate existing dates against today
