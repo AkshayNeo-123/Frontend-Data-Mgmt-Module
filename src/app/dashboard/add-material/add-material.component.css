@@ -1,12 +1,11 @@
 .row {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap; /* important for responsiveness */
-}
+  flex-wrap: wrap; }
 
 .half-width {
   flex: 1;
-  min-width: 250px; /* Makes it responsive, will stack if small screen */
+  min-width: 250px; 
 }
 
 .full-width {

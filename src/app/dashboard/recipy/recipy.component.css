@@ -53,4 +53,5 @@ h4 {
   .add-material-btn:hover {
     background-color: #388e3c; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    color: #fff;
   }
