@@ -65,28 +65,33 @@
     </div>
 
     <div class="row">
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Project Start Date</mat-label>
-        <input
-  matInput
-  [readonly]="IsStartDateEnabled"
-  [matDatepicker]="startPicker"
-  formControlName="startDate"
-  [min]="minStartDate"
-/>
-<!-- <mat-hint>Cannot select today's date</mat-hint> -->
+      @if(IsStartDateEnabled){
 
-<mat-datepicker-toggle
-  matSuffix
-  [for]="startPicker"
-  [disabled]="IsStartDateEnabled">
-</mat-datepicker-toggle>
-
-<mat-datepicker
-  #startPicker
-  [disabled]="IsStartDateEnabled">
-</mat-datepicker>
-      </mat-form-field>
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Project Start Date</mat-label>
+          <input
+    matInput
+    
+    [matDatepicker]="startPicker"
+    formControlName="startDate"
+    [min]="minStartDate"
+    />
+    <!-- [disabled]="IsStartDateEnabled" -->
+  
+  <!-- <mat-hint>Cannot select today's date</mat-hint> -->
+  
+  <mat-datepicker-toggle
+    matSuffix
+    [for]="startPicker"
+    >
+  </mat-datepicker-toggle>
+  <!-- [disabled]="IsStartDateEnabled" -->
+  <mat-datepicker
+    #startPicker
+    >
+  </mat-datepicker>
+        </mat-form-field>
+      }
 
 
       <mat-form-field appearance="outline" class="half-width">
