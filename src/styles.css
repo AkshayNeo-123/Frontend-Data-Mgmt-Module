@@ -34,14 +34,12 @@ h4 {
     background-color: #f8f9fa;
     color: #343a40;
     border: 1px solid #ddd; 
-    text-align: center;
   }
   
   .mat-cell, .mat-header-cell {
     padding: 16px;
     font-size: 14px;
     border: 1px solid #ddd; 
-    text-align: center;
   }
   
   .mat-row:hover {
@@ -51,7 +49,6 @@ h4 {
   
   .mat-row, .mat-header-row {
     display: table-row;
-    text-align: center;
   }
   
   .action-icon {
@@ -265,10 +262,6 @@ button.toast-close-button {
     right: -0.2em;
     top: -0.2em;
   }
-}
-.wraptext{
-  text-align: center;
-
 }
 @media all and (min-width: 481px) and (max-width: 768px) {
   .toast-container .ngx-toastr.div {
