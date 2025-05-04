@@ -49,7 +49,30 @@ export class EditUserDialogComponent implements OnInit{
   }
 
   onSubmit(form: NgForm) {
-     
+    
+    if (!this.user.firstName || !this.user.lastName || !this.user.email || !this.user.passwordHash || !this.user.confirmPasswordHash || !this.user.phone || !this.user.roleId) {
+      // alert('All fields are required.');
+      this.toastr.error(
+        'All fields are required.' ,
+        'Error',{
+          timeOut:5000
+        }
+      );
+      return;
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(this.user.email)) {
+        // alert('Invalid email format.');
+        this.toastr.error(
+          'Invalid email format!' ,
+          'Error',{
+            timeOut:5000
+          }
+        );
+        return;
+      }
+
     if(form.invalid){
       this.toastr.warning(
         'Enter a valid password',
