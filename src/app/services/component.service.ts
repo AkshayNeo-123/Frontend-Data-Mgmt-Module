@@ -10,12 +10,17 @@ export class ComponentService {
 
   constructor(private http: HttpClient) {}
 
+  // getAllComponents(): Observable<any[]> {
+  //   return this.http.get<any[]>(this.baseUrl).pipe(
+  //     catchError(err => {
+  //       console.error('Error fetching components:', err);
+  //       return of([]);
+  //     })
+  //   );
+  // }
+
+  
   getAllComponents(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl).pipe(
-      catchError(err => {
-        console.error('Error fetching components:', err);
-        return of([]);
-      })
-    );
+    return this.http.get<any[]>(`${this.baseUrl}`);
   }
 }
