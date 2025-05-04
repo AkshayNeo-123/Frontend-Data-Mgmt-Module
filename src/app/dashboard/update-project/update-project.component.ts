@@ -1,3 +1,4 @@
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -12,8 +13,6 @@ import { DateAdapter, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/mate
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
-
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import * as moment from 'moment';
 

@@ -27,7 +27,7 @@ import { HttpClient } from '@angular/common/http';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    ConfirmDialogComponent,
+  
 
   ],
   
