@@ -276,3 +276,24 @@ button.toast-close-button {
   display: none !important;
     }
     
+    .add-btn {
+      font-size: 16px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      margin-bottom: 40px;
+    
+      background-color: #4caf50; 
+      color: white;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+    
+    .add-btn:hover {
+      background-color: #388e3c; 
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    
+    
+    .add-btn:focus {
+      outline: none;  
+    }
