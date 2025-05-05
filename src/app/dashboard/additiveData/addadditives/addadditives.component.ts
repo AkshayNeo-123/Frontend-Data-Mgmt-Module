@@ -65,12 +65,15 @@ export class AddAdditiveComponent implements OnInit {
         return;
       }
 
-      
+      const addUser=localStorage.getItem("userid");
+
       const contactPayload = {
         ...this.additiveForm.value,
-        createdBy: user.userId,
+        createdBy: addUser,
         createdDate: new Date().toISOString(),
       };
+
+      console.log("added dat",contactPayload)
 
       if (this.isEditMode) {
         console.log(this.data.id,contactPayload)

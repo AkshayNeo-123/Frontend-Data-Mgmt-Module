@@ -9,7 +9,7 @@ export interface Contact {
     zip: number;
     email: string;
     phone?: string;
-    // isDelete?:boolean;
+    isDelete?:boolean;
      createdBy? :number;
  updatedBy? :number;
 createdDate? :Date;
