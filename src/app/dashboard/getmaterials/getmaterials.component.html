@@ -23,13 +23,13 @@
       
       <!-- Additive Column -->
       <ng-container matColumnDef="AdditiveId">
-        <th mat-header-cell *matHeaderCellDef> Additive </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Additive </th>
         <td mat-cell *matCellDef="let element">{{ element.additive?.additiveName || '-' }}</td>
       </ng-container>
 
       <!-- Main Polymer Column -->
       <ng-container matColumnDef="MainPolymerId">
-        <th mat-header-cell *matHeaderCellDef> Main Polymer </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Main Polymer </th>
         <td mat-cell *matCellDef="let element">{{ element.mainPolymer?.polymerName || '-' }}</td>
       </ng-container>
 

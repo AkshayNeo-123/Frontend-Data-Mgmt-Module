@@ -58,8 +58,8 @@ export class AddMaterialComponent implements OnInit {
       testMethod: [''],
       tdsFilePath: [''],
       msdsFilePath: [''],
-      storageLocationId: [null, ''],
-      mvrMfrId: [null, ''],
+      storageLocationId: [ ''],
+      mvrMfrId: [''],
       description: ['']
     });
   }
@@ -148,6 +148,7 @@ export class AddMaterialComponent implements OnInit {
 
   onSubmit() {
     if (!this.materialForm.valid) return;
+    const adduserId=localStorage.getItem('UserId');
 
     const formValue = { ...this.materialForm.value };
     formValue.storageLocationId = formValue.storageLocationId === '' ? null : formValue.storageLocationId;
@@ -155,8 +156,10 @@ export class AddMaterialComponent implements OnInit {
 
     const material: Material = {
       ...formValue,
-      createdDate: new Date().toISOString(),
-      modifiedDate: new Date().toISOString()
+      ...(this.isEditMode
+        ? { modifiedBy: adduserId, modifiedDate: new Date().toISOString() }
+        : { createdBy: adduserId, createdDate: new Date().toISOString(), modifiedDate: new Date().toISOString() }
+      )
     };
 
     const request$ = this.isEditMode

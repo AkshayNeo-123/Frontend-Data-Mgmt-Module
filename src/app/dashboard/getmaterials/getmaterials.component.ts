@@ -64,8 +64,20 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'AdditiveId':
+          return item.additive?.additiveName?.toLowerCase() || '';
+        case 'MainPolymerId':
+            return item.mainPolymer?.polymerName?.toLowerCase() || '';
+        default:
+          return (item as any)[property];
+      }
+    };
     
   }
+  
 
   loadMaterials() {
     this.materialService.getMaterials()
