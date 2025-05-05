@@ -84,8 +84,10 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
     return tomorrow;
   }
    noPastDateValidator(): ValidatorFn {
+    
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) return null;
+      
   
       const selectedDate = new Date(control.value);
       selectedDate.setHours(0, 0, 0, 0);
@@ -177,9 +179,9 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
     this.projectForm = this.fb.group({
       projectNumber: [{ value: this.data.projectNumber, disabled: true }],
       projectName: [this.data.projectName, Validators.required],
-      projectType: [Number(this.data.projectTypeId)],
-      area: [Number(this.data.areaId)],
-      priority: [Number(this.data.priorityId)],
+      projectType: [Number(this.data?.projectTypeId)],
+      area: [Number(this.data?.areaId)],
+      priority: [Number(this.data?.priorityId)],
       project_Description: [this.data.project_Description, Validators.required],
       startDate: [this.data.startDate == null ? null: new Date(this.data.startDate),this.noPastDateValidator()
         // this.validateDateIsAfterToday(isInvalidDate(this.data.startDate) ? null : new Date(this.data.startDate)),
@@ -357,6 +359,11 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
       const updatedProject: UpdateProject = {
         ...cleanedFormValue,
         statusId: cleanedFormValue.status,
+        // areaId:cleanedFormValue.area,
+        // projectTypeId:cleanedFormValue.projectType,
+        // priorityId:cleanedFormValue.priority,
+        
+
         modifiedBy: user.userId,
         modifiedDate: new Date().toISOString()
       };

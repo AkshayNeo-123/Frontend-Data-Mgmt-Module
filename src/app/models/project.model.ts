@@ -36,11 +36,11 @@ export interface Project {
   export interface UpdateProject {
     projectId: number;
     projectName: string;
-    projectType: number;
-    area: number;
-    priority:number;
+    projectType?: number;
+    area?: number;
+    priority?:number;
     project_Description: string;
-    startDate: string;
-    endDate: string;
+    startDate?: string;
+    endDate?: string;
   }
   

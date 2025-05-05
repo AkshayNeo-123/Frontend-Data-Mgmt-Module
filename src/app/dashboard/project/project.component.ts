@@ -75,6 +75,7 @@ export class ProjectComponent implements OnInit {
       const dialogRef = this.dialog.open(AddprojectComponent, {
         width: '800%',  
         maxWidth: '800px',
+        maxHeight:'65vh',
         disableClose: true,
       });
     }
@@ -82,6 +83,7 @@ export class ProjectComponent implements OnInit {
       const dialogRef = this.dialog.open(UpdateProjectComponent, {
         maxWidth: '800%',
         width: '800px',
+        maxHeight:'65vh',
         data: project
       });
     
