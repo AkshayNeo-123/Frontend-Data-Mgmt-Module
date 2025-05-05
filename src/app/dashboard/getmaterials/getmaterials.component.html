@@ -6,6 +6,11 @@
       <i class="fas fa-plus me-2"></i> Add Material
     </button>
 
+    <button mat-raised-button color="primary" (click)="exportToExcel()" class="me-3 mb-5">
+      <i class="fas fa-file-excel me-2"></i>
+    </button>
+    
+
     <mat-form-field appearance="outline" class="search-field">
       <mat-label>Search for Name</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Search">
