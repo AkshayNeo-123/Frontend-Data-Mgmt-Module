@@ -46,10 +46,10 @@ export class EditUserDialogComponent implements OnInit{
     this.user.roleId = Number(this.user.roleId);
   }
 
-  // compareRoles(r1: any, r2: any): boolean {
-  //   // comparing by value if numbers, or convert both to same type
-  //   return r1 == r2; // looses equality handles string/number mismatch
-  // }
+  compareRoles(r1: any, r2: any): boolean {
+    // comparing by value if numbers, or convert both to same type
+    return r1 == r2; // looses equality handles string/number mismatch
+  }
 
   showPassword=false;
   togglePasswordVisibility() {
