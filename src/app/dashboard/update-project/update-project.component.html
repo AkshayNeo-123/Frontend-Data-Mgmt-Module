@@ -25,7 +25,7 @@
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Area</mat-label>
-        <mat-select formControlName="area" placeholder="--Select--">
+        <mat-select formControlName="areaId" placeholder="--Select--">
           <mat-option value="">--Select--</mat-option>
           <mat-option *ngFor="let area of areas" [value]="area.id">
             {{ area.area }}
@@ -35,7 +35,7 @@
       
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Project Type</mat-label>
-        <mat-select formControlName="projectType" placeholder="--Select--">
+        <mat-select formControlName="projectTypeId" placeholder="--Select--">
           <mat-option value="">--Select--</mat-option>
           <mat-option *ngFor="let type of projectTypes" [value]="type.id">
             {{ type.projectTypeName }}
@@ -111,7 +111,7 @@
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Project Priority</mat-label>
-        <mat-select formControlName="priority" placeholder="--Select--">
+        <mat-select formControlName="priorityId" placeholder="--Select--">
           <mat-option value="">--Select--</mat-option>
           <mat-option *ngFor="let priority of priorities" [value]="priority.id">
             {{ priority.priority }}

@@ -179,9 +179,9 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
     this.projectForm = this.fb.group({
       projectNumber: [{ value: this.data.projectNumber, disabled: true }],
       projectName: [this.data.projectName, Validators.required],
-      projectType: [Number(this.data?.projectTypeId)],
-      area: [Number(this.data?.areaId)],
-      priority: [Number(this.data?.priorityId)],
+      projectTypeId: [Number(this.data?.projectTypeId)],
+      areaId: [Number(this.data?.areaId)],
+      priorityId: [Number(this.data?.priorityId)],
       project_Description: [this.data.project_Description, Validators.required],
       startDate: [this.data.startDate == null ? null: new Date(this.data.startDate),this.noPastDateValidator()
         // this.validateDateIsAfterToday(isInvalidDate(this.data.startDate) ? null : new Date(this.data.startDate)),
@@ -355,16 +355,19 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
           }
         }
       }
+      const UpdateuserId=localStorage.getItem('UserId');
 
       const updatedProject: UpdateProject = {
         ...cleanedFormValue,
         statusId: cleanedFormValue.status,
-        // areaId:cleanedFormValue.area,
+        areaId: cleanedFormValue.areaId === 0 ? null : cleanedFormValue.areaId,
+        projectTypeId: cleanedFormValue.projectTypeId === 0 ? null : cleanedFormValue.projectTypeId,
+        priorityId: cleanedFormValue.priorityId === 0 ? null : cleanedFormValue.priorityId,
         // projectTypeId:cleanedFormValue.projectType,
         // priorityId:cleanedFormValue.priority,
         
 
-        modifiedBy: user.userId,
+        modifiedBy: UpdateuserId,
         modifiedDate: new Date().toISOString()
       };
       

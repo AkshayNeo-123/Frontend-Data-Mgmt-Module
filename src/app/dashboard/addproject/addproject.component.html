@@ -88,7 +88,7 @@
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Project Priority</mat-label>
-        <mat-select formControlName="priorityPriorityId" placeholder="--Select--">
+        <mat-select formControlName="priorityId" placeholder="--Select--">
           <mat-option value="">--Select--</mat-option>
           <mat-option *ngFor="let priority of priorities" [value]="priority.id">
             {{ priority.priority }}
