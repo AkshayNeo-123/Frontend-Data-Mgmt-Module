@@ -31,7 +31,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ManageusersComponent implements OnInit {
   // displayedColumns: string[] = ['userId', 'firstName', 'lastName', 'email', 'roleId', 'status', 'actions'];
-  displayedColumns: string[] = ['userId', 'firstName', 'lastName', 'status', 'roleId', 'actions'];
+  displayedColumns: string[] = ['userId', 'userName', 'status', 'roleId', 'actions'];
   dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -72,7 +72,17 @@ export class ManageusersComponent implements OnInit {
         this.dataSource = new MatTableDataSource(users);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-      },
+        this.dataSource.sortingDataAccessor = (item, property) => {          
+          switch (property) {
+            case 'userName':
+              return `${item.firstName.toLowerCase()} ${item.lastName.toLowerCase()}`; // Sort by last name first, then first name
+            case 'roleId':
+              return item.role?.roleName?.toLowerCase() 
+            default:
+              return item[property];
+          }
+        };
+       },
       error: (err) => {
         console.error('Error fetching users:', err);
       }
@@ -80,7 +90,18 @@ export class ManageusersComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.dataSource.sortingDataAccessor = (item, property) => {          
+          switch (property) {
+            case 'userName':
+              return `${item.firstName.toLowerCase()} ${item.lastName.toLowerCase()}`; // Sort by last name first, then first name
+            case 'roleId':
+              return item.role?.roleName?.toLowerCase() 
+            default:
+              return item[property];
+          }
+        };
   }
 
   editUser(user: any) {
