@@ -49,8 +49,6 @@ export class ProjectComponent implements OnInit {
 
   ngOnInit() {
     this.loadProjects();
-
-    
     this.projectService.refreshProjects$.subscribe(() => {
       this.loadProjects();
     });
@@ -59,19 +57,28 @@ export class ProjectComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    this.dataSource.sortingDataAccessor = (data, property) => {
+      console.log('Status data structure:', data.status);
+      switch (property) {
+        case 'projectName':
+          return data.projectName?.toLowerCase();
+        case 'status':
+          return data.status.status.toLowerCase();
+        default:
+          return (data as any)[property];
+      }
+    }
   }
 
   loadProjects() {
     this.projectService.getAllProjects()
       .subscribe((data: Project[]) => {
-        console.log('Loaded materials:', data);
+        console.log('Loaded projects:', data);
         this.dataSource.data = data;
         this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
+       
 
-    // this.dataSource.sort = this.sort;
-  // this.dataSource.sortingDataAccessor = (data, projectName) =>
-  //   typeof data[projectName] === "string" ? data[projectName].toLowerCase() : data[projectName];
       }, error => {
         console.error('Error fetching materials:', error);
       });
