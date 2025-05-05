@@ -63,6 +63,7 @@ export class AddprojectComponent implements OnInit {
   areas: any[] = [];
   priorities: any[] = [];
   status: any[] = [];
+  // priorityId:string;
 
   constructor(
     private fb: FormBuilder,
@@ -77,7 +78,7 @@ export class AddprojectComponent implements OnInit {
       statusId: ['', Validators.required],
       projectTypeId: [''],
       AreaId: [''],
-      priorityPriorityId: [''], // Fixed from projectTypeId to priorityPriorityId
+      priorityId: [''], 
       projectDescription: ['', Validators.required],
       startDate: [null],
       endDate: [null] // Optional
@@ -192,6 +193,7 @@ export class AddprojectComponent implements OnInit {
         console.error('No user found in localStorage!');
         return;
       }
+      const adduserId=localStorage.getItem('UserId');
   
       const rawFormValue = this.projectForm.value;
       const cleanedFormValue: any = {};
@@ -224,7 +226,7 @@ export class AddprojectComponent implements OnInit {
       const newProject: AddPRoject = {
         ...cleanedFormValue,
         ProjectNumber: this.projectForm.get('projectCode')?.value,
-        createdBy: user.userId,
+        createdBy:adduserId,
         createdDate: new Date().toISOString()
       };
   
