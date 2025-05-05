@@ -18,6 +18,10 @@ import { RouterOutlet } from '@angular/router';
 import { ContactsComponent } from '../contacts/contacts.component';
 import { ManageusersComponent } from '../manageusers/manageusers.component';
 import { FormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { RolemasterComponent } from '../rolemaster/rolemaster.component';
 import { GetAllAdditivesComponent } from '../get-all-additives/get-all-additives.component';
 import { AddAdditiveComponent } from '../additiveData/addadditives/addadditives.component';
 
@@ -38,13 +42,16 @@ import { AddAdditiveComponent } from '../additiveData/addadditives/addadditives.
     GetAllAdditivesComponent,
     AllMainPolymersComponent,
     ManageusersComponent,
+    RolemasterComponent,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']

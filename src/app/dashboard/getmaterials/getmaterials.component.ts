@@ -14,6 +14,8 @@ import { provideToastr, ToastrService } from 'ngx-toastr';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { saveAs } from 'file-saver'; 
 import { HttpClient } from '@angular/common/http';
+import * as XLSX from 'xlsx';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @Component({
@@ -28,6 +30,7 @@ import { HttpClient } from '@angular/common/http';
     MatFormFieldModule,
     MatInputModule,
     ConfirmDialogComponent,
+    MatTooltipModule
 
   ],
   
@@ -37,7 +40,7 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
 
 
   displayedColumns: string[] = [
-   'materialId','AdditiveId', 'MainPolymerId', 'materialName','manufacturerId', 'quantity',  'storageLocationId',
+  'AdditiveId', 'MainPolymerId', 'materialName','manufacturerId', 'quantity',  'storageLocationId',
    'density','mvrMfrId',"testMethod",'tdsFilePath','msdsFilePath',"actions"
   ];
   dataSource = new MatTableDataSource<Material>([]);
@@ -55,12 +58,26 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.loadMaterials();
+  
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'AdditiveId':
+          return item.additive?.additiveName?.toLowerCase() || '';
+        case 'MainPolymerId':
+            return item.mainPolymer?.polymerName?.toLowerCase() || '';
+        default:
+          return (item as any)[property];
+      }
+    };
+    
   }
+  
 
   loadMaterials() {
     this.materialService.getMaterials()
@@ -89,6 +106,10 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+     this.dataSource.filterPredicate = (data, filter: string) => {
+      return data.materialName.toLowerCase().includes(filter); 
+    };
+   
     this.dataSource.filter = filterValue;
   }
   
@@ -108,6 +129,30 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
     });
   }
 
+  exportToExcel() {
+    const worksheetData = this.dataSource.data.map((material: any) => ({
+      // 'Material No.': material.materialId || '-',
+      'Additive': material.additive?.additiveName || '-',
+      'Main Polymer': material.mainPolymer?.polymerName || '-',
+      'Name': material.materialName || '-',
+      'Manufacturer': material.manufacturer?.contactName || '-',
+      'Quantity [kg]': material.quantity || '-',
+      'Storage Location': material.storageLocation?.name || '-',
+      'Density [g/cm3]': material.density || '-',
+      'MVR/MFR': material.mvrMfr?.name || '-',
+      'Test Method': material.testMethod || '-',
+    }));
+  
+    const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Materials');
+  
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(blob, 'Materials.xlsx');
+    this.toastr.success('Downloaded successfully.');
+  }
+  
   deleteMaterial(materialId: number) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '350px',

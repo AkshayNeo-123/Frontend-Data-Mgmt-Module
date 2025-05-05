@@ -10,17 +10,26 @@ export interface Material {
     testMethod: string;
     tdsFilePath: string;
     msdsFilePath: string;
-    storageLocationId : number;
+    storageLocationId ?: number;
     description: string;
-    mvrMfrId: number;
+    mvrMfrId?: number;
     additiveId:number;
     mainPolymerId:number;
     createdBy: number;
     createdDate: string;
     modifiedBy: number | null;
     modifiedDate: string | null;
-    
+    additive?: Additive;
+    mainPolymer?: Polymer;
   }
 
-
+  export interface Polymer {
+    id: number;
+    polymerName: string;
+  }
   
+
+  export interface Additive {
+    id: number;
+    additiveName: string;
+  }

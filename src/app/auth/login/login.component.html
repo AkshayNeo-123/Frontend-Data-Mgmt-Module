@@ -7,7 +7,7 @@
         <form [formGroup]="loginForm" (ngSubmit)="login()">
             <div class="mb-3 input-group">
                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                <input type="email" class="form-control" formControlName="email" placeholder="Email ID / User ID" />
+                <input type="email" class="form-control" formControlName="email" placeholder="Email ID" />
             </div>
             <small class="text-danger" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
                 Please enter a valid email.
@@ -32,21 +32,21 @@
             </button>
 
 
-            <div class="d-flex flex-column align-items-center mt-3">
+            <!-- <div class="d-flex flex-column align-items-center mt-3">
                 <a routerLink="/auth/forgot-password" class="btn btn-link text-decoration-none text-danger fw-bold">
                     <i class="fas fa-key"></i> Reset Password ?
-                </a>
+                </a> -->
 
                 <!-- <a routerLink="/auth/register" class="btn btn-primary mt-2 px-4 fw-bold">
             <i class="fas fa-user-plus"></i> Create an Account
           </a> -->
-            </div>
+            <!-- </div> -->
 
-            <div class="text-center mt-2">
+            <!-- <div class="text-center mt-2">
                 <p style="color: gray; font-weight: 500;">
                     *Use your corporate Email / User ID to Log in to the platform
                 </p>
-            </div>
+            </div> -->
         </form>
     </div>
 </div>

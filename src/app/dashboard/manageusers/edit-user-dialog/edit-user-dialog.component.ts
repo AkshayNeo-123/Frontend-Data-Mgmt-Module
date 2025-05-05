@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
@@ -7,6 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
+import { MatOptionModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-edit-user-dialog',
@@ -18,14 +20,16 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     MatDialogModule,
     MatButtonModule,
-    MatSelectModule
+    MatSelectModule,
+    MatIconModule,
+    MatOptionModule
   ],
   templateUrl: './edit-user-dialog.component.html',
   styleUrl: './edit-user-dialog.component.css'
 })
-export class EditUserDialogComponent {
+export class EditUserDialogComponent implements OnInit{
   user: any;
-
+  roles: any[] = [];
   constructor(
     private dialogRef: MatDialogRef<EditUserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -33,11 +37,19 @@ export class EditUserDialogComponent {
   ) {
     this.user = { ...data }; // cloning data to avoid direct mutation
   }
+  ngOnInit(): void {
+    this.loadRoles()
+  }
+
+  showPassword=false;
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 
   onSubmit() {
     this.userService.updateUser(this.user.userId, this.user).subscribe({
       next: () => {
-        alert('User updated successfully!');
+        alert('Updated successfully!');
         this.dialogRef.close(true);
       },
       error: err => {
@@ -47,8 +59,20 @@ export class EditUserDialogComponent {
     });
   }
 
+  loadRoles() {
+    this.userService.getRoles().subscribe({
+      next: (res) => {
+        console.log('Roles from API:', res);
+        this.roles = res;
+      },
+      error: (err) => {
+        console.error('Failed to load roles:', err);
+      }
+    });
+  }
+
   onCancel() {
-    alert('User updation cancelled!!')
+    // alert('User updation cancelled!!')
     this.dialogRef.close(false);
   }
 }

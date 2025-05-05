@@ -1,10 +1,10 @@
 export interface Project {
   projectId: number;
     projectName: string;
-    projectType: number;
-    area: number;
-    status: number;
+    areaId: number;
+    statusId: number;
     priority:number;
+    ProjectTypeId?:number;
     project_Description: string;
     startDate: string;      
     endDate: string;
@@ -13,17 +13,27 @@ export interface Project {
     createdDate: string;
     modifiedBy: number | null;
     modifiedDate: string | null;
+    status: status
+  }
+
+  export interface status {
+    id:number;
+    status:string
   }
   
 
   export interface AddPRoject {
     projectName: string;
-    projectType: number;
-    area: number;
-    priority: number;
+    ProjectNumber:string;
+    ProjectTypeId?:number;
+    statusId:number;
+    areaId?: number;
+    priorityId?: number;
     projectDescription: string;
-    startDate: string; // use ISO string format (e.g., "2025-04-28T00:00:00Z")
+    startDate?: string; // use ISO string format (e.g., "2025-04-28T00:00:00Z")
     endDate?: string;  // optional if not marked [Required] in backend
+    createdBy: number;
+  createdDate: string;
   }
   
   // Optionally, define the enums if used as enums in backend
@@ -32,11 +42,14 @@ export interface Project {
   export interface UpdateProject {
     projectId: number;
     projectName: string;
-    projectType: number;
-    area: number;
-    priority:number;
+    projectTypeId?: number;
+    areaId?: number;
+    priorityId?:number;
     project_Description: string;
-    startDate: string;
-    endDate: string;
+    startDate?: string;
+    endDate?: string;
+    modifiedBy: number;
+
+
   }
   

@@ -60,3 +60,12 @@
     }
   }
   
+  .form-container {
+    max-height: 80vh !important; 
+    overflow-y: auto !important; /* Add vertical scrollbar if content overflows */
+    padding: 16px !important; /* Optional padding */
+  }
+  
+  mat-dialog-content {
+    overflow: hidden; 
+  }

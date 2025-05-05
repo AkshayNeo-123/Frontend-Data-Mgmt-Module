@@ -15,4 +15,30 @@ textarea[matInput] {
   .full-width {
     flex: 1 1 100%;
   }
+
+  ::ng-deep .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple):not([value]) {
+    background: inherit !important;
+  }
+  
+  /* ::ng-deep .mat-select-panel .mat-option:not(.mat-option-multiple):not([value]) .mat-pseudo-checkbox {
+    display: none !important;
+  } */
+  .global-hint {
+    font-weight: bold;
+    color: #ab2a2a;
+    font-size: 13px;
+    display: block;
+    /* margin-bottom: 12px; */
+    padding-left: 3%;
+  }
+  @media (max-width: 768px) {
+    .half-width {
+      flex: 1 1 100%; /* Stack fields on smaller screens */
+    }
+  }
+  mat-dialog-content{
+    max-height: 65vh;
+    max-width: 200%;
+    overflow: auto;
+  }
   

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidatorFn } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MaterialService } from '../../services/material.service';
 import { CommonService } from '../../services/common.service';
@@ -36,7 +36,8 @@ export class AddMaterialComponent implements OnInit {
   suppliers: any[] = [];
   mvrMfrTypes: any[] = [];
   storageLocations: any[] = [];
-  
+  materials: Material[] = [];
+
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<AddMaterialComponent>,
@@ -46,7 +47,8 @@ export class AddMaterialComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Material
   ) {
     this.materialForm = this.fb.group({
-      materialName: ['', Validators.required],
+      materialId: [0],
+      materialName: ['', [Validators.required]],
       manufacturerId: [0, [this.nonZeroValidator]],
       additiveId: [0, [this.nonZeroValidator]],
       mainPolymerId: [0, [this.nonZeroValidator]],
@@ -56,21 +58,25 @@ export class AddMaterialComponent implements OnInit {
       testMethod: [''],
       tdsFilePath: [''],
       msdsFilePath: [''],
-      storageLocationId: [''],
+      storageLocationId: [ ''],
       mvrMfrId: [''],
       description: ['']
     });
   }
 
-  nonZeroValidator(control: any) {
-    return control.value && control.value !== 0 ? null : { nonZero: true };
-  }
-
-  get isEditMode(): boolean {
-    return !!this.data;
-  }
-
   ngOnInit(): void {
+    this.materialService.getMaterials().subscribe({
+      next: (res) => {
+        this.materials = res;
+
+        if (!this.isEditMode) {
+          this.materialForm.get('materialName')?.addValidators(this.materialNameUniqueValidator());
+          this.materialForm.get('materialName')?.updateValueAndValidity();
+        }
+      },
+      error: (err) => console.error('Materials load failed:', err)
+    });
+
     this.commonService.getAdditives().subscribe({
       next: (res) => { this.additives = res; },
       error: (err) => console.error('Additives load failed:', err)
@@ -103,6 +109,7 @@ export class AddMaterialComponent implements OnInit {
 
     if (this.isEditMode) {
       this.materialForm.patchValue({
+        materialId: this.data.materialId,
         materialName: this.data.materialName,
         additiveId: this.data.additiveId,
         mainPolymerId: this.data.mainPolymerId,
@@ -113,41 +120,64 @@ export class AddMaterialComponent implements OnInit {
         testMethod: this.data.testMethod,
         tdsFilePath: this.data.tdsFilePath,
         msdsFilePath: this.data.msdsFilePath,
-        storageLocationId: this.data.storageLocationId,
-        mvrMfrId: this.data.mvrMfrId,
+        storageLocationId: this.data.storageLocationId ?? '',
+        mvrMfrId: this.data.mvrMfrId ?? '',
         description: this.data.description
       });
     }
   }
 
+  get isEditMode(): boolean {
+    return !!this.data;
+  }
+
+  nonZeroValidator(control: any) {
+    return control.value && control.value !== 0 ? null : { nonZero: true };
+  }
+
+  materialNameUniqueValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (!control.value || this.isEditMode) return null;
+      const nameExists = this.materials.some(
+        (mat) =>
+          mat.materialName.trim().toLowerCase() === control.value.trim().toLowerCase()
+      );
+      return nameExists ? { nameNotUnique: true } : null;
+    };
+  }
+
   onSubmit() {
     if (!this.materialForm.valid) return;
-  
+    const adduserId=localStorage.getItem('UserId');
+
     const formValue = { ...this.materialForm.value };
-  
-    // Convert optional empty dropdowns to null
     formValue.storageLocationId = formValue.storageLocationId === '' ? null : formValue.storageLocationId;
     formValue.mvrMfrId = formValue.mvrMfrId === '' ? null : formValue.mvrMfrId;
-  
+
     const material: Material = {
       ...formValue,
-      createdDate: new Date().toISOString(),
-      modifiedDate: new Date().toISOString(),
-      materialId: this.isEditMode ? this.data.materialId : 0
+      ...(this.isEditMode
+        ? { modifiedBy: adduserId, modifiedDate: new Date().toISOString() }
+        : { createdBy: adduserId, createdDate: new Date().toISOString(), modifiedDate: new Date().toISOString() }
+      )
     };
-  
+
     const request$ = this.isEditMode
       ? this.materialService.updateMaterial(material)
       : this.materialService.addMaterial(material);
-  
+
     request$.subscribe({
       next: () => {
-        this.toastr.success(this.isEditMode ? 'Updated successfully.' : 'Saved successfully.', 'Success');
+        this.toastr.success(this.isEditMode ? 'Updated successfully.' : 'Saved successfully.', 'Success', {
+          timeOut: 5000
+        });
         this.dialogRef.close(true);
       },
       error: (err) => {
         console.error('Save error:', err);
-        this.toastr.error('Something went wrong while saving material.', 'Error');
+        this.toastr.error('Something went wrong while saving material.', 'Error', {
+          timeOut: 5000
+        });
       }
     });
   }
@@ -157,20 +187,39 @@ export class AddMaterialComponent implements OnInit {
     const file = input.files?.[0];
   
     if (file) {
-      this.materialForm.get(controlName)?.setValue(file.name); // show file name immediately
+      if (file.type !== 'application/pdf') {
+        this.toastr.error('Only PDF files are allowed.', 'Invalid File', { timeOut: 3000 });
+        input.value = '';
+        return;
+      }
   
-      this.materialService.postFileMaterial(file).subscribe({
-        next: (res) => {
-          console.log('File uploaded successfully:', res);
-          
-          // ✅ Save the full relative path into the form
-          const filePath = `${res.fileName}`;
-          this.materialForm.get(controlName)?.setValue(filePath);
-        },
-        error: (err) => {
-          console.error('File upload failed:', err);
-        },
-      });
+      // Check if there is an existing file and replace it
+      const currentFilePath = this.materialForm.get(controlName)?.value;
+      if (currentFilePath) {
+        // Ask the backend to update the file with the new one
+        this.materialService.updateMaterialFile(file, currentFilePath).subscribe({
+          next: (res) => {
+            const filePath = `${res.fileName}`;
+            this.materialForm.get(controlName)?.setValue(filePath);  // Update the file path in the form control
+          },
+          error: (err) => {
+            console.error('File upload failed:', err);
+            this.toastr.error('File upload failed.', 'Error', { timeOut: 3000 });
+          }
+        });
+      } else {
+        // If there is no file, just upload the new one
+        this.materialService.postFileMaterial(file).subscribe({
+          next: (res) => {
+            const filePath = `${res.fileName}`;
+            this.materialForm.get(controlName)?.setValue(filePath);
+          },
+          error: (err) => {
+            console.error('File upload failed:', err);
+            this.toastr.error('File upload failed.', 'Error', { timeOut: 3000 });
+          }
+        });
+      }
     }
   }
   

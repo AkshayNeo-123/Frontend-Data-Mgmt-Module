@@ -49,13 +49,18 @@ private apifileUrl = 'https://localhost:7030/api/File/FileUpload';
 
   postFileMaterial(file: File): Observable<any> {
     const formData = new FormData();
-    
-    // Append the file as 'file' (binary data)
-    formData.append('file', file, file.name);
-
-    // Send the POST request with FormData
+        formData.append('file', file, file.name);
     return this.http.post<any>(this.apifileUrl, formData, {
-      responseType: 'json', // Expect JSON response
+      responseType: 'json', 
     });
   }
+
+  updateMaterialFile(file: File, oldFilePath: string): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    formData.append('oldFilePath', oldFilePath);  // Add the old file path
+  
+    return this.http.post<any>('https://localhost:7030/api/File/FileUpdate', formData);
+  }
+  
 }
