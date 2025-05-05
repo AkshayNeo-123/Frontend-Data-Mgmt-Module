@@ -121,8 +121,6 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
       'Density [g/cm3]': material.density || '-',
       'MVR/MFR': material.mvrMfr?.name || '-',
       'Test Method': material.testMethod || '-',
-      'TDS File': material.tdsFilePath || '-',
-      'MSDS File': material.msdsFilePath || '-'
     }));
   
     const worksheet = XLSX.utils.json_to_sheet(worksheetData);
@@ -132,6 +130,7 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
     const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
     saveAs(blob, 'Materials.xlsx');
+    this.toastr.success('Downloaded successfully.');
   }
   
   deleteMaterial(materialId: number) {

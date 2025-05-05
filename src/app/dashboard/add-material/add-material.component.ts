@@ -46,6 +46,7 @@ export class AddMaterialComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Material
   ) {
     this.materialForm = this.fb.group({
+      materialId: [0],
       materialName: ['', Validators.required],
       manufacturerId: [0, [this.nonZeroValidator]],
       additiveId: [0, [this.nonZeroValidator]],
@@ -56,8 +57,8 @@ export class AddMaterialComponent implements OnInit {
       testMethod: [''],
       tdsFilePath: [''],
       msdsFilePath: [''],
-      storageLocationId: [''],
-      mvrMfrId: [''],
+      storageLocationId: [null,''],
+      mvrMfrId: [null,''],
       description: ['']
     });
   }
@@ -103,6 +104,7 @@ export class AddMaterialComponent implements OnInit {
 
     if (this.isEditMode) {
       this.materialForm.patchValue({
+        materialId: this.data.materialId,
         materialName: this.data.materialName,
         additiveId: this.data.additiveId,
         mainPolymerId: this.data.mainPolymerId,
@@ -113,8 +115,8 @@ export class AddMaterialComponent implements OnInit {
         testMethod: this.data.testMethod,
         tdsFilePath: this.data.tdsFilePath,
         msdsFilePath: this.data.msdsFilePath,
-        storageLocationId: this.data.storageLocationId,
-        mvrMfrId: this.data.mvrMfrId,
+        storageLocationId: this.data.storageLocationId ?? '',  
+        mvrMfrId: this.data.mvrMfrId ?? '',      
         description: this.data.description
       });
     }
@@ -125,16 +127,15 @@ export class AddMaterialComponent implements OnInit {
   
     const formValue = { ...this.materialForm.value };
   
-    // Convert optional empty dropdowns to null
     formValue.storageLocationId = formValue.storageLocationId === '' ? null : formValue.storageLocationId;
-    formValue.mvrMfrId = formValue.mvrMfrId === '' ? null : formValue.mvrMfrId;
-  
-    const material: Material = {
-      ...formValue,
-      createdDate: new Date().toISOString(),
-      modifiedDate: new Date().toISOString(),
-      materialId: this.isEditMode ? this.data.materialId : 0
-    };
+formValue.mvrMfrId = formValue.mvrMfrId === '' ? null : formValue.mvrMfrId;
+
+const material: Material = {
+  ...formValue,
+  createdDate: new Date().toISOString(),
+  modifiedDate: new Date().toISOString()
+};
+    
   
     const request$ = this.isEditMode
       ? this.materialService.updateMaterial(material)
@@ -161,13 +162,12 @@ export class AddMaterialComponent implements OnInit {
     const file = input.files?.[0];
   
     if (file) {
-      this.materialForm.get(controlName)?.setValue(file.name); // show file name immediately
+      this.materialForm.get(controlName)?.setValue(file.name); 
   
       this.materialService.postFileMaterial(file).subscribe({
         next: (res) => {
           console.log('File uploaded successfully:', res);
-          
-          // ✅ Save the full relative path into the form
+      
           const filePath = `${res.fileName}`;
           this.materialForm.get(controlName)?.setValue(filePath);
         },
