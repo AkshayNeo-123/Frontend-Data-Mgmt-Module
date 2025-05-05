@@ -41,7 +41,7 @@ export enum ContactTyps{
 }
 
 export interface Additives{
-    id: number;
+    id?: number;
     additiveName: string;
     createdBy: number | null;
     createdDate: Date;

@@ -108,7 +108,8 @@ export class ContactsComponent implements OnInit, AfterViewInit {
 
         if (result) {
                   this.toastr.success('Updated successfully');
-
+               
+                
           this.fetchContacts(); 
         }
       });
