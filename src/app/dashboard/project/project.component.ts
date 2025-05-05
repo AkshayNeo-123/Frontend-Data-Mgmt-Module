@@ -34,8 +34,11 @@ import { Location } from '@angular/common';
   ]
 })
 export class ProjectComponent implements OnInit {
+  // area: string;
 
-  displayedColumns: string[] = ['area','projectName','projectNumber', 'projectType','Priority', 'status',  'startDate', 'endDate','actions'];
+  // displayedColumns: string[] = ['area','projectName','projectNumber', 'projectType','Priority', 'status',  'startDate', 'endDate','actions'];
+  displayedColumns: string[] = ['projectName','projectNumber','status', 'actions'];
+
   dataSource = new MatTableDataSource<Project>([]); // Using your Project model
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -54,15 +57,28 @@ export class ProjectComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    this.dataSource.sortingDataAccessor = (data, property) => {
+      console.log('Status data structure:', data.status);
+      switch (property) {
+        case 'projectName':
+          return data.projectName?.toLowerCase();
+        case 'status':
+          return data.status.status.toLowerCase();
+        default:
+          return (data as any)[property];
+      }
+    }
   }
 
   loadProjects() {
     this.projectService.getAllProjects()
       .subscribe((data: Project[]) => {
-        console.log('Loaded materials:', data);
+        console.log('Loaded projects:', data);
         this.dataSource.data = data;
-    //     this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+       
+
       }, error => {
         console.error('Error fetching materials:', error);
       });
@@ -73,8 +89,9 @@ export class ProjectComponent implements OnInit {
 
   openAddProjectDialog() {
       const dialogRef = this.dialog.open(AddprojectComponent, {
-        width: '800%',  
+        width: '80%',  
         maxWidth: '800px',
+        // maxHeight:'65vh',
         disableClose: true,
       });
     }
@@ -82,6 +99,7 @@ export class ProjectComponent implements OnInit {
       const dialogRef = this.dialog.open(UpdateProjectComponent, {
         maxWidth: '800%',
         width: '800px',
+        // maxHeight:'65vh',
         data: project
       });
     
@@ -90,8 +108,16 @@ export class ProjectComponent implements OnInit {
     
 
   applyFilter(event: Event) {
+    // const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    // this.dataSource.filter = filterValue;
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.dataSource.filter = filterValue;
+  
+  // Custom filterPredicate to filter only projectName
+  this.dataSource.filterPredicate = (data, filter: string) => {
+    return data.projectName.toLowerCase().includes(filter); // Only filter projectName
+  };
+
+  this.dataSource.filter = filterValue;  // Apply the filter value
   }
 
 

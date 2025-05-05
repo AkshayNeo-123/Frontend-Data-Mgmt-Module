@@ -19,8 +19,17 @@ export interface Material {
     createdDate: string;
     modifiedBy: number | null;
     modifiedDate: string | null;
-    
+    additive?: Additive;
+    mainPolymer?: Polymer;
   }
 
-
+  export interface Polymer {
+    id: number;
+    polymerName: string;
+  }
   
+
+  export interface Additive {
+    id: number;
+    additiveName: string;
+  }

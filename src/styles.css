@@ -297,3 +297,8 @@ button.toast-close-button {
     .add-btn:focus {
       outline: none;  
     }
+.mat-mdc-option .mat-pseudo-checkbox-minimal {
+  margin-left: 16px;
+  flex-shrink: 0;
+  display: none;
+}

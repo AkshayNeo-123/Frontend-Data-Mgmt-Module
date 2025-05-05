@@ -2,7 +2,7 @@ export interface Project {
   projectId: number;
     projectName: string;
     areaId: number;
-    status: number;
+    statusId: number;
     priority:number;
     ProjectTypeId?:number;
     project_Description: string;
@@ -13,6 +13,12 @@ export interface Project {
     createdDate: string;
     modifiedBy: number | null;
     modifiedDate: string | null;
+    status: status
+  }
+
+  export interface status {
+    id:number;
+    status:string
   }
   
 
@@ -36,11 +42,14 @@ export interface Project {
   export interface UpdateProject {
     projectId: number;
     projectName: string;
-    projectType: number;
-    area: number;
-    priority:number;
+    projectTypeId?: number;
+    areaId?: number;
+    priorityId?:number;
     project_Description: string;
-    startDate: string;
-    endDate: string;
+    startDate?: string;
+    endDate?: string;
+    modifiedBy: number;
+
+
   }
   

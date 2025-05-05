@@ -84,8 +84,10 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
     return tomorrow;
   }
    noPastDateValidator(): ValidatorFn {
+    
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) return null;
+      
   
       const selectedDate = new Date(control.value);
       selectedDate.setHours(0, 0, 0, 0);
@@ -177,9 +179,9 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
     this.projectForm = this.fb.group({
       projectNumber: [{ value: this.data.projectNumber, disabled: true }],
       projectName: [this.data.projectName, Validators.required],
-      projectType: [Number(this.data.projectTypeId)],
-      area: [Number(this.data.areaId)],
-      priority: [Number(this.data.priorityId)],
+      projectTypeId: [Number(this.data?.projectTypeId)],
+      areaId: [Number(this.data?.areaId)],
+      priorityId: [Number(this.data?.priorityId)],
       project_Description: [this.data.project_Description, Validators.required],
       startDate: [this.data.startDate == null ? null: new Date(this.data.startDate),this.noPastDateValidator()
         // this.validateDateIsAfterToday(isInvalidDate(this.data.startDate) ? null : new Date(this.data.startDate)),
@@ -264,16 +266,7 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
   // }
   
 
-  // Helper method to validate existing dates against today
-  // validateDateIsAfterToday(date: Date | null): Date | null {
-  //   if (!date) return null;
-    
-  //   const today = new Date();
-  //   today.setHours(0, 0, 0, 0);
-    
-  //   return date > today ? date : date;
-    
-  // }
+  
 
   loadMasterData() {
     this.projectservice.getProjectTypes().subscribe({
@@ -295,24 +288,6 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
     });
   }
 
-  // onReset(): void {
-  //   const isInvalidDate = (dateStr: string): boolean =>
-  //     !dateStr || dateStr === '0001-01-01T00:00:00';
-  
-  //   this.projectForm.reset({
-  //     projectName: this.data.projectName,
-  //     projectType: [this.data.projectTypeId ? Number(this.data.projectTypeId) : 'null'],
-  //     area: [this.data.areaId ? Number(this.data.areaId) : 'null'],
-  //     priority: [this.data.priorityId ? Number(this.data.priorityId) : 'null'],
-  //     status: [this.data.statusId ? Number(this.data.statusId) : 'null', Validators.required],
-  //     startDate: this.validateDateIsAfterToday(isInvalidDate(this.data.startDate) ? null : new Date(this.data.startDate)),
-  //     endDate: this.validateDateIsAfterToday(isInvalidDate(this.data.endDate) ? null : new Date(this.data.endDate))
-  //   });
-  
-  //   // Reset minEndDate based on new start date or to tomorrow
-  //   const newStartDate = this.projectForm.get('startDate')?.value;
-  //   this.minEndDate = newStartDate ? new Date(newStartDate) : this.getTomorrowDate();
-  // }
 
   onSubmit(): void {
     if (this.projectForm.valid) {
@@ -353,11 +328,19 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
           }
         }
       }
+      const UpdateuserId=localStorage.getItem('UserId');
 
       const updatedProject: UpdateProject = {
         ...cleanedFormValue,
         statusId: cleanedFormValue.status,
-        modifiedBy: user.userId,
+        areaId: cleanedFormValue.areaId === 0 ? null : cleanedFormValue.areaId,
+        projectTypeId: cleanedFormValue.projectTypeId === 0 ? null : cleanedFormValue.projectTypeId,
+        priorityId: cleanedFormValue.priorityId === 0 ? null : cleanedFormValue.priorityId,
+        // projectTypeId:cleanedFormValue.projectType,
+        // priorityId:cleanedFormValue.priority,
+        
+
+        modifiedBy: UpdateuserId,
         modifiedDate: new Date().toISOString()
       };
       

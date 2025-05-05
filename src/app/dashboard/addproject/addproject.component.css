@@ -36,4 +36,9 @@ textarea[matInput] {
       flex: 1 1 100%; /* Stack fields on smaller screens */
     }
   }
+  mat-dialog-content{
+    max-height: 65vh;
+    max-width: 200%;
+    overflow: auto;
+  }
   
