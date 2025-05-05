@@ -44,9 +44,20 @@ export class AddmainpolymerComponent {
       id: [this.data?.id || null],  
       polymerName: [this.data?.polymerName || '', Validators.required],  
     });
+
+    
   }
 
   onSubmit(): void {
+
+    if (this. mainPolymerForm.invalid) {
+      this.toastr.error(
+        'Please fill all required fields.',
+        'Error',
+        { timeOut: 5000 }
+      );
+      return; 
+    }
     if (this.mainPolymerForm.valid) {
       const userJson = localStorage.getItem('user');
       const user = userJson ? JSON.parse(userJson) : null;
