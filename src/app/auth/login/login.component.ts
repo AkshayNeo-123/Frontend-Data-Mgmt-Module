@@ -39,12 +39,18 @@ export class LoginComponent implements OnInit {
     }, 500);
   }
   ngOnInit(): void {
-    
+    const userId = localStorage.getItem('UserId');
+    if (userId) {
+      this.router.navigate(['/dashboard']);
+      return;
+    }
+  
     this.loginForm = this.fb.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
   }
+  
 
   login(): void {
     if (this.loginForm.invalid) return;
@@ -71,7 +77,7 @@ export class LoginComponent implements OnInit {
           confirmButtonText: 'OK'
         });
 
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard'],{ replaceUrl: true });
       },
       
       error:(error)=>{
