@@ -39,7 +39,7 @@
     <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Account Status</mat-label>
       <mat-select [(ngModel)]="newUser.status" name="status" #statusControl="ngModel" required>
-        <mat-option disabled value="">---Select---</mat-option>
+        <mat-option value="">---Select---</mat-option>
         <mat-option value="Active">Active</mat-option>
         <mat-option value="InActive">InActive</mat-option>
       </mat-select>
@@ -84,7 +84,7 @@
     <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Role</mat-label>
       <mat-select [(ngModel)]="newUser.roleId" name="roleId" #role="ngModel" required>
-        <mat-option disabled value="">---Select---</mat-option>
+        <mat-option value="">---Select---</mat-option>
         @for (item of roles; track item.roleId) {
           <mat-option [value]="item.roleId">{{ item.roleName }}</mat-option>
         }

@@ -48,60 +48,178 @@ export class EditUserDialogComponent implements OnInit{
     this.showPassword = !this.showPassword;
   }
 
+  // onSubmit(form: NgForm) {
+    
+  //   if (!this.user.firstName || !this.user.lastName || !this.user.email || !this.user.passwordHash || !this.user.confirmPasswordHash || !this.user.phone || !this.user.roleId) {
+  //     // alert('All fields are required.');
+  //     this.toastr.error(
+  //       'All fields are required.' ,
+  //       'Error',{
+  //         timeOut:5000
+  //       }
+  //     );
+  //     return;
+  //   }
+  
+  //   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   if (!emailPattern.test(this.user.email)) {
+  //     // alert('Invalid email format.');
+  //     this.toastr.error(
+  //       'Invalid email format!' ,
+  //       'Error',{
+  //         timeOut:5000
+  //       }
+  //     );
+  //     return;
+  //   }
+
+  //   const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{6,}$/;
+    
+  //   // if (this.newUser.passwordHash.length < 6) {
+  //   //   alert('Password must be at least 6 characters long.');
+  //   //   return;
+  //   // }
+  //   if (!passwordPattern.test(this.user.passwordHash)) {
+  //     alert('Password must have at least 1 uppercase, 1 lowercase, 1 special character, and be 6+ characters long.');
+  //     return;
+  //   }
+  
+  //   if (!/^\d{10}$/.test(this.user.phone)) {
+  //     // alert('Phone number must be 10 digits.');
+  //     this.toastr.error(
+  //       'Phone number must be 10 digits.' ,
+  //       'Error',{
+  //         timeOut:5000
+  //       }
+  //     );
+  //     return;
+  //   }
+  
+  //   if (!this.user.roleId) {
+  //     alert('Please select a role.');
+  //     return;
+  //   }
+  
+  //   this.userService.addUser(this.user).subscribe({
+  //     next: (res) => {
+  //       // alert('Saved successfully!');
+  //       this.toastr.success(
+  //         'Updated successfully!' ,
+  //         'Success',{
+  //           timeOut:5000
+  //         }
+  //       );
+  //       this.dialogRef.close(true);
+  //     },
+  //     error: (err) => {
+  //       console.error(err);
+  //       // alert('Failed to add user.');
+  //       this.toastr.error(
+  //         'Something went wrong' ,
+  //         'Error',{
+  //           timeOut:5000
+  //         }
+  //       );
+  //     }
+  //   });
+
+  //   // if (!this.user.firstName || !this.user.lastName || !this.user.email || !this.user.passwordHash || !this.user.confirmPasswordHash || !this.user.phone || !this.user.roleId) {
+  //   //   // alert('All fields are required.');
+  //   //   this.toastr.error(
+  //   //     'All fields are required.' ,
+  //   //     'Error',{
+  //   //       timeOut:5000
+  //   //     }
+  //   //   );
+  //   //   return;
+  //   // }
+
+  //   // const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   //   if (!emailPattern.test(this.user.email)) {
+  //   //     // alert('Invalid email format.');
+  //   //     this.toastr.error(
+  //   //       'Invalid email format!' ,
+  //   //       'Error',{
+  //   //         timeOut:5000
+  //   //       }
+  //   //     );
+  //   //     return;
+  //   //   }
+
+  //   // if(form.invalid){
+  //   //   this.toastr.warning(
+  //   //     'Enter a valid password',
+  //   //     'Warning', {
+  //   //       timeOut:5000
+  //   //     }
+  //   //   )
+  //   //   return;
+  //   // }
+  //   // this.userService.updateUser(this.user.userId, this.user).subscribe({
+  //   //   next: () => {
+  //   //     // alert('Updated successfully!');
+  //   //     this.toastr.success(
+  //   //       'Updated successfully!',
+  //   //       'Success',{
+  //   //         timeOut:5000
+  //   //       }
+  //   //     );
+  //   //     this.dialogRef.close(true);
+  //   //   },
+  //   //   error: err => {
+  //   //     console.error(err);
+  //   //     // alert('Failed to update user!');
+  //   //     this.toastr.error(
+  //   //       'Something went wrong!' ,
+  //   //       'Error',{
+  //   //         timeOut:5000
+  //   //       }
+  //   //     );
+  //   //   }
+  //   // });
+  // }
+
   onSubmit(form: NgForm) {
     
-    if (!this.user.firstName || !this.user.lastName || !this.user.email || !this.user.passwordHash || !this.user.confirmPasswordHash || !this.user.phone || !this.user.roleId) {
-      // alert('All fields are required.');
-      this.toastr.error(
-        'All fields are required.' ,
-        'Error',{
-          timeOut:5000
-        }
-      );
+    if (form.invalid) {
+      this.toastr.warning('Please fill all required fields correctly', 'Warning', { timeOut: 5000 });
       return;
     }
-
+  
+    
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailPattern.test(this.user.email)) {
-        // alert('Invalid email format.');
+    if (!emailPattern.test(this.user.email)) {
+      this.toastr.error('Invalid email format!', 'Error', { timeOut: 5000 });
+      return;
+    }
+  
+    
+    if (this.user.passwordHash) {
+      const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{6,}$/;
+      if (!passwordPattern.test(this.user.passwordHash)) {
         this.toastr.error(
-          'Invalid email format!' ,
-          'Error',{
-            timeOut:5000
-          }
+          'Password must have at least 1 uppercase, 1 lowercase, 1 special character, and be 6+ characters long.',
+          'Error',
+          { timeOut: 5000 }
         );
         return;
       }
-
-    if(form.invalid){
-      this.toastr.warning(
-        'Enter a valid password',
-        'Warning', {
-          timeOut:5000
-        }
-      )
+    }
+  
+    if (!/^\d{10}$/.test(this.user.phone)) {
+      this.toastr.error('Phone number must be 10 digits.', 'Error', { timeOut: 5000 });
       return;
     }
+  
+    
     this.userService.updateUser(this.user.userId, this.user).subscribe({
       next: () => {
-        // alert('Updated successfully!');
-        this.toastr.success(
-          'Updated successfully!',
-          'Success',{
-            timeOut:5000
-          }
-        );
+        this.toastr.success('Updated successfully!', 'Success', { timeOut: 5000 });
         this.dialogRef.close(true);
       },
       error: err => {
         console.error(err);
-        // alert('Failed to update user!');
-        this.toastr.error(
-          'Something went wrong!' ,
-          'Error',{
-            timeOut:5000
-          }
-        );
+        this.toastr.error('Failed to update user!', 'Error', { timeOut: 5000 });
       }
     });
   }
