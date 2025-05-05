@@ -27,7 +27,7 @@ import { RoleService } from '../../services/role.service';
 })
 export class RolemasterComponent implements OnInit {
   private roleService = inject(RoleService);
-  displayedColumns: string[] = ['roleId', 'roleName', 'description', 'actions'];
+  displayedColumns: string[] = ['roleName', 'actions'];
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
