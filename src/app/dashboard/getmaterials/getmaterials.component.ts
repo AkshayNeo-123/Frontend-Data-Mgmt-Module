@@ -14,6 +14,7 @@ import { provideToastr, ToastrService } from 'ngx-toastr';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { saveAs } from 'file-saver'; 
 import { HttpClient } from '@angular/common/http';
+import * as XLSX from 'xlsx';
 
 
 @Component({
@@ -108,6 +109,31 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
     });
   }
 
+  exportToExcel() {
+    const worksheetData = this.dataSource.data.map((material: any) => ({
+      'Material No.': material.materialId || '-',
+      'Additive': material.additive?.additiveName || '-',
+      'Main Polymer': material.mainPolymer?.polymerName || '-',
+      'Name': material.materialName || '-',
+      'Manufacturer': material.manufacturer?.contactName || '-',
+      'Quantity [kg]': material.quantity || '-',
+      'Storage Location': material.storageLocation?.name || '-',
+      'Density [g/cm3]': material.density || '-',
+      'MVR/MFR': material.mvrMfr?.name || '-',
+      'Test Method': material.testMethod || '-',
+      'TDS File': material.tdsFilePath || '-',
+      'MSDS File': material.msdsFilePath || '-'
+    }));
+  
+    const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Materials');
+  
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(blob, 'Materials.xlsx');
+  }
+  
   deleteMaterial(materialId: number) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '350px',
