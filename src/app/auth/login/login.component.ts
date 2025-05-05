@@ -5,6 +5,9 @@ import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angula
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2'; // Import SweetAlert2
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +16,10 @@ import Swal from 'sweetalert2'; // Import SweetAlert2
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -41,12 +47,16 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required]],
     });
   }
 
   login(): void {
-    if (this.loginForm.invalid) return;
+    if (this.loginForm.invalid)
+    {
+      this.loginForm.markAllAsTouched(); // force show error messages
+      return;
+    }
   
     this.isLoading = true;
     const { email, password } = this.loginForm.value; // ✨ Only email and password
