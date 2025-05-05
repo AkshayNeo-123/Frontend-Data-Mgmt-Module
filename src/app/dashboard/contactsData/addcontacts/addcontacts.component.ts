@@ -9,6 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { Console } from 'console';
 import { MatRadioModule } from '@angular/material/radio';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-addcontacts',
@@ -34,6 +35,8 @@ export class AddcontactsComponent implements OnInit {
     private fb: FormBuilder,
     private contactService: ContactsService,
     private dialogRef: MatDialogRef<AddcontactsComponent>,
+        private toastr:ToastrService
+    ,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
@@ -88,7 +91,9 @@ export class AddcontactsComponent implements OnInit {
             // alert('Contact added');
             this.dialogRef.close(true);
           },
-          error: (err) => console.error('Add failed', err)
+          error: (err) => console.error('Add failed', err),
+          // this.toastr.error('Failed to delete contact');
+
         });
       }
     }

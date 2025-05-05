@@ -17,6 +17,7 @@
       flex: 1 1 100%; /* Stack fields on smaller screens */
     }
   }
+
   
   .global-hint {
     font-weight: bold;
@@ -25,7 +26,6 @@
     display: block;
     padding-left: 3%;
   }
-  
 
 
   
