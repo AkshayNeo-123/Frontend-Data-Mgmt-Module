@@ -15,6 +15,7 @@ import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { saveAs } from 'file-saver'; 
 import { HttpClient } from '@angular/common/http';
 import * as XLSX from 'xlsx';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @Component({
@@ -29,6 +30,7 @@ import * as XLSX from 'xlsx';
     MatFormFieldModule,
     MatInputModule,
     ConfirmDialogComponent,
+    MatTooltipModule
 
   ],
   
@@ -38,7 +40,7 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
 
 
   displayedColumns: string[] = [
-   'materialId','AdditiveId', 'MainPolymerId', 'materialName','manufacturerId', 'quantity',  'storageLocationId',
+  'AdditiveId', 'MainPolymerId', 'materialName','manufacturerId', 'quantity',  'storageLocationId',
    'density','mvrMfrId',"testMethod",'tdsFilePath','msdsFilePath',"actions"
   ];
   dataSource = new MatTableDataSource<Material>([]);
@@ -56,11 +58,13 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.loadMaterials();
+  
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    
   }
 
   loadMaterials() {
@@ -90,6 +94,10 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+     this.dataSource.filterPredicate = (data, filter: string) => {
+      return data.materialName.toLowerCase().includes(filter); 
+    };
+   
     this.dataSource.filter = filterValue;
   }
   
@@ -111,7 +119,7 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
 
   exportToExcel() {
     const worksheetData = this.dataSource.data.map((material: any) => ({
-      'Material No.': material.materialId || '-',
+      // 'Material No.': material.materialId || '-',
       'Additive': material.additive?.additiveName || '-',
       'Main Polymer': material.mainPolymer?.polymerName || '-',
       'Name': material.materialName || '-',
