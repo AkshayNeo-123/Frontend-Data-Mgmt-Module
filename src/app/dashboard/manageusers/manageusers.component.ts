@@ -31,7 +31,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ManageusersComponent implements OnInit {
   // displayedColumns: string[] = ['userId', 'firstName', 'lastName', 'email', 'roleId', 'status', 'actions'];
-  displayedColumns: string[] = ['userId', 'firstName', 'status', 'roleId', 'actions'];
+  displayedColumns: string[] = ['userId', 'firstName', 'lastName', 'status', 'roleId', 'actions'];
   dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
