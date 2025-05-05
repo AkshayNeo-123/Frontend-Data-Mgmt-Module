@@ -40,7 +40,13 @@ export class EditUserDialogComponent implements OnInit{
     this.user = { ...data }; // cloning data to avoid direct mutation
   }
   ngOnInit(): void {
-    this.loadRoles()
+    this.loadRoles();
+    this.user.roleId = Number(this.user.roleId);
+  }
+
+  compareRoles(r1: any, r2: any): boolean {
+    // comparing by value if numbers, or convert both to same type
+    return r1 == r2; // looses equality handles string/number mismatch
   }
 
   showPassword=false;
@@ -228,7 +234,7 @@ export class EditUserDialogComponent implements OnInit{
     this.userService.getRoles().subscribe({
       next: (res) => {
         console.log('Roles from API:', res);
-        this.roles = res;
+        this.roles = res.map(role => ({ ...role, roleId: Number(role.roleId) }));
       },
       error: (err) => {
         console.error('Failed to load roles:', err);

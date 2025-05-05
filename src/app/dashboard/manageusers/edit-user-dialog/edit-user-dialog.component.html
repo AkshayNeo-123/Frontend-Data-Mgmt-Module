@@ -52,8 +52,8 @@
   <!-- role dropdown -->
   <mat-form-field appearance="outline" class="w-100 mb-3">
     <mat-label>Role</mat-label>
-    <mat-select [(ngModel)]="user.roleId" name="roleId" #role="ngModel" required>
-      <mat-option disabled value="">---Select---</mat-option>
+    <mat-select [(ngModel)]="user.roleId" name="roleId" #role="ngModel" required [compareWith]="compareRoles">
+      <mat-option value="">---Select---</mat-option>
       @for (item of roles; track item.roleId) {
         <mat-option [value]="item.roleId">{{ item.roleName }}</mat-option>
       }

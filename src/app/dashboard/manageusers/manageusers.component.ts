@@ -12,6 +12,7 @@ import { AddUserDialogComponent } from './add-user-dialog/add-user-dialog.compon
 import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
 import { Location } from '@angular/common';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-manageusers',
@@ -38,7 +39,8 @@ export class ManageusersComponent implements OnInit {
   constructor(
     private userService: UserService,
     private dialog: MatDialog,
-    private location: Location
+    private location: Location,
+    private toastr: ToastrService
     // private router: Router
     ) {}
 
@@ -99,7 +101,7 @@ export class ManageusersComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Confirm Delete',
-        message: 'Do you really want to delete this user?'
+        message: 'Do you really want to delete this record?'
       }
     });
   
@@ -108,11 +110,16 @@ export class ManageusersComponent implements OnInit {
         this.userService.deleteUser(id).subscribe({
           next: () => {
             this.dataSource.data = this.dataSource.data.filter(user => user.userId !== id);
-            alert('Deleted successfully!');
+            this.toastr.success('Deleted successfully','Success',{
+              timeOut:5000
+            });
           },
           error: err => {
             console.error('Error deleting user:', err);
-            alert('Failed to delete the user!');
+            // alert('Failed to delete the user!');
+            this.toastr.warning('Failed to delete the user!','Warning',{
+              timeOut:5000
+            });
           }
         });
       }

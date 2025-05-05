@@ -38,7 +38,7 @@
       confirmPasswordHash: '',
       phone: '',
       roleId: '',
-      status: ''
+      status: 'Active'
     };
     get passwordsMatch(): boolean {
 
