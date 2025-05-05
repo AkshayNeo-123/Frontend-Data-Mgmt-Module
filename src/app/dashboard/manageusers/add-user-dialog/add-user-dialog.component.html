@@ -36,18 +36,6 @@
       </select>
     </mat-form-field> -->
 
-    <mat-form-field appearance="outline" class="w-100 mb-3">
-      <mat-label>Account Status</mat-label>
-      <mat-select [(ngModel)]="newUser.status" name="status" #statusControl="ngModel" required>
-        <mat-option value="">---Select---</mat-option>
-        <mat-option value="Active">Active</mat-option>
-        <mat-option value="InActive">InActive</mat-option>
-      </mat-select>
-      <mat-error *ngIf="statusControl.invalid && statusControl.touched">
-        Account Status is required
-      </mat-error>
-    </mat-form-field>
-
     <!-- <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Account Status</mat-label>
       <mat-select [(ngModel)]="newUser.status" name="status" required>
@@ -131,6 +119,27 @@
         Phone number must be 10 digits
       </mat-error>
     </mat-form-field>
+
+    <!-- <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Account Status</mat-label>
+      <mat-select [(ngModel)]="newUser.status" name="status" #statusControl="ngModel" required>
+        <mat-option value="">---Select---</mat-option>
+        <mat-option value="Active">Active</mat-option>
+        <mat-option value="InActive">InActive</mat-option>
+      </mat-select>
+      <mat-error *ngIf="statusControl.invalid && statusControl.touched">
+        Account Status is required
+      </mat-error>
+    </mat-form-field> -->
+    
+    <label class="mb-2">Account Status *</label>
+    <mat-radio-group [(ngModel)]="newUser.status" name="status" required>
+      <mat-radio-button value="Active">Active</mat-radio-button>
+      <mat-radio-button value="InActive">InActive</mat-radio-button>
+    </mat-radio-group>
+    <div class="text-danger" *ngIf="!newUser.status && userForm.submitted">
+      Account Status is required
+    </div>
 
       <mat-dialog-actions align="end">
         <button mat-raised-button color="primary" type="submit">Save</button>

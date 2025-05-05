@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatOptionModule } from '@angular/material/core';
 import { ToastrService } from 'ngx-toastr';
+import { MatRadioModule } from '@angular/material/radio';
 
 @Component({
   selector: 'app-edit-user-dialog',
@@ -23,7 +24,8 @@ import { ToastrService } from 'ngx-toastr';
     MatButtonModule,
     MatSelectModule,
     MatIconModule,
-    MatOptionModule
+    MatOptionModule,
+    MatRadioModule
   ],
   templateUrl: './edit-user-dialog.component.html',
   styleUrl: './edit-user-dialog.component.css'
@@ -44,10 +46,10 @@ export class EditUserDialogComponent implements OnInit{
     this.user.roleId = Number(this.user.roleId);
   }
 
-  compareRoles(r1: any, r2: any): boolean {
-    // comparing by value if numbers, or convert both to same type
-    return r1 == r2; // looses equality handles string/number mismatch
-  }
+  // compareRoles(r1: any, r2: any): boolean {
+  //   // comparing by value if numbers, or convert both to same type
+  //   return r1 == r2; // looses equality handles string/number mismatch
+  // }
 
   showPassword=false;
   togglePasswordVisibility() {

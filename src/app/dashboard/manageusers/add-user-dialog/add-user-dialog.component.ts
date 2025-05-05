@@ -10,6 +10,7 @@
   import { MatOptionModule } from '@angular/material/core';
   import { MatSelectModule } from '@angular/material/select';
   import { ToastrService } from 'ngx-toastr';
+  import { MatRadioModule } from '@angular/material/radio';
 
   @Component({
     selector: 'app-add-user-dialog',
@@ -23,7 +24,8 @@
       MatButtonModule,
       MatSelectModule,
       MatOptionModule,
-      MatIconModule
+      MatIconModule,
+      MatRadioModule
     ],
     templateUrl: './add-user-dialog.component.html',
     styleUrl: './add-user-dialog.component.css'

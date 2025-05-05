@@ -271,3 +271,8 @@ button.toast-close-button {
 ::ng-deep .mat-option .mat-pseudo-checkbox {
   display: none !important;
 }
+
+.mat-mdc-option .mat-pseudo-checkbox-minimal{
+  display: none !important;
+    }
+    
