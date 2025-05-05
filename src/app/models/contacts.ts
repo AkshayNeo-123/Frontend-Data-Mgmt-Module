@@ -27,9 +27,9 @@ export enum ContactTyps{
 export interface Additives{
     id?: number;
     additiveName: string;
-    createdBy: number | null;
+    createdBy: number;
     createdDate: Date;
-    modifiedBy: number | null;
+    modifiedBy: number;
     modifiedDate: Date ;
     }
    
