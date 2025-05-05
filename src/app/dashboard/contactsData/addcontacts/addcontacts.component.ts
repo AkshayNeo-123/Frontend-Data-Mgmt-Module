@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, NgModel } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ContactsService } from '../../../services/contacts.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Console } from 'console';
 import { MatRadioModule } from '@angular/material/radio';
 import { ToastrService } from 'ngx-toastr';
+import { ContactTyps } from '../../../models/contacts';
 
 @Component({
   selector: 'app-addcontacts',
@@ -18,6 +19,7 @@ import { ToastrService } from 'ngx-toastr';
   standalone: true,
   imports: [
     CommonModule,
+    
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -30,7 +32,7 @@ import { ToastrService } from 'ngx-toastr';
 export class AddcontactsComponent implements OnInit {
   contactForm!: FormGroup;
   isEditMode: boolean = false;
-
+  filteredCities: string[] = [];
   constructor(
     private fb: FormBuilder,
     private contactService: ContactsService,
@@ -39,26 +41,89 @@ export class AddcontactsComponent implements OnInit {
     ,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
-
   ngOnInit(): void {
     console.log('Data passed to dialog:', this.data);
     this.isEditMode = !!this.data;
-  console.log("See the data ",this.data)
+    console.log("See the data ", this.data);
+    
+    // Initialize the contact form
     this.contactForm = this.fb.group({
-      contactId:[this.data?.contactId||null],
-      contactName: [this.data?.contactName || '', Validators.required],
-      contactType: [this.data?.contactType ||null, Validators.required],
+      contactId: [this.data?.contactId || null],
+  
+      contactName: [this.data?.contactName || '', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.pattern(/^[a-zA-Z\s]+$/)
+      ]],
+  
+      contactType: [this.isEditMode ? this.data?.contactType : 1, Validators.required],   
       addressLine1: [this.data?.addressLine1 || '', Validators.required],
-      addressLine2: [this.data?.addressLine2 || ''],
-      city: [this.data?.city || '', Validators.required],
+
+      addressLine2: [this.data?.addressLine1 || ''],
+
+      city: [this.data?.city || '', [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z\s]+$/),
+      ]],
+  
       state: [this.data?.state || '', Validators.required],
-      zip: [this.data?.zip || '', Validators.required],
-      email: [this.data?.email || '', [Validators.required, Validators.email]],
-      phone: [this.data?.phone || '', Validators.required]
+  
+      zip: [this.data?.zip || '', [
+        Validators.required,
+        Validators.pattern(/^[0-9]{5,6}$/)
+      ]],
+  
+      email: [this.data?.email || '', [
+        Validators.required,
+        Validators.email
+      ]],
+  
+      phone: [this.data?.phone || '', [
+        Validators.required,
+        Validators.pattern(/^[0-9]{10}$/)
+      ]]
     });
+  
+    if (this.data?.state) {
+      this.onStateChange(this.data.state);  
+    }
+  }
+  
+  allowOnlyNumber(event: KeyboardEvent): void {
+    const char = event.key;
+    if (!/^[0-9]$/.test(char)) {
+      event.preventDefault();
+    }
   }
 
+  allowOnlyNumbers(event: KeyboardEvent): void {
+    const charCode = event.key.charCodeAt(0);
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
+  allowOnlyLetters(event: KeyboardEvent): void {
+    const char = event.key;
+    const isLetterOrSpace = /^[a-zA-Z\s]$/.test(char);
+    if (!isLetterOrSpace) {
+      event.preventDefault();
+    }
+  }
+  
+
   onSubmit(): void {
+    this.contactForm.markAllAsTouched();
+
+     
+    if (this.contactForm.invalid) {
+      this.toastr.error(
+        'Please fill all required fields.',
+        'Error',
+        { timeOut: 5000 }
+      );
+      return; 
+    }
+
     if (this.contactForm.valid) {
       const userJson = localStorage.getItem('user');
       const user = userJson ? JSON.parse(userJson) : null;
@@ -91,17 +156,19 @@ export class AddcontactsComponent implements OnInit {
             // alert('Contact added');
             this.dialogRef.close(true);
           },
-          error: (err) => console.error('Add failed', err),
-          // this.toastr.error('Failed to delete contact');
-
+          error: (error)=>{
+            console.error('save error:',error);
+          
+          // this.toastr.error('Failed to add contact','error',{
+            //  timeOut:5000
+          // });
+        }
         });
       }
     }
   }
 
-  onCancel() {
-    this.dialogRef.close(false);
-  }
+ 
   states = [
     { value: 'CA', viewValue: 'California' },
     { value: 'TX', viewValue: 'Texas' },
@@ -134,5 +201,46 @@ export class AddcontactsComponent implements OnInit {
     { value: 'WLS', viewValue: 'Wales' },
     { value: 'NIR', viewValue: 'Northern Ireland' }
   ];
+
+  citiesByState: { [key: string]: string[] } = {
+    'CA': ['Los Angeles', 'San Francisco', 'San Diego', 'Sacramento', 'San Jose'],
+    'TX': ['Houston', 'Dallas', 'Austin', 'San Antonio', 'Fort Worth'],
+    'NY': ['New York City', 'Buffalo', 'Rochester', 'Albany', 'Syracuse'],
+    'FL': ['Miami', 'Orlando', 'Tampa', 'Jacksonville', 'Fort Lauderdale'],
+    'IL': ['Chicago', 'Aurora', 'Naperville', 'Peoria', 'Rockford'],
+    'WA': ['Seattle', 'Spokane', 'Tacoma', 'Vancouver', 'Bellevue'],
+  
+    'ON': ['Toronto', 'Ottawa', 'Hamilton', 'Mississauga', 'London'],
+    'QC': ['Montreal', 'Quebec City', 'Laval', 'Gatineau', 'Sherbrooke'],
+    'BC': ['Vancouver', 'Victoria', 'Richmond', 'Burnaby', 'Kelowna'],
+    'AB': ['Calgary', 'Edmonton', 'Red Deer', 'Lethbridge', 'Medicine Hat'],
+    'MB': ['Winnipeg', 'Brandon', 'Steinbach', 'Thompson', 'Portage la Prairie'],
+  
+    'MH': ['Mumbai', 'Pune', 'Nagpur', 'Nashik', 'Thane'],
+    'DL': ['New Delhi', 'Dwarka', 'Rohini', 'Connaught Place', 'Karol Bagh'],
+    'KA': ['Bangalore', 'Mysore', 'Mangalore', 'Hubli', 'Bijapur'],
+    'TN': ['Chennai', 'Coimbatore', 'Madurai', 'Trichy', 'Salem'],
+    'WB': ['Kolkata', 'Howrah', 'Siliguri', 'Durgapur', 'Asansol'],
+    'RJ': ['Jaipur', 'Udaipur', 'Jodhpur', 'Kota', 'Ajmer'],
+  
+    'NSW': ['Sydney', 'Newcastle', 'Wollongong', 'Maitland', 'Coffs Harbour'],
+    'VIC': ['Melbourne', 'Geelong', 'Ballarat', 'Bendigo', 'Shepparton'],
+    'QLD': ['Brisbane', 'Gold Coast', 'Cairns', 'Townsville', 'Sunshine Coast'],
+    'WA-AU': ['Perth', 'Mandurah', 'Bunbury', 'Geraldton', 'Albany'],
+    'SA': ['Adelaide', 'Mount Gambier', 'Murray Bridge', 'Whyalla', 'Port Augusta'],
+  
+    'ENG': ['London', 'Manchester', 'Birmingham', 'Liverpool', 'Leeds'],
+    'SCT': ['Edinburgh', 'Glasgow', 'Aberdeen', 'Dundee', 'Perth'],
+    'WLS': ['Cardiff', 'Swansea', 'Newport', 'Bangor', 'Wrexham'],
+    'NIR': ['Belfast', 'Derry', 'Lisburn', 'Newtownabbey', 'Armagh']
+  };
+  onStateChange(selectedState: string): void {
+    this.filteredCities = this.citiesByState[selectedState] || [];
+    // this.contactForm.patchValue({ city: '' }); 
+  }
+    
+   onCancel() {
+    this.dialogRef.close(false);
+  }
   
 }

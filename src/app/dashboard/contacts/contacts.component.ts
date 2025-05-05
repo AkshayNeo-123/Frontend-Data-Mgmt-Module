@@ -56,7 +56,19 @@ export class ContactsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      if (property === 'contactType') {
+        return this.getContactTypeName(item.contactType).toLowerCase();
+      }
+      return (item as any)[property];
+    };
   }
+
+  getContactTypeName(type: number): string {
+    return ContactTyps[type];
+  }
+
 
   fetchContacts(): void {
     this.contactService.getAllContacts().subscribe({
@@ -70,11 +82,15 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  applyFilter(event: Event): void {
+  applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.dataSource.filter = filterValue;
+     this.dataSource.filterPredicate = (data, filter: string) => {
+      return data.contactName.toLowerCase().includes(filter);
+    };
+  this.dataSource.filter=filterValue
   }
 
+  
   openAddContactDialog(contact?:Contact) {
     console.log('Data passed to dialog:', contact);
       const dialogRef = this.dialog.open(AddcontactsComponent, {
@@ -87,7 +103,7 @@ export class ContactsComponent implements OnInit, AfterViewInit {
       dialogRef.afterClosed().subscribe(result => {
 
         if (result) {
-                  this.toastr.success('Added successfully');
+                  this.toastr.success('Added successfully','Success');
 
           this.fetchContacts();  
         }
@@ -107,7 +123,7 @@ export class ContactsComponent implements OnInit, AfterViewInit {
         
 
         if (result) {
-                  this.toastr.success('Updated successfully');
+                  this.toastr.success('Updated successfully','Success');
                
                 
           this.fetchContacts(); 
