@@ -15,20 +15,20 @@
   </div>
 
   <div class="d-flex justify-content-center">
-    <div class="w-auto" style="min-width: 600px; max-width: 600px;">
+    <div class="w-auto" >
       <table mat-table [dataSource]="dataSource" matSort matSortStart="desc" matSortDisableClear="true" disableClear="true" class="table table-bordered table-striped table-hover mat-elevation-z8"
              style="table-layout: fixed; width: 100%; text-align: center;">
 
         <ng-container matColumnDef="additiveName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header 
-              style="width: 60%; text-align: center;">Additive Name</th>
+           >Additive Name</th>
           <td mat-cell *matCellDef="let element" 
               >{{ element.additiveName }}</td>
         </ng-container>
         
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef 
-              style="width: 40%;">Actions</th>
+             >Actions</th>
           <td mat-cell *matCellDef="let element" 
              >
             <i class="fas fa-pencil-alt me-3 action-icon text-primary" (click)="editAdditiveData(element)"></i>

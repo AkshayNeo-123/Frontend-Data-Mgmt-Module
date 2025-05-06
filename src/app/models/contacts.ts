@@ -5,8 +5,8 @@ export interface Contact {
     addressLine1: string;
     addressLine2?: string;
     
-    city: string;
-    state: string;
+    cityId: number;
+    stateId: number;
     zip: number;
     email: string;
     phone?: string;
@@ -17,7 +17,17 @@ createdDate? :Date;
 updatedDate? :Date;
 }
 
+export interface States{
+    id?:number;
+    stateName:string;
 
+}
+
+export interface Cities{
+    id:number;
+    cityName:string;
+    stateId:number;
+}
 export enum ContactTyps{
     Manufacturer=1,
     Supplier,
@@ -36,4 +46,9 @@ export interface Additives{
 export interface MainPolymer{
             id?:number;
             polymerName:string;
+        }
+
+        export interface States{
+            id?:number;
+            StateName:string;
         }

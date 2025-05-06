@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Contact } from '../models/contacts';
+import { Cities, Contact, States } from '../models/contacts';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +9,8 @@ import { Contact } from '../models/contacts';
 export class ContactsService {
 
   private baseUrl = 'https://localhost:7030/api/Contact'; 
+  private apiUrl='https://localhost:7030/api/States';
+
 
    contactid?:number;
   constructor(private http: HttpClient) {}
@@ -25,6 +27,15 @@ updateContact(id:number,contact: Contact):Observable<Contact> {
   return this.http.put<Contact>(`${this.baseUrl}?id=${id}`, contact);
 }
 
+
+GetAllStates():Observable<States[]>{
+  return this.http.get<States[]>(`${this.baseUrl}/states`);
+  
+  
+}
+getCitiesByState(stateId: number):Observable<Cities[]> {
+  return this.http.get<Cities[]>(`https://localhost:7030/api/States/cities?id=${stateId}`);
+}
 getContact(id:number):Observable<Contact>
 
 {

@@ -11,6 +11,10 @@ import { Console } from 'console';
 import { MatRadioModule } from '@angular/material/radio';
 import { ToastrService } from 'ngx-toastr';
 import { ContactTyps } from '../../../models/contacts';
+import { States } from '../../../models/contacts';
+import { Cities } from '../../../models/contacts';
+
+
 
 @Component({
   selector: 'app-addcontacts',
@@ -33,6 +37,8 @@ export class AddcontactsComponent implements OnInit {
   contactForm!: FormGroup;
   isEditMode: boolean = false;
   filteredCities: string[] = [];
+  states: any[] = [];
+  cities: any[] = [];
   constructor(
     private fb: FormBuilder,
     private contactService: ContactsService,
@@ -44,9 +50,19 @@ export class AddcontactsComponent implements OnInit {
   ngOnInit(): void {
     console.log('Data passed to dialog:', this.data);
     this.isEditMode = !!this.data;
+   
+    this.loadStates();
+
+    this.contactForm.get('stateId')?.valueChanges.subscribe(stateId => {
+      if (stateId) this.loadCitiesByState(stateId);
+    });
+
+    if (this.isEditMode && this.data?.stateId) {
+      this.loadCitiesByState(this.data.stateId);
+    }
+
     console.log("See the data ", this.data);
     
-    // Initialize the contact form
     this.contactForm = this.fb.group({
       contactId: [this.data?.contactId || null],
   
@@ -57,16 +73,12 @@ export class AddcontactsComponent implements OnInit {
       ]],
   
       contactType: [this.isEditMode ? this.data?.contactType : 1, Validators.required],   
-      addressLine1: [this.data?.addressLine1 || '', Validators.required],
+      addressLine1: [this.data?.addressLine1 || '', [Validators.required, Validators.maxLength(50)]],
 
       addressLine2: [this.data?.addressLine1 || ''],
 
-      city: [this.data?.city || '', [
-        Validators.required,
-        Validators.pattern(/^[a-zA-Z\s]+$/),
-      ]],
-  
-      state: [this.data?.state || '', Validators.required],
+      stateId: [this.data?.stateId || '', Validators.required],
+      cityId: [this.data?.cityId || '', Validators.required],
   
       zip: [this.data?.zip || '', [
         Validators.required,
@@ -84,10 +96,19 @@ export class AddcontactsComponent implements OnInit {
       ]]
     });
   
-    if (this.data?.state) {
-      this.onStateChange(this.data.state);  
-    }
+    // if (this.data?.state) {
+    //   this.onStateChange(this.data.state);  
+    // }
   }
+
+  loadStates(){
+    this.contactService.GetAllStates().subscribe(res => this.states = res);
+  }
+
+  loadCitiesByState(stateId: number) {
+    this.contactService.getCitiesByState(stateId).subscribe(res => this.cities = res);
+  }
+
   
   allowOnlyNumber(event: KeyboardEvent): void {
     const char = event.key;
@@ -103,6 +124,8 @@ export class AddcontactsComponent implements OnInit {
     }
   }
   allowOnlyLetters(event: KeyboardEvent): void {
+    // const input = event.target as HTMLInputElement;
+
     const char = event.key;
     const isLetterOrSpace = /^[a-zA-Z\s]$/.test(char);
     if (!isLetterOrSpace) {
@@ -168,77 +191,7 @@ export class AddcontactsComponent implements OnInit {
     }
   }
 
- 
-  states = [
-    { value: 'CA', viewValue: 'California' },
-    { value: 'TX', viewValue: 'Texas' },
-    { value: 'NY', viewValue: 'New York' },
-    { value: 'FL', viewValue: 'Florida' },
-    { value: 'IL', viewValue: 'Illinois' },
-    { value: 'WA', viewValue: 'Washington' },
-  
-    { value: 'ON', viewValue: 'Ontario' },
-    { value: 'QC', viewValue: 'Quebec' },
-    { value: 'BC', viewValue: 'British Columbia' },
-    { value: 'AB', viewValue: 'Alberta' },
-    { value: 'MB', viewValue: 'Manitoba' },
-  
-    { value: 'MH', viewValue: 'Maharashtra' },
-    { value: 'DL', viewValue: 'Delhi' },
-    { value: 'KA', viewValue: 'Karnataka' },
-    { value: 'TN', viewValue: 'Tamil Nadu' },
-    { value: 'WB', viewValue: 'West Bengal' },
-    { value: 'RJ', viewValue: 'Rajasthan' },
-  
-    { value: 'NSW', viewValue: 'New South Wales' },
-    { value: 'VIC', viewValue: 'Victoria' },
-    { value: 'QLD', viewValue: 'Queensland' },
-    { value: 'WA-AU', viewValue: 'Western Australia' },
-    { value: 'SA', viewValue: 'South Australia' },
-  
-    { value: 'ENG', viewValue: 'England' },
-    { value: 'SCT', viewValue: 'Scotland' },
-    { value: 'WLS', viewValue: 'Wales' },
-    { value: 'NIR', viewValue: 'Northern Ireland' }
-  ];
-
-  citiesByState: { [key: string]: string[] } = {
-    'CA': ['Los Angeles', 'San Francisco', 'San Diego', 'Sacramento', 'San Jose'],
-    'TX': ['Houston', 'Dallas', 'Austin', 'San Antonio', 'Fort Worth'],
-    'NY': ['New York City', 'Buffalo', 'Rochester', 'Albany', 'Syracuse'],
-    'FL': ['Miami', 'Orlando', 'Tampa', 'Jacksonville', 'Fort Lauderdale'],
-    'IL': ['Chicago', 'Aurora', 'Naperville', 'Peoria', 'Rockford'],
-    'WA': ['Seattle', 'Spokane', 'Tacoma', 'Vancouver', 'Bellevue'],
-  
-    'ON': ['Toronto', 'Ottawa', 'Hamilton', 'Mississauga', 'London'],
-    'QC': ['Montreal', 'Quebec City', 'Laval', 'Gatineau', 'Sherbrooke'],
-    'BC': ['Vancouver', 'Victoria', 'Richmond', 'Burnaby', 'Kelowna'],
-    'AB': ['Calgary', 'Edmonton', 'Red Deer', 'Lethbridge', 'Medicine Hat'],
-    'MB': ['Winnipeg', 'Brandon', 'Steinbach', 'Thompson', 'Portage la Prairie'],
-  
-    'MH': ['Mumbai', 'Pune', 'Nagpur', 'Nashik', 'Thane'],
-    'DL': ['New Delhi', 'Dwarka', 'Rohini', 'Connaught Place', 'Karol Bagh'],
-    'KA': ['Bangalore', 'Mysore', 'Mangalore', 'Hubli', 'Bijapur'],
-    'TN': ['Chennai', 'Coimbatore', 'Madurai', 'Trichy', 'Salem'],
-    'WB': ['Kolkata', 'Howrah', 'Siliguri', 'Durgapur', 'Asansol'],
-    'RJ': ['Jaipur', 'Udaipur', 'Jodhpur', 'Kota', 'Ajmer'],
-  
-    'NSW': ['Sydney', 'Newcastle', 'Wollongong', 'Maitland', 'Coffs Harbour'],
-    'VIC': ['Melbourne', 'Geelong', 'Ballarat', 'Bendigo', 'Shepparton'],
-    'QLD': ['Brisbane', 'Gold Coast', 'Cairns', 'Townsville', 'Sunshine Coast'],
-    'WA-AU': ['Perth', 'Mandurah', 'Bunbury', 'Geraldton', 'Albany'],
-    'SA': ['Adelaide', 'Mount Gambier', 'Murray Bridge', 'Whyalla', 'Port Augusta'],
-  
-    'ENG': ['London', 'Manchester', 'Birmingham', 'Liverpool', 'Leeds'],
-    'SCT': ['Edinburgh', 'Glasgow', 'Aberdeen', 'Dundee', 'Perth'],
-    'WLS': ['Cardiff', 'Swansea', 'Newport', 'Bangor', 'Wrexham'],
-    'NIR': ['Belfast', 'Derry', 'Lisburn', 'Newtownabbey', 'Armagh']
-  };
-  onStateChange(selectedState: string): void {
-    this.filteredCities = this.citiesByState[selectedState] || [];
-    // this.contactForm.patchValue({ city: '' }); 
-  }
-    
+     
    onCancel() {
     this.dialogRef.close(false);
   }
