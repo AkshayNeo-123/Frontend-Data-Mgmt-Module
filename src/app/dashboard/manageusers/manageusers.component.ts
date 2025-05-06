@@ -125,10 +125,12 @@ export class ManageusersComponent implements OnInit {
         message: 'Do you really want to delete this record?'
       }
     });
+
+    const uId=Number(localStorage.getItem('UserId'));
   
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        this.userService.deleteUser(id).subscribe({
+        this.userService.deleteUser(id,uId).subscribe({
           next: () => {
             this.dataSource.data = this.dataSource.data.filter(user => user.userId !== id);
             this.toastr.success('Deleted successfully','Success',{
