@@ -11,7 +11,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddUserDialogComponent } from './add-user-dialog/add-user-dialog.component';
 import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
 import { Location } from '@angular/common';
-// import { Router } from '@angular/router';
+import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-manageusers',
@@ -22,14 +23,15 @@ import { Location } from '@angular/common';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatButtonModule
+    MatButtonModule,
+    ConfirmDialogComponent
   ],
   templateUrl: './manageusers.component.html',
   styleUrl: './manageusers.component.css'
 })
 export class ManageusersComponent implements OnInit {
   // displayedColumns: string[] = ['userId', 'firstName', 'lastName', 'email', 'roleId', 'status', 'actions'];
-  displayedColumns: string[] = ['userId', 'firstName', 'status', 'roleId', 'actions'];
+  displayedColumns: string[] = ['userId', 'userName', 'status', 'roleId', 'actions'];
   dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -37,7 +39,8 @@ export class ManageusersComponent implements OnInit {
   constructor(
     private userService: UserService,
     private dialog: MatDialog,
-    private location: Location
+    private location: Location,
+    private toastr: ToastrService
     // private router: Router
     ) {}
 
@@ -69,7 +72,17 @@ export class ManageusersComponent implements OnInit {
         this.dataSource = new MatTableDataSource(users);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-      },
+        this.dataSource.sortingDataAccessor = (item, property) => {          
+          switch (property) {
+            case 'userName':
+              return `${item.firstName.toLowerCase()} ${item.lastName.toLowerCase()}`; // Sort by last name first, then first name
+            case 'roleId':
+              return item.role?.roleName?.toLowerCase() 
+            default:
+              return item[property];
+          }
+        };
+       },
       error: (err) => {
         console.error('Error fetching users:', err);
       }
@@ -77,7 +90,18 @@ export class ManageusersComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.dataSource.sortingDataAccessor = (item, property) => {          
+          switch (property) {
+            case 'userName':
+              return `${item.firstName.toLowerCase()} ${item.lastName.toLowerCase()}`; // Sort by last name first, then first name
+            case 'roleId':
+              return item.role?.roleName?.toLowerCase() 
+            default:
+              return item[property];
+          }
+        };
   }
 
   editUser(user: any) {
@@ -95,20 +119,36 @@ export class ManageusersComponent implements OnInit {
   }
 
   deleteUser(id: number) {
-    if(confirm('Do you really want to delete this record?')){
-      this.userService.deleteUser(id).subscribe({
-        next: () => {
-          this.dataSource.data = this.dataSource.data.filter(user => user.userId !== id);
-          alert('Deleted successfully!!');
-        },
-        error: err =>{
-          console.error('Error deleting user:', err);
-          alert('Failed to delete the user!!')
-        }
-      });
-    }
-  }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Confirm Delete',
+        message: 'Do you really want to delete this record?'
+      }
+    });
 
+    const uId=Number(localStorage.getItem('UserId'));
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.userService.deleteUser(id,uId).subscribe({
+          next: () => {
+            this.dataSource.data = this.dataSource.data.filter(user => user.userId !== id);
+            this.toastr.success('Deleted successfully','Success',{
+              timeOut:5000
+            });
+          },
+          error: err => {
+            console.error('Error deleting user:', err);
+            // alert('Failed to delete the user!');
+            this.toastr.warning('Failed to delete the user!','Warning',{
+              timeOut:5000
+            });
+          }
+        });
+      }
+    });
+  }
+  
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.dataSource.filter = filterValue;

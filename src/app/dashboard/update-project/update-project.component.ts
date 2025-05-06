@@ -266,16 +266,7 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
   // }
   
 
-  // Helper method to validate existing dates against today
-  // validateDateIsAfterToday(date: Date | null): Date | null {
-  //   if (!date) return null;
-    
-  //   const today = new Date();
-  //   today.setHours(0, 0, 0, 0);
-    
-  //   return date > today ? date : date;
-    
-  // }
+  
 
   loadMasterData() {
     this.projectservice.getProjectTypes().subscribe({
@@ -297,24 +288,6 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
     });
   }
 
-  // onReset(): void {
-  //   const isInvalidDate = (dateStr: string): boolean =>
-  //     !dateStr || dateStr === '0001-01-01T00:00:00';
-  
-  //   this.projectForm.reset({
-  //     projectName: this.data.projectName,
-  //     projectType: [this.data.projectTypeId ? Number(this.data.projectTypeId) : 'null'],
-  //     area: [this.data.areaId ? Number(this.data.areaId) : 'null'],
-  //     priority: [this.data.priorityId ? Number(this.data.priorityId) : 'null'],
-  //     status: [this.data.statusId ? Number(this.data.statusId) : 'null', Validators.required],
-  //     startDate: this.validateDateIsAfterToday(isInvalidDate(this.data.startDate) ? null : new Date(this.data.startDate)),
-  //     endDate: this.validateDateIsAfterToday(isInvalidDate(this.data.endDate) ? null : new Date(this.data.endDate))
-  //   });
-  
-  //   // Reset minEndDate based on new start date or to tomorrow
-  //   const newStartDate = this.projectForm.get('startDate')?.value;
-  //   this.minEndDate = newStartDate ? new Date(newStartDate) : this.getTomorrowDate();
-  // }
 
   onSubmit(): void {
     if (this.projectForm.valid) {

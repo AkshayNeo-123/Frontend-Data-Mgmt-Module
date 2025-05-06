@@ -36,18 +36,6 @@
       </select>
     </mat-form-field> -->
 
-    <mat-form-field appearance="outline" class="w-100 mb-3">
-      <mat-label>Account Status</mat-label>
-      <mat-select [(ngModel)]="newUser.status" name="status" #statusControl="ngModel" required>
-        <mat-option disabled value="">---Select---</mat-option>
-        <mat-option value="Active">Active</mat-option>
-        <mat-option value="InActive">InActive</mat-option>
-      </mat-select>
-      <mat-error *ngIf="statusControl.invalid && statusControl.touched">
-        Account Status is required
-      </mat-error>
-    </mat-form-field>
-
     <!-- <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Account Status</mat-label>
       <mat-select [(ngModel)]="newUser.status" name="status" required>
@@ -84,7 +72,7 @@
     <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Role</mat-label>
       <mat-select [(ngModel)]="newUser.roleId" name="roleId" #role="ngModel" required>
-        <mat-option disabled value="">---Select---</mat-option>
+        <mat-option value="">---Select---</mat-option>
         @for (item of roles; track item.roleId) {
           <mat-option [value]="item.roleId">{{ item.roleName }}</mat-option>
         }
@@ -99,7 +87,7 @@
         Password must have at least 1 uppercase, 1 lowercase, 1 special character, and be 6+ characters long.
       </mat-error> -->
       <mat-error *ngIf="password.invalid && password.touched">
-        Password must have at least 1 uppercase, 1 lowercase, 1 special character, and be 6+ characters long.
+        Password must have at least 1 uppercase, 1 lowercase, 1 special character, and be minimum 6 characters long.
       </mat-error>
     </mat-form-field>
 
@@ -131,6 +119,27 @@
         Phone number must be 10 digits
       </mat-error>
     </mat-form-field>
+
+    <!-- <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Account Status</mat-label>
+      <mat-select [(ngModel)]="newUser.status" name="status" #statusControl="ngModel" required>
+        <mat-option value="">---Select---</mat-option>
+        <mat-option value="Active">Active</mat-option>
+        <mat-option value="InActive">InActive</mat-option>
+      </mat-select>
+      <mat-error *ngIf="statusControl.invalid && statusControl.touched">
+        Account Status is required
+      </mat-error>
+    </mat-form-field> -->
+    
+    <label class="mb-2">Account Status *</label>
+    <mat-radio-group [(ngModel)]="newUser.status" name="status" required>
+      <mat-radio-button value="Active">Active</mat-radio-button>
+      <mat-radio-button value="InActive">InActive</mat-radio-button>
+    </mat-radio-group>
+    <div class="text-danger" *ngIf="!newUser.status && userForm.submitted">
+      Account Status is required
+    </div>
 
       <mat-dialog-actions align="end">
         <button mat-raised-button color="primary" type="submit">Save</button>

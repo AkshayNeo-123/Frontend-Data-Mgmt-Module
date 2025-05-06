@@ -4,19 +4,19 @@
   
     <!-- Add + Search -->
     <div class="d-flex justify-content-start align-items-center mb-3 flex-wrap">      
-      <button  class="mr-3 add-user-btn me-4" (click)="openAddUserDialog()">
+      <button class="mr-3 add-user-btn me-4" (click)="openAddUserDialog()">
         <i class="fas fa-plus me-2"></i> Add New User
       </button>
 
       <mat-form-field appearance="outline" class="search-field">
-        <mat-label>Search by Username</mat-label>
+        <mat-label>Search by Name</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Search users">
       </mat-form-field>
-    </div>    
+    </div>
 
     <!-- Table -->
     <div class="table-responsive">
-      <table mat-table [dataSource]="dataSource" matSort class="table table-bordered table-striped table-hover">
+      <table mat-table [dataSource]="dataSource" matSort matSortStart="desc" matSortDisableClear="true" disableClear="true" class="table table-bordered table-striped table-hover">
   
         <!-- User Id -->
         <ng-container matColumnDef="userId">
@@ -25,9 +25,22 @@
         </ng-container>
 
         <!-- First Name -->
-        <ng-container matColumnDef="firstName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
+        <!-- <ng-container matColumnDef="firstName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
           <td mat-cell *matCellDef="let user">{{ user.firstName }}</td>
+        </ng-container> -->
+
+        <!-- Last Name -->
+        <!-- <ng-container matColumnDef="lastName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+          <td mat-cell *matCellDef="let user">{{ user.lastName }}</td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="userName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+          <td mat-cell *matCellDef="let user">
+            {{ user.firstName }} {{ user.lastName }}
+          </td>
         </ng-container>
 
         <!-- Role ID -->
