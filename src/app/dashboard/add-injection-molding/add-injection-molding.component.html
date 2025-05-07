@@ -3,7 +3,7 @@
 <mat-hint class="global-hint ">All fields marked with an asterisk (*) are required</mat-hint>
 <!-- <span>Injection Moulding</span> -->
 
-<form [formGroup]="injectionFormForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="injectionForm" (ngSubmit)="onSubmit()">
   <div mat-dialog-content>
     
         <div class="row">
@@ -27,13 +27,35 @@
     <!-- Recipe Number -->
   <mat-form-field appearance="outline" class="half-width">
     <mat-label>Recipe Number</mat-label>
-    <mat-select formControlName="recipeNumber">
-      <mat-option *ngFor="let num of " [value]="num">{{ num }}</mat-option>
-    </mat-select>
+    <input matInput formControlName="recipeNumber">
+    
   </mat-form-field> 
 
   </div>
-    
+  <div class="row align-items-center" >
+  <!-- Repetition -->
+  <div class="repetition-controls col-1">
+    <mat-label>Repetion</mat-label>
+    <button mat-mini-button (click)="adjustRepetition(-1)">-</button>
+    <input matInput formControlName="repetition" type="number">
+    <button mat-mini-button (click)="adjustRepetition(1)">+</button>
+  </div>
+
+  <div class="col-2">
+  <!-- Reference Checkbox -->
+  <mat-checkbox formControlName="reference">Reference</mat-checkbox>
+</div>
+
+<div class="col-3">
+  <!-- Additive -->
+  <mat-form-field appearance="outline">
+    <mat-label>Additive</mat-label>
+    <input matInput formControlName="additive">
+  </mat-form-field>
+</div>
+  <hr class="my-3" />
+</div>
+
     
       
         

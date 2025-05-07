@@ -45,7 +45,7 @@ export class AddCompoundingComponent {
       notMeasured: [false],
       speedFeeder1: [''],
       speedFeeder2: [''],
-      screwStandard: [false], // ✅ Add this
+      screwStandard: [false],
       screwModified: [false],
       degassingStandard: [false],
       degassingVacuum: [false],

@@ -30,26 +30,25 @@ import { ProjectService } from '../../services/project.service';
   styleUrl: './add-injection-molding.component.css'
 })
 export class AddInjectionMoldingComponent {
-injectionFormForm!: FormGroup;
+injectionForm!: FormGroup;
 projects: any[] = [];
 filteredProjects: any[] = [];
 
 constructor(private fb: FormBuilder,private projectservice:ProjectService) {
-  this.injectionFormForm = this.fb.group({
+  this.injectionForm = this.fb.group({
     projectId: ['',Validators.required],
     parameterSet: [{value:'001', disabled: true}],
     recipeNumber: ['', Validators.required],
-    // repetition: ['0'],
-    // reference: [''],
-    // additive: [''],
+    repetition: ['0'],
+    additive: [''],
 
-    // pretreatmentNone: [false],
-    // pretreatmentDryTest: [false],
-    // dryingTemperature: [''],
-    // dryingTime: [''],
-    // residualMoisture: [''],
-    // notMeasured: [false],
-    // processingMoisture: [''],
+    pretreatmentNone: [false],
+    pretreatmentDryTest: [false],
+    dryingTemperature: [''],
+    dryingTime: [''],
+    residualMoisture: [''],
+    notMeasured: [false],
+    processingMoisture: [''],
 
     // plasticizingVolume: [''],
     // decompressionVolume: [''],
@@ -64,11 +63,14 @@ constructor(private fb: FormBuilder,private projectservice:ProjectService) {
     // nozzleTemperature: [''],
     // mouldTemperature: ['']
   });
+
+  
 }
 
 ngOnInit(): void {
   
   this.loadMaster();
+  
   
   
 }
@@ -87,6 +89,10 @@ throw new Error('Method not implemented.');
 }
 onCancel() {
 throw new Error('Method not implemented.');
+}
+adjustRepetition(change: number) {
+  const current = this.injectionForm.value.repetition || 0;
+  this.injectionForm.patchValue({ repetition: current + change });
 }
 
 loadMaster(){
