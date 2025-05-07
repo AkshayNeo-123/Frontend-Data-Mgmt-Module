@@ -29,7 +29,7 @@ updateContact(id:number,contact: Contact):Observable<Contact> {
 
 
 GetAllStates():Observable<States[]>{
-  return this.http.get<States[]>(`${this.baseUrl}/states`);
+  return this.http.get<States[]>(`${this.apiUrl}/states`);
   
   
 }
@@ -46,6 +46,8 @@ getContact(id:number):Observable<Contact>
 deleteContact(id: number): Observable<any> {
   return this.http.delete<Contact>(`${this.baseUrl}?id=${id}`);
 }
+
+// addCities(stateId:number):Observable
 
 
 

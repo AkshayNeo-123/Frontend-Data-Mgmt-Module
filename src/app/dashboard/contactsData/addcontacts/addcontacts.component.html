@@ -65,19 +65,19 @@
        
         </mat-select>
       </mat-form-field>       -->
-      <mat-form-field appearance="fill">
-        <mat-label>State</mat-label>
-        <mat-select formControlName="stateId">
-          <mat-option *ngFor="let state of states" [value]="state.id">{{ state.stateName }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    
-      <mat-form-field appearance="fill">
-        <mat-label>City</mat-label>
-        <mat-select formControlName="cityId">
-          <mat-option *ngFor="let city of cities" [value]="city.id">{{ city.cityName }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <mat-form-field appearance="outline">
+    <mat-label>State</mat-label>
+    <mat-select formControlName="stateId">
+      <mat-option *ngFor="let state of states"  [value]="state.stateId">{{ state.statesName }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>City</mat-label>
+    <mat-select formControlName="cityId">
+      <mat-option *ngFor="let city of cities" [value]="city.cityId">{{ city.cityName }}</mat-option>
+    </mat-select>
+  </mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Zip</mat-label>
