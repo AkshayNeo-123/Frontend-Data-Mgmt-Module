@@ -35,13 +35,26 @@
   
       <div class="col-3 " style="margin-bottom: 50px;">
         <mat-label class="me-2">Repetition</mat-label>
-        <button mat-icon-button color="primary" aria-label="Decrease">
+        <button mat-icon-button color="primary" aria-label="Decrease" (click)="decreaseRepetition()">
           <span>-</span>
         </button>
-        <button mat-icon-button color="primary" aria-label="Increase">
+      
+        <span style="
+          border: 1px solid #ccc;
+          padding: 4px 12px;
+          min-width: 40px;
+          text-align: center;
+          display: inline-block;
+          border-radius: 4px;
+        ">
+          {{ repetitionCount }}
+        </span>
+      
+        <button mat-icon-button color="primary" aria-label="Increase" (click)="increaseRepetition()">
           <span>+</span>
         </button>
       </div>
+
     </div>
   
     <hr class="my-3" />
@@ -49,11 +62,13 @@
     <div class="row align-items-center mt-3" style="height: 56px;">
       <div class="col-2" style="margin-bottom: 30px;">
         <label class="form-label d-block mb-1">Pre-Treatment</label>
-        <mat-radio-group formControlName="pretreatment" class="d-flex gap-3">
-          <mat-radio-button value="none">None</mat-radio-button>
-          <mat-radio-button value="drying">Drying</mat-radio-button>
-        </mat-radio-group>
+      
+        <div class="d-flex gap-3 align-items-center">
+          <mat-checkbox formControlName="pretreatmentNone">None</mat-checkbox>
+          <mat-checkbox formControlName="pretreatmentDrying">Drying</mat-checkbox>
+        </div>
       </div>
+      
   
       <div class="col-2">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
@@ -131,8 +146,8 @@
 
     <hr class="my-3" />
     
-      <div class="row align-items-center mt-3" style="height: 70px;">
-        <div class="row align-items-center mt-3">
+      <div class="row align-items-center mt-3">
+       
             <div class="col-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Speed Side Feeder 1 (RPM)</mat-label>
@@ -146,9 +161,9 @@
                 <input type="number" matInput formControlName="speedFeeder2" />
               </mat-form-field>
             </div>
-          </div>     
           
-          <div class="mb-3">
+             
+          <div class="col-4" style="margin-bottom: 40px;">
             <label for="screwConfig" class="form-label">Upload Screwconfig</label>
             <input type="file" class="form-control w-auto" id="screwConfig" (change)="onFileSelected($event)">
           </div>
@@ -157,26 +172,27 @@
             <label class="form-label">Temperature Profile</label>
             <div>
               <!-- Screwconfig Image -->
-              <img src="assets/images/screwconfig.png" alt="Screw Configuration" class="img-fluid" />
+              <img src="/image.png" alt="Screw Configuration" class="img-fluid" style="height: 100px; width: 100%;"  />
             </div>
           </div>
           
           <!-- Temperature Inputs -->
           <div class="d-flex flex-wrap gap-2 mt-2">
-            <input type="number" class="form-control text-center" style="width: 70px;" value="100" />
-            <input type="number" class="form-control text-center" style="width: 70px;" value="200" />
-            <input type="number" class="form-control text-center" style="width: 70px;" value="200" />
-            <input type="number" class="form-control text-center" style="width: 70px;" value="200" />
-            <input type="number" class="form-control text-center" style="width: 70px;" value="200" />
-            <input type="number" class="form-control text-center" style="width: 70px;" value="100" />
-            <input type="number" class="form-control text-center" style="width: 70px;" value="200" />
-            <input type="number" class="form-control text-center" style="width: 70px;" value="200" />
-            <input type="number" class="form-control text-center" style="width: 70px;" value="230" />
-            <input type="number" class="form-control text-center" style="width: 70px;" value="230" />
-            <input type="number" class="form-control text-center" style="width: 70px;" value="230" />
-            <input type="number" class="form-control text-center" style="width: 70px;" value="230" />
+            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp1" />
+            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp2" />
+            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp3" />
+            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp4" />
+            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp5" />
+            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp6" />
+            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp7" />
+            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp8" />
+            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp9" />
+            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp10" />
+            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp11" />
+            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp12" />
           </div>
           
+                
     </div>
 
     <hr class="my-3"/>

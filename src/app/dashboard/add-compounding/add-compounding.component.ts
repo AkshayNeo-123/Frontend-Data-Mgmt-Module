@@ -45,7 +45,7 @@ export class AddCompoundingComponent {
       notMeasured: [false],
       speedFeeder1: [''],
       speedFeeder2: [''],
-      screwStandard: [false],
+      screwStandard: [false], 
       screwModified: [false],
       degassingStandard: [false],
       degassingVacuum: [false],
@@ -67,6 +67,20 @@ export class AddCompoundingComponent {
       productionNote:[''],
       premix:[false],
       PremixNote:[''],
+      temp1: [100],
+      temp2: [200],
+      temp3: [200],
+      temp4: [200],
+      temp5: [200],
+      temp6: [100],
+      temp7: [200],
+      temp8: [200],
+      temp9: [230],
+      temp10: [230],
+      temp11: [230],
+      temp12: [230],
+      pretreatmentNone: [false],
+      pretreatmentDrying: [false],
       components: this.fb.array([]) 
     });
     
@@ -115,6 +129,18 @@ export class AddCompoundingComponent {
     }
   }
   
+  repetitionCount = 0;
+
+increaseRepetition() {
+  this.repetitionCount++;
+}
+
+decreaseRepetition() {
+  if (this.repetitionCount > 0) {
+    this.repetitionCount--;
+  }
+}
+
 
   onSubmit() {
     if (this.compoundForm.valid) {
