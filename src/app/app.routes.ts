@@ -38,9 +38,14 @@ export const routes: Routes = [
         loadComponent: () => import('./dashboard/project/project.component').then(m => m.ProjectComponent),
       },
       {
+        path: 'injectionMolding',
+        loadComponent: () => import('./dashboard/add-injection-molding/add-injection-molding.component').then(m => m.AddInjectionMoldingComponent),
+      },
+      {
         path: 'mastertable',
         loadComponent: () => import('./dashboard/mastertable/mastertable.component').then(m => m.MastertableComponent),
       },
+      
 
       // Contact Routes
       {

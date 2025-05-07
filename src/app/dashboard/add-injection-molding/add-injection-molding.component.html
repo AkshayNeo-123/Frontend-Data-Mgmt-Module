@@ -1,0 +1,49 @@
+
+<h2 mat-dialog-title>New Injection Moulding</h2>
+<mat-hint class="global-hint ">All fields marked with an asterisk (*) are required</mat-hint>
+<!-- <span>Injection Moulding</span> -->
+
+<form [formGroup]="injectionFormForm" (ngSubmit)="onSubmit()">
+  <div mat-dialog-content>
+    
+        <div class="row">
+          <!-- Project ID (Multi-select) -->
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Project ID</mat-label>
+    <mat-select formControlName="projectId" multiple>
+      <mat-option *ngFor="let project of projects" [value]="project.projectNumber">
+        {{ project.projectNumber }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+        </div>
+  <div class="row">
+    <!-- Parameter Set (readonly) -->      
+     <mat-form-field appearance="outline" class="half-width">
+      <mat-label>Parameter Set</mat-label>
+      <input matInput formControlName="parameterSet">
+    </mat-form-field>
+    
+    <!-- Recipe Number -->
+  <mat-form-field appearance="outline" class="half-width">
+    <mat-label>Recipe Number</mat-label>
+    <mat-select formControlName="recipeNumber">
+      <mat-option *ngFor="let num of " [value]="num">{{ num }}</mat-option>
+    </mat-select>
+  </mat-form-field> 
+
+  </div>
+    
+    
+      
+        
+     
+      
+  </div>
+
+  <mat-dialog-actions align="end">
+    <!-- <button mat-raised-button color="warn" type="button" (click)="onReset()">Reset</button> -->
+    <button mat-raised-button color="primary" type="submit">Save</button>
+    <button mat-raised-button type="button" (click)="onCancel()">Cancel</button>
+  </mat-dialog-actions>
+</form>

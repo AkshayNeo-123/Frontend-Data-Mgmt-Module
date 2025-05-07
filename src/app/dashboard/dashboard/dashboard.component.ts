@@ -24,6 +24,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { RolemasterComponent } from '../rolemaster/rolemaster.component';
 import { GetAllAdditivesComponent } from '../get-all-additives/get-all-additives.component';
 import { AddAdditiveComponent } from '../additiveData/addadditives/addadditives.component';
+import { AddInjectionMoldingComponent } from '../add-injection-molding/add-injection-molding.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -38,6 +39,7 @@ import { AddAdditiveComponent } from '../additiveData/addadditives/addadditives.
     ProjectComponent,
     MastertableComponent,
     ContactsComponent,
+    AddInjectionMoldingComponent,
    
     GetAllAdditivesComponent,
     AllMainPolymersComponent,
