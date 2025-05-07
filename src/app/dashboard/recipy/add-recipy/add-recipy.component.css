@@ -20,8 +20,26 @@
     font-size: 13px;
     
     display: block;
-    /* padding-left: 3%; */
+  
   }
+
+  mat-form-field {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .mat-cell, .mat-header-cell {
+    padding: 4px 8px;
+  }
+  
+  .compact-table .mat-cell,
+.compact-table .mat-header-cell {
+  padding: 4px 8px !important;
+}
+
+.compact-table mat-form-field {
+  width: 100%;
+}
 
   .mat-mdc-dialog-inner-container {
     margin-top: 70px !important;

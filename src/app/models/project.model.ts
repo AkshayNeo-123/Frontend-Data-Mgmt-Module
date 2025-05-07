@@ -24,7 +24,7 @@ export interface Project {
     areaId?: number;
     priorityId?: number;
     projectDescription: string;
-    startDate?: string; // use ISO string format (e.g., "2025-04-28T00:00:00Z")
+    startDate?: string; 
     endDate?: string;  // optional if not marked [Required] in backend
     createdBy: number;
   createdDate: string;

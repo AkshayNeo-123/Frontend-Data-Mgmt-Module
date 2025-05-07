@@ -7,6 +7,7 @@ export interface Recipe {
   //   createdBy: string;
   //   modifiedDate?: string;
   //   modifiedBy: string;
+  receipeId: number;  
   additiveName?: string;
   polymerName?: string;
   composition?: string;

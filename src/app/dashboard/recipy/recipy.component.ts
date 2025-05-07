@@ -42,6 +42,7 @@ export class RecipyComponent implements OnInit {
 
   displayedColumns: string[] = [
     'productName',
+    'recipeNumber',
     'projectName',
     'additiveName',
     'polymerName',
@@ -70,6 +71,7 @@ export class RecipyComponent implements OnInit {
 
         const enrichedData: Recipe[] = data.map(recipe => ({
           ...recipe,
+          // recipeNumber: recipe.receipeId,
           composition: 'Polymer A: 60%, Additive B: 30%, Color C: 10%'
         }));
 
@@ -107,7 +109,7 @@ export class RecipyComponent implements OnInit {
 
   editRecipe(recipe: Recipe): void {
     console.log('Edit recipe:', recipe);
-    // Add your edit logic or open an edit dialog
+   
   }
 
   downloadCompoundingData(recipe: Recipe): void {
