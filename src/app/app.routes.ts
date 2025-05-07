@@ -33,6 +33,7 @@ export const routes: Routes = [
         path: 'getmaterials',
         loadComponent: () => import('./dashboard/getmaterials/getmaterials.component').then(m => m.GetmaterialsComponent),
       },
+    
       {
         path: 'getproject',
         loadComponent: () => import('./dashboard/project/project.component').then(m => m.ProjectComponent),
@@ -64,7 +65,10 @@ export const routes: Routes = [
         pathMatch: 'full',
          // Ensures that this is the default path when navigating to 'contacts'
       },
-
+      {
+        path: 'compounding',
+        loadComponent: () => import('./dashboard/add-compounding/add-compounding.component').then(m => m.AddCompoundingComponent),
+      },
       
 
       // Additive Routes

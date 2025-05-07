@@ -25,6 +25,7 @@ import { RolemasterComponent } from '../rolemaster/rolemaster.component';
 import { GetAllAdditivesComponent } from '../get-all-additives/get-all-additives.component';
 import { AddAdditiveComponent } from '../additiveData/addadditives/addadditives.component';
 import { AddInjectionMoldingComponent } from '../add-injection-molding/add-injection-molding.component';
+import { AddCompoundingComponent } from '../add-compounding/add-compounding.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -54,6 +55,7 @@ import { AddInjectionMoldingComponent } from '../add-injection-molding/add-injec
     MatButtonModule,
     MatDatepickerModule,
     MatMomentDateModule,
+    AddCompoundingComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
