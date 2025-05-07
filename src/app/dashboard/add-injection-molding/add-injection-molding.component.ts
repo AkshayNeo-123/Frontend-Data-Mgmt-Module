@@ -55,8 +55,8 @@ constructor(private fb: FormBuilder,private projectservice:ProjectService) {
     holdingPressure: [''],
     switchingPoint: [''],
     screwSpeed: [''],
-    injectionSpeed: ['225'],
-    injectionPressure: ['23'],
+    injectionSpeed: [''],
+    injectionPressure: [''],
 
     temperatureZone: [''],
     meltTemperature: [''],
