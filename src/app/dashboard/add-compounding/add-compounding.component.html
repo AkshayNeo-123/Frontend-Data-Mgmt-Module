@@ -80,7 +80,7 @@
       <div class="col-2">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Duration (h)</mat-label>
-          <input type="number" matInput formControlName="duration" />
+          <input type="number" matInput formControlName="duration" min="0"/>
         </mat-form-field>
       </div>
   
@@ -121,7 +121,7 @@
               </select>
             </td>
             <td>
-              <input type="number" class="form-control" formControlName="share" />
+              <input type="number" class="form-control" formControlName="share" min="0"/>
             </td>
             <td><input type="checkbox" formControlName="MF" /></td>
             <td><input type="checkbox" formControlName="SecondF" /></td>
@@ -151,14 +151,14 @@
             <div class="col-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Speed Side Feeder 1 (RPM)</mat-label>
-                <input type="number" matInput formControlName="speedFeeder1" />
+                <input type="number" matInput formControlName="speedFeeder1" min="0"/>
               </mat-form-field>
             </div>
           
             <div class="col-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Speed Side Feeder 2 (RPM)</mat-label>
-                <input type="number" matInput formControlName="speedFeeder2" />
+                <input type="number" matInput formControlName="speedFeeder2" min="0"/>
               </mat-form-field>
             </div>
           
@@ -218,58 +218,58 @@
           <div class="col-2">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Screw Speed (rpm)</mat-label>
-              <input type="number" matInput formControlName="screwSpeed" />
+              <input type="number" matInput formControlName="screwSpeed" min="0"/>
             </mat-form-field>
           </div>
       
           <div class="col-2">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Torque (%)</mat-label>
-              <input matInput formControlName="torque" />
+              <input type="number" matInput formControlName="torque" min="0"/>
             </mat-form-field>
           </div>
 
           <div class="col-2">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Pressure (bar)</mat-label>
-              <input matInput formControlName="pressure" />
+              <input type="number" matInput formControlName="pressure" min="0"/>
             </mat-form-field>
           </div>
 
           <div class="col-2">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Total Output (Kg/h)</mat-label>
-              <input matInput formControlName="totalOutput" />
+              <input type="number" matInput formControlName="totalOutput" min="0"/>
             </mat-form-field>
           </div>
       
           <div class="col-2">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Granulator (rpm)</mat-label>
-              <input matInput formControlName="granulator" />
+              <input type="number" matInput formControlName="granulator" min="0"/>
             </mat-form-field>
           </div>
       
           <div class="col-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Bulk Density (g/l)</mat-label>
-              <input matInput formControlName="bulkDensity" />
+              <input type="number" matInput formControlName="bulkDensity" min="0" />
             </mat-form-field>
           </div>
 
           <div class="col-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Cooling Section (cm)</mat-label>
-              <input matInput formControlName="coolingSection" />
+              <input type="0" matInput formControlName="coolingSection" min="0"/>
             </mat-form-field>
           </div>
       
           <div class="col-4">
             <label class="form-label">Temperature Water Bath</label>
             <div class="d-flex gap-2">
-              <input matInput class="form-control" formControlName="tempBath1" />
-              <input matInput class="form-control" formControlName="tempBath2" />
-              <input matInput class="form-control" formControlName="tempBath3" />
+              <input type="number" matInput class="form-control" formControlName="tempBath1" />
+              <input type="number" matInput class="form-control" formControlName="tempBath2" />
+              <input type="number" matInput class="form-control" formControlName="tempBath3" />
               <div class="d-flex align-items-center">C</div>
             </div>
           </div>
