@@ -1,0 +1,308 @@
+<form [formGroup]="compoundForm" (ngSubmit)="onSubmit()" class="container" style="margin-bottom: 50px;">
+    <!-- Compound Number, Parameter Set, Date, and Note -->
+    <div class="row align-items-center">
+      <div class="col-3" style="height: 56px;">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Compound Number</mat-label>
+          <input matInput formControlName="compoundNumber" />
+        </mat-form-field>
+      </div>
+    </div>
+  
+    <hr class="my-3" />
+  
+    <div class="row align-items-center" style="height: 56px;">
+      <div class="col-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Parameter Set</mat-label>
+          <input matInput formControlName="parameterSet" />
+        </mat-form-field>
+      </div>
+  
+      <div class="col-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Date</mat-label>
+          <input matInput type="date" formControlName="date" />
+        </mat-form-field>
+      </div>
+  
+      <div class="col-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Note</mat-label>
+          <input matInput formControlName="note" />
+        </mat-form-field>
+      </div>
+  
+      <div class="col-3 " style="margin-bottom: 50px;">
+        <mat-label class="me-2">Repetition</mat-label>
+        <button mat-icon-button color="primary" aria-label="Decrease">
+          <span>-</span>
+        </button>
+        <button mat-icon-button color="primary" aria-label="Increase">
+          <span>+</span>
+        </button>
+      </div>
+    </div>
+  
+    <hr class="my-3" />
+  
+    <div class="row align-items-center mt-3" style="height: 56px;">
+      <div class="col-2" style="margin-bottom: 30px;">
+        <label class="form-label d-block mb-1">Pre-Treatment</label>
+        <mat-radio-group formControlName="pretreatment" class="d-flex gap-3">
+          <mat-radio-button value="none">None</mat-radio-button>
+          <mat-radio-button value="drying">Drying</mat-radio-button>
+        </mat-radio-group>
+      </div>
+  
+      <div class="col-2">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Temperature (°C)</mat-label>
+          <input type="number" matInput formControlName="temperature" />
+        </mat-form-field>
+      </div>
+  
+      <div class="col-2">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Duration (h)</mat-label>
+          <input type="number" matInput formControlName="duration" />
+        </mat-form-field>
+      </div>
+  
+      <div class="col-2">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Residual M. %</mat-label>
+          <input type="number" matInput formControlName="residualMoisture" />
+        </mat-form-field>
+      </div>
+  
+      <div class="col-2" style="margin-bottom: 40px;">
+        <mat-checkbox formControlName="notMeasured">Not Measured</mat-checkbox>
+      </div>
+    </div>
+  
+    <hr class="my-3" />
+  
+    <!-- Components Table -->
+    <h5>Dosage</h5>
+    <div class="card p-3">
+      <table class="table table-bordered table-sm text-center align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Component Name</th>
+            <th>Share [%]</th>
+            <th>MF</th>
+            <th>2ndF</th>
+            <th>SF</th>
+            <th *ngFor="let col of dynamicCols">{{ col }}</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody formArrayName="components">
+          <tr *ngFor="let row of components; let i = index" [formGroupName]="i">
+            <td>
+              <select class="form-select" formControlName="name">
+                <option *ngFor="let option of componentOptions" [value]="option">{{ option }}</option>
+              </select>
+            </td>
+            <td>
+              <input type="number" class="form-control" formControlName="share" />
+            </td>
+            <td><input type="checkbox" formControlName="MF" /></td>
+            <td><input type="checkbox" formControlName="SecondF" /></td>
+            <td><input type="checkbox" formControlName="SF" /></td>
+            <td *ngFor="let col of dynamicCols">
+              <input type="checkbox" [formControlName]="col" />
+            </td>
+            <td>
+              <button type="button" class="btn btn-outline-danger" (click)="removeComponent(i)">
+                <i class="fas fa-trash-alt action-icon" ></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <div class="d-flex justify-content-between">
+        <div><strong>Total [%]: {{ getTotalShare() }}</strong></div>
+        <button type="button" class="btn btn-primary btn-sm" (click)="addComponent()">Add new component</button>
+      </div>
+    </div>
+
+    <hr class="my-3" />
+    
+      <div class="row align-items-center mt-3" style="height: 70px;">
+        <div class="row align-items-center mt-3">
+            <div class="col-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Speed Side Feeder 1 (RPM)</mat-label>
+                <input type="number" matInput formControlName="speedFeeder1" />
+              </mat-form-field>
+            </div>
+          
+            <div class="col-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Speed Side Feeder 2 (RPM)</mat-label>
+                <input type="number" matInput formControlName="speedFeeder2" />
+              </mat-form-field>
+            </div>
+          </div>     
+          
+          <div class="mb-3">
+            <label for="screwConfig" class="form-label">Upload Screwconfig</label>
+            <input type="file" class="form-control w-auto" id="screwConfig" (change)="onFileSelected($event)">
+          </div>
+          
+          <div class="mb-2">
+            <label class="form-label">Temperature Profile</label>
+            <div>
+              <!-- Screwconfig Image -->
+              <img src="assets/images/screwconfig.png" alt="Screw Configuration" class="img-fluid" />
+            </div>
+          </div>
+          
+          <!-- Temperature Inputs -->
+          <div class="d-flex flex-wrap gap-2 mt-2">
+            <input type="number" class="form-control text-center" style="width: 70px;" value="100" />
+            <input type="number" class="form-control text-center" style="width: 70px;" value="200" />
+            <input type="number" class="form-control text-center" style="width: 70px;" value="200" />
+            <input type="number" class="form-control text-center" style="width: 70px;" value="200" />
+            <input type="number" class="form-control text-center" style="width: 70px;" value="200" />
+            <input type="number" class="form-control text-center" style="width: 70px;" value="100" />
+            <input type="number" class="form-control text-center" style="width: 70px;" value="200" />
+            <input type="number" class="form-control text-center" style="width: 70px;" value="200" />
+            <input type="number" class="form-control text-center" style="width: 70px;" value="230" />
+            <input type="number" class="form-control text-center" style="width: 70px;" value="230" />
+            <input type="number" class="form-control text-center" style="width: 70px;" value="230" />
+            <input type="number" class="form-control text-center" style="width: 70px;" value="230" />
+          </div>
+          
+    </div>
+
+    <hr class="my-3"/>
+
+    <!-- <div class="card p-3"> -->
+        <div class="row">
+          <!-- Screw Config -->
+          <div class="col-3">
+            <label class="form-label d-block">Screw Config</label>
+            <mat-checkbox formControlName="screwStandard" class="me-2">Standard</mat-checkbox>
+            <mat-checkbox formControlName="screwModified">Modified</mat-checkbox>
+          </div>
+      
+          <!-- Degassing -->
+          <div class="col-5">
+            <label class="form-label d-block">Degassing</label>
+            <mat-checkbox formControlName="degassingStandard" class="me-2">Standard</mat-checkbox>
+            <mat-checkbox formControlName="degassingVacuum" class="me-2">Vacuum</mat-checkbox>
+            <mat-checkbox formControlName="degassingNone" class="me-2">None</mat-checkbox>
+            <mat-checkbox formControlName="degassingFET">FET</mat-checkbox>
+          </div>
+
+          <div class="col-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Screw Speed (rpm)</mat-label>
+              <input type="number" matInput formControlName="screwSpeed" />
+            </mat-form-field>
+          </div>
+      
+          <div class="col-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Torque (%)</mat-label>
+              <input matInput formControlName="torque" />
+            </mat-form-field>
+          </div>
+
+          <div class="col-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Pressure (bar)</mat-label>
+              <input matInput formControlName="pressure" />
+            </mat-form-field>
+          </div>
+
+          <div class="col-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Total Output (Kg/h)</mat-label>
+              <input matInput formControlName="totalOutput" />
+            </mat-form-field>
+          </div>
+      
+          <div class="col-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Granulator (rpm)</mat-label>
+              <input matInput formControlName="granulator" />
+            </mat-form-field>
+          </div>
+      
+          <div class="col-3">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Bulk Density (g/l)</mat-label>
+              <input matInput formControlName="bulkDensity" />
+            </mat-form-field>
+          </div>
+
+          <div class="col-3">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Cooling Section (cm)</mat-label>
+              <input matInput formControlName="coolingSection" />
+            </mat-form-field>
+          </div>
+      
+          <div class="col-4">
+            <label class="form-label">Temperature Water Bath</label>
+            <div class="d-flex gap-2">
+              <input matInput class="form-control" formControlName="tempBath1" />
+              <input matInput class="form-control" formControlName="tempBath2" />
+              <input matInput class="form-control" formControlName="tempBath3" />
+              <div class="d-flex align-items-center">C</div>
+            </div>
+          </div>
+
+          <div class="col-auto">
+            <mat-checkbox formControlName="meltPump">Melt Pump</mat-checkbox>
+          </div>
+          <div class="col-auto">
+            <mat-checkbox formControlName="underwaterPelletizer">Underwater Pelletizer</mat-checkbox>
+          </div>
+          <div class="col-auto">
+            <mat-checkbox formControlName="nozzlePlate">Nozzle Plate</mat-checkbox>
+          </div>
+        </div>
+      
+        <hr class="my-3"/>
+
+        <div class="row align-items-center" style="height: 56px;">
+          <div class="col-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Note</mat-label>
+              <input matInput formControlName="productionNote" placeholder="This is ready for production."/>
+            </mat-form-field>
+          </div>
+          <div class="col-2" style="margin-bottom: 35px;">
+            <mat-checkbox formControlName="premix">Premix</mat-checkbox>
+        </div>
+
+        <div class="col-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Premix</mat-label>
+            <input matInput formControlName="PremixNote" placeholder="Note"/>
+          </mat-form-field>
+        </div>
+        </div>
+
+        <!-- <div class="row align-items-center" style="height: 56px;">
+          <div class="col-6">
+            
+          </div>
+        </div> -->
+<!--       
+      </div> -->
+      <!-- <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div> -->
+      
+      <div mat-dialog-actions align="end">
+        <button mat-raised-button color="primary" type="submit">Save</button>
+      </div>
+  </form>
+  

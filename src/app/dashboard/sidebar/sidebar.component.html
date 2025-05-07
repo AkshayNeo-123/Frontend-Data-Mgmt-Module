@@ -25,8 +25,8 @@
           <i class="fas fa-box-open me-3"></i> 
           <span *ngIf="isOpen">Materials</span>
       </li>
-
-      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('getproject')">
+     
+       <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('getproject')">
           <i class="fas fa-project-diagram me-3"></i> 
           <span *ngIf="isOpen">Projects</span>
       </li>
@@ -57,5 +57,9 @@
         </div>
       </li>
       
+      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('compounding')">
+        <i class="fas fa-box-open me-3"></i> 
+        <span *ngIf="isOpen">Compounding</span>
+    </li>
   </ul>
 </div>

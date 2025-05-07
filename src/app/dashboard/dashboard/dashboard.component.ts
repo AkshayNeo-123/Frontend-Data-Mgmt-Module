@@ -24,6 +24,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { RolemasterComponent } from '../rolemaster/rolemaster.component';
 import { GetAllAdditivesComponent } from '../get-all-additives/get-all-additives.component';
 import { AddAdditiveComponent } from '../additiveData/addadditives/addadditives.component';
+import { AddCompoundingComponent } from '../add-compounding/add-compounding.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -52,6 +53,7 @@ import { AddAdditiveComponent } from '../additiveData/addadditives/addadditives.
     MatButtonModule,
     MatDatepickerModule,
     MatMomentDateModule,
+    AddCompoundingComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
