@@ -50,19 +50,21 @@ constructor(private fb: FormBuilder,private projectservice:ProjectService) {
     notMeasured: [false],
     processingMoisture: [''],
 
-    // plasticizingVolume: [''],
-    // decompressionVolume: [''],
-    // holdingPressure: [''],
-    // switchingPoint: [''],
-    // screwSpeed: [''],
-    // injectionSpeed: ['225'],
-    // injectionPressure: ['23'],
+    plasticizingVolume: [''],
+    decompressionVolume: [''],
+    holdingPressure: [''],
+    switchingPoint: [''],
+    screwSpeed: [''],
+    injectionSpeed: ['225'],
+    injectionPressure: ['23'],
 
-    // temperatureZone: [''],
-    // meltTemperature: [''],
-    // nozzleTemperature: [''],
-    // mouldTemperature: ['']
+    temperatureZone: [''],
+    meltTemperature: [''],
+    nozzleTemperature: [''],
+    mouldTemperature: ['']
   });
+
+ 
 
   
 }
@@ -73,6 +75,17 @@ ngOnInit(): void {
   
   
   
+}
+repetitionCount = 0;
+
+increaseRepetition() {
+  this.repetitionCount++;
+}
+
+decreaseRepetition() {
+  if (this.repetitionCount > 0) {
+    this.repetitionCount--;
+  }
 }
 
 // onSubmit(): void {
@@ -90,10 +103,7 @@ throw new Error('Method not implemented.');
 onCancel() {
 throw new Error('Method not implemented.');
 }
-adjustRepetition(change: number) {
-  const current = this.injectionForm.value.repetition || 0;
-  this.injectionForm.patchValue({ repetition: current + change });
-}
+
 
 loadMaster(){
   this.projectservice.getAllProjects().subscribe({

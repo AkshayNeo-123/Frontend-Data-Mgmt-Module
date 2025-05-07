@@ -1,71 +1,224 @@
-
-<h2 mat-dialog-title>New Injection Moulding</h2>
-<mat-hint class="global-hint ">All fields marked with an asterisk (*) are required</mat-hint>
-<!-- <span>Injection Moulding</span> -->
+<h2 mat-dialog-title>Injection Moulding</h2>
+<mat-hint class="global-hint">All fields marked with an asterisk (*) are required</mat-hint>
 
 <form [formGroup]="injectionForm" (ngSubmit)="onSubmit()">
-  <div mat-dialog-content>
+  
+    <div class="row align-items-center" style="height: 56px;">
+      <!-- Project ID (Multi-select) -->
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Project ID</mat-label>
+        <mat-select formControlName="projectId" multiple>
+          <mat-option
+            *ngFor="let project of projects"
+            [value]="project.projectNumber"
+          >
+            {{ project.projectNumber }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Recipe Number</mat-label>
+        <input matInput formControlName="recipeNumber" />
+      </mat-form-field>
+      
+    </div>
+    <hr class="me-2"/>
     
-        <div class="row">
-          <!-- Project ID (Multi-select) -->
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Project ID</mat-label>
-    <mat-select formControlName="projectId" multiple>
-      <mat-option *ngFor="let project of projects" [value]="project.projectNumber">
-        {{ project.projectNumber }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+
+    <div class="row align-items-center" style="height: 56px;">
+  
+      <div class="col-3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Parameter Set</mat-label>
+          <input matInput formControlName="parameterSet" />
+        </mat-form-field>
+      </div>
+
+      <div class="col-2" style="margin-bottom: 50px;">
+        <mat-label class="me-2">Repetition</mat-label>
+        <button mat-icon-button color="primary" aria-label="Decrease" (click)="decreaseRepetition()">
+          <span>-</span>
+        </button>
+      
+        <span style="
+          border: 1px solid #ccc;
+          padding: 4px 12px;
+          min-width: 40px;
+          text-align: center;
+          display: inline-block;
+          border-radius: 4px;
+        ">
+          {{ repetitionCount }}
+        </span>
+      
+        <button mat-icon-button color="primary" aria-label="Increase" (click)="increaseRepetition()">
+          <span>+</span>
+        </button>
+      </div>
+
+      <div class="col-1" style="margin-bottom: 30px;">
+        <mat-checkbox formControlName="reference">Reference</mat-checkbox>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Additive</mat-label>
+          <input matInput formControlName="additive" />
+        </mat-form-field>
+      </div>
+    </div>
+    <hr class="me-2">
+
+
+  
+
+    <div class="row align-items-center mt-3" style="height: 56px;">
+      <div class="col-2" style="margin-bottom: 30px;">
+        <label class="form-label d-block mb-1">Pretreatment</label>
+      
+        <div class="d-flex gap-3 align-items-center">
+          <mat-checkbox formControlName="pretreatmentNone">None</mat-checkbox>
+          <mat-checkbox formControlName="pretreatmentDryTest">Drying</mat-checkbox>
         </div>
-  <div class="row">
-    <!-- Parameter Set (readonly) -->      
-     <mat-form-field appearance="outline" class="half-width">
-      <mat-label>Parameter Set</mat-label>
-      <input matInput formControlName="parameterSet">
-    </mat-form-field>
-    
-    <!-- Recipe Number -->
-  <mat-form-field appearance="outline" class="half-width">
-    <mat-label>Recipe Number</mat-label>
-    <input matInput formControlName="recipeNumber">
-    
-  </mat-form-field> 
+      </div>
 
-  </div>
-  <div class="row align-items-center" >
-  <!-- Repetition -->
-  <div class="repetition-controls col-1">
-    <mat-label>Repetion</mat-label>
-    <button mat-mini-button (click)="adjustRepetition(-1)">-</button>
-    <input matInput formControlName="repetition" type="number">
-    <button mat-mini-button (click)="adjustRepetition(1)">+</button>
-  </div>
+      <div class="col-2">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Drying Temperature (°C)</mat-label>
+          <input type="number" matInput formControlName="dryingTemperature" />
+        </mat-form-field>
+      </div>
+  
+      <div class="col-2">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Drying Time (h)</mat-label>
+          <input type="number" matInput formControlName="dryingTime" />
+        </mat-form-field>
+      </div>
+  
+      <div class="col-2">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Residual Moisture %</mat-label>
+          <input type="number" matInput formControlName="residualMoisture" />
+        </mat-form-field>
+      </div>
+      <div class="col-2">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Processing Moisture </mat-label>
+          <input type="number" matInput formControlName="processingMoisture" />
+        </mat-form-field>
+      </div>
+  
+      <div class="col-1" style="margin-bottom: 40px;">
+        <mat-checkbox formControlName="notMeasured">Not Measured</mat-checkbox>
+      </div>
+    </div>
 
-  <div class="col-2">
-  <!-- Reference Checkbox -->
-  <mat-checkbox formControlName="reference">Reference</mat-checkbox>
-</div>
 
-<div class="col-3">
-  <!-- Additive -->
-  <mat-form-field appearance="outline">
-    <mat-label>Additive</mat-label>
-    <input matInput formControlName="additive">
-  </mat-form-field>
-</div>
-  <hr class="my-3" />
-</div>
 
-    
+    <hr class="my-3" />
+
+    <div class="row align-items-center mt-3" style="height: 56px;">
       
-        
-     
+      <div class="col-3">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Plasticizing Volume (cm3)</mat-label>
+          <input type="number" matInput formControlName="plasticizingVolume" />
+        </mat-form-field>
+      </div>
+  
+      <div class="col-3">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Decompression Volume (cm3)</mat-label>
+          <input type="number" matInput formControlName="decompressionVolume" />
+        </mat-form-field>
+      </div>
+  
+      <div class="col-2">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Holding Pressure (bar)</mat-label>
+          <input type="number" matInput formControlName="holdingPressure" />
+        </mat-form-field>
+      </div>
+      <div class="col-2">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Switching Point (cm3)</mat-label>
+          <input type="number" matInput formControlName="switchingPoint" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <hr class="my-3" />
+
+    <div class="row align-items-center mt-3" style="height: 56px;">
       
-  </div>
+      <div class="col-3">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Screw Speed  (m/s)</mat-label>
+          <input type="number" matInput formControlName="screwSpeed" />
+        </mat-form-field>
+      </div>
+      <!-- <div class="col-3">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>(mm/s)</mat-label>
+          <input type="number" matInput />
+        </mat-form-field>
+      </div> -->
+  
+      <div class="col-3">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Injection Speed (cm3/s)</mat-label>
+          <input type="number" matInput formControlName="injectionSpeed" />
+        </mat-form-field>
+      </div>
+  
+      <div class="col-3">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Injection Pressure (bar)</mat-label>
+          <input type="number" matInput formControlName="injectionPressure" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <hr class="my-3" />
+
+
+    <div class="row align-items-center mt-3" style="height: 56px;">
+      
+      <div class="col-3">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Temperature Zone (°C)</mat-label>
+          <input type="number" matInput formControlName="temperatureZone" />
+        </mat-form-field>
+      </div>
+  
+      <div class="col-2">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Melt Temperature (°C)</mat-label>
+          <input type="number" matInput formControlName="meltTemperature" />
+        </mat-form-field>
+      </div>
+  
+      <div class="col-3">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Nozzle Temperature (°C)</mat-label>
+          <input type="number" matInput formControlName="nozzleTemperature" />
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Mould Temperature (°C)</mat-label>
+          <input type="number" matInput formControlName="mouldTemperature" />
+        </mat-form-field>
+      </div>
+    </div>
+
+
 
   <mat-dialog-actions align="end">
     <!-- <button mat-raised-button color="warn" type="button" (click)="onReset()">Reset</button> -->
-    <button mat-raised-button color="primary" type="submit">Save</button>
-    <button mat-raised-button type="button" (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" style="z-index: 1;">Save</button>
+    <button mat-raised-button type="button" (click)="onCancel()" style="z-index: 1;">Cancel</button>
   </mat-dialog-actions>
 </form>
