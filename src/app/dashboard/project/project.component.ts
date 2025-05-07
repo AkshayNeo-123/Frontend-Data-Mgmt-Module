@@ -37,8 +37,7 @@ export class ProjectComponent implements OnInit {
   // area: string;
 
   // displayedColumns: string[] = ['area','projectName','projectNumber', 'projectType','Priority', 'status',  'startDate', 'endDate','actions'];
-  displayedColumns: string[] = ['projectName','projectNumber','status', 'actions'];
-
+  displayedColumns: string[] = ['projectNumber','projectName','status', 'actions'];
   dataSource = new MatTableDataSource<Project>([]); // Using your Project model
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -129,10 +128,11 @@ export class ProjectComponent implements OnInit {
           message: 'Are you sure you want to delete this Project?'
         }
       });
+      const deletedBY=Number(localStorage.getItem('UserId'));
     
       dialogRef.afterClosed().subscribe(result => {
         if (result === true) {
-          this.projectService.deleteProject(id).subscribe({
+          this.projectService.deleteProject(id,deletedBY).subscribe({
             next: (res: any) => {
               this.dataSource.data = this.dataSource.data.filter(material => material.projectId !== id);
               this.toastr.success(' deleted successfully','success',{

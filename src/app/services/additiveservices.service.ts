@@ -15,7 +15,7 @@ export class AdditiveservicesService {
 
 
   addAdditive(additive:Additives):Observable<Additives>{
-    return this.http.post<Additives>(this.baseUrl,additive,{withCredentials:true});
+    return this.http.post<Additives>(this.baseUrl,additive);
   }
 
   getAllAdditives():Observable<Additives[]>{
