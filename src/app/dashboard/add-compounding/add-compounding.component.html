@@ -1,10 +1,9 @@
 <form [formGroup]="compoundForm" (ngSubmit)="onSubmit()" class="container" style="margin-bottom: 50px;">
-    <!-- Compound Number, Parameter Set, Date, and Note -->
     <div class="row align-items-center">
       <div class="col-3" style="height: 56px;">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Compound Number</mat-label>
-          <input matInput formControlName="compoundNumber" />
+          <mat-label>Recipe Number</mat-label>
+          <input matInput formControlName="recipeNumber" />
         </mat-form-field>
       </div>
     </div>
@@ -109,7 +108,12 @@
             <th>MF</th>
             <th>2ndF</th>
             <th>SF</th>
-            <th *ngFor="let col of dynamicCols">{{ col }}</th>
+            <th>A</th>
+            <th>B</th>
+            <th>C</th>
+            <th>D</th>
+            <th>E</th>
+            <th>F</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -126,9 +130,13 @@
             <td><input type="checkbox" formControlName="MF" /></td>
             <td><input type="checkbox" formControlName="SecondF" /></td>
             <td><input type="checkbox" formControlName="SF" /></td>
-            <td *ngFor="let col of dynamicCols">
-              <input type="checkbox" [formControlName]="col" />
-            </td>
+            <td><input type="checkbox" formControlName="A" /></td>
+            <td><input type="checkbox" formControlName="B" /></td>
+            <td><input type="checkbox" formControlName="C" /></td>
+            <td><input type="checkbox" formControlName="D" /></td>
+            <td><input type="checkbox" formControlName="E" /></td>
+            <td><input type="checkbox" formControlName="F" /></td>
+
             <td>
               <button type="button" class="btn btn-outline-danger" (click)="removeComponent(i)">
                 <i class="fas fa-trash-alt action-icon" ></i>
@@ -171,12 +179,10 @@
           <div class="mb-2">
             <label class="form-label">Temperature Profile</label>
             <div>
-              <!-- Screwconfig Image -->
               <img src="/image.png" alt="Screw Configuration" class="img-fluid" style="height: 100px; width: 100%;"  />
             </div>
           </div>
           
-          <!-- Temperature Inputs -->
           <div class="d-flex flex-wrap gap-2 mt-2">
             <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp1" />
             <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp2" />
@@ -305,17 +311,6 @@
           </mat-form-field>
         </div>
         </div>
-
-        <!-- <div class="row align-items-center" style="height: 56px;">
-          <div class="col-6">
-            
-          </div>
-        </div> -->
-<!--       
-      </div> -->
-      <!-- <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary">Save</button>
-      </div> -->
       
       <div mat-dialog-actions align="end">
         <button mat-raised-button color="primary" type="submit">Save</button>
