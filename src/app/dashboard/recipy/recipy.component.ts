@@ -138,3 +138,5 @@ export class RecipyComponent implements OnInit {
     FileSaver.saveAs(data, `Compounding_${recipe.productName || 'data'}.xlsx`);
   }
 }
+
+

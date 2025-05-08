@@ -276,10 +276,17 @@ export class AddRecipyComponent implements OnInit {
       error: (err) => console.error('Failed to load component types:', err),
     });
 
+    // this.componentService.getAllComponents().subscribe({
+    //   next: (res) => (this.availableComponents = res.map((item) => item.component)),
+    //   error: (err) => console.error('Failed to load components:', err),
+    // });
+
     this.componentService.getAllComponents().subscribe({
-      next: (res) => (this.availableComponents = res.map((item) => item.component)),
+      next: (res) => (this.availableComponents = res),
       error: (err) => console.error('Failed to load components:', err),
     });
+
+    
 
     this.projectService.getAllProjects().subscribe({
       next: (res) => (this.projects = res),
@@ -320,7 +327,7 @@ export class AddRecipyComponent implements OnInit {
 
       this.recipeService.addRecipe(newRecipe).subscribe({
         next: () => {
-          alert('Recipe added successfully!');
+          // alert('Recipe added successfully!');
           this.dialogRef.close(true);
         },
         error: (err) => {
