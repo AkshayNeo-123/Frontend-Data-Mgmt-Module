@@ -8,6 +8,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { CommonModule } from '@angular/common';
 import { AddCompoundingService } from '../../services/add-compounding.service'; 
 import { ToastrService } from 'ngx-toastr';
+import { ComponentService } from '../../services/component.service';
+import { MaterialService } from '../../services/material.service';
 
 @Component({
   selector: 'app-add-compounding',
@@ -26,7 +28,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AddCompoundingComponent {
   compoundForm: FormGroup;
-  componentOptions: string[] = ['Component A', 'Component B', 'Component C'];
+  componentOptions: any[] = [];
   repetitionCount = 0;
 
   get components() {
@@ -35,66 +37,86 @@ export class AddCompoundingComponent {
 
   constructor(
     private fb: FormBuilder,
-    private compoundingService: AddCompoundingService ,
+    private compoundingService: AddCompoundingService,
     private toastr: ToastrService,
+    private componentService: ComponentService ,
+    private materialService: MaterialService,
+    
 
   ) {
+    this.loadComponents(); 
     this.compoundForm = this.fb.group({
-      recipeNumber: [7],
-      parameterSet: [],
-      date: [ ],
+      recipeNumber: [{value:'7',disabled:true}],
+      parameterSet: [{value:'001',disabled:true}],
+      date: [],
       note: [''],
-      temperature: [ ],
-      duration: [ ],
-      residualMoisture: [ ],
+      temperature: [],
+      duration: [],
+      residualMoisture: [],
       notMeasured: [false],
-      speedFeeder1: [ ],
-      speedFeeder2: [ ],
-      screwStandard: [false], 
+      speedFeeder1: [],
+      speedFeeder2: [],
+      screwStandard: [false],
       screwModified: [false],
       degassingStandard: [false],
       degassingVacuum: [false],
       degassingNone: [false],
       degassingFET: [false],
-      screwSpeed: [ ],
-      torque: [ ],
-      pressure: [ ],
-      totalOutput: [ ],
-      granulator: [ ],
-      bulkDensity: [ ],
-      coolingSection: [ ],
-      tempBath1: [ ],
-      tempBath2: [ ],
-      tempBath3: [ ],
-      meltPump: [ ],
-      underwaterPelletizer: [ ],
-      nozzlePlate:[ ],
-      productionNote:[ ],
-      premix:[false],
-      PremixNote:[''],
-      temp1: [100],
-      temp2: [200],
-      temp3: [200],
-      temp4: [200],
-      temp5: [200],
-      temp6: [100],
-      temp7: [200],
-      temp8: [200],
-      temp9: [230],
-      temp10: [230],
-      temp11: [230],
-      temp12: [230],
+      screwSpeed: [],
+      torque: [],
+      pressure: [],
+      totalOutput: [],
+      granulator: [],
+      bulkDensity: [],
+      coolingSection: [],
+      tempBath1: [],
+      tempBath2: [],
+      tempBath3: [],
+      meltPump: [],
+      underwaterPelletizer: [],
+      nozzlePlate: [],
+      productionNote: [],
+      premix: [false],
+      PremixNote: [''],
+      temp1: [ ],
+      temp2: [ ],
+      temp3: [],
+      temp4: [],
+      temp5: [],
+      temp6: [],
+      temp7: [],
+      temp8: [],
+      temp9: [],
+      temp10: [],
+      temp11: [],
+      temp12: [],
+      upload_Screwconfig:[''],
       pretreatmentNone: [false],
       pretreatmentDrying: [false],
-      components: this.fb.array([]) 
+      components: this.fb.array([]),
     });
 
     this.addComponent();
   }
 
+  // ADDED: Load component options from API
+  loadComponents() {
+    this.componentService.getAllComponents().subscribe({
+      next: (data) => {
+        this.componentOptions = data;
+       
+      },
+      error: (err) => {
+        console.error('Failed to load components', err);
+      }
+    });
+  }
+
+  
+
   addComponent() {
     const componentGroup = this.fb.group({
-      name: [1],
+      name: [""],
       share: [0],
       MF: [false],
       SecondF: [false],
@@ -119,11 +141,49 @@ export class AddCompoundingComponent {
       .reduce((acc: number, curr: any) => acc + (+curr.share || 0), 0);
   }
 
-  onFileSelected(event: Event) {
+  // onFileSelected(event: Event) {
+  //   const input = event.target as HTMLInputElement;
+  //   if (input.files && input.files.length > 0) {
+  //     const file = input.files[0];
+  //     console.log('Selected file:', file.name);
+  //   }
+  // }
+
+  onFileSelected(event: Event, controlName: string): void {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      console.log('Selected file:', file.name);
+    const file = input.files?.[0];
+  
+    if (file) {
+      if (file.type !== 'application/pdf') {
+        this.toastr.error('Only PDF files are allowed.', 'Invalid File', { timeOut: 3000 });
+        input.value = '';
+        return;
+      }
+  
+      const currentFilePath = this.compoundForm.get(controlName)?.value;
+      if (currentFilePath) {
+        this.materialService.updateMaterialFile(file, currentFilePath).subscribe({
+          next: (res) => {
+            const filePath = `${res.fileName}`;
+            this.compoundForm.get(controlName)?.setValue(filePath);  
+          },
+          error: (err) => {
+            console.error('File upload failed:', err);
+            this.toastr.error('File upload failed.', 'Error', { timeOut: 3000 });
+          }
+        });
+      } else {
+        this.materialService.postFileMaterial(file).subscribe({
+          next: (res) => {
+            const filePath = `${res.fileName}`;
+            this.compoundForm.get(controlName)?.setValue(filePath);
+          },
+          error: (err) => {
+            console.error('File upload failed:', err);
+            this.toastr.error('File upload failed.', 'Error', { timeOut: 3000 });
+          }
+        });
+      }
     }
   }
 
@@ -138,96 +198,104 @@ export class AddCompoundingComponent {
   }
 
   onSubmit() {
-    if (this.compoundForm.valid) {
-      const formValue = this.compoundForm.value;
-  
-      const requestBody = {
-        compoundingDataDTO: {
-          receipeId: formValue.recipeNumber,
-          parameterSet: formValue.parameterSet,
-          date: formValue.date,
-          notes: formValue.note,
-          repetation: this.repetitionCount,
-          pretreatment: formValue.pretreatment,
-          temperature: formValue.temperature,
-          duration: formValue.duration,
-          residualM: formValue.residualMoisture,
-          notMeasured: formValue.notMeasured,
-          pretreatmentNone: formValue.pretreatmentNone,
-          pretreatmentDrying: formValue.pretreatmentDrying
-        },
-        components: formValue.components.map((comp: any) => ({
-          componentId: 0, 
-          share: +comp.share,
-          mf: comp.MF,
-          _2ndF: comp.SecondF,
-          sf: comp.SF,
-          a: comp.A,
-          b: comp.B,
-          c: comp.C,
-          d: comp.D,
-          e: comp.E,
-          f: comp.F
-        })),
-        dosageDTO: {
-          speedSideFeeder1: formValue.speedFeeder1,
-          speedSideFeeder2: formValue.speedFeeder2,
-          upload_Screwconfig: "string", 
-          screwSpeed: formValue.screwSpeed,
-          torque: formValue.torque,
-          pressure: formValue.pressure,
-          totalOutput: formValue.totalOutput,
-          granulator: formValue.granulator,
-          bulkDensity: formValue.bulkDensity,
-          coolingSection: formValue.coolingSection,
-          notes: formValue.productionNote,
-          meltPump: formValue.meltPump,
-          nozzlePlate: formValue.nozzlePlate,
-          premix: formValue.premix,
-          underwaterPelletizer: formValue.underwaterPelletizer,
-          temp1: formValue.temp1,
-          temp2: formValue.temp2,
-          temp3: formValue.temp3,
-          temp4: formValue.temp4,
-          temp5: formValue.temp5,
-          temp6: formValue.temp6,
-          temp7: formValue.temp7,
-          temp8: formValue.temp8,
-          temp9: formValue.temp9,
-          temp10: formValue.temp10,
-          temp11: formValue.temp11,
-          temp12: formValue.temp12,
-          screwConfigStadard: formValue.screwStandard,
-          screwConfigModified: formValue.screwModified,
-          deggassingStadard: formValue.degassingStandard,
-          deggassingVaccuum: formValue.degassingVacuum,
-          deggassingNone: formValue.degassingNone,
-          deggassingFET: formValue.degassingFET,
-          premixNote: formValue.PremixNote,
-          temperatureWaterBath1: formValue.tempBath1,
-          temperatureWaterBath2: formValue.tempBath2,
-          temperatureWaterBath3: formValue.tempBath3,
-          createdDate: new Date().toISOString(),
-          createdBy: 0,
-          modifiedBy: 0,
-          modifiedDate: new Date().toISOString()
-        }
-      };
-  
-      console.log(requestBody)
-      // Send structured data to API
-      this.compoundingService.addCompoundingData(requestBody).subscribe({
-        next: (response) => {
-          console.log('API response:', response);
-        },
-        error: (err) => {
-          console.error('API error:', err);
-        }
-      });
-  
-    } else {
-      console.log('Form is invalid');
+    if (this.compoundForm.invalid) {
+      this.compoundForm.markAllAsTouched();
+      return;
     }
+  
+    const formValue = this.compoundForm.value;
+  
+    const validComponentIds = this.componentOptions.map(c => c.id);
+    const filteredComponents = [];
+  
+    for (const comp of formValue.components) {
+      const {
+        name, share, MF, SecondF, SF,
+        A, B, C, D, E, F
+      } = comp;
+  
+      const anyCheckboxSelected =
+      share|| MF || SecondF || SF || A || B || C || D || E || F;
+  
+      if (anyCheckboxSelected && (!name || name.trim() === "")) {
+        this.toastr.error("Select component name");
+        return;
+      }
+  
+      // ✅ 2. If name is selected, it must be valid
+      if (name && !validComponentIds.includes(+name)) {
+        this.toastr.error(`Invalid component selected: ${name}`);
+        return;
+      }
+  
+      // ✅ 3. Only push if name is selected
+      if (name && name.trim() !== "") {
+        filteredComponents.push({
+          componentId: +name,
+          share: +share,
+          mf: MF,
+          _2ndF: SecondF,
+          sf: SF,
+          a: A,
+          b: B,
+          c: C,
+          d: D,
+          e: E,
+          f: F
+        });
+      }
+    }
+  
+    const requestBody: any = {
+      compoundingDataDTO: {
+        receipeId: formValue.recipeNumber,
+        parameterSet: formValue.parameterSet,
+        date: formValue.date,
+        notes: formValue.note,
+        repetation: this.repetitionCount,
+        pretreatment: formValue.pretreatment,
+        temperature: formValue.temperature,
+        duration: formValue.duration,
+        residualM: formValue.residualMoisture,
+        notMeasured: formValue.notMeasured,
+        pretreatmentNone: formValue.pretreatmentNone,
+        pretreatmentDrying: formValue.pretreatmentDrying,
+        dryingTime: formValue.dryingTime
+      },
+      ...(filteredComponents.length > 0 && {
+        components: filteredComponents
+      }),
+      dosageDTO: {
+        // include all your dosage fields here
+        feederId1: formValue.feeder1,
+        feederId2: formValue.feeder2,
+        feederId3: formValue.feeder3,
+        feederId4: formValue.feeder4,
+        feederId5: formValue.feeder5,
+        feederId6: formValue.feeder6,
+        feederId7: formValue.feeder7,
+        feederId8: formValue.feeder8,
+        feederId9: formValue.feeder9,
+        feederId10: formValue.feeder10,
+        feederId11: formValue.feeder11,
+        feederId12: formValue.feeder12,
+      }
+    };
+  
+    this.compoundingService.addCompoundingData(requestBody).subscribe({
+      next: (res) => {
+        console.log('API Success:', res);
+        // Show success toast
+        this.toastr.success('Saved successfully.', 'Success', {
+          timeOut: 3000
+        });
+      },
+      error: (err) => {
+        console.error('API Error:', err);
+        this.toastr.error('Failed to submit the form.', 'Error', { timeOut: 3000 });
+      }
+    });
   }
+  
   
 }

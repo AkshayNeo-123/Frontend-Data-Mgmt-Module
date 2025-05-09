@@ -12,10 +12,6 @@ export class ComponentService {
 
   constructor(private http: HttpClient) {}
   
-//   getAllRecipeComponents(): Observable<any[]> {
-//     return this.http.get<any[]>(`${this.baseUrl}`);
-//   }
-
   getAllComponents(): Observable<any[]> {
     return this.http.get<any[]>(this.componentUrl);
   }

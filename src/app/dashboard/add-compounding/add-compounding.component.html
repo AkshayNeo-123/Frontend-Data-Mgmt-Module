@@ -1,9 +1,16 @@
 <form [formGroup]="compoundForm" (ngSubmit)="onSubmit()" class="container" style="margin-bottom: 50px;">
-    <div class="row align-items-center">
-      <div class="col-3" style="height: 56px;">
+    <div class="row align-items-center" style="height: 56px;">
+      <div class="col-3">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Recipe Number</mat-label>
           <input matInput formControlName="recipeNumber" />
+        </mat-form-field>
+      </div>
+
+      <div class="col-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Parameter Set</mat-label>
+          <input matInput formControlName="parameterSet" />
         </mat-form-field>
       </div>
     </div>
@@ -11,13 +18,7 @@
     <hr class="my-3" />
   
     <div class="row align-items-center" style="height: 56px;">
-      <div class="col-2">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Parameter Set</mat-label>
-          <input matInput formControlName="parameterSet" />
-        </mat-form-field>
-      </div>
-  
+     
       <div class="col-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Date</mat-label>
@@ -34,7 +35,7 @@
   
       <div class="col-3 " style="margin-bottom: 50px;">
         <mat-label class="me-2">Repetition</mat-label>
-        <button mat-icon-button color="primary" aria-label="Decrease" (click)="decreaseRepetition()">
+        <button mat-icon-button color="primary" aria-label="Decrease" type="button" (click)="decreaseRepetition()">
           <span>-</span>
         </button>
       
@@ -49,7 +50,7 @@
           {{ repetitionCount }}
         </span>
       
-        <button mat-icon-button color="primary" aria-label="Increase" (click)="increaseRepetition()">
+        <button mat-icon-button color="primary" aria-label="Increase" type="button" (click)="increaseRepetition()">
           <span>+</span>
         </button>
       </div>
@@ -79,7 +80,7 @@
       <div class="col-2">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Duration (h)</mat-label>
-          <input type="number" matInput formControlName="duration" min="0"/>
+          <input type="number" matInput formControlName="duration" min="0" max="24"/>
         </mat-form-field>
       </div>
   
@@ -121,9 +122,14 @@
           <tr *ngFor="let row of components; let i = index" [formGroupName]="i">
             <td>
               <select class="form-select" formControlName="name">
-                <option *ngFor="let option of componentOptions" [value]="option">{{ option }}</option>
+                <option value="" disabled selected>-- Select --</option>
+                <option *ngFor="let option of componentOptions" [value]="option.id">
+                  {{ option.componentName }}
+                </option>
               </select>
+              
             </td>
+            
             <td>
               <input type="number" class="form-control" formControlName="share" min="0"/>
             </td>
@@ -136,7 +142,7 @@
             <td><input type="checkbox" formControlName="D" /></td>
             <td><input type="checkbox" formControlName="E" /></td>
             <td><input type="checkbox" formControlName="F" /></td>
-
+    
             <td>
               <button type="button" class="btn btn-outline-danger" (click)="removeComponent(i)">
                 <i class="fas fa-trash-alt action-icon" ></i>
@@ -145,12 +151,13 @@
           </tr>
         </tbody>
       </table>
-  
+    
       <div class="d-flex justify-content-between">
         <div><strong>Total [%]: {{ getTotalShare() }}</strong></div>
         <button type="button" class="btn btn-primary btn-sm" (click)="addComponent()">Add new component</button>
       </div>
     </div>
+    
 
     <hr class="my-3" />
     
@@ -173,7 +180,7 @@
              
           <div class="col-4" style="margin-bottom: 40px;">
             <label for="screwConfig" class="form-label">Upload Screwconfig</label>
-            <input type="file" class="form-control w-auto" id="screwConfig" (change)="onFileSelected($event)">
+            <input type="file" class="form-control w-auto" id="screwConfig" (change)="onFileSelected($event, 'upload_Screwconfig')">
           </div>
           
           <div class="mb-2">
@@ -183,7 +190,7 @@
             </div>
           </div>
           
-          <div class="d-flex flex-wrap gap-2 mt-2">
+          <div class="d-flex flex-wrap gap-2 mt-2" style="margin-left: 50px;">
             <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp1" />
             <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp2" />
             <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp3" />
