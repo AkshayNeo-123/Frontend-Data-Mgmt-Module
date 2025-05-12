@@ -1,42 +1,89 @@
 <div class="d-flex">
- 
   <app-sidebar [isOpen]="isSidebarOpen" (sectionChange)="onSectionChange($event)">
   </app-sidebar>
 
- 
   <div class="flex-grow-1">
     <app-topbar (toggleSidebar)="onToggleSidebar()"></app-topbar>
 
     <div class="p-4">
       <ng-container [ngSwitch]="selectedSection">
-        <app-recipy *ngSwitchCase="'recipy'"></app-recipy>
-        <h3 class="mb-3" *ngSwitchCase="'dashboard'">Dashboard</h3>
-
-    
-              
-             
         
+        <app-recipy *ngSwitchCase="'recipy'"></app-recipy>
+        
+        <div *ngSwitchCase="'dashboard'">
+          <h5 class="fw-bold mb-3">Recipe Dashboard</h5>
+          
+          <div class="container-fluid">
+            <div class="d-flex justify-content-start align-items-center mb-3">
+              <mat-form-field appearance="outline" class="search-field">
+                <mat-label>Recipe Search</mat-label>
+                <input matInput [(ngModel)]="projectFilter" placeholder="Search">
+              </mat-form-field>
+              <button class="mr-3 filter-recipe me-4" (click)="applyCustomFilter()">
+                <i class=" me-2"></i> Filter
+              </button>
+              <button class="mr-3 reset-contact-btn btn btn-primary me-4" (click)="resetFilter()">Reset</button>
+                <div class="mr-3 me-4 count-box">
+              Total Recipe {{ count }}
+            </div>
+            </div>
+
+          
+
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let recipe of paginatedRecipes">
+                  <div class="card h-100 shadow-sm"  style="height: 300px;">
+                    <div class="card-header fw-bold">
+                      {{ recipe.projectNumber }}
+                    </div>
+                    <div class="card-body" style="max-height: 220px; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
+                      <div class="card-text text-muted small mb-2">
+                        ID: {{ recipe.recipeId }}
+                      </div>
+                      <div class="descriptions">
+                        {{ recipe.description }}
+                      </div>
+                      <div *ngIf="recipe.recipeId !== undefined" (click)="openRecipeDetailsDialog(recipe)">
+                        <button class="btn btn-light" style="color:#007bff ;border-radius: 50px;">Details</button>
+                      </div>                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <nav aria-label="Page navigation example ">
+            <ul class="pagination justify-content-center">
+              <li class="page-item disabled"[class.disabled]="currentPage===1">
+                <a class="page-link rounded-0 "  (click)="goToPage(currentPage - 1)" aria-label="Previous"> << </a>
+              </li>
+              <li class="page-item"
+              *ngFor="let page of [].constructor(totalPages); let i = index"
+              [class.active]="currentPage === i + 1"><a class="page-link rounded-0" aria-current="page" (click)="goToPage(i+1)">{{i+1}}</a></li>
              
-              
-       
-        <!-- <h3 *ngSwitchCase="'rolemaster'">Role Master Content</h3> -->
+              <li class="page-item"  [class.disabled]="currentPage===totalPages">
+                <a class="page-link rounded-0" (click)="goToPage(currentPage+1)"> >> </a>
+              </li>
+            </ul>
+          </nav>
+
+        </div>
+
         <app-rolemaster *ngSwitchCase="'rolemaster'"></app-rolemaster>
-        <!-- <h3 *ngSwitchCase="'manage-user'">Manage User Content</h3> -->
         <app-manageusers *ngSwitchCase="'manageusers'"></app-manageusers>
         <app-getmaterials *ngSwitchCase="'getmaterials'"></app-getmaterials>
-        <app-project *ngSwitchCase="'getproject'"></app-project>        
+        <app-project *ngSwitchCase="'getproject'"></app-project>
         <h3 *ngSwitchCase="'testing'">Testing Content</h3>
         <app-mastertable *ngSwitchCase="'mastertable'"></app-mastertable>
         <app-contacts *ngSwitchCase="'contacts'">contacts</app-contacts>
-        <!-- <h3 *ngSwitchCase="'contacts'">Testing Content</h3> -->
-        <app-get-all-additives *ngSwitchCase="'get-all-additives'">Additvies</app-get-all-additives>
+        <app-get-all-additives *ngSwitchCase="'get-all-additives'">Additives</app-get-all-additives>
         <app-all-main-polymers *ngSwitchCase="'all-main-polymers'"></app-all-main-polymers>
 
-        <!-- <h3 *ngSwitchCase="'master-tables'">Master Tables Content</h3> -->
-        
       </ng-container>
     </div>
   </div>
-</div>
-<app-footer></app-footer>
 
+</div>
+
+<app-footer></app-footer>

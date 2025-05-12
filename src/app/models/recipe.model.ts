@@ -10,4 +10,11 @@ export interface Recipe {
   additiveName?: string;
   polymerName?: string;
   composition?: string;
+  // comment:string;
+}
+
+export interface RecipeAndProject{
+  recipeId?:number;
+  projectNumber?:string,
+  description?:string
 }

@@ -31,6 +31,7 @@ export class AddcontactsComponent implements OnInit {
   isEditMode: boolean = false;
   states: any[] = [];
   cities: any[] = [];
+  existingContacts: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -83,7 +84,7 @@ export class AddcontactsComponent implements OnInit {
       ]],
       phone: [this.data?.phone || '', [
         Validators.required,
-        Validators.pattern(/^[0-9]{10}$/)
+        Validators.pattern(/^[6-9]\d{9}$/)
       ]]
     });
   }
@@ -126,8 +127,11 @@ export class AddcontactsComponent implements OnInit {
       return;
     }
 
-    const userJson = localStorage.getItem('user');
-    const user = userJson ? JSON.parse(userJson) : null;
+    
+
+
+    const adduserId = localStorage.getItem('UserId');
+    const user = adduserId ? JSON.parse(adduserId) : null;
 
     if (!user) {
       console.error('No user found in localStorage!');
@@ -136,10 +140,11 @@ export class AddcontactsComponent implements OnInit {
 
     const contactPayload = {
       ...this.contactForm.value,
-      createdBy: user.userId,
-      createdDate: new Date().toISOString()
+      ...(this.isEditMode
+        ? { modifiedBy: adduserId, modifiedDate: new Date().toISOString() }
+        : { createdBy: adduserId, createdDate: new Date().toISOString(), modifiedDate: new Date().toISOString() }
+      )
     };
-
     if (this.isEditMode) {
       console.log('Updating contact:', this.data.contactId, contactPayload);
       this.contactService.updateContact(this.data.contactId, contactPayload).subscribe({

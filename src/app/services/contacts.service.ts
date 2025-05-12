@@ -43,8 +43,8 @@ getContact(id:number):Observable<Contact>
   return this.http.get<Contact>(`${this.baseUrl}/${this.contactid}`);
 }
 
-deleteContact(id: number): Observable<any> {
-  return this.http.delete<Contact>(`${this.baseUrl}?id=${id}`);
+deleteContact(id: number,deletedBy:number): Observable<any> {
+  return this.http.delete<Contact>(`${this.baseUrl}?id=${id}&deletedBy=${deletedBy}`);
 }
 
 // addCities(stateId:number):Observable

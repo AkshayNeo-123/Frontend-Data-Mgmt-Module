@@ -14,9 +14,9 @@ export interface Contact {
     phone?: string;
     isDelete?:boolean;
      createdBy? :number;
- updatedBy? :number;
+ modifiedBy? :number;
 createdDate? :Date;
-updatedDate? :Date;
+modifiedDate? :Date;
 }
 
 export interface States{
@@ -40,15 +40,19 @@ export enum ContactTyps{
 export interface Additives{
     id?: number;
     additiveName: string;
-    createdBy: number;
-    createdDate: Date;
-    modifiedBy: number;
-    modifiedDate: Date ;
+    createdBy?: number;
+    createdDate?: Date;
+    modifiedBy?: number;
+    modifiedDate?: Date ;
     }
    
 export interface MainPolymer{
             id?:number;
             polymerName:string;
+            createdBy?: number;
+            createdDate?: Date;
+            modifiedBy?: number;
+            modifiedDate?: Date ;
         }
 
        

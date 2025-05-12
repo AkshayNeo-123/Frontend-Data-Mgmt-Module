@@ -5,6 +5,7 @@ import { AddcontactsComponent } from './dashboard/contactsData/addcontacts/addco
 import { AllMainPolymersComponent } from './dashboard/MainPolymerData/all-main-polymers/all-main-polymers.component';
 import { GetAdditivebyidComponent } from './dashboard/additiveData/get-additivebyid/get-additivebyid.component';
 import { ManageusersComponent } from './dashboard/manageusers/manageusers.component';
+import { RecipedetailsComponent } from './dashboard/recipedetails/recipedetails.component';
 
 export const routes: Routes = [
   {
@@ -60,6 +61,13 @@ export const routes: Routes = [
          // Ensures that this is the default path when navigating to 'contacts'
       },
 
+      // {
+      //   path: 'app-recipedetails',
+      //   loadComponent: () => import('./dashboard/recipedetails/recipedetails.component').then(m => m.RecipedetailsComponent),
+      //   pathMatch: 'full',
+      //    // Ensures that this is the default path when navigating to 'contacts'
+      // },
+    
       
 
       // Additive Routes
@@ -78,13 +86,25 @@ export const routes: Routes = [
       //   path: 'manageusers',
       //   component: ManageusersComponent
       // }
+      {
+        path: 'recipedetails/:id', 
+        component: RecipedetailsComponent,
+      },
       
     ]
   },
-  
+  // {
+  //   path:"app-recipedetails",
+  //   component:RecipedetailsComponent
+  // },
+  {
+    path: 'app-recipedetails',
+    redirectTo: '/',
+    pathMatch: 'full',
+  },
   {
     path: '',
-    redirectTo: 'auth/login',
+    redirectTo: 'dashboard/recipedetails',
     pathMatch: 'full',
   },
   {
@@ -94,5 +114,9 @@ export const routes: Routes = [
   {
     path: 'GetAllProject',
     component: ProjectComponent
-  }
+  },
+  // {
+  //   path: 'recipedashboard',
+  //   component: RecipedashboardComponent
+  // }
 ];

@@ -118,8 +118,8 @@ export class AllMainPolymersComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
           if (result === true) {
               this.dataSource.data = this.dataSource.data.filter(polymer => polymer.id !== polymerId);
-      
-            this.mainPolymerService.deletePolymer(polymerId).subscribe(
+              const userId=Number(localStorage.getItem('UserId'))
+              this.mainPolymerService.deletePolymer(polymerId,userId).subscribe(
               (response) => {
                 console.log('polymer deleted successfully:', response);
                 this.toaster.success(' deleted successfully');

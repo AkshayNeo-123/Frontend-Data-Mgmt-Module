@@ -1,3 +1,6 @@
+body { margin: 0;  }
+
+
 .dashboard-content {
     background-color: #f8f9fa;
     min-height: 100%;
@@ -5,6 +8,11 @@
   
 
   .card {
+    
+      height: 300px;  /* Set a fixed height for the cards */
+      display: flex;
+      flex-direction: column;
+    
     transition: transform 0.3s ease;
   }
   
@@ -25,6 +33,11 @@
     display: flex;
   }
   
+  input:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: black; 
+  }
 
   .pagination {
     gap: 8px;
@@ -50,5 +63,110 @@
     pointer-events: none;
     opacity: 0.5;
   }
+
+  /* .recipe-grid {
+    padding: 16px;
+  } */
   
+  .recipe-card {
+    border: 1px solid black;
+    border-top: 2px solid black;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    width: 300px;
+  }
+  
+  .card-header {
+    background-color: #c8e36e;
+    border: 1px solid black;
+    padding: 8px 12px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    font-size: 1 rem;
+    border-bottom: 1px solid black;
+  }
+  
+  .descriptions {
+    font-size: 0.9rem;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    color: #444;
+    padding: 8px 12px;
+  }
+
+  .page-link{
+    font-size: 0.9rem;
+    text-size-adjust: none;  }
+
+    .pagination .page-item .page-link {
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;  
+      width: 30px;              
+      height: 30px;              
+      text-align: center;       
+      line-height: 30px;         
+      font-size: 0.875rem; 
+      z-index: 0;     
+    }
+
+  /* .count-box {
+    text-align: center;
+    left: 100%;
+    padding: 10px;
+    background-color:  #fff9c4;;
+    color: #0d47a1;
+    border-radius: 10px;
+    width: 100px;
+    /* margin-bottom: 0px; 
+    margin-left: 80%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  } */
+  
+  .filter-recipe{
+    font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-bottom: 45px;
+   margin-left: 10px;
+  background-color: #4caf50; 
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+.count-box{
+  font-size: 16px;
+padding: 8px 16px;
+border-radius: 4px;
+margin-bottom: 45px;
+ margin-left: 350px;
+ background-color:  #fff9c4;
+ color: black;
+text-align: end;
+border: none;
+transition: background-color 0.3s ease;
+}
+
+.filter-recipe:hover {
+  background-color: #388e3c; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+.reset-contact-btn{
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-bottom: 45px;
+
+  /* background-color: #4caf50;  */
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease;
+
+}
+.reset-contact-btn:hover{
+/* background-color: #388e3c;  */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
   

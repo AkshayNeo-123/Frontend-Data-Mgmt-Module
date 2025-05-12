@@ -68,6 +68,8 @@
       <mat-form-field appearance="outline">
     <mat-label>State</mat-label>
     <mat-select formControlName="stateId">
+      <mat-option value="">--- Select ---</mat-option>
+
       <mat-option *ngFor="let state of states"  [value]="state.stateId">{{ state.statesName }}</mat-option>
     </mat-select>
   </mat-form-field>
@@ -75,13 +77,20 @@
   <mat-form-field appearance="outline">
     <mat-label>City</mat-label>
     <mat-select formControlName="cityId">
+      <mat-option value="">--- Select ---</mat-option>
+
       <mat-option *ngFor="let city of cities" [value]="city.cityId">{{ city.cityName }}</mat-option>
+      <!-- <mat-option *ngIf="cities.length === 0" [disabled]="!contactForm.get('stateId')?.value"  value="other">Other</mat-option> -->
+
     </mat-select>
   </mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Zip</mat-label>
         <input matInput  formControlName="zip" placeholder="Enter zip code" maxlength="6"  (keypress)="allowOnlyNumber($event)" />
+        <mat-error *ngIf="contactForm.get('zip')?.hasError('duplicate')">
+          This ZIP code is already in use.
+        </mat-error>
       </mat-form-field>
 
       
@@ -91,6 +100,9 @@
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Phone</mat-label>
         <input matInput type="tel" formControlName="phone" placeholder="Enter phone" maxlength="10"  (keypress)="allowOnlyNumber($event)" />
+        <mat-error *ngIf="contactForm.get('phone')?.hasError('duplicate')">
+          This phone number is already in use.
+        </mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Email</mat-label>

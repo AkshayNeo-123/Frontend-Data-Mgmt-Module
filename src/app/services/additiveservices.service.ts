@@ -35,8 +35,8 @@ export class AdditiveservicesService {
   }
 
 
-  deleteAdditives(id:number):Observable<any>{
-     return this.http.delete<Additives>(`${this.baseUrl}/${id}`)
+  deleteAdditives(id:number,deletedBy:number):Observable<any>{
+     return this.http.delete<Additives>(`${this.baseUrl}/${id}?deletedBy=${deletedBy}`)
   }
 
 

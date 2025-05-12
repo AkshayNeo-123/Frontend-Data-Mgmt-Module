@@ -145,7 +145,8 @@ export class ContactsComponent implements OnInit, AfterViewInit {
           this.dataSource.data = this.dataSource.data.filter(material => material.contactId !== contactId);
     
           console.log('Deleting Contact with ID:', contactId);
-          this.contactService.deleteContact(contactId).subscribe(
+          const userId=Number(localStorage.getItem('UserId'))
+          this.contactService.deleteContact(contactId,userId).subscribe(
             (response) => {
               console.log('Contact deleted successfully:', response);
               this.toastr.success('deleted successfully');
