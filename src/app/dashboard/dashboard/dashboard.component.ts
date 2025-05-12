@@ -38,7 +38,6 @@ import { AddAdditiveComponent } from '../additiveData/addadditives/addadditives.
     ProjectComponent,
     MastertableComponent,
     ContactsComponent,
-   
     GetAllAdditivesComponent,
     AllMainPolymersComponent,
     ManageusersComponent,

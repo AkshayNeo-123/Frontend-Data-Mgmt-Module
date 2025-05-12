@@ -31,7 +31,7 @@ import { AddmainpolymerComponent } from '../addmainpolymer/addmainpolymer.compon
     MatInputModule,
     MatButtonModule
   ],  templateUrl: './all-main-polymers.component.html',
-  styles: './all-main-polymers.component.css'
+  styleUrls: ['./all-main-polymers.component.css']
 })
 export class AllMainPolymersComponent implements OnInit {
 

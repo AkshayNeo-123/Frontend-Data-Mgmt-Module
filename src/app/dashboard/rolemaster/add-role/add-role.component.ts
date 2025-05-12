@@ -24,21 +24,25 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
+import { MenuService } from '../../../services/menu.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
+  standalone: true,
   selector: 'app-add-role',
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-      MatFormFieldModule,
-      MatInputModule,
-      MatDialogModule,
-      MatButtonModule,
-      MatSelectModule,
-      MatOptionModule,
-      MatIconModule,
-      MatRadioModule
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatIconModule,
+    MatRadioModule,
+    MatCheckboxModule
   ],
   templateUrl: './add-role.component.html',
   styleUrls: ['./add-role.component.css'],
@@ -90,41 +94,56 @@ export class AddRoleComponent {
   roleForm!: FormGroup;
   permissionsFormGroup!: FormGroup;
   isEditMode = false;
-
-  modulePermissions = [
-    { key: 'roleManagement', label: 'Role Management' },
-    { key: 'userManagement', label: 'User Management' },
-    { key: 'materials', label: 'Materials' },
-    { key: 'project', label: 'Project' },
-    { key: 'recipe', label: 'Recipe' },
-    { key: 'testing', label: 'Testing' },
-    { key: 'dashboard', label: 'Dashboard' },
-    { key: 'masterTables', label: 'Master Tables' }
-  ];
+  modulePermissions: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private roleService: RoleService,
+    private menuService: MenuService,
     private dialogRef: MatDialogRef<AddRoleComponent>,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public editData: any = null
-  ) {}
+  ) {
+
+    this.roleForm = this.fb.group({
+      roleName: ['', Validators.required],
+      permissions: this.fb.group({})
+    });
+    
+    
+
+  }
 
   ngOnInit(): void {
     this.initForms();
+    this.getMenus();
+    
+  }
 
-    if (this.editData?.roleId) {
-      this.isEditMode = true;
-      this.getRoleById(this.editData.roleId);
-    }
+  getMenus(): void {
+    this.menuService.getMenu().subscribe({
+      next: (menus) => {
+        this.modulePermissions = menus;
+        this.modulePermissions.forEach(permission => {
+          const group = this.fb.group({
+            view: [false],
+            create: [false],
+            update: [false],
+            delete: [false]
+          });
+          // console.log(permission.menuName);
+          (this.roleForm.get('permissions') as FormGroup).addControl(permission.id, group);
+        });
+      },
+      error: () => {
+        this.snackBar.open('Failed to load menu permissions.', 'Close', { duration: 3000 });
+      }
+    });
   }
 
   initForms(): void {
-    this.roleForm = this.fb.group({
-      roleName: ['', Validators.required],
-      description: ['']
-    });
-
+    // this.roleForm = this.fb.group({
+    
     const permissionControls: { [key: string]: FormControl<boolean> } = {};
     this.modulePermissions.forEach(p => {
       permissionControls[p.key] = this.fb.control(false, { nonNullable: true });
@@ -132,56 +151,50 @@ export class AddRoleComponent {
     this.permissionsFormGroup = this.fb.group(permissionControls);
   }
 
-  getRoleById(id: number): void {
-    this.roleService.getRoleById(id).subscribe({
-      next: (role) => {
-        this.roleForm.patchValue({
-          roleName: role.roleName,
-          description: role.description
-        });
+  // getRoleById(id: number): void {
+  //   this.roleService.getRoleById(id).subscribe({
+  //     next: (role) => {
+  //       this.roleForm.patchValue({
+  //         roleName: role.roleName
+  //         // description: role.description
+  //       });
 
-        if (role.permissions) {
-          Object.entries(role.permissions).forEach(([key, value]) => {
-            if (this.permissionsFormGroup.contains(key)) {
-              this.permissionsFormGroup.get(key)?.setValue(value);
-            }
-          });
-        }
-      },
-      error: () => {
-        this.snackBar.open('Failed to fetch role details.', 'Close', { duration: 3000 });
-      }
-    });
-  }
+  //       if (role.permissions) {
+  //         Object.entries(role.permissions).forEach(([key, value]) => {
+  //           if (this.permissionsFormGroup.contains(key)) {
+  //             this.permissionsFormGroup.get(key)?.setValue(value);
+  //           }
+  //         });
+  //       }
+  //     },
+  //     error: () => {
+  //       this.snackBar.open('Failed to fetch role details.', 'Close', { duration: 3000 });
+  //     }
+  //   });
+  // }
 
   onSubmit(): void {
+    console.log(this.roleForm.value)
     if (this.roleForm.invalid) return;
 
-    const formData = {
-      ...this.roleForm.value,
-      permissions: this.permissionsFormGroup.value
-    };
+    // const formData = {
+    //   ...this.roleForm.value,
+    //   permissions: this.permissionsFormGroup.value
+    // };
 
-    if (this.isEditMode) {
-      this.roleService.updateRole(this.editData.roleId, formData).subscribe({
-        next: () => {
-          this.snackBar.open('Role updated successfully.', 'Close', { duration: 3000 });
-          this.dialogRef.close(true);
-        },
-        error: () => {
-          this.snackBar.open('Failed to update role.', 'Close', { duration: 3000 });
-        }
-      });
-    } else {
-      this.roleService.addRole(formData).subscribe({
+    
+      this.roleService.addRole(this.roleForm.value).subscribe({
         next: () => {
           this.snackBar.open('Role added successfully.', 'Close', { duration: 3000 });
+          this.roleForm.reset();
           this.dialogRef.close(true);
         },
         error: () => {
           this.snackBar.open('Failed to add role.', 'Close', { duration: 3000 });
         }
       });
-    }
+  }
+  onCancel() {
+    this.dialogRef.close();
   }
 }

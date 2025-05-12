@@ -9,7 +9,6 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { inject } from '@angular/core';
 import { RoleService } from '../../services/role.service';
-import { AddEditRoleComponent } from './add-edit-role/add-edit-role.component';
 import { AddRoleComponent } from './add-role/add-role.component';
 import { EditRoleComponent } from './edit-role/edit-role.component';
 
@@ -83,28 +82,37 @@ export class RolemasterComponent implements OnInit {
   openAddRoleDialog() {
     // this.dialog.open(AddRoleComponent);
     const dialogRef = this.dialog.open(AddRoleComponent, {
+      height: '70%',
       width: '80%',
       maxWidth: '800px'
       });
     
       dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.getRoles(); // refreshing user list
+        this.fetchRoles(); 
         }
       });
   }
 
   openEditRoleDialog(role: any): void {
-    this.dialog.open(EditRoleComponent, {
+    const dialogRef = this.dialog.open(EditRoleComponent, {
+      height: '70%',
+      width: '80%',
+      maxWidth: '800px',
       data: role
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fetchRoles();
+      }
     });
   }
 
-  getRoles(): void {
-    this.roleService.getRoles().subscribe((roles) => {
-      this.roleList = roles;
-    });
-  }
+  // getRoles(): void {
+  //   this.roleService.getRoles().subscribe((roles) => {
+  //     this.roleList = roles;
+  //   });
+  // }
 
   editRole(role: any) {
     console.log('Edit Role:', role);
