@@ -14,6 +14,33 @@
     padding-right: 8px; 
   }
   
+  .global-hint {
+    font-weight: bold;
+    color: #ab2a2a;
+    font-size: 13px;
+    
+    display: block;
+  
+  }
+
+  mat-form-field {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .mat-cell, .mat-header-cell {
+    padding: 4px 8px;
+  }
+  
+  .compact-table .mat-cell,
+.compact-table .mat-header-cell {
+  padding: 4px 8px !important;
+}
+
+.compact-table mat-form-field {
+  width: 100%;
+}
+
   .mat-mdc-dialog-inner-container {
     margin-top: 70px !important;
    
@@ -62,10 +89,47 @@
   
   .form-container {
     max-height: 80vh !important; 
-    overflow-y: auto !important; /* Add vertical scrollbar if content overflows */
-    padding: 16px !important; /* Optional padding */
+    overflow-y: auto !important; 
+    padding: 16px !important; 
   }
   
   mat-dialog-content {
     overflow: hidden; 
+  }
+
+  .mat-form-field {
+    width: 100%;
+    margin: 0;
+  }
+  
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+    border-width: 1px !important;
+    border-color: rgba(0, 0, 0, 0.23) !important;
+  }
+  
+  .mat-cell, .mat-header-cell {
+    padding: 0 !important;
+    border: 1px solid #ccc;
+    vertical-align: bottom;
+    text-align: center;
+  }
+  
+  .mat-checkbox {
+    display: flex;
+    justify-content: center;
+  }
+  
+  table {
+    border-collapse: collapse;
+    border: 1px solid;
+  }
+  
+  .mat-header-cell {
+    font-weight: bold;
+    
+  }
+  
+  .mat-mdc-form-field {
+    /* border: 1px solid; */
+    min-width: 150px;
   }

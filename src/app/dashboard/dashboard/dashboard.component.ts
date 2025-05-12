@@ -26,9 +26,13 @@ import { ManageusersComponent } from '../manageusers/manageusers.component';
 import { RolemasterComponent } from '../rolemaster/rolemaster.component';
 import { AllMainPolymersComponent } from '../MainPolymerData/all-main-polymers/all-main-polymers.component';
 import { AddAdditiveComponent } from '../additiveData/addadditives/addadditives.component';
+import { AddInjectionMoldingComponent } from '../add-injection-molding/add-injection-molding.component';
+import { AddCompoundingComponent } from '../add-compounding/add-compounding.component';
+import { UpdateInjectionMoldingComponent } from '../update-injection-molding/update-injection-molding.component';
+import { UpdateCompoundingComponent } from '../update-compounding/update-compounding.component';
 import { GetAllAdditivesComponent } from '../get-all-additives/get-all-additives.component';
 import { RecipedetailsComponent } from '../recipedetails/recipedetails.component';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -44,6 +48,10 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
     ProjectComponent,
     MastertableComponent,
     ContactsComponent,
+    AddInjectionMoldingComponent,
+   
+    GetAllAdditivesComponent,
+    AllMainPolymersComponent,
     ManageusersComponent,
     RolemasterComponent,
     AllMainPolymersComponent,
@@ -59,7 +67,10 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
     MatCardModule,
     MatGridListModule,
     MatMomentDateModule,
-    RouterModule
+    RouterModule,
+    AddCompoundingComponent,
+    UpdateInjectionMoldingComponent,
+    UpdateCompoundingComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']

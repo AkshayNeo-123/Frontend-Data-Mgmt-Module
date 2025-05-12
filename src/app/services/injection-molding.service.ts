@@ -1,0 +1,32 @@
+import { Injectable } from '@angular/core';
+import { AddInjectionMoulding, UpdateInjectionMoulding } from '../models/injection-molding';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class InjectionMoldingService {
+
+  constructor(private http: HttpClient) { }
+  private apiUrl = 'https://localhost:7030/api';
+  AddInjection(injection:AddInjectionMoulding):Observable<AddInjectionMoulding>{
+      return this.http.post<AddInjectionMoulding>(`${this.apiUrl}/InjectionModling`,injection)
+      
+    }
+
+    getparemeterSet():Observable<number>{
+      return this.http.get<number>(`${this.apiUrl}/InjectionModling/GetLastParameterSet`)
+    }
+
+    UpdateInjection(id:number,injection:UpdateInjectionMoulding):Observable<any>{
+      return this.http.put(`${this.apiUrl}/InjectionModling/update?id=${id}`,injection)
+      
+    }
+
+    GetByIdInjection(id:number):Observable<UpdateInjectionMoulding>{
+      return this.http.get<UpdateInjectionMoulding>(`${this.apiUrl}/InjectionModling/GetById?id=${id}`)
+      
+    }
+
+}

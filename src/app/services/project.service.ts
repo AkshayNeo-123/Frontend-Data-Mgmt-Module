@@ -9,40 +9,41 @@ import { AddPRoject, Project, UpdateProject } from '../models/project.model';
 export class ProjectService {
 
   private apiUrl = 'https://localhost:7030/api/Projects';
+  private loadApiUrl='https://localhost:7030/api';
   constructor(private http: HttpClient) {}
 
   getAllProjects(): Observable<Project[]> {
     return this.http.get<Project[]>(`${this.apiUrl}/GetAllProjects`);
   }
   AddProject(project:AddPRoject):Observable<AddPRoject>{
-    return this.http.post<AddPRoject>('https://localhost:7030/api/Projects/AddProject',project)
+    return this.http.post<AddPRoject>(`${this.apiUrl}/AddProject`,project)
     
   }
-  deleteProject(projectId: number): Observable<any> {
-    const url = `https://localhost:7030/api/Projects/DeleteProject?id=${projectId}`;
+  deleteProject(projectId: number,deletedBy:number): Observable<any> {
+    const url = `${this.apiUrl}/DeleteProject?id=${projectId}&deletedBy=${deletedBy}`;
     return this.http.delete(url);
 }
 updateProject(id: number, project: UpdateProject): Observable<any> {
-  return this.http.put(`https://localhost:7030/api/Projects/UpdateProject?id=${id}`, project);
+  return this.http.put(`${this.apiUrl}/UpdateProject?id=${id}`, project);
 }
 
 getProjectTypes() {
-  return this.http.get<any[]>('https://localhost:7030/api/ProjectType/GetAllProjectTypes');
+  return this.http.get<any[]>(`${this.loadApiUrl}/ProjectType/GetAllProjectTypes`);
 }
 
 getAreas() {
-  return this.http.get<any[]>('https://localhost:7030/api/Areas/GetAllAreas');
+  return this.http.get<any[]>(`${this.loadApiUrl}/Areas/GetAllAreas`);
 }
 getPriorities() {
-  return this.http.get<any[]>('https://localhost:7030/api/Priorities/GetAllPriorities');
+  return this.http.get<any[]>(`${this.loadApiUrl}/Priorities/GetAllPriorities`);
 }
 
 getStatus() {
-  return this.http.get<any[]>('https://localhost:7030/api/Status/GetAllStatus');
+  return this.http.get<any[]>(`${this.loadApiUrl}/Status/GetAllStatus`);
 }
 
 exportData(): void {
-  this.http.get('https://localhost:7030/api/Projects/Expoted file', { responseType: 'blob' })
+  this.http.get(`${this.loadApiUrl}/Projects/Expoted file`, { responseType: 'blob' })
     .subscribe((response: Blob) => {
       const a = document.createElement('a');
       const file = new Blob([response], { type: 'application/csv' });
@@ -52,7 +53,7 @@ exportData(): void {
     });
   }
   getLatestProjectCode(): Observable<string> {
-    return this.http.get('https://localhost:7030/api/Projects/GetLastProjectNumber',{ responseType: 'text' });
+    return this.http.get(`${this.loadApiUrl}/Projects/GetLastProjectNumber`,{ responseType: 'text' });
   }
 
 refreshProjects$ = new Subject<void>();

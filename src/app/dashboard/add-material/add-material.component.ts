@@ -193,14 +193,12 @@ export class AddMaterialComponent implements OnInit {
         return;
       }
   
-      // Check if there is an existing file and replace it
       const currentFilePath = this.materialForm.get(controlName)?.value;
       if (currentFilePath) {
-        // Ask the backend to update the file with the new one
         this.materialService.updateMaterialFile(file, currentFilePath).subscribe({
           next: (res) => {
             const filePath = `${res.fileName}`;
-            this.materialForm.get(controlName)?.setValue(filePath);  // Update the file path in the form control
+            this.materialForm.get(controlName)?.setValue(filePath);  
           },
           error: (err) => {
             console.error('File upload failed:', err);
@@ -208,7 +206,6 @@ export class AddMaterialComponent implements OnInit {
           }
         });
       } else {
-        // If there is no file, just upload the new one
         this.materialService.postFileMaterial(file).subscribe({
           next: (res) => {
             const filePath = `${res.fileName}`;

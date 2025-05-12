@@ -38,10 +38,9 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngAfterViewInit(): void {
-    // Wait a moment to allow autofill to happen
     setTimeout(() => {
       this.loginForm.updateValueAndValidity();
-      this.cdRef.detectChanges(); // Make Angular aware of changes
+      this.cdRef.detectChanges(); 
     }, 500);
   }
   ngOnInit(): void {

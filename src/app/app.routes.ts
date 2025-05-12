@@ -5,7 +5,6 @@ import { AddcontactsComponent } from './dashboard/contactsData/addcontacts/addco
 import { AllMainPolymersComponent } from './dashboard/MainPolymerData/all-main-polymers/all-main-polymers.component';
 import { GetAdditivebyidComponent } from './dashboard/additiveData/get-additivebyid/get-additivebyid.component';
 import { ManageusersComponent } from './dashboard/manageusers/manageusers.component';
-import { RecipedetailsComponent } from './dashboard/recipedetails/recipedetails.component';
 
 export const routes: Routes = [
   {
@@ -34,14 +33,20 @@ export const routes: Routes = [
         path: 'getmaterials',
         loadComponent: () => import('./dashboard/getmaterials/getmaterials.component').then(m => m.GetmaterialsComponent),
       },
+    
       {
         path: 'getproject',
         loadComponent: () => import('./dashboard/project/project.component').then(m => m.ProjectComponent),
       },
       {
+        path: 'injectionMolding',
+        loadComponent: () => import('./dashboard/add-injection-molding/add-injection-molding.component').then(m => m.AddInjectionMoldingComponent),
+      },
+      {
         path: 'mastertable',
         loadComponent: () => import('./dashboard/mastertable/mastertable.component').then(m => m.MastertableComponent),
       },
+      
 
       // Contact Routes
       {
@@ -61,13 +66,6 @@ export const routes: Routes = [
          // Ensures that this is the default path when navigating to 'contacts'
       },
 
-      // {
-      //   path: 'app-recipedetails',
-      //   loadComponent: () => import('./dashboard/recipedetails/recipedetails.component').then(m => m.RecipedetailsComponent),
-      //   pathMatch: 'full',
-      //    // Ensures that this is the default path when navigating to 'contacts'
-      // },
-    
       
 
       // Additive Routes
@@ -114,9 +112,5 @@ export const routes: Routes = [
   {
     path: 'GetAllProject',
     component: ProjectComponent
-  },
-  // {
-  //   path: 'recipedashboard',
-  //   component: RecipedashboardComponent
-  // }
+  }
 ];

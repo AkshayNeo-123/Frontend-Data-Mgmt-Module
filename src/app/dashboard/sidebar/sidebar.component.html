@@ -25,11 +25,19 @@
           <i class="fas fa-box-open me-3"></i> 
           <span *ngIf="isOpen">Materials</span>
       </li>
-
-      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('getproject')">
+     
+       <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('getproject')">
           <i class="fas fa-project-diagram me-3"></i> 
           <span *ngIf="isOpen">Projects</span>
       </li>
+      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('injectionMolding')">
+        <i class="fas fa-project-diagram me-3"></i> 
+        <span *ngIf="isOpen">Add-InjectionMolding</span>
+    </li>
+    <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('updateinjectionMolding')">
+      <i class="fas fa-project-diagram me-3"></i> 
+      <span *ngIf="isOpen">update-injectionMolding</span>
+  </li>
 
       <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('testing')">
           <i class="fas fa-vial me-3"></i> 
@@ -57,5 +65,15 @@
         </div>
       </li>
       
+      <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('compounding')">
+        <i class="fas fa-box-open me-3"></i> 
+        <span *ngIf="isOpen">Compounding</span>
+    </li>
+
+     <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('updatecompounding')">
+        <i class="fas fa-box-open me-3"></i> 
+        <span *ngIf="isOpen">Update Compounding</span>
+    </li>
+    
   </ul>
 </div>
