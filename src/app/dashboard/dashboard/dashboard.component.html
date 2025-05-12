@@ -17,7 +17,7 @@
             <div class="d-flex justify-content-start align-items-center mb-3">
               <mat-form-field appearance="outline" class="search-field">
                 <mat-label>Recipe Search</mat-label>
-                <input matInput [(ngModel)]="projectFilter" placeholder="Search">
+                <input matInput [(ngModel)]="projectFilter" placeholder="Search Recipes">
               </mat-form-field>
               <button class="mr-3 filter-recipe me-4" (click)="applyCustomFilter()">
                 <i class=" me-2"></i> Filter
@@ -45,7 +45,7 @@
                         {{ recipe.description }}
                       </div>
                       <div *ngIf="recipe.recipeId !== undefined" (click)="openRecipeDetailsDialog(recipe)">
-                        <button class="btn btn-light" style="color:#007bff ;border-radius: 50px;">Details</button>
+                        <button class="btn mat-raised" style="color:#007bff ;border-radius: 50px;">Details</button>
                       </div>                    </div>
                   </div>
                 </div>

@@ -156,11 +156,13 @@ openRecipeDetailsDialog(recipeDetails?:RecipeAndProject) {
         
 
         this.count = data.length;
-        this.updatePaginatedRecipes();
+        // this.currentPage = page;
+        this.totalPages = Math.ceil(data.length / this.pageSize);
+
+
+       this.updatePaginatedRecipes();
         
-        // if (this.paginator) {
-        //   this.paginator.firstPage();
-        // }
+        
 
       },
       error: (err) => console.error('Error filtering recipes', err)

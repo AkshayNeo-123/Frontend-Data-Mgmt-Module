@@ -58,13 +58,15 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
 
     this.dataSource.sortingDataAccessor = (item, property) => {
-      if (property === 'contactType') {
-        return this.getContactTypeName(item.contactType).toLowerCase();
+      switch (property) {
+        case 'contactName':
+          return item.contactName?.toLowerCase() || '';
+          case 'contactType':
+            return ContactTyps[item.contactType]?.toLowerCase() || '';        default:
+          return (item as any)[property];
       }
-      return (item as any)[property];
     };
   }
-
   getContactTypeName(type: number): string {
     return ContactTyps[type];
   }
