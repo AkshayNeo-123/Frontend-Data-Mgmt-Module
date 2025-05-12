@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RecipeService } from '../../services/recipe.service';
@@ -30,11 +29,10 @@ import * as FileSaver from 'file-saver';
     MatInputModule,
     MatDialogModule,
     MatIconModule,
-    MatButtonModule
-  ]
+    MatButtonModule,
+  ],
 })
 export class RecipyComponent implements OnInit {
-
   private readonly EXCEL_TYPE =
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 
@@ -48,7 +46,7 @@ export class RecipyComponent implements OnInit {
     'polymerName',
     'composition',
     'compounding',
-    'actions'
+    'actions',
   ];
 
   dataSource: MatTableDataSource<Recipe> = new MatTableDataSource<Recipe>();
@@ -68,11 +66,10 @@ export class RecipyComponent implements OnInit {
   loadRecipes(): void {
     this.recipeService.getAllRecipes().subscribe({
       next: (data) => {
-
-        const enrichedData: Recipe[] = data.map(recipe => ({
+        const enrichedData: Recipe[] = data.map((recipe) => ({
           ...recipe,
           // recipeNumber: recipe.receipeId,
-          composition: 'Polymer A: 60%, Additive B: 30%, Color C: 10%'
+          composition: 'Polymer A: 60%, Additive B: 30%, Color C: 10%',
         }));
 
         this.recipyList = data;
@@ -80,12 +77,14 @@ export class RecipyComponent implements OnInit {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       },
-      error: (err: any) => console.error('Error fetching recipes', err)
+      error: (err: any) => console.error('Error fetching recipes', err),
     });
   }
 
   applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
     this.dataSource.filter = filterValue;
 
     if (this.dataSource.paginator) {
@@ -96,47 +95,76 @@ export class RecipyComponent implements OnInit {
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddRecipyComponent, {
       width: '90%',
-      maxWidth: '900px',
+      maxWidth: '1000px',
       disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.loadRecipes(); 
+    // dialogRef.afterClosed().subscribe(result => {
+    // if (result) {
+    //   this.ngOnInit();
+    // }
+    // });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.recipeService.getAllRecipes().subscribe((recipes) => {
+          this.recipyList = recipes;
+         
+          this.recipyList.sort((a, b) => b.receipeId - a.receipeId);
+          this.dataSource = new MatTableDataSource(this.recipyList);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        });
       }
     });
   }
 
   editRecipe(recipe: Recipe): void {
     console.log('Edit recipe:', recipe);
-   
   }
+
+  // downloadCompoundingData(recipe: Recipe): void {
+  //   if (!recipe) {
+  //     console.error('No recipe provided for download.');
+  //     return;
+  //   }
+
+  //   const compoundingData = [
+  //     {
+  //       'Product Name': recipe.productName || 'N/A',
+  //       'Project Name': recipe.projectId || 'N/A',
+  //       'Additive': recipe.additiveId || 'N/A',
+  //       'Main Polymer': recipe.polymerName || 'N/A'
+  //     }
+  //   ];
+
+  //   const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(compoundingData);
+  //   const workbook: XLSX.WorkBook = {
+  //     Sheets: { 'Compounding Data': worksheet },
+  //     SheetNames: ['Compounding Data']
+  //   };
+
+  //   const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  //   const data: Blob = new Blob([excelBuffer], { type: this.EXCEL_TYPE });
+  //   FileSaver.saveAs(data, `Compounding_${recipe.productName || 'data'}.xlsx`);
+  // }
 
   downloadCompoundingData(recipe: Recipe): void {
-    if (!recipe) {
-      console.error('No recipe provided for download.');
-      return;
-    }
-
-    const compoundingData = [
+    const worksheet = XLSX.utils.json_to_sheet([
       {
-        'Product Name': recipe.productName || 'N/A',
-        'Project Name': recipe.projectName || 'N/A',
-        'Additive': recipe.additiveName || 'N/A',
-        'Main Polymer': recipe.polymerName || 'N/A'
-      }
-    ];
-
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(compoundingData);
-    const workbook: XLSX.WorkBook = {
-      Sheets: { 'Compounding Data': worksheet },
-      SheetNames: ['Compounding Data']
-    };
-
-    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        ProductName: recipe.productName,
+        RecipeNumber: recipe.receipeId,
+        Additive: recipe.additiveId,
+        Polymer: recipe.polymerName,
+        Composition: recipe.composition,
+      },
+    ]);
+    const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
     const data: Blob = new Blob([excelBuffer], { type: this.EXCEL_TYPE });
-    FileSaver.saveAs(data, `Compounding_${recipe.productName || 'data'}.xlsx`);
+    FileSaver.saveAs(data, `${recipe.productName}_Compounding.xlsx`);
   }
 }
-
-
