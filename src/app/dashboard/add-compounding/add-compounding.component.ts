@@ -6,7 +6,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { CommonModule } from '@angular/common';
-import { AddCompoundingService } from '../../services/add-compounding.service'; 
+import { AddCompoundingService } from '../../services/add-compounding.service';
 import { ToastrService } from 'ngx-toastr';
 import { ComponentService } from '../../services/component.service';
 import { MaterialService } from '../../services/material.service';
@@ -39,16 +39,16 @@ export class AddCompoundingComponent {
     private fb: FormBuilder,
     private compoundingService: AddCompoundingService,
     private toastr: ToastrService,
-    private componentService: ComponentService ,
+    private componentService: ComponentService,
     private materialService: MaterialService,
-    
+
 
   ) {
-    this.loadComponents(); 
+    this.loadComponents();
     this.compoundForm = this.fb.group({
-      recipeNumber: [{value:'7',disabled:true}],
-      parameterSet: [{value:'001',disabled:true}],
-      date: [null,''],
+      recipeNumber: [{ value: '7', disabled: true }],
+      parameterSet: [{ value: '001', disabled: true }],
+      date: [null, ''],
       note: [''],
       temperature: [],
       duration: [],
@@ -78,8 +78,8 @@ export class AddCompoundingComponent {
       productionNote: [''],
       premix: [false],
       PremixNote: [''],
-      temp1: [ ],
-      temp2: [ ],
+      temp1: [],
+      temp2: [],
       temp3: [],
       temp4: [],
       temp5: [],
@@ -90,7 +90,7 @@ export class AddCompoundingComponent {
       temp10: [],
       temp11: [],
       temp12: [],
-      upload_Screwconfig:[''],
+      upload_Screwconfig: [''],
       pretreatmentNone: [false],
       pretreatmentDrying: [false],
       components: this.fb.array([]),
@@ -104,7 +104,7 @@ export class AddCompoundingComponent {
     this.componentService.getAllComponents().subscribe({
       next: (data) => {
         this.componentOptions = data;
-       
+
       },
       error: (err) => {
         console.error('Failed to load components', err);
@@ -112,7 +112,7 @@ export class AddCompoundingComponent {
     });
   }
 
-  
+
 
   addComponent() {
     const componentGroup = this.fb.group({
@@ -121,12 +121,12 @@ export class AddCompoundingComponent {
       MF: [false],
       SecondF: [false],
       SF: [false],
-      A:[false],
-      B:[false],
-      C:[false],
-      D:[false],
-      E:[false],
-      F:[false]
+      A: [false],
+      B: [false],
+      C: [false],
+      D: [false],
+      E: [false],
+      F: [false]
     });
 
     (this.compoundForm.get('components') as FormArray).push(componentGroup);
@@ -152,20 +152,20 @@ export class AddCompoundingComponent {
   onFileSelected(event: Event, controlName: string): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
-  
+
     if (file) {
       if (file.type !== 'application/pdf') {
         this.toastr.error('Only PDF files are allowed.', 'Invalid File', { timeOut: 3000 });
         input.value = '';
         return;
       }
-  
+
       const currentFilePath = this.compoundForm.get(controlName)?.value;
       if (currentFilePath) {
         this.materialService.updateMaterialFile(file, currentFilePath).subscribe({
           next: (res) => {
             const filePath = `${res.fileName}`;
-            this.compoundForm.get(controlName)?.setValue(filePath);  
+            this.compoundForm.get(controlName)?.setValue(filePath);
           },
           error: (err) => {
             console.error('File upload failed:', err);
@@ -202,32 +202,32 @@ export class AddCompoundingComponent {
       this.compoundForm.markAllAsTouched();
       return;
     }
-  
-    const formValue = this.compoundForm.value;
-  
+
+    const formValue = this.compoundForm.getRawValue();
+
     const validComponentIds = this.componentOptions.map(c => c.id);
     const filteredComponents = [];
-  
+
     for (const comp of formValue.components) {
       const {
         name, share, MF, SecondF, SF,
         A, B, C, D, E, F
       } = comp;
-  
+
       const anyCheckboxSelected =
-      share|| MF || SecondF || SF || A || B || C || D || E || F;
-  
+        share || MF || SecondF || SF || A || B || C || D || E || F;
+
       if (anyCheckboxSelected && (!name || name.trim() === "")) {
         this.toastr.error("Select component name");
         return;
       }
-  
+
       // ✅ 2. If name is selected, it must be valid
       if (name && !validComponentIds.includes(+name)) {
         this.toastr.error(`Invalid component selected: ${name}`);
         return;
       }
-  
+
       // ✅ 3. Only push if name is selected
       if (name && name.trim() !== "") {
         filteredComponents.push({
@@ -245,7 +245,7 @@ export class AddCompoundingComponent {
         });
       }
     }
-  
+
     const requestBody: any = {
       compoundingDataDTO: {
         receipeId: formValue.recipeNumber,
@@ -308,17 +308,20 @@ export class AddCompoundingComponent {
         modifiedBy: formValue.modifiedBy,
         modifiedDate: formValue.modifiedDate
       }
-      
-      
+
+
     };
-  
+
     this.compoundingService.addCompoundingData(requestBody).subscribe({
       next: (res) => {
         console.log('API Success:', res);
-        // Show success toast
         this.toastr.success('Saved successfully.', 'Success', {
           timeOut: 3000
         });
+        this.compoundForm.reset();
+        this.repetitionCount = 0;
+        (this.compoundForm.get('components') as FormArray).clear();
+        this.addComponent();
       },
       error: (err) => {
         console.error('API Error:', err);
@@ -326,6 +329,6 @@ export class AddCompoundingComponent {
       }
     });
   }
-  
-  
+
+
 }

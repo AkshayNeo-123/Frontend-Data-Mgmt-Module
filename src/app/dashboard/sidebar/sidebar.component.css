@@ -3,6 +3,12 @@
     overflow: hidden;
     background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
     color: #000;
+    scrollbar-width: none;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    z-index: 1000;
+    -ms-overflow-style: none;
   }
   
   .sidebar-expanded {

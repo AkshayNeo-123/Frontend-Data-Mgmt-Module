@@ -12,6 +12,7 @@ export interface CompoundingDataDTO {
     notMeasured: boolean;
     pretreatmentNone: boolean;
     pretreatmentDrying: boolean;
+    
   }
   
   export interface Component {
