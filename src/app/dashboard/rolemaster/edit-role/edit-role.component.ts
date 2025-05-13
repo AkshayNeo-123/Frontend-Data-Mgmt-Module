@@ -51,6 +51,7 @@ export class EditRoleComponent implements OnInit {
     private menuService: MenuService,
     @Inject(MAT_DIALOG_DATA) public editData: any
   ) {
+    
   //   this.roleForm = this.fb.group({
   //     roleName: ['', Validators.required],
   //     description: ['']
@@ -91,7 +92,6 @@ export class EditRoleComponent implements OnInit {
             })
           );
         });
-
           // this.loadData();
 
         // if (this.editData) {
@@ -129,14 +129,14 @@ export class EditRoleComponent implements OnInit {
   loadData(): void {
     this.roleService.getRoleById(this.editData.roleId).subscribe({
       next: (role) => {
+        console.log(role);
         this.roleForm.patchValue({
           roleName: role.roleName,
         });
-
         // Patch permission checkboxes
-        if (role.permissions && Array.isArray(role.permissions)) {
+        if (role.rolePermissions && Array.isArray(role.rolePermissions)) {
           const permissionsGroup = this.roleForm.get('permissions') as FormGroup;
-          role.permissions.forEach((perm: any) => {
+          role.rolePermissions.forEach((perm: any) => {
             const group = permissionsGroup.get(perm.menuId.toString()) as FormGroup;
             if (group) {
               group.patchValue({
@@ -147,7 +147,7 @@ export class EditRoleComponent implements OnInit {
               });
             }
           });
-          console.log(permissionsGroup, role.permissions);
+          console.log(permissionsGroup, role.rolePermissions);
         }
       },
       error: () => {
