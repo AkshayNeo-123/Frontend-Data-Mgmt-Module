@@ -76,14 +76,28 @@
 
   <mat-form-field appearance="outline">
     <mat-label>City</mat-label>
-    <mat-select formControlName="cityId">
+    <mat-select formControlName="cityId" (selectionChange)="onCityChange()">
       <mat-option value="">--- Select ---</mat-option>
 
       <mat-option *ngFor="let city of cities" [value]="city.cityId">{{ city.cityName }}</mat-option>
       <!-- <mat-option *ngIf="cities.length === 0" [disabled]="!contactForm.get('stateId')?.value"  value="other">Other</mat-option> -->
 
+      <mat-option value="Other">Other</mat-option>
+      
+      <!-- <mat-error *ngIf="contactForm.get('cityId')?.hasError('required')">
+        City is required.
+      </mat-error> -->
     </mat-select>
   </mat-form-field>
+  <div *ngIf="isOtherCitySelected">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>New City Name</mat-label>
+      <input matInput formControlName="newCityName" placeholder="Enter new city name" />
+      <mat-error *ngIf="contactForm.get('newCityName')?.hasError('required')">
+        New City Name is required when 'Other' is selected.
+      </mat-error>
+    </mat-form-field>
+  </div>
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Zip</mat-label>

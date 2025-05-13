@@ -31,7 +31,7 @@ export class AddcontactsComponent implements OnInit {
   isEditMode: boolean = false;
   states: any[] = [];
   cities: any[] = [];
-  existingContacts: any[] = [];
+  isOtherCitySelected: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -52,8 +52,7 @@ export class AddcontactsComponent implements OnInit {
       console.log('State selected:', stateId);
       this.contactForm.get('cityId')?.reset();
       this.cities = [];
-        this.loadCitiesByState(stateId);
-     
+      this.loadCitiesByState(stateId);
     });
 
     if (this.isEditMode && this.data?.stateId) {
@@ -85,7 +84,8 @@ export class AddcontactsComponent implements OnInit {
       phone: [this.data?.phone || '', [
         Validators.required,
         Validators.pattern(/^[6-9]\d{9}$/)
-      ]]
+      ]],
+      newCityName: ['']  
     });
   }
 
@@ -119,6 +119,11 @@ export class AddcontactsComponent implements OnInit {
     });
   }
 
+  onCityChange(): void {
+    const cityId = this.contactForm.get('cityId')?.value;
+    this.isOtherCitySelected = cityId === 'Other';
+  }
+
   onSubmit(): void {
     this.contactForm.markAllAsTouched();
 
@@ -126,9 +131,6 @@ export class AddcontactsComponent implements OnInit {
       this.toastr.error('Please fill all required fields.', 'Error', { timeOut: 5000 });
       return;
     }
-
-    
-
 
     const adduserId = localStorage.getItem('UserId');
     const user = adduserId ? JSON.parse(adduserId) : null;
@@ -145,6 +147,31 @@ export class AddcontactsComponent implements OnInit {
         : { createdBy: adduserId, createdDate: new Date().toISOString(), modifiedDate: new Date().toISOString() }
       )
     };
+
+    if (this.isOtherCitySelected) {
+      const newCityName = this.contactForm.get('newCityName')?.value;
+      const stateId = this.contactForm.get('stateId')?.value;
+
+      
+      this.contactService.addCity(newCityName, stateId).subscribe({
+       
+        next: (newCity) => {
+          contactPayload.cityId = newCity.cityId; 
+          console.log("this is other city selected", newCity.cityId);
+
+          this.saveContact(contactPayload); 
+        },
+        error: (err) => {
+          console.error('Failed to add new city', err);
+          this.toastr.error('Failed to add new city', 'Error');
+        }
+      });
+    } else {
+      this.saveContact(contactPayload);  
+    }
+  }
+
+  saveContact(contactPayload: any): void {
     if (this.isEditMode) {
       console.log('Updating contact:', this.data.contactId, contactPayload);
       this.contactService.updateContact(this.data.contactId, contactPayload).subscribe({

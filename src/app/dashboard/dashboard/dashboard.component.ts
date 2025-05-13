@@ -33,6 +33,7 @@ import { UpdateCompoundingComponent } from '../update-compounding/update-compoun
 import { GetAllAdditivesComponent } from '../get-all-additives/get-all-additives.component';
 import { RecipedetailsComponent } from '../recipedetails/recipedetails.component';
 import { Router, RouterModule } from '@angular/router';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @Component({
   selector: 'app-dashboard',
@@ -70,7 +71,7 @@ import { Router, RouterModule } from '@angular/router';
     RouterModule,
     AddCompoundingComponent,
     UpdateInjectionMoldingComponent,
-    UpdateCompoundingComponent
+    UpdateCompoundingComponent,InfiniteScrollModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
@@ -85,6 +86,8 @@ export class DashboardComponent implements OnInit {
   paginatedRecipes:RecipeAndProject[]=[];
   pageSize = 6;
 currentPage = 0;
+currentIndex=0;
+itemsPerPage=3;
 totalPages:number=0;
   // recipeId?:number;
   // rec: RecipeAndProject ={
@@ -121,6 +124,7 @@ totalPages:number=0;
       next: (data) => {
         this.recipyAndProject = data;
         this.count = data.length;
+        // this.loadNextBatch();
         this.totalPages = Math.ceil(data.length / this.pageSize);
         this.updatePaginatedRecipes();
 
@@ -144,6 +148,20 @@ totalPages:number=0;
       this.updatePaginatedRecipes();
     }
   }
+
+
+
+  // loadNextBatch(): void {
+  //   const nextBatch = this.recipyAndProject.slice(this.currentIndex, this.currentIndex + this.itemsPerPage);
+  //   this.recipyAndProject.push(...nextBatch);
+  //   this.currentIndex += this.itemsPerPage;
+  // }
+  
+  // onScroll(): void {
+  //   if (this.currentIndex < this.recipyAndProject.length) {
+  //     this.loadNextBatch();
+  //   }
+  // }
 
 openRecipeDetailsDialog(recipeDetails?:RecipeAndProject) {
     console.log('Data passed to dialog:', recipeDetails);

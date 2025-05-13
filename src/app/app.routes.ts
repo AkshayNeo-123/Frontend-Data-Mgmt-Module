@@ -5,6 +5,7 @@ import { AddcontactsComponent } from './dashboard/contactsData/addcontacts/addco
 import { AllMainPolymersComponent } from './dashboard/MainPolymerData/all-main-polymers/all-main-polymers.component';
 import { GetAdditivebyidComponent } from './dashboard/additiveData/get-additivebyid/get-additivebyid.component';
 import { ManageusersComponent } from './dashboard/manageusers/manageusers.component';
+import { RecipedetailsComponent } from './dashboard/recipedetails/recipedetails.component';
 
 export const routes: Routes = [
   {

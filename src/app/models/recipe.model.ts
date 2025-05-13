@@ -20,6 +20,7 @@ export interface Recipe {
   additiveName: string;
   polymerName: string;
   composition?: string;
+  projectName?:string;
   // comment:string;
 }
 
@@ -29,4 +30,13 @@ export interface RecipeAndProject{
   description?:string
   projectName?: string;
 
+}
+
+
+export interface PaginatedResult<T> {
+  items: T[];
+  totalCount: number;
+  totalPages: number;
+  page: number;
+  limit: number;
 }

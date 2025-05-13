@@ -47,7 +47,10 @@ deleteContact(id: number,deletedBy:number): Observable<any> {
   return this.http.delete<Contact>(`${this.baseUrl}?id=${id}&deletedBy=${deletedBy}`);
 }
 
-// addCities(stateId:number):Observable
+addCity(cityName: string, stateId: number): Observable<any> {
+  const url = `https://localhost:7030/api/States/addCities?cityName=${cityName}&stateId=${stateId}`;
+  return this.http.post<any>(url, { cityName, stateId });
+}
 
 
 

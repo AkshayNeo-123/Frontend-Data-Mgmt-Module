@@ -27,13 +27,16 @@ export class RecipeService {
 
   getRecipeAndProject(search: string = ''): Observable<RecipeAndProject[]> {
     const params = new HttpParams().set('search', search);
-  
     return this.http.get<RecipeAndProject[]>(`${this.baseUrl}/GetRecipeAndProject`, { params });
   }
+
+
+  
 
 
   getRecipeAndProjectById(id:number):Observable<RecipeAndProject>{
     return  this.http.get<RecipeAndProject>(`${this.baseUrl}/GetRecipeAndProjectById?id=${id}`);
   }
+
   
 }
