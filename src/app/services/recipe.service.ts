@@ -20,6 +20,11 @@ export class RecipeService {
       })
     );
   }
+  getRecipeById(id: number): Observable<Recipe> {
+  return this.http.get<Recipe>(`${this.baseUrl}/GetById?recipeId=${id}`);
+}
+
+ 
 
   addRecipe(newRecipe: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/AddRecipe`, newRecipe);
@@ -39,4 +44,16 @@ export class RecipeService {
   }
 
   
+
+
+// updateRecipe(id: number, recipe: Recipe): Observable<Recipe> {
+//   return this.http.put<Recipe>(`${this.baseUrl}/UpdateRecipeandComponent${id}`, recipe);
+// }
+
+updateRecipe(id: number, updatePayload: any): Observable<any> {
+  return this.http.put(`${this.baseUrl}/UpdateRecipeandComponent/${id}`, updatePayload);
 }
+
+}
+
+  
