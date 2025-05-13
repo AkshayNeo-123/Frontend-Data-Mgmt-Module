@@ -19,21 +19,21 @@
   
     <div class="row align-items-center" style="height: 56px;">
      
-      <div class="col-2">
+      <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Date</mat-label>
           <input matInput type="date" formControlName="date" />
         </mat-form-field>
       </div>
   
-      <div class="col-2">
+      <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Note</mat-label>
           <input matInput formControlName="note" />
         </mat-form-field>
       </div>
   
-      <div class="col-3 " style="margin-bottom: 50px;">
+      <div class="col-4" style="margin-bottom: 50px;">
         <mat-label class="me-2">Repetition</mat-label>
         <button mat-icon-button color="primary" aria-label="Decrease" type="button" (click)="decreaseRepetition()">
           <span>-</span>
@@ -59,8 +59,8 @@
   
     <hr class="my-3" />
   
-    <div class="row align-items-center mt-3" style="height: 56px;">
-      <div class="col-2" style="margin-bottom: 30px;">
+    <div class="row align-items-center mt-3" >
+      <div class="col-4" style="margin-bottom: 30px;">
         <label class="form-label d-block mb-1">Pre-Treatment</label>
       
         <div class="d-flex gap-3 align-items-center">
@@ -70,28 +70,28 @@
       </div>
       
   
-      <div class="col-2">
+      <div class="col-4">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Temperature (°C)</mat-label>
           <input type="number" matInput formControlName="temperature" />
         </mat-form-field>
       </div>
   
-      <div class="col-2">
+      <div class="col-4">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Duration (h)</mat-label>
           <input type="number" matInput formControlName="duration" min="0" max="24"/>
         </mat-form-field>
       </div>
   
-      <div class="col-2">
+      <div class="col-4">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Residual M. %</mat-label>
           <input type="number" matInput formControlName="residualMoisture" />
         </mat-form-field>
       </div>
   
-      <div class="col-2" style="margin-bottom: 40px;">
+      <div class="col-4" style="margin-bottom: 40px;">
         <mat-checkbox formControlName="notMeasured">Not Measured</mat-checkbox>
       </div>
     </div>
@@ -133,15 +133,15 @@
             <td>
               <input type="number" class="form-control" formControlName="share" min="0"/>
             </td>
-            <td><input type="checkbox" formControlName="MF" /></td>
-            <td><input type="checkbox" formControlName="SecondF" /></td>
-            <td><input type="checkbox" formControlName="SF" /></td>
-            <td><input type="checkbox" formControlName="A" /></td>
-            <td><input type="checkbox" formControlName="B" /></td>
-            <td><input type="checkbox" formControlName="C" /></td>
-            <td><input type="checkbox" formControlName="D" /></td>
-            <td><input type="checkbox" formControlName="E" /></td>
-            <td><input type="checkbox" formControlName="F" /></td>
+            <td><mat-checkbox type="checkbox" formControlName="MF" /></td>
+            <td><mat-checkbox type="checkbox" formControlName="SecondF" /></td>
+            <td><mat-checkbox type="checkbox" formControlName="SF" /></td>
+            <td><mat-checkbox type="checkbox" formControlName="A" /></td>
+            <td><mat-checkbox type="checkbox" formControlName="B" /></td>
+            <td><mat-checkbox type="checkbox" formControlName="C" /></td>
+            <td><mat-checkbox type="checkbox" formControlName="D" /></td>
+            <td><mat-checkbox type="checkbox" formControlName="E" /></td>
+            <td><mat-checkbox type="checkbox" formControlName="F" /></td>
     
             <td>
               <button type="button" class="btn btn-outline-danger" (click)="removeComponent(i)">
@@ -210,16 +210,13 @@
 
     <hr class="my-3"/>
 
-    <!-- <div class="card p-3"> -->
         <div class="row">
-          <!-- Screw Config -->
           <div class="col-3">
             <label class="form-label d-block">Screw Config</label>
             <mat-checkbox formControlName="screwStandard" class="me-2">Standard</mat-checkbox>
             <mat-checkbox formControlName="screwModified">Modified</mat-checkbox>
           </div>
       
-          <!-- Degassing -->
           <div class="col-5">
             <label class="form-label d-block">Degassing</label>
             <mat-checkbox formControlName="degassingStandard" class="me-2">Standard</mat-checkbox>
@@ -228,49 +225,49 @@
             <mat-checkbox formControlName="degassingFET">FET</mat-checkbox>
           </div>
 
-          <div class="col-2">
+          <div class="col-4">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Screw Speed (rpm)</mat-label>
               <input type="number" matInput formControlName="screwSpeed" min="0"/>
             </mat-form-field>
           </div>
       
-          <div class="col-2">
+          <div class="col-4">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Torque (%)</mat-label>
               <input type="number" matInput formControlName="torque" min="0"/>
             </mat-form-field>
           </div>
 
-          <div class="col-2">
+          <div class="col-4">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Pressure (bar)</mat-label>
               <input type="number" matInput formControlName="pressure" min="0"/>
             </mat-form-field>
           </div>
 
-          <div class="col-2">
+          <div class="col-4">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Total Output (Kg/h)</mat-label>
               <input type="number" matInput formControlName="totalOutput" min="0"/>
             </mat-form-field>
           </div>
       
-          <div class="col-2">
+          <div class="col-4">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Granulator (rpm)</mat-label>
               <input type="number" matInput formControlName="granulator" min="0"/>
             </mat-form-field>
           </div>
       
-          <div class="col-3">
+          <div class="col-4">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Bulk Density (g/l)</mat-label>
               <input type="number" matInput formControlName="bulkDensity" min="0" />
             </mat-form-field>
           </div>
 
-          <div class="col-3">
+          <div class="col-4">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Cooling Section (cm)</mat-label>
               <input type="0" matInput formControlName="coolingSection" min="0"/>
@@ -311,7 +308,7 @@
             <mat-checkbox formControlName="premix">Premix</mat-checkbox>
         </div>
 
-        <div class="col-4">
+        <div class="col-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Premix</mat-label>
             <input matInput formControlName="PremixNote" placeholder="Note"/>
@@ -319,7 +316,7 @@
         </div>
         </div>
       
-      <div mat-dialog-actions align="end">
+      <div mat-dialog-actions align="end" style="margin-top: 30px;">
         <button mat-raised-button color="primary" type="submit">Save</button>
       </div>
   </form>

@@ -141,14 +141,6 @@ export class AddCompoundingComponent {
       .reduce((acc: number, curr: any) => acc + (+curr.share || 0), 0);
   }
 
-  // onFileSelected(event: Event) {
-  //   const input = event.target as HTMLInputElement;
-  //   if (input.files && input.files.length > 0) {
-  //     const file = input.files[0];
-  //     console.log('Selected file:', file.name);
-  //   }
-  // }
-
   onFileSelected(event: Event, controlName: string): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
@@ -198,6 +190,9 @@ export class AddCompoundingComponent {
   }
 
   onSubmit() {
+    const adduserId=localStorage.getItem('UserId');
+
+
     if (this.compoundForm.invalid) {
       this.compoundForm.markAllAsTouched();
       return;
@@ -222,13 +217,13 @@ export class AddCompoundingComponent {
         return;
       }
 
-      // ✅ 2. If name is selected, it must be valid
+      //  If name is selected, it must be valid
       if (name && !validComponentIds.includes(+name)) {
         this.toastr.error(`Invalid component selected: ${name}`);
         return;
       }
 
-      // ✅ 3. Only push if name is selected
+      //  Only push if name is selected
       if (name && name.trim() !== "") {
         filteredComponents.push({
           componentId: +name,
@@ -260,7 +255,8 @@ export class AddCompoundingComponent {
         notMeasured: formValue.notMeasured,
         pretreatmentNone: formValue.pretreatmentNone,
         pretreatmentDrying: formValue.pretreatmentDrying,
-        dryingTime: formValue.dryingTime
+        dryingTime: formValue.dryingTime,
+         createdBy: adduserId,
       },
       ...(filteredComponents.length > 0 && {
         components: filteredComponents
@@ -304,7 +300,7 @@ export class AddCompoundingComponent {
         temperatureWaterBath2: formValue.tempBath2,
         temperatureWaterBath3: formValue.tempBath3,
         createdDate: formValue.createdDate,
-        createdBy: formValue.createdBy,
+        createdBy:adduserId,
         modifiedBy: formValue.modifiedBy,
         modifiedDate: formValue.modifiedDate
       }
