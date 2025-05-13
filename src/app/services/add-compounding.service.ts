@@ -17,13 +17,13 @@ export class AddCompoundingService {
   }
 
   getCompoundingDataById(): Observable<any> {
-  const id = 92; // hardcoded ID
+  const id = 118; // hardcoded ID
   const url = `${this.addCompounding}/GetDataByCompoundingId?id=${id}`;
   return this.http.get<any>(url);
 }
 
  updateCompoundingData(compounding: any): Observable<any> {
-  const id = 92; // hardcoded ID
+  const id = 118; // hardcoded ID
   const url = `${this.addCompounding}?CompoundingId=${id}`;
   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   return this.http.put<any>(url, compounding, { headers });

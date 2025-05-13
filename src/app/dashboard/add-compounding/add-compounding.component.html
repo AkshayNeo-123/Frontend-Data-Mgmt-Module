@@ -1,45 +1,48 @@
 <form [formGroup]="compoundForm" (ngSubmit)="onSubmit()" class="container" style="margin-bottom: 50px;">
-    <div class="row align-items-center" style="height: 56px;">
-      <div class="col-3">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Recipe Number</mat-label>
-          <input matInput formControlName="recipeNumber" />
-        </mat-form-field>
-      </div>
-
-      <div class="col-2">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Parameter Set</mat-label>
-          <input matInput formControlName="parameterSet" />
-        </mat-form-field>
-      </div>
+  <div class="row align-items-center" style="height: 56px;">
+    <div class="col-3">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Recipe Number</mat-label>
+        <input matInput formControlName="recipeNumber" />
+      </mat-form-field>
     </div>
-  
-    <hr class="my-3" />
-  
-    <div class="row align-items-center" style="height: 56px;">
-     
-      <div class="col-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Date</mat-label>
-          <input matInput type="date" formControlName="date" />
-        </mat-form-field>
-      </div>
-  
-      <div class="col-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Note</mat-label>
-          <input matInput formControlName="note" />
-        </mat-form-field>
-      </div>
-  
-      <div class="col-4" style="margin-bottom: 50px;">
-        <mat-label class="me-2">Repetition</mat-label>
-        <button mat-icon-button color="primary" aria-label="Decrease" type="button" (click)="decreaseRepetition()">
-          <span>-</span>
-        </button>
-      
-        <span style="
+
+    <div class="col-2">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Parameter Set</mat-label>
+        <input matInput formControlName="parameterSet" />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <hr class="my-3" />
+
+  <div class="row align-items-center" style="height: 56px;">
+
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="startPicker" [min]="today" formControlName="date" />
+        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Note</mat-label>
+        <input matInput formControlName="note" maxlength="229"/>
+      </mat-form-field>
+    </div>
+
+    <div class="col-4" style="margin-bottom: 50px;">
+      <mat-label class="me-2">Repetition</mat-label>
+      <button mat-icon-button color="primary" aria-label="Decrease" type="button" (click)="decreaseRepetition()">
+        <span>-</span>
+      </button>
+
+      <span style="
           border: 1px solid #ccc;
           padding: 4px 12px;
           min-width: 40px;
@@ -47,277 +50,277 @@
           display: inline-block;
           border-radius: 4px;
         ">
-          {{ repetitionCount }}
-        </span>
-      
-        <button mat-icon-button color="primary" aria-label="Increase" type="button" (click)="increaseRepetition()">
-          <span>+</span>
-        </button>
-      </div>
+        {{ repetitionCount }}
+      </span>
 
-    </div>
-  
-    <hr class="my-3" />
-  
-    <div class="row align-items-center mt-3" >
-      <div class="col-4" style="margin-bottom: 30px;">
-        <label class="form-label d-block mb-1">Pre-Treatment</label>
-      
-        <div class="d-flex gap-3 align-items-center">
-          <mat-checkbox formControlName="pretreatmentNone">None</mat-checkbox>
-          <mat-checkbox formControlName="pretreatmentDrying">Drying</mat-checkbox>
-        </div>
-      </div>
-      
-  
-      <div class="col-4">
-        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
-          <mat-label>Temperature (°C)</mat-label>
-          <input type="number" matInput formControlName="temperature" />
-        </mat-form-field>
-      </div>
-  
-      <div class="col-4">
-        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
-          <mat-label>Duration (h)</mat-label>
-          <input type="number" matInput formControlName="duration" min="0" max="24"/>
-        </mat-form-field>
-      </div>
-  
-      <div class="col-4">
-        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
-          <mat-label>Residual M. %</mat-label>
-          <input type="number" matInput formControlName="residualMoisture" />
-        </mat-form-field>
-      </div>
-  
-      <div class="col-4" style="margin-bottom: 40px;">
-        <mat-checkbox formControlName="notMeasured">Not Measured</mat-checkbox>
-      </div>
-    </div>
-  
-    <hr class="my-3" />
-  
-  
-    <h5>Dosage</h5>
-    <div class="card p-3">
-      <table class="table table-bordered table-sm text-center align-middle">
-        <thead class="table-light">
-          <tr>
-            <th>Component Name</th>
-            <th>Share [%]</th>
-            <th>MF</th>
-            <th>2ndF</th>
-            <th>SF</th>
-            <th>A</th>
-            <th>B</th>
-            <th>C</th>
-            <th>D</th>
-            <th>E</th>
-            <th>F</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody formArrayName="components">
-          <tr *ngFor="let row of components; let i = index" [formGroupName]="i">
-            <td>
-              <select class="form-select" formControlName="name">
-                <option value="" disabled selected>-- Select --</option>
-                <option *ngFor="let option of componentOptions" [value]="option.id">
-                  {{ option.componentName }}
-                </option>
-              </select>
-              
-            </td>
-            
-            <td>
-              <input type="number" class="form-control" formControlName="share" min="0"/>
-            </td>
-            <td><mat-checkbox type="checkbox" formControlName="MF" /></td>
-            <td><mat-checkbox type="checkbox" formControlName="SecondF" /></td>
-            <td><mat-checkbox type="checkbox" formControlName="SF" /></td>
-            <td><mat-checkbox type="checkbox" formControlName="A" /></td>
-            <td><mat-checkbox type="checkbox" formControlName="B" /></td>
-            <td><mat-checkbox type="checkbox" formControlName="C" /></td>
-            <td><mat-checkbox type="checkbox" formControlName="D" /></td>
-            <td><mat-checkbox type="checkbox" formControlName="E" /></td>
-            <td><mat-checkbox type="checkbox" formControlName="F" /></td>
-    
-            <td>
-              <button type="button" class="btn btn-outline-danger" (click)="removeComponent(i)">
-                <i class="fas fa-trash-alt action-icon" ></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    
-      <div class="d-flex justify-content-between">
-        <div><strong>Total [%]: {{ getTotalShare() }}</strong></div>
-        <button type="button" class="btn btn-primary btn-sm" (click)="addComponent()">Add new component</button>
-      </div>
-    </div>
-    
-
-    <hr class="my-3" />
-    
-      <div class="row align-items-center mt-3">
-       
-            <div class="col-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Speed Side Feeder 1 (RPM)</mat-label>
-                <input type="number" matInput formControlName="speedFeeder1" min="0"/>
-              </mat-form-field>
-            </div>
-          
-            <div class="col-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Speed Side Feeder 2 (RPM)</mat-label>
-                <input type="number" matInput formControlName="speedFeeder2" min="0"/>
-              </mat-form-field>
-            </div>
-          
-             
-          <div class="col-4" style="margin-bottom: 40px;">
-            <label for="screwConfig" class="form-label">Upload Screwconfig</label>
-            <input type="file" class="form-control w-auto" id="screwConfig" (change)="onFileSelected($event, 'upload_Screwconfig')">
-          </div>
-          
-          <div class="mb-2">
-            <label class="form-label">Temperature Profile</label>
-            <div>
-              <img src="/image.png" alt="Screw Configuration" class="img-fluid" style="height: 100px; width: 100%;"  />
-            </div>
-          </div>
-          
-          <div class="d-flex flex-wrap gap-2 mt-2" style="margin-left: 50px;">
-            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp1" />
-            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp2" />
-            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp3" />
-            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp4" />
-            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp5" />
-            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp6" />
-            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp7" />
-            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp8" />
-            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp9" />
-            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp10" />
-            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp11" />
-            <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp12" />
-          </div>
-          
-                
+      <button mat-icon-button color="primary" aria-label="Increase" type="button" (click)="increaseRepetition()">
+        <span>+</span>
+      </button>
     </div>
 
-    <hr class="my-3"/>
+  </div>
 
-        <div class="row">
-          <div class="col-3">
-            <label class="form-label d-block">Screw Config</label>
-            <mat-checkbox formControlName="screwStandard" class="me-2">Standard</mat-checkbox>
-            <mat-checkbox formControlName="screwModified">Modified</mat-checkbox>
-          </div>
-      
-          <div class="col-5">
-            <label class="form-label d-block">Degassing</label>
-            <mat-checkbox formControlName="degassingStandard" class="me-2">Standard</mat-checkbox>
-            <mat-checkbox formControlName="degassingVacuum" class="me-2">Vacuum</mat-checkbox>
-            <mat-checkbox formControlName="degassingNone" class="me-2">None</mat-checkbox>
-            <mat-checkbox formControlName="degassingFET">FET</mat-checkbox>
-          </div>
+  <hr class="my-3" />
 
-          <div class="col-4">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Screw Speed (rpm)</mat-label>
-              <input type="number" matInput formControlName="screwSpeed" min="0"/>
-            </mat-form-field>
-          </div>
-      
-          <div class="col-4">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Torque (%)</mat-label>
-              <input type="number" matInput formControlName="torque" min="0"/>
-            </mat-form-field>
-          </div>
+  <div class="row align-items-center mt-3">
+    <div class="col-4" style="margin-bottom: 30px;">
+      <label class="form-label d-block mb-1">Pre-Treatment</label>
 
-          <div class="col-4">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Pressure (bar)</mat-label>
-              <input type="number" matInput formControlName="pressure" min="0"/>
-            </mat-form-field>
-          </div>
-
-          <div class="col-4">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Total Output (Kg/h)</mat-label>
-              <input type="number" matInput formControlName="totalOutput" min="0"/>
-            </mat-form-field>
-          </div>
-      
-          <div class="col-4">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Granulator (rpm)</mat-label>
-              <input type="number" matInput formControlName="granulator" min="0"/>
-            </mat-form-field>
-          </div>
-      
-          <div class="col-4">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Bulk Density (g/l)</mat-label>
-              <input type="number" matInput formControlName="bulkDensity" min="0" />
-            </mat-form-field>
-          </div>
-
-          <div class="col-4">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Cooling Section (cm)</mat-label>
-              <input type="0" matInput formControlName="coolingSection" min="0"/>
-            </mat-form-field>
-          </div>
-      
-          <div class="col-4">
-            <label class="form-label">Temperature Water Bath</label>
-            <div class="d-flex gap-2">
-              <input type="number" matInput class="form-control" formControlName="tempBath1" />
-              <input type="number" matInput class="form-control" formControlName="tempBath2" />
-              <input type="number" matInput class="form-control" formControlName="tempBath3" />
-              <div class="d-flex align-items-center">C</div>
-            </div>
-          </div>
-
-          <div class="col-auto">
-            <mat-checkbox formControlName="meltPump">Melt Pump</mat-checkbox>
-          </div>
-          <div class="col-auto">
-            <mat-checkbox formControlName="underwaterPelletizer">Underwater Pelletizer</mat-checkbox>
-          </div>
-          <div class="col-auto">
-            <mat-checkbox formControlName="nozzlePlate">Nozzle Plate</mat-checkbox>
-          </div>
-        </div>
-      
-        <hr class="my-3"/>
-
-        <div class="row align-items-center" style="height: 56px;">
-          <div class="col-4">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Note</mat-label>
-              <input matInput formControlName="productionNote" placeholder="This is ready for production."/>
-            </mat-form-field>
-          </div>
-          <div class="col-2" style="margin-bottom: 35px;">
-            <mat-checkbox formControlName="premix">Premix</mat-checkbox>
-        </div>
-
-        <div class="col-6">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Premix</mat-label>
-            <input matInput formControlName="PremixNote" placeholder="Note"/>
-          </mat-form-field>
-        </div>
-        </div>
-      
-      <div mat-dialog-actions align="end" style="margin-top: 30px;">
-        <button mat-raised-button color="primary" type="submit">Save</button>
+      <div class="d-flex gap-3 align-items-center">
+        <mat-checkbox formControlName="pretreatmentNone">None</mat-checkbox>
+        <mat-checkbox formControlName="pretreatmentDrying">Drying</mat-checkbox>
       </div>
-  </form>
-  
+    </div>
+
+
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+        <mat-label>Temperature (°C)</mat-label>
+        <input type="number" matInput formControlName="temperature"  min="-100" max="300"/>
+      </mat-form-field>
+    </div>
+
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+        <mat-label>Duration (h)</mat-label>
+        <input type="number" matInput formControlName="duration" min="0" max="24" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+        <mat-label>Residual M. %</mat-label>
+        <input type="number" matInput formControlName="residualMoisture"  min="0"  max="100"/>
+      </mat-form-field>
+    </div>
+
+    <div class="col-4" style="margin-bottom: 40px;">
+      <mat-checkbox formControlName="notMeasured">Not Measured</mat-checkbox>
+    </div>
+  </div>
+
+  <hr class="my-3" />
+
+
+  <h5>Dosage</h5>
+  <div class="card p-3">
+    <table class="table table-bordered table-sm text-center align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Component Name</th>
+          <th>Share [%]</th>
+          <th>MF</th>
+          <th>2ndF</th>
+          <th>SF</th>
+          <th>A</th>
+          <th>B</th>
+          <th>C</th>
+          <th>D</th>
+          <th>E</th>
+          <th>F</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody formArrayName="components">
+        <tr *ngFor="let row of components; let i = index" [formGroupName]="i">
+          <td>
+            <select class="form-select" formControlName="name">
+              <option value="" disabled selected>-- Select --</option>
+              <option *ngFor="let option of componentOptions" [value]="option.id">
+                {{ option.componentName }}
+              </option>
+            </select>
+
+          </td>
+
+          <td>
+            <input type="number" class="form-control" formControlName="share" min="0" max="100"/>
+          </td>
+          <td><mat-checkbox type="checkbox" formControlName="MF" /></td>
+          <td><mat-checkbox type="checkbox" formControlName="SecondF" /></td>
+          <td><mat-checkbox type="checkbox" formControlName="SF" /></td>
+          <td><mat-checkbox type="checkbox" formControlName="A" /></td>
+          <td><mat-checkbox type="checkbox" formControlName="B" /></td>
+          <td><mat-checkbox type="checkbox" formControlName="C" /></td>
+          <td><mat-checkbox type="checkbox" formControlName="D" /></td>
+          <td><mat-checkbox type="checkbox" formControlName="E" /></td>
+          <td><mat-checkbox type="checkbox" formControlName="F" /></td>
+
+          <td>
+            <button type="button" class="btn btn-outline-danger" (click)="removeComponent(i)">
+              <i class="fas fa-trash-alt action-icon"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between">
+      <div><strong>Total [%]: {{ getTotalShare() }}</strong></div>
+      <button type="button" class="btn btn-primary btn-sm" (click)="addComponent()">Add new component</button>
+    </div>
+  </div>
+
+
+  <hr class="my-3" />
+
+  <div class="row align-items-center mt-3">
+
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Speed Side Feeder 1 (RPM)</mat-label>
+        <input type="number" matInput formControlName="speedFeeder1" min="0" max="300" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Speed Side Feeder 2 (RPM)</mat-label>
+        <input type="number" matInput formControlName="speedFeeder2" min="0" max="300" />
+      </mat-form-field>
+    </div>
+
+
+    <div class="col-4" style="margin-bottom: 40px;">
+      <label for="screwConfig" class="form-label">Upload Screwconfig</label>
+      <input type="file" class="form-control w-auto" id="screwConfig"
+        (change)="onFileSelected($event, 'upload_Screwconfig')">
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Temperature Profile</label>
+      <div>
+        <img src="/image.png" alt="Screw Configuration" class="img-fluid" style="height: 100px; width: 100%;" />
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2 mt-2" style="margin-left: 50px;">
+      <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp1"  min="-100" max="300"/>
+      <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp2"  min="-100" max="300" />
+      <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp3"  min="-100" max="300"/>
+      <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp4"  min="-100" max="300"/>
+      <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp5"  min="-100" max="300"/>
+      <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp6"  min="-100" max="300"/>
+      <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp7"  min="-100" max="300"/>
+      <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp8"  min="-100" max="300"/>
+      <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp9"  min="-100" max="300"/>
+      <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp10"  min="-100" max="300"/>
+      <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp11"  min="-100" max="300"/>
+      <input type="number" class="form-control text-center" style="width: 70px;" formControlName="temp12"  min="-100" max="300"/>
+    </div>
+
+
+  </div>
+
+  <hr class="my-3" />
+
+  <div class="row">
+    <div class="col-3">
+      <label class="form-label d-block">Screw Config</label>
+      <mat-checkbox formControlName="screwStandard" class="me-2">Standard</mat-checkbox>
+      <mat-checkbox formControlName="screwModified">Modified</mat-checkbox>
+    </div>
+
+    <div class="col-5">
+      <label class="form-label d-block">Degassing</label>
+      <mat-checkbox formControlName="degassingStandard" class="me-2">Standard</mat-checkbox>
+      <mat-checkbox formControlName="degassingVacuum" class="me-2">Vacuum</mat-checkbox>
+      <mat-checkbox formControlName="degassingNone" class="me-2">None</mat-checkbox>
+      <mat-checkbox formControlName="degassingFET">FET</mat-checkbox>
+    </div>
+
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Screw Speed (rpm)</mat-label>
+        <input type="number" matInput formControlName="screwSpeed" min="0" max="1500" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Torque (%)</mat-label>
+        <input type="number" matInput formControlName="torque" min="0" max="100" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Pressure (bar)</mat-label>
+        <input type="number" matInput formControlName="pressure"  min="0" max="200" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Total Output (Kg/h)</mat-label>
+        <input type="number" matInput formControlName="totalOutput" min="0" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Granulator (rpm)</mat-label>
+        <input type="number" matInput formControlName="granulator" min="0" max="5000"  />
+      </mat-form-field>
+    </div>
+
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Bulk Density (g/l)</mat-label>
+        <input type="number" matInput formControlName="bulkDensity" min="0" max="2000"  />
+      </mat-form-field>
+    </div>
+
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Cooling Section (cm)</mat-label>
+        <input type="0" matInput formControlName="coolingSection" min="0" max="500"  />
+      </mat-form-field>
+    </div>
+
+    <div class="col-4">
+      <label class="form-label">Temperature Water Bath</label>
+      <div class="d-flex gap-2">
+        <input type="number" matInput class="form-control" formControlName="tempBath1"  min="-100" max="300"/>
+        <input type="number" matInput class="form-control" formControlName="tempBath2"  min="-100" max="300"/>
+        <input type="number" matInput class="form-control" formControlName="tempBath3"  min="-100" max="300"/>
+        <div class="d-flex align-items-center">C</div>
+      </div>
+    </div>
+
+    <div class="col-auto">
+      <mat-checkbox formControlName="meltPump">Melt Pump</mat-checkbox>
+    </div>
+    <div class="col-auto">
+      <mat-checkbox formControlName="underwaterPelletizer">Underwater Pelletizer</mat-checkbox>
+    </div>
+    <div class="col-auto">
+      <mat-checkbox formControlName="nozzlePlate">Nozzle Plate</mat-checkbox>
+    </div>
+  </div>
+
+  <hr class="my-3" />
+
+  <div class="row align-items-center" style="height: 56px;">
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Note</mat-label>
+        <input matInput formControlName="productionNote" placeholder="This is ready for production." maxlength="229"/>
+      </mat-form-field>
+    </div>
+    <div class="col-2" style="margin-bottom: 35px;">
+      <mat-checkbox formControlName="premix">Premix</mat-checkbox>
+    </div>
+
+    <div class="col-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Premix</mat-label>
+        <input matInput formControlName="PremixNote" placeholder="Note" maxlength="229"/>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div mat-dialog-actions align="end" style="margin-top: 30px;">
+    <button mat-raised-button color="primary" type="submit">Save</button>
+  </div>
+</form>

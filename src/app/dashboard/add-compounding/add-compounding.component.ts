@@ -10,6 +10,8 @@ import { AddCompoundingService } from '../../services/add-compounding.service';
 import { ToastrService } from 'ngx-toastr';
 import { ComponentService } from '../../services/component.service';
 import { MaterialService } from '../../services/material.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-add-compounding',
@@ -21,7 +23,9 @@ import { MaterialService } from '../../services/material.service';
     MatCheckboxModule,
     MatButtonModule,
     CommonModule,
-    MatRadioModule
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   templateUrl: './add-compounding.component.html',
   styleUrls: ['./add-compounding.component.css']
@@ -30,6 +34,9 @@ export class AddCompoundingComponent {
   compoundForm: FormGroup;
   componentOptions: any[] = [];
   repetitionCount = 0;
+maxRepetition: number = 230;
+
+  today = new Date();
 
   get components() {
     return (this.compoundForm.get('components') as FormArray).controls;
@@ -179,15 +186,17 @@ export class AddCompoundingComponent {
     }
   }
 
-  increaseRepetition() {
+ increaseRepetition() {
+  if (this.repetitionCount < this.maxRepetition) {
     this.repetitionCount++;
   }
+}
 
-  decreaseRepetition() {
-    if (this.repetitionCount > 0) {
-      this.repetitionCount--;
-    }
+decreaseRepetition() {
+  if (this.repetitionCount > 0) {
+    this.repetitionCount--;
   }
+}
 
   onSubmit() {
     const adduserId=localStorage.getItem('UserId');
@@ -245,7 +254,7 @@ export class AddCompoundingComponent {
       compoundingDataDTO: {
         receipeId: formValue.recipeNumber,
         parameterSet: formValue.parameterSet,
-        date: formValue.date,
+        date: new Date(formValue.date).toISOString().split('T')[0],
         notes: formValue.note,
         repetation: this.repetitionCount,
         pretreatment: formValue.pretreatment,
@@ -259,7 +268,8 @@ export class AddCompoundingComponent {
          createdBy: adduserId,
       },
       ...(filteredComponents.length > 0 && {
-        components: filteredComponents
+        components: filteredComponents,
+        createdBy: adduserId,
       }),
       dosageDTO: {
         speedSideFeeder1: formValue.speedFeeder1,
