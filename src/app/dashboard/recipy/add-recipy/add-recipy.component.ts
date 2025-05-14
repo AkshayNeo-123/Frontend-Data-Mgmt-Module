@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
- import {
+import {
   FormBuilder,   
   FormGroup,
   Validators,
@@ -7,25 +7,25 @@ import { Component, OnInit } from '@angular/core';
   FormsModule,
   FormArray,
 } from '@angular/forms';
- import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
- import { MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
- import { MatIconModule } from '@angular/material/icon';
- import { MatTableModule, MatTableDataSource } from '@angular/material/table';
- import { MAT_DIALOG_DATA } from '@angular/material/dialog';
- import { CommonModule } from '@angular/common';
- import { Inject } from '@angular/core';
- import { ProjectService } from '../../../services/project.service';
- import { RecipeService } from '../../../services/recipe.service';
- import { CommonService } from '../../../services/common.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
+import { Inject } from '@angular/core';
+import { ProjectService } from '../../../services/project.service';
+import { RecipeService } from '../../../services/recipe.service';
+import { CommonService } from '../../../services/common.service';
 import { ComponentService } from '../../../services/component.service';
- import { RecipeComponentType } from '../../../models/recipe-component-type.model';
- import { Recipe } from '../../../models/recipe.model';
- import { ToastrService } from 'ngx-toastr';
- 
+import { RecipeComponentType } from '../../../models/recipe-component-type.model';
+import { Recipe } from '../../../models/recipe.model';
+import { ToastrService } from 'ngx-toastr';
+
 interface ComponentRow {
   componentId: number | null;
   wtPercentage: number | null;
@@ -81,8 +81,7 @@ export class AddRecipyComponent implements OnInit {
     private componentService: ComponentService,
     @Inject(MAT_DIALOG_DATA) public data: { recipe: Recipe },
     private projectService: ProjectService,
-        private toastr: ToastrService,
-
+    private toastr: ToastrService,
   ) {
     this.recipeForm = this.fb.group({
       productName: ['', Validators.required],
@@ -117,8 +116,16 @@ export class AddRecipyComponent implements OnInit {
     }
   }
 
-
-
+  // Custom validator for percentage range
+  percentageRangeValidator() {
+    return (control: any) => {
+      const value = control.value;
+      if (value < 0 || value > 100) {
+        return { invalidPercentage: true };
+      }
+      return null;
+    };
+  }
 
   initForm(): void {
     this.recipeForm = this.fb.group({
@@ -146,8 +153,14 @@ export class AddRecipyComponent implements OnInit {
   addComponent(component: any = {}): void {
     const componentGroup = this.fb.group({
       componentId: [component.componentId || null, Validators.required],
-      wtPercentage: [component.wtPercentage || null],
-      volPercentage: [component.volPercentage || null],
+      wtPercentage: [
+        component.wtPercentage ?? null,
+        [Validators.required, this.percentageRangeValidator()],
+      ],
+      volPercentage: [
+        component.volPercentage ?? null,
+        [Validators.required, this.percentageRangeValidator()],
+      ],
       density: [component.density || null],
       type: [component.type || ''],
       mp: [component.mp || false],
@@ -161,47 +174,42 @@ export class AddRecipyComponent implements OnInit {
     this.components.removeAt(index);
   }
 
-onSubmit(): void {
-  if (this.recipeForm.valid) {
-    const formValue = this.recipeForm.value;
+  onSubmit(): void {
+    if (this.recipeForm.valid) {
+      const formValue = this.recipeForm.value;
 
-    const payload = {
-      recipe: {
-        productName: this.recipeForm.value.productName,
-        comments: this.recipeForm.value.comments,
-        projectId: this.recipeForm.value.projectId,
-        additiveId: this.recipeForm.value.additiveId,
-        mainPolymerId: this.recipeForm.value.mainPolymerId,
-      },
-      component: this.components.value,
-    };
-
-    if (this.isEdit && this.data.recipe?.receipeId) {
-      this.recipeService.updateRecipe(this.data.recipe.receipeId, payload).subscribe({
-        next: () => {
-          console.log('Recipe Updated successfully');
-
-          this.toastr.success(' Updated successfully', 'Success')
-          this.dialogRef.close(true);
+      const payload = {
+        recipe: {
+          productName: this.recipeForm.value.productName,
+          comments: this.recipeForm.value.comments,
+          projectId: this.recipeForm.value.projectId,
+          additiveId: this.recipeForm.value.additiveId,
+          mainPolymerId: this.recipeForm.value.mainPolymerId,
         },
-        error: (err) => console.error('Error updating recipe', err),
-      });
-    } else {
-      this.recipeService.addRecipe(payload).subscribe({
-        next: () => {
-          console.log('Recipe added successfully');
-           this.toastr.success(' added successfully', 'Success')
+        component: this.components.value,
+      };
 
-          this.dialogRef.close(true); 
-        },
-        error: (err) => console.error('Error adding recipe', err),
-      });
+      if (this.isEdit && this.data.recipe?.receipeId) {
+        this.recipeService.updateRecipe(this.data.recipe.receipeId, payload).subscribe({
+          next: () => {
+            console.log('Recipe Updated successfully');
+            this.toastr.success('Updated successfully', 'Success');
+            this.dialogRef.close(true);
+          },
+          error: (err) => console.error('Error updating recipe', err),
+        });
+      } else {
+        this.recipeService.addRecipe(payload).subscribe({
+          next: () => {
+            console.log('Recipe added successfully');
+            this.toastr.success('Added successfully', 'Success');
+            this.dialogRef.close(true);
+          },
+          error: (err) => console.error('Error adding recipe', err),
+        });
+      }
     }
   }
-}
-
-
-
 
   onCancel(): void {
     this.dialogRef.close(false);
