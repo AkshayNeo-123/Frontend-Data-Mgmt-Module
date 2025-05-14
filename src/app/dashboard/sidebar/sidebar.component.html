@@ -2,10 +2,12 @@
   <ul class="list-unstyled m-0 p-4">
     
       <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('dashboard')">
-          <i class="fas fa-tachometer-alt me-3"></i> 
+          <i class="fas fa-tachometer-alt me-3"></i>
+           <!--yahan menu name bind hoga dynamic from db -->
           <span *ngIf="isOpen">Dashboard</span>
       </li>
 
+      <!-- <li *ngIf="roleId===2" class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('recipy')"> -->
       <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect" (click)="emitSection('recipy')">
           <i class="fas fa-utensils me-3"></i> 
           <span *ngIf="isOpen">Recipe</span>

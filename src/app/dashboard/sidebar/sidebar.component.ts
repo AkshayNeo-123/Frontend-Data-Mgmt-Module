@@ -10,12 +10,17 @@ import { MastertableComponent } from '../mastertable/mastertable.component';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
+  roleId: number = 0;
   @Input() isOpen: boolean = true;
   @Output() sectionChange = new EventEmitter<string>();  // Output to notify parent
 
   // Method to emit the section change event
   emitSection(section: string) {
     this.sectionChange.emit(section);  // Emit the selected section
+  }
+
+  ngOnInit() {
+    this.roleId = Number(localStorage.getItem('RoleId'));
   }
 
   // Method to toggle the sidebar's open/close state

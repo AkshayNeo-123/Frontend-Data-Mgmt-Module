@@ -25,7 +25,8 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MenuService } from '../../../services/menu.service';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   standalone: true,
@@ -42,7 +43,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatOptionModule,
     MatIconModule,
     MatRadioModule,
-    MatCheckboxModule
+    MatCheckboxModule,
   ],
   templateUrl: './add-role.component.html',
   styleUrls: ['./add-role.component.css'],
@@ -91,6 +92,7 @@ export class AddRoleComponent {
   //     }
   //   });
   // }
+  selectAllChecked = false;
   roleForm!: FormGroup;
   permissionsFormGroup!: FormGroup;
   isEditMode = false;
@@ -102,6 +104,7 @@ export class AddRoleComponent {
     private menuService: MenuService,
     private dialogRef: MatDialogRef<AddRoleComponent>,
     private snackBar: MatSnackBar,
+    private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) public editData: any = null
   ) {
 
@@ -117,7 +120,6 @@ export class AddRoleComponent {
   ngOnInit(): void {
     this.initForms();
     this.getMenus();
-    
   }
 
   getMenus(): void {
@@ -127,12 +129,16 @@ export class AddRoleComponent {
         this.modulePermissions.forEach(permission => {
           const group = this.fb.group({
             view: [false],
+            // create: [{ value: false, disabled: true }],
+            // update: [{ value: false, disabled: true }],
+            // delete: [{ value: false, disabled: true }]
             create: [false],
             update: [false],
             delete: [false]
           });
           // console.log(permission.menuName);
-          (this.roleForm.get('permissions') as FormGroup).addControl(permission.id, group);
+          const id = String(permission.id);
+          (this.roleForm.get('permissions') as FormGroup).addControl(id, group);
         });
       },
       error: () => {
@@ -140,6 +146,59 @@ export class AddRoleComponent {
       }
     });
   }
+
+  toggleAllPermissions(event: MatCheckboxChange): void {
+  const isChecked = event.checked;
+  this.selectAllChecked = isChecked;
+  const permissionsGroup = this.roleForm.get('permissions') as FormGroup;
+
+  Object.keys(permissionsGroup.controls).forEach(menuId => {
+    const permission = permissionsGroup.get(menuId) as FormGroup;
+    permission.patchValue({
+      view: isChecked,
+      create: isChecked,
+      update: isChecked,
+      delete: isChecked
+    });
+  });
+}
+
+onAnyPermissionChange(): void {
+  const permissionsGroup = this.roleForm.get('permissions') as FormGroup;
+
+  let allChecked = true;
+
+  Object.keys(permissionsGroup.controls).forEach(menuId => {
+    const permission = permissionsGroup.get(menuId) as FormGroup;
+    const values = permission.value;
+
+    // If any box is unchecked, allChecked = false
+    if (!values.view || !values.create || !values.update || !values.delete) {
+      allChecked = false;
+    }
+  });
+
+  this.selectAllChecked = allChecked;
+}
+
+onViewChange(menuId: string): void {
+  const permissionsGroup = (this.roleForm.get('permissions') as FormGroup).get(menuId) as FormGroup;
+  const viewControl = permissionsGroup.get('view');
+  const isViewChecked = viewControl?.value;
+
+  ['create', 'update', 'delete'].forEach(permission => {
+    const control = permissionsGroup.get(permission);
+    if (control) {
+      if (isViewChecked) {
+        control.enable();
+      } else {
+        control.disable();
+        control.setValue(false);  // uncheck when disabling
+      }
+    }
+    console.log(menuId, 'view:', isViewChecked);
+  });
+}
 
   initForms(): void {
     // this.roleForm = this.fb.group({
@@ -186,11 +245,24 @@ export class AddRoleComponent {
       this.roleService.addRole(this.roleForm.value).subscribe({
         next: () => {
           this.snackBar.open('Role added successfully.', 'Close', { duration: 3000 });
+          // this.toastr.success('Role added successfully.');
+          // this.toastr.success(
+          //   'Saved successfully!' ,
+          //   'Success',{
+          //     timeOut:5000
+          //   }
+          // );
           this.roleForm.reset();
           this.dialogRef.close(true);
         },
         error: () => {
           this.snackBar.open('Failed to add role.', 'Close', { duration: 3000 });
+          // this.toastr.error(
+          //   'Failed to add role.' ,
+          //   'Error',{
+          //     timeOut:5000
+          //   }
+          // );
         }
       });
   }

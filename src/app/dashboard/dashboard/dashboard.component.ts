@@ -60,6 +60,7 @@ export class DashboardComponent {
   selectedSection: string = 'dashboard';
   currentPage: number = 1;
   itemsPerPage: number = 3;
+  roleId: number = 0;
 
   // Static product data
   staticProducts: any[] = [
@@ -120,6 +121,10 @@ export class DashboardComponent {
 
   get pageRange(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  ngOnInit() {
+    this.roleId = Number(localStorage.getItem('RoleId'));
   }
 
   onToggleSidebar() {

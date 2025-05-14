@@ -20,7 +20,7 @@ import { MenuService } from '../../../services/menu.service';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -67,6 +67,33 @@ export class EditRoleComponent implements OnInit {
   //     this.loadData();
   //   }
   }
+
+  toggleAllPermissions(event: MatCheckboxChange): void {
+  const isChecked = event.checked;
+  const permissionsGroup = this.roleForm.get('permissions') as FormGroup;
+
+  Object.keys(permissionsGroup.controls).forEach(menuId => {
+    const permission = permissionsGroup.get(menuId) as FormGroup;
+    permission.patchValue({
+      view: isChecked,
+      create: isChecked,
+      update: isChecked,
+      delete: isChecked
+    });
+  });
+}
+
+toggleMenuPermissions(menuId: string, event: MatCheckboxChange): void {
+  const isChecked = event.checked;
+  const permissionGroup = (this.roleForm.get('permissions') as FormGroup).get(menuId) as FormGroup;
+
+  permissionGroup.patchValue({
+    view: isChecked,
+    create: isChecked,
+    update: isChecked,
+    delete: isChecked
+  });
+}
 
   ngOnInit(): void {
     // console.log('Form Structure:', this.roleForm.value);

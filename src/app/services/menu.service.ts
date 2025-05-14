@@ -10,6 +10,6 @@ export class MenuService {
   constructor(private http: HttpClient) { }
 
   getMenu(): Observable<any[]> {
-    return this.http.get<any[]>('https://localhost:7030/api/Menu'); // Replace with your actual API endpoint
+    return this.http.get<any[]>('https://localhost:7030/api/Menu');
   }
 }

@@ -45,6 +45,20 @@ export class RolemasterComponent implements OnInit {
     this.fetchRoles();
   }
 
+  ngAfterViewInit(){
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+    this.dataSource.sortingDataAccessor = (data, property) => {
+      switch(property){
+        case 'roleName':
+          return data.roleName?.toLowerCase();
+          default:
+            return (data as any)[property];
+      }
+    }
+  }
+
   fetchRoles() {
     this.roleService.getAllRoles().subscribe({
       next: (roles) => {

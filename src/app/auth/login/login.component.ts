@@ -65,6 +65,7 @@ export class LoginComponent implements OnInit {
       next: (response: any) => {
         this.isLoading = false;
         localStorage.setItem('UserId',response.userId);
+        localStorage.setItem('RoleId',response.roleId);
   
         this.authService.setLoggedInUser({
           name: response.email,

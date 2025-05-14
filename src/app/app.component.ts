@@ -5,7 +5,11 @@ import { TopbarComponent } from './dashboard/topbar/topbar.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,MatTableModule,TopbarComponent],
+  imports: [
+    RouterOutlet,
+    MatTableModule,
+    TopbarComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
