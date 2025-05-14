@@ -49,16 +49,16 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     ProjectComponent,
     MastertableComponent,
     ContactsComponent,
-    AddInjectionMoldingComponent,
+    // AddInjectionMoldingComponent,
    
     GetAllAdditivesComponent,
     AllMainPolymersComponent,
     ManageusersComponent,
     RolemasterComponent,
     AllMainPolymersComponent,
-    AddAdditiveComponent,
+    // AddAdditiveComponent,
     GetAllAdditivesComponent,
-    RecipedetailsComponent,
+    // RecipedetailsComponent,
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
@@ -69,9 +69,9 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MatGridListModule,
     MatMomentDateModule,
     RouterModule,
-    AddCompoundingComponent,
-    UpdateInjectionMoldingComponent,
-    UpdateCompoundingComponent,InfiniteScrollModule
+    // AddCompoundingComponent,
+    // UpdateInjectionMoldingComponent,
+    // UpdateCompoundingComponent,InfiniteScrollModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']

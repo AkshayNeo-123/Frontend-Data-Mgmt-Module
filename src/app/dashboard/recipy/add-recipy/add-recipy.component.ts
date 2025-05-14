@@ -117,6 +117,9 @@ export class AddRecipyComponent implements OnInit {
     }
   }
 
+
+
+
   initForm(): void {
     this.recipeForm = this.fb.group({
       productName: ['', Validators.required],
@@ -179,7 +182,7 @@ onSubmit(): void {
           console.log('Recipe Updated successfully');
 
           this.toastr.success(' Updated successfully', 'Success')
-          this.dialogRef.close(true); // ✅ Triggers reload in parent
+          this.dialogRef.close(true);
         },
         error: (err) => console.error('Error updating recipe', err),
       });

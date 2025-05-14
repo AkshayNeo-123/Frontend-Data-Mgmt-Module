@@ -13,7 +13,7 @@ import jsPDF from 'jspdf';
 @Component({
   selector: 'app-recipedetails',
   standalone:true,
-  imports: [CommonModule,MatDialogActions],
+  imports: [CommonModule],
   templateUrl: './recipedetails.component.html',
   styleUrl: './recipedetails.component.css'
 })

@@ -33,7 +33,7 @@ export interface Recipe {
   polymerName?: string;
   composition?: string;
   projectName?:string;
-  // comment:string;
+  comments?:string;
 }
 
 export interface RecipeAndProject{

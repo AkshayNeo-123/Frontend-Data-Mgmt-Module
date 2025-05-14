@@ -43,12 +43,7 @@ export class RecipeService {
     return  this.http.get<RecipeAndProject>(`${this.baseUrl}/GetRecipeAndProjectById?id=${id}`);
   }
 
-  
 
-
-// updateRecipe(id: number, recipe: Recipe): Observable<Recipe> {
-//   return this.http.put<Recipe>(`${this.baseUrl}/UpdateRecipeandComponent${id}`, recipe);
-// }
 
 updateRecipe(id: number, updatePayload: any): Observable<any> {
   return this.http.put(`${this.baseUrl}/UpdateRecipeandComponent/${id}`, updatePayload);
