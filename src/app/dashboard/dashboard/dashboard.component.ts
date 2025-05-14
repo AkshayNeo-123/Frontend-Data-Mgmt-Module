@@ -27,6 +27,7 @@ import { AddAdditiveComponent } from '../additiveData/addadditives/addadditives.
 import { AddInjectionMoldingComponent } from '../add-injection-molding/add-injection-molding.component';
 import { AddCompoundingComponent } from '../add-compounding/add-compounding.component';
 import { UpdateInjectionMoldingComponent } from '../update-injection-molding/update-injection-molding.component';
+import { UpdateCompoundingComponent } from '../update-compounding/update-compounding.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -57,7 +58,8 @@ import { UpdateInjectionMoldingComponent } from '../update-injection-molding/upd
     MatDatepickerModule,
     MatMomentDateModule,
     AddCompoundingComponent,
-    UpdateInjectionMoldingComponent
+    UpdateInjectionMoldingComponent,
+    UpdateCompoundingComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']

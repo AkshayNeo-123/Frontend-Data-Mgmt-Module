@@ -87,7 +87,7 @@ export class UpdateInjectionMoldingComponent {
       this.injectionForm.get('speedMms')!.setValue(converted, { emitEvent: false });
     });
 
-    this.injectionservice.GetByIdInjection(9).subscribe({
+    this.injectionservice.GetByIdInjection(10).subscribe({
       next: (data) => {
         console.log('API Response:', data);
         const projectArray = typeof data.projectId === 'string'
@@ -174,7 +174,7 @@ export class UpdateInjectionMoldingComponent {
             
           };
           console.log(newInjectionMolding);
-          this.injectionservice.UpdateInjection(9,newInjectionMolding).subscribe({
+          this.injectionservice.UpdateInjection(10,newInjectionMolding).subscribe({
             next: (response) => {
               console.log('updated successfully', response);
               this.toastr.success('updated successfully');
@@ -228,5 +228,12 @@ export class UpdateInjectionMoldingComponent {
     
     
   }
+
+  blockNumbers(event: KeyboardEvent) {
+  const charCode = event.key;
+  if (/\d/.test(charCode)) {
+    event.preventDefault(); // Block number input
+  }
+}
 
 }

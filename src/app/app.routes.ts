@@ -74,6 +74,11 @@ export const routes: Routes = [
         path: 'updateinjectionMolding',
         loadComponent: () => import('./dashboard/update-injection-molding/update-injection-molding.component').then(m => m.UpdateInjectionMoldingComponent),
       },
+
+      {
+        path: 'updatecompounding',
+        loadComponent: () => import('./dashboard/update-compounding/update-compounding.component').then(m => m.UpdateCompoundingComponent),
+      },
       
 
       // Additive Routes

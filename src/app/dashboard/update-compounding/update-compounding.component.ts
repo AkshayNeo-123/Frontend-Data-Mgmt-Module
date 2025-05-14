@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -13,8 +13,9 @@ import { MaterialService } from '../../services/material.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
+
 @Component({
-  selector: 'app-add-compounding',
+  selector: 'app-update-compounding',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -27,20 +28,113 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatDatepickerModule,
     MatNativeDateModule
   ],
-  templateUrl: './add-compounding.component.html',
-  styleUrls: ['./add-compounding.component.css']
+  templateUrl: './update-compounding.component.html',
+  styleUrl: './update-compounding.component.css'
 })
-export class AddCompoundingComponent {
+export class UpdateCompoundingComponent implements OnInit {
   compoundForm: FormGroup;
   componentOptions: any[] = [];
   repetitionCount = 0;
-maxRepetition: number = 230;
+  maxRepetition: number = 230;
 
   today = new Date();
-
   get components() {
     return (this.compoundForm.get('components') as FormArray).controls;
   }
+
+  ngOnInit() {
+    this.compoundingService.getCompoundingDataById().subscribe({
+      next: (data) => {
+        if (data) {
+          this.patchFormWithCompoundingData(data);
+        }
+      },
+      error: (err) => {
+        console.error('Failed to fetch compounding data:', err);
+      }
+    });
+  }
+
+
+  private patchFormWithCompoundingData(data: any): void {
+
+    this.compoundForm.patchValue({
+      recipeNumber: data.compoundingDataDTO.receipeId,
+      parameterSet: data.compoundingDataDTO.parameterSet,
+      date: data.compoundingDataDTO.date,
+      note: data.compoundingDataDTO.notes,
+      repetitionCount: data.compoundingDataDTO.repetation,
+      pretreatmentNone: data.compoundingDataDTO.pretreatmentNone,
+      pretreatmentDrying: data.compoundingDataDTO.pretreatmentDrying,
+      temperature: data.compoundingDataDTO.temperature,
+      duration: data.compoundingDataDTO.duration,
+      residualMoisture: data.compoundingDataDTO.residualM,
+      notMeasured: data.compoundingDataDTO.notMeasured,
+      speedFeeder1: data.dosageDTO?.speedSideFeeder1,
+      speedFeeder2: data.dosageDTO?.speedSideFeeder2,
+      screwStandard: data.dosageDTO?.screwConfigStadard,
+      screwModified: data.dosageDTO?.screwConfigModified,
+      degassingStandard: data.dosageDTO?.deggassingStadard,
+      degassingVacuum: data.dosageDTO?.deggassingVaccuum,
+      degassingNone: data.dosageDTO?.deggassingNone,
+      degassingFET: data.dosageDTO?.deggassingFET,
+      screwSpeed: data.dosageDTO?.screwSpeed,
+      torque: data.dosageDTO?.torque,
+      pressure: data.dosageDTO?.pressure,
+      totalOutput: data.dosageDTO?.totalOutput,
+      granulator: data.dosageDTO?.granulator,
+      bulkDensity: data.dosageDTO?.bulkDensity,
+      coolingSection: data.dosageDTO?.coolingSection,
+      tempBath1: data.dosageDTO?.temperatureWaterBath1,
+      tempBath2: data.dosageDTO?.temperatureWaterBath2,
+      tempBath3: data.dosageDTO?.temperatureWaterBath3,
+      meltPump: data.dosageDTO?.meltPump,
+      underwaterPelletizer: data.dosageDTO?.underwaterPelletizer,
+      nozzlePlate: data.dosageDTO?.nozzlePlate,
+      productionNote: data.dosageDTO?.notes,
+      premix: data.dosageDTO?.premix,
+      PremixNote: data.dosageDTO?.premixNote,
+      temp1: data.dosageDTO?.temp1,
+      temp2: data.dosageDTO?.temp2,
+      temp3: data.dosageDTO?.temp3,
+      temp4: data.dosageDTO?.temp4,
+      temp5: data.dosageDTO?.temp5,
+      temp6: data.dosageDTO?.temp6,
+      temp7: data.dosageDTO?.temp7,
+      temp8: data.dosageDTO?.temp8,
+      temp9: data.dosageDTO?.temp9,
+      temp10: data.dosageDTO?.temp10,
+      temp11: data.dosageDTO?.temp11,
+      temp12: data.dosageDTO?.temp12,
+      upload_Screwconfig: data.dosageDTO?.upload_Screwconfig,
+    });
+
+    this.repetitionCount = Number(this.compoundForm.get('repetitionCount')?.value || 0);
+
+    // Clear and repopulate FormArray
+    const componentsArray = this.compoundForm.get('components') as FormArray;
+    componentsArray.clear();
+
+    if (Array.isArray(data.components)) {
+      for (const comp of data.components) {
+        const componentGroup = this.fb.group({
+          name: [comp.componentId?.toString()],
+          share: [comp.share],
+          MF: [comp.mf],
+          SecondF: [comp._2ndF],
+          SF: [comp.sf],
+          A: [comp.a],
+          B: [comp.b],
+          C: [comp.c],
+          D: [comp.d],
+          E: [comp.e],
+          F: [comp.f]
+        });
+        componentsArray.push(componentGroup);
+      }
+    }
+  }
+
 
   constructor(
     private fb: FormBuilder,
@@ -58,6 +152,7 @@ maxRepetition: number = 230;
       date: [null, ''],
       note: [''],
       temperature: [],
+      repetitionCount: [0],
       duration: [],
       residualMoisture: [],
       notMeasured: [false],
@@ -148,59 +243,104 @@ maxRepetition: number = 230;
       .reduce((acc: number, curr: any) => acc + (+curr.share || 0), 0);
   }
 
+  // onFileSelected(event: Event, controlName: string): void {
+  //   const input = event.target as HTMLInputElement;
+  //   const file = input.files?.[0];
+
+  //   if (file) {
+  //     if (file.type !== 'application/pdf') {
+  //       this.toastr.error('Only PDF files are allowed.', 'Invalid File', { timeOut: 3000 });
+  //       input.value = '';
+  //       return;
+  //     }
+
+  //     const currentFilePath = this.compoundForm.get(controlName)?.value;
+  //     if (currentFilePath) {
+  //       this.materialService.updateMaterialFile(file, currentFilePath).subscribe({
+  //         next: (res) => {
+  //           const filePath = `${res.fileName}`;
+  //           this.compoundForm.get(controlName)?.setValue(filePath);  
+  //         },
+  //         error: (err) => {
+  //           console.error('File upload failed:', err);
+  //           this.toastr.error('File upload failed.', 'Error', { timeOut: 3000 });
+  //         }
+  //       });
+  //     } else {
+  //       this.materialService.postFileMaterial(file).subscribe({
+  //         next: (res) => {
+  //           const filePath = `${res.fileName}`;
+  //           this.compoundForm.get(controlName)?.setValue(filePath);
+  //         },
+  //         error: (err) => {
+  //           console.error('File upload failed:', err);
+  //           this.toastr.error('File upload failed.', 'Error', { timeOut: 3000 });
+  //         }
+  //       });
+  //     }
+  //   }
+  // }
+
+
   onFileSelected(event: Event, controlName: string): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
 
-    if (file) {
-      if (file.type !== 'application/pdf') {
-        this.toastr.error('Only PDF files are allowed.', 'Invalid File', { timeOut: 3000 });
-        input.value = '';
-        return;
-      }
+    if (!file) return;
 
-      const currentFilePath = this.compoundForm.get(controlName)?.value;
-      if (currentFilePath) {
-        this.materialService.updateMaterialFile(file, currentFilePath).subscribe({
-          next: (res) => {
-            const filePath = `${res.fileName}`;
-            this.compoundForm.get(controlName)?.setValue(filePath);
-          },
-          error: (err) => {
-            console.error('File upload failed:', err);
-            this.toastr.error('File upload failed.', 'Error', { timeOut: 3000 });
-          }
-        });
-      } else {
-        this.materialService.postFileMaterial(file).subscribe({
-          next: (res) => {
-            const filePath = `${res.fileName}`;
-            this.compoundForm.get(controlName)?.setValue(filePath);
-          },
-          error: (err) => {
-            console.error('File upload failed:', err);
-            this.toastr.error('File upload failed.', 'Error', { timeOut: 3000 });
-          }
-        });
-      }
+    // Allow only PDF files
+    if (file.type !== 'application/pdf') {
+      this.toastr.error('Only PDF files are allowed.', 'Invalid File', { timeOut: 3000 });
+      input.value = '';
+      return;
+    }
+
+    const currentFilePath = this.compoundForm.get(controlName)?.value;
+
+    if (currentFilePath) {
+      // Update the existing file
+      this.materialService.updateMaterialFile(file, currentFilePath).subscribe({
+        next: (res) => {
+          const filePath = res.fileName || res.newFilePath || ''; // adjust key if your backend returns differently
+          this.compoundForm.get(controlName)?.setValue(filePath);
+          this.toastr.success('File updated successfully.');
+        },
+        error: (err) => {
+          console.error('File update failed:', err);
+          this.toastr.error('Failed to update the file.', 'Error', { timeOut: 3000 });
+        }
+      });
+    } else {
+      // Upload a new file
+      this.materialService.postFileMaterial(file).subscribe({
+        next: (res) => {
+          const filePath = res.fileName || res.path || ''; // adjust key if your backend returns differently
+          this.compoundForm.get(controlName)?.setValue(filePath);
+          this.toastr.success('File uploaded successfully.');
+        },
+        error: (err) => {
+          console.error('File upload failed:', err);
+          this.toastr.error('Failed to upload the file.', 'Error', { timeOut: 3000 });
+        }
+      });
     }
   }
 
- increaseRepetition() {
-  if (this.repetitionCount < this.maxRepetition) {
-    this.repetitionCount++;
-  }
-}
 
-decreaseRepetition() {
-  if (this.repetitionCount > 0) {
-    this.repetitionCount--;
+  increaseRepetition() {
+    if (this.repetitionCount < this.maxRepetition) {
+      this.repetitionCount++;
+    }
   }
-}
+
+  decreaseRepetition() {
+    if (this.repetitionCount > 0) {
+      this.repetitionCount--;
+    }
+  }
 
   onSubmit() {
-    const adduserId=localStorage.getItem('UserId');
-
+        const adduserId=localStorage.getItem('UserId');
 
     if (this.compoundForm.invalid) {
       this.compoundForm.markAllAsTouched();
@@ -226,7 +366,7 @@ decreaseRepetition() {
         return;
       }
 
-      //  If name is selected, it must be valid
+      //If name is selected, it must be valid
       if (name && !validComponentIds.includes(+name)) {
         this.toastr.error(`Invalid component selected: ${name}`);
         return;
@@ -265,11 +405,12 @@ decreaseRepetition() {
         pretreatmentNone: formValue.pretreatmentNone,
         pretreatmentDrying: formValue.pretreatmentDrying,
         dryingTime: formValue.dryingTime,
-         createdBy: adduserId,
+         modifiedBy: adduserId,
+        
       },
       ...(filteredComponents.length > 0 && {
         components: filteredComponents,
-        createdBy: adduserId,
+        modifiedBy: adduserId
       }),
       dosageDTO: {
         speedSideFeeder1: formValue.speedFeeder1,
@@ -310,28 +451,25 @@ decreaseRepetition() {
         temperatureWaterBath2: formValue.tempBath2,
         temperatureWaterBath3: formValue.tempBath3,
         createdDate: formValue.createdDate,
-        createdBy:adduserId,
-        modifiedBy: formValue.modifiedBy,
+        createdBy: formValue.createdBy,
+        modifiedBy: adduserId,
         modifiedDate: formValue.modifiedDate
       }
 
 
     };
 
-    this.compoundingService.addCompoundingData(requestBody).subscribe({
+    this.compoundingService.updateCompoundingData(requestBody).subscribe({
       next: (res) => {
         console.log('API Success:', res);
-        this.toastr.success('Saved successfully.', 'Success', {
+        // Show success toast
+        this.toastr.success('Updated successfully.', 'Success', {
           timeOut: 3000
         });
-        this.compoundForm.reset();
-        this.repetitionCount = 0;
-        (this.compoundForm.get('components') as FormArray).clear();
-        this.addComponent();
       },
       error: (err) => {
         console.error('API Error:', err);
-        this.toastr.error('Failed to submit the form.', 'Error', { timeOut: 3000 });
+        this.toastr.error('Failed to Update the form.', 'Error', { timeOut: 3000 });
       }
     });
   }
