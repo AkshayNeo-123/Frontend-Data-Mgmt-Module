@@ -11,6 +11,8 @@ import { inject } from '@angular/core';
 import { RoleService } from '../../services/role.service';
 import { AddRoleComponent } from './add-role/add-role.component';
 import { EditRoleComponent } from './edit-role/edit-role.component';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 
 @Component({
   selector: 'app-rolemaster',
@@ -36,7 +38,11 @@ export class RolemasterComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    // private roleService: RoleService,
+    private dialog: MatDialog,
+    private toastr: ToastrService  
+  ) {}
 
   ngOnInit(): void {
     this.dataSource.filterPredicate = (data, filter) => {
@@ -132,18 +138,46 @@ export class RolemasterComponent implements OnInit {
     console.log('Edit Role:', role);
   }
 
-  deleteRole(id: number) {
-    if (confirm('Are you sure you want to delete this role?')) {
+  // deleteRole(id: number) {
+  //   if (confirm('Are you sure you want to delete this role?')) {
+  //     this.roleService.deleteRole(id).subscribe({
+  //       next: () => {
+  //         this.dataSource.data = this.dataSource.data.filter(r => r.roleId !== id);
+  //         alert('Role deleted successfully!');
+  //       },
+  //       error: err => {
+  //         console.error('Error deleting role:', err);
+  //         alert('Failed to delete role!');
+  //       }
+  //     });
+  //   }
+  // }
+deleteRole(id: number) {
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    data: {
+      title: 'Confirm Delete',
+      message: 'Are you sure you want to delete this role?'
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result === true) {
       this.roleService.deleteRole(id).subscribe({
         next: () => {
-          this.dataSource.data = this.dataSource.data.filter(r => r.roleId !== id);
-          alert('Role deleted successfully!');
+          this.dataSource.data = this.dataSource.data.filter(role => role.roleId !== id);
+          this.toastr.success('Role deleted successfully!', 'Success', {
+            timeOut: 5000
+          });
         },
         error: err => {
           console.error('Error deleting role:', err);
-          alert('Failed to delete role!');
+          this.toastr.warning('Failed to delete the role!', 'Warning', {
+            timeOut: 5000
+          });
         }
       });
     }
-  }
+  });
 }
+}
+

@@ -23,6 +23,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   standalone: true,
@@ -49,6 +50,7 @@ export class EditRoleComponent implements OnInit {
     private snackBar: MatSnackBar,
     private roleService: RoleService,
     private menuService: MenuService,
+    private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) public editData: any
   ) {
     
@@ -209,11 +211,14 @@ toggleMenuPermissions(menuId: string, event: MatCheckboxChange): void {
 
     this.roleService.updateRole(this.editData.roleId, updatedRole).subscribe({
       next: () => {
-        this.snackBar.open('Role updated successfully.', 'Close', { duration: 3000 });
+        // this.snackBar.open('Role updated successfully.', 'Close', { duration: 3000 });
+        this.toastr.success('Updated successfully!', 'Success', { timeOut: 5000 });
         this.dialogRef.close(true);
+        
       },
       error: (error) => {
-        this.snackBar.open('Failed to update role.', 'Close', { duration: 3000 });
+        // this.snackBar.open('Failed to update role.', 'Close', { duration: 3000 });
+        this.toastr.error('Failed to update user!', 'Error', { timeOut: 5000 });
         console.log(error.error);
       }
     });

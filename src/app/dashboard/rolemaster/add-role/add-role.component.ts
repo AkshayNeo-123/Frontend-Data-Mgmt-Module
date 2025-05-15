@@ -244,26 +244,26 @@ onViewChange(menuId: string): void {
     
       this.roleService.addRole(this.roleForm.value).subscribe({
         next: () => {
-          this.snackBar.open('Role added successfully.', 'Close', { duration: 3000 });
+          // this.snackBar.open('Role added successfully.', 'Close', { duration: 3000 });
           // this.toastr.success('Role added successfully.');
-          // this.toastr.success(
-          //   'Saved successfully!' ,
-          //   'Success',{
-          //     timeOut:5000
-          //   }
-          // );
+          this.toastr.success(
+            'Saved successfully!' ,
+            'Success',{
+              timeOut:5000
+            }
+          );
           this.roleForm.reset();
           this.dialogRef.close(true);
         },
         error: (error) => {
           const errorMsg = error?.error?.message || 'Failed to add role.';
-          this.snackBar.open(errorMsg, 'Close', { duration: 3000 });
-          // this.toastr.error(
-          //   'Failed to add role.' ,
-          //   'Error',{
-          //     timeOut:5000
-          //   }
-          // );
+          // this.snackBar.open(errorMsg, 'Close', { duration: 3000 });
+          this.toastr.error(
+            'Failed to add role.' ,
+            'Error',{
+              timeOut:5000
+            }
+          );
         }
       });
   }
