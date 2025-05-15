@@ -81,7 +81,7 @@ export class AddRecipyComponent implements OnInit {
     private componentService: ComponentService,
     @Inject(MAT_DIALOG_DATA) public data: { recipe: Recipe },
     private projectService: ProjectService,
-    private toastr: ToastrService,
+    private toastr: ToastrService
   ) {
     this.recipeForm = this.fb.group({
       productName: ['', Validators.required],
@@ -94,7 +94,6 @@ export class AddRecipyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initForm();
     this.loadDropdownData();
 
     if (this.data?.recipe) {
@@ -103,13 +102,14 @@ export class AddRecipyComponent implements OnInit {
 
       this.recipeForm.patchValue({
         productName: r.productName,
-        comments: r.comments,
+        comments: r.comment,
         projectId: r.projectId,
         additiveId: r.additiveId,
         mainPolymerId: r.mainPolymerId,
+        
       });
 
-      const composition = r.composition ?? [];
+      const composition = r.components ?? [];
       if (Array.isArray(composition) && composition.length > 0) {
         composition.forEach((component: any) => this.addComponent(component));
       }
@@ -194,24 +194,32 @@ export class AddRecipyComponent implements OnInit {
           next: () => {
             console.log('Recipe Updated successfully');
             this.toastr.success('Updated successfully', 'Success');
-            this.dialogRef.close(true);
+            this.dialogRef.close(true); // ✅ Triggers reload in parent
           },
-          error: (err) => console.error('Error updating recipe', err),
+          error: (err) => {
+            console.error('Error updating recipe', err);
+            this.toastr.error('Failed to update recipe', 'Error');
+          },
         });
       } else {
         this.recipeService.addRecipe(payload).subscribe({
           next: () => {
             console.log('Recipe added successfully');
             this.toastr.success('Added successfully', 'Success');
-            this.dialogRef.close(true);
+            this.dialogRef.close(true); // ✅ Triggers reload in parent
           },
-          error: (err) => console.error('Error adding recipe', err),
+          error: (err) => {
+            console.error('Error adding recipe', err);
+            this.toastr.error('Failed to add recipe', 'Error');
+          },
         });
       }
+    } else {
+      this.toastr.error('Please fill in all required fields', 'Form Error');
     }
   }
 
   onCancel(): void {
-    this.dialogRef.close(false);
+    this.dialogRef.close(false); // Close without saving
   }
 }

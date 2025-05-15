@@ -30,6 +30,13 @@ export class RecipeService {
     return this.http.post(`${this.baseUrl}/AddRecipe`, newRecipe);
   }
 
+
+
+
+      deleteRecipes(id:number,deletedBy:number):Observable<any>{
+        return this.http.delete<Recipe>(`${this.baseUrl}/deleteRecipesData?id=${id}&deletedBy=${deletedBy}`)
+      }
+
   getRecipeAndProject(search: string = ''): Observable<RecipeAndProject[]> {
     const params = new HttpParams().set('search', search);
     return this.http.get<RecipeAndProject[]>(`${this.baseUrl}/GetRecipeAndProject`, { params });

@@ -33,16 +33,16 @@ export interface Recipe {
   polymerName?: string;
   composition?: string;
   projectName?:string;
-  comments?:string;
+  components?: ComponentRow[];
+
+  comment:string;
 }
 
 export interface RecipeAndProject{
   recipeId?:number;
   projectNumber?:string,
   description?:string
-  projectName?: string;
-  components?: ComponentRow[];
-  comments?: string;
+ 
 }
 
 export interface ComponentRow {
