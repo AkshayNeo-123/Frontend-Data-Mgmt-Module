@@ -62,10 +62,12 @@ export class AllMainPolymersComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+     this.dataSource.filterPredicate = (data, filter: string) => {
+      return data.polymerName.toLowerCase().includes(filter);
+    };
+  this.dataSource.filter=filterValue
   }
-
   openMainPolymerDialog(mainPolymer?:MainPolymer) {
       console.log('Data passed to dialog:', mainPolymer);
         const dialogRef = this.dialog.open(AddmainpolymerComponent, {
@@ -77,7 +79,7 @@ export class AllMainPolymersComponent implements OnInit {
       
         dialogRef.afterClosed().subscribe(result => {
           if (result) {
-            this.toaster.success(' Added successfully');
+            this.toaster.success(' Added successfully','Success');
   
             this.getAllMainPolymers();  
           }
@@ -95,7 +97,7 @@ export class AllMainPolymersComponent implements OnInit {
         console.log('Editing mainPolymer:', mainPolymer);
         dialogRef.afterClosed().subscribe(result => {
           if (result) {
-            this.toaster.success('Updated successfully');
+            this.toaster.success('Updated successfully','Success');
   
             this.getAllMainPolymers(); 
           }
@@ -116,8 +118,8 @@ export class AllMainPolymersComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
           if (result === true) {
               this.dataSource.data = this.dataSource.data.filter(polymer => polymer.id !== polymerId);
-      
-            this.mainPolymerService.deletePolymer(polymerId).subscribe(
+              const userId=Number(localStorage.getItem('UserId'))
+              this.mainPolymerService.deletePolymer(polymerId,userId).subscribe(
               (response) => {
                 console.log('polymer deleted successfully:', response);
                 this.toaster.success(' deleted successfully');

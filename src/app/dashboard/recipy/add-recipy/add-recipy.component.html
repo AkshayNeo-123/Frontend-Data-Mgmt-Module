@@ -1,38 +1,30 @@
 <div class="p-4" style="max-height: 80vh; overflow-y: auto;">
-
   <h2 mat-dialog-title class="mb-4">New Recipe</h2>
-  <!-- <i class="fas fa-download action-icon" (click)="onExport()" title="Export Projects"></i> -->
+  <mat-hint class="global-hint mb-3 text-muted">All fields marked with an asterisk (*) are required.</mat-hint>
 
-  <mat-hint class="global-hint mb-3">All fields marked with an asterisk (*) are required</mat-hint>
   <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
     <div mat-dialog-content>
-
       <div class="row">
-
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Recipe Number</mat-label>
-            <input matInput formControlName="recipeNumber" required placeholder="Enter Recipe Number">
+            <mat-label>Product Name *</mat-label>
+            <input matInput formControlName="productName" required />
+            <mat-error *ngIf="recipeForm.get('productName')?.hasError('required')">Product Name is required</mat-error>
           </mat-form-field>
         </div>
 
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Product Name</mat-label>
-            <input matInput formControlName="productName" required placeholder="Enter product name">
-          </mat-form-field>
-        </div>
-
-        <div class="col-md-6">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Project Number</mat-label>
-            <mat-select formControlName="projectNumber">
-              <mat-option *ngFor="let project of projects" [value]="project.projectNumber">
+            <mat-label>Project Number *</mat-label>
+            <mat-select formControlName="projectId" required>
+              <mat-option *ngFor="let project of projects" [value]="project.projectId">
                 {{ project.projectNumber }}
               </mat-option>
             </mat-select>
+            <mat-error *ngIf="recipeForm.get('projectId')?.hasError('required')">Project Number is required</mat-error>
           </mat-form-field>
         </div>
+
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Additive</mat-label>
@@ -55,121 +47,109 @@
           </mat-form-field>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-12">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Comments</mat-label>
-            <input matInput formControlName="comments" placeholder="Enter comments">
+            <textarea matInput formControlName="comments" rows="3"></textarea>
           </mat-form-field>
         </div>
       </div>
-
     </div>
 
-    <div class="row justify-content-center mb-3 mt-4">
-      <div class="col-md-12">
-        <div class="form-group">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <label class="text-dark fw-bold fs-5">Components</label>
-            <button type="button" class="btn btn-sm btn-outline-primary rounded-0" (click)="addComponent()">Add
-              Component</button>
+    <div formArrayName="components" class="mt-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <label class="fw-bold fs-5">Components</label>
+        <button type="button" class="btn btn-outline-primary btn-sm" (click)="addComponent()">Add Component</button>
+      </div>
+
+      <div *ngFor="let comp of components.controls; let i = index" [formGroupName]="i">
+        <div class="row mb-3 g-2">
+          <div class="col-md-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Component *</mat-label>
+              <mat-select formControlName="componentId" required>
+                <mat-option *ngFor="let c of availableComponents" [value]="c.id">
+                  {{ c.componentName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
 
-          <div style="max-height: 300px; overflow-y: auto;">
-            <table mat-table [dataSource]="components" class="w-100 mat-elevation-z2 compact-table mt-4">
-              <ng-container matColumnDef="componentName">
-                <th mat-header-cell *matHeaderCellDef>Component</th>
-                <td mat-cell *matCellDef="let component; let i = index">
-                  <mat-form-field appearance="outline" class="w-100 table-bordered">
-                    <mat-label>Component</mat-label>
-                    <mat-select [(ngModel)]="component.componentId" [name]="'componentId' + i">
-                      <mat-option *ngFor="let comp of availableComponents" [value]="comp.id">
-                        {{ comp.componentName }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </td>
-              </ng-container>
+          <!-- <div class="col-md-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>WT%</mat-label>
+              <input matInput type="number" formControlName="wtPercentage" />
+            </mat-form-field>
+          </div>
 
-              <!-- WT% -->
-              <ng-container matColumnDef="wtPercentage">
-                <th mat-header-cell *matHeaderCellDef>WT%</th>
-                <td mat-cell *matCellDef="let component; let i = index">
-                  <mat-form-field appearance="outline">
-                    <input matInput type="number" [(ngModel)]="component.wtPercentage" [name]="'wtPercentage' + i">
-                  </mat-form-field>
-                </td>
-              </ng-container>
+          <div class="col-md-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>VOL%</mat-label>
+              <input matInput type="number" formControlName="volPercentage" />
+            </mat-form-field>
+          </div> -->
 
-              <!-- VOL% -->
-              <ng-container matColumnDef="volPercentage">
-                <th mat-header-cell *matHeaderCellDef>VOL%</th>
-                <td mat-cell *matCellDef="let component; let i = index">
-                  <mat-form-field appearance="outline">
-                    <input matInput type="number" [(ngModel)]="component.volPercentage" [name]="'volPercentage' + i">
-                  </mat-form-field>
-                </td>
-              </ng-container>
+          <div class="col-md-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>WT%</mat-label>
+              <input matInput type="number" formControlName="wtPercentage" />
+              <mat-error *ngIf="comp.get('wtPercentage')?.hasError('required')">
+                WT% is required
+              </mat-error>
+              <mat-error *ngIf="comp.get('wtPercentage')?.hasError('percentageRange')">
+                WT% must be between 0 and 100
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-              <!-- Density -->
-              <ng-container matColumnDef="density">
-                <th mat-header-cell *matHeaderCellDef>Density</th>
-                <td mat-cell *matCellDef="let component; let i = index">
-                  <mat-form-field appearance="outline">
-                    <input matInput type="number" [(ngModel)]="component.density" [name]="'density' + i">
-                  </mat-form-field>
-                </td>
-              </ng-container>
+          <!-- VOL% Field -->
+          <div class="col-md-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>VOL%</mat-label>
+              <input matInput type="number" formControlName="volPercentage" />
+              <mat-error *ngIf="comp.get('volPercentage')?.hasError('required')">
+                VOL% is required
+              </mat-error>
+              <mat-error *ngIf="comp.get('volPercentage')?.hasError('percentageRange')">
+                VOL% must be between 0 and 100
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-              <ng-container matColumnDef="type">
-                <th mat-header-cell *matHeaderCellDef>Type</th>
-                <td mat-cell *matCellDef="let component; let i = index">
-                  <mat-form-field appearance="outline">
-                    <mat-select [(ngModel)]="component.type">
-                      <mat-option *ngFor="let type of componentTypes" [value]="type.type">
-                        {{ type.type }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </td>
-              </ng-container>
+          <div class="col-md-1">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Density</mat-label>
+              <input matInput type="number" formControlName="density" />
+            </mat-form-field>
+          </div>
 
+          <div class="col-md-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="type">
+                <mat-option *ngFor="let type of componentTypes" [value]="type.type">
+                  {{ type.type }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-              <!-- MP -->
-              <ng-container matColumnDef="mp">
-                <th mat-header-cell *matHeaderCellDef>MP</th>
-                <td mat-cell *matCellDef="let component; let i = index">
-                  <mat-checkbox [(ngModel)]="component.mp" [name]="'mp' + i"></mat-checkbox>
-                </td>
-              </ng-container>
+          <div class="col-md-2 d-flex align-items-center">
+            <mat-checkbox formControlName="mp">MP</mat-checkbox>
+            <mat-checkbox formControlName="mf" class="ms-2">MF</mat-checkbox>
+          </div>
 
-              <!-- MF -->
-              <ng-container matColumnDef="mf">
-                <th mat-header-cell *matHeaderCellDef>MF</th>
-                <td mat-cell *matCellDef="let component; let i = index">
-                  <mat-checkbox [(ngModel)]="component.mf" [name]="'mf' + i"></mat-checkbox>
-                </td>
-              </ng-container>
-
-              <!-- Actions (Delete Button) -->
-              <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef>Actions</th>
-                <td mat-cell *matCellDef="let component; let i = index">
-                  <button mat-icon-button color="warn" (click)="deleteComponent(i)" matTooltip="Delete">
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-            </table>
+          <div class="col-md-1 d-flex align-items-center justify-content-center">
+            <button mat-icon-button color="warn" (click)="deleteComponent(i)" type="button"
+              aria-label="Delete component">
+              <mat-icon>delete</mat-icon>
+            </button>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="text-end mt-4">
+    <div class="mt-4 d-flex justify-content-end gap-2">
       <button mat-raised-button type="submit" color="primary" [disabled]="!recipeForm.valid">Submit</button>
       <button mat-stroked-button type="button" color="warn" (click)="onCancel()">Cancel</button>
     </div>

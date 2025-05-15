@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,AfterViewInit  } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -33,7 +33,7 @@ import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
   ],
   templateUrl: './get-all-additives.component.html',
   styleUrls: ['./get-all-additives.component.css']})
-export class GetAllAdditivesComponent implements OnInit {
+export class GetAllAdditivesComponent implements OnInit,AfterViewInit  {
   displayedColumns: string[] = [
     'additiveName',
     'actions'
@@ -53,21 +53,41 @@ export class GetAllAdditivesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllAdditivesData();
+  
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'additiveName':
+          return item.additiveName?.toLowerCase() || '';
+        default:
+          return (item as any)[property];
+      }
+    };
   }
 
   getAllAdditivesData() {
     this.getAllAdditivesService.getAllAdditives().subscribe((data) => {
       this.dataSource.data = data;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+   
     });
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
+  
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+     this.dataSource.filterPredicate = (data, filter: string) => {
+      return data.additiveName.toLowerCase().includes(filter);
+    };
+  this.dataSource.filter=filterValue
+  }
+  
+  
 
 
 
@@ -83,7 +103,7 @@ export class GetAllAdditivesComponent implements OnInit {
     
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          this.toaster.success(' Added successfully');
+          this.toaster.success(' Added successfully','Success');
 
           this.getAllAdditivesData();  
         }
@@ -101,7 +121,7 @@ export class GetAllAdditivesComponent implements OnInit {
       console.log('Editing additives:', additive);
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          this.toaster.success('Updated successfully');
+          this.toaster.success('Updated successfully','Sucess');
 
           this.getAllAdditivesData(); 
         }
@@ -122,8 +142,9 @@ export class GetAllAdditivesComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result === true) {
             this.dataSource.data = this.dataSource.data.filter(additive => additive.id !== additiveId);
-    
-          this.getAllAdditivesService.deleteAdditives(additiveId).subscribe(
+            const userId=Number(localStorage.getItem('UserId'))
+
+          this.getAllAdditivesService.deleteAdditives(additiveId,userId).subscribe(
             (response) => {
               console.log('Additive deleted successfully:', response);
               this.toaster.success(' deleted successfully');

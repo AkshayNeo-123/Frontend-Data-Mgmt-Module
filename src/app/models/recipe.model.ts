@@ -1,25 +1,65 @@
 // export interface Recipe {
-//   id: number;
-//   productName: string;
-//   //   comments: string;
-//   projectName?: number;
-//   //   createdDate: string;
-//   //   createdBy: string;
-//   //   modifiedDate?: string;
-//   //   modifiedBy: string;
-//   receipeId: number;  
+//   receipeId: number;
+//   productName?: string;
+//   projectId?: number;
+//   additiveId?: string;
 //   additiveName?: string;
+//   mainPolymerId?:number;
 //   polymerName?: string;
 //   composition?: string;
+//   projectName?: string;
+//   components?: ComponentRow[]; 
+//   comments?: string;
 // }
+
+// export interface ComponentRow {
+//   componentId: number | null;
+//   wtPercentage: number | null;
+//   volPercentage: number | null;
+//   density: number | null;
+//   type: string;
+//   mp: boolean;
+//   mf: boolean;
+// }
+
 
 export interface Recipe {
   receipeId: number;
-  productName: string;
-  projectNumber: string;
-  additiveName: string;
-  polymerName: string;
+  productName?: string;
+  projectId?: number;
+  additiveId?: string;
+  additiveName?: string;
+  mainPolymerId?: number;
+  polymerName?: string;
   composition?: string;
-  projectName?: string;
+  projectName?:string;
+  comments?:string;
+}
 
+export interface RecipeAndProject{
+  recipeId?:number;
+  projectNumber?:string,
+  description?:string
+  projectName?: string;
+  components?: ComponentRow[];
+  comments?: string;
+}
+
+export interface ComponentRow {
+  componentId: number | null;
+  wtPercentage: number | null;
+  volPercentage: number | null;
+  density: number | null;
+  type: string;
+  mp: boolean;
+  mf: boolean;
+}
+
+
+export interface PaginatedResult<T> {
+  items: T[];
+  totalCount: number;
+  totalPages: number;
+  page: number;
+  limit: number;
 }

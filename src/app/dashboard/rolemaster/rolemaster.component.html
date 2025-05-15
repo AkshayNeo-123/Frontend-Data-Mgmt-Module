@@ -2,8 +2,9 @@
     <h4 class="fw-bold mb-3">Role Master</h4>
   
     <!-- Add + Search -->
-    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-      <button mat-raised-button color="primary" (click)="openAddRoleDialog()">
+    <!-- <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap"> -->
+    <div class="d-flex justify-content-start align-items-center mb-3 flex-wrap">
+      <button class="mr-3 add-btn me-4" (click)="openAddRoleDialog()">
         <i class="fas fa-plus me-2"></i> Add Role
       </button>
   
@@ -17,28 +18,28 @@
     <div class="table-responsive">
       <table mat-table [dataSource]="dataSource" matSort class="table table-bordered table-striped table-hover">
         <!-- Role ID -->
-        <ng-container matColumnDef="roleId">
+        <!-- <ng-container matColumnDef="roleId">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Role ID</th>
           <td mat-cell *matCellDef="let role">{{ role.roleId }}</td>
-        </ng-container>
+        </ng-container> -->
   
         <!-- Role Name -->
         <ng-container matColumnDef="roleName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Role Name</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header >Roles</th>
           <td mat-cell *matCellDef="let role">{{ role.roleName }}</td>
         </ng-container>
   
         <!-- Description -->
-        <ng-container matColumnDef="description">
+        <!-- <ng-container matColumnDef="description">
           <th mat-header-cell *matHeaderCellDef>Description</th>
           <td mat-cell *matCellDef="let role">{{ role.description }}</td>
-        </ng-container>
+        </ng-container> -->
   
         <!-- Actions -->
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let role">
-            <i class="fas fa-edit me-3 action-icon text-warning" (click)="editRole(role)"></i>
+            <i class="fas fa-pencil-alt me-3 action-icon" (click)="editRole(role)"></i>
             <i class="fas fa-trash-alt action-icon text-danger" (click)="deleteRole(role.roleId)"></i>
           </td>
         </ng-container>

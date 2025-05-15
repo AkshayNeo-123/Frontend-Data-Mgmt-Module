@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RecipeService } from '../../services/recipe.service';
@@ -12,7 +11,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { AddRecipyComponent } from './add-recipy/add-recipy.component';
-
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 
@@ -30,13 +28,11 @@ import * as FileSaver from 'file-saver';
     MatInputModule,
     MatDialogModule,
     MatIconModule,
-    MatButtonModule
-  ]
+    MatButtonModule,
+  ],
 })
 export class RecipyComponent implements OnInit {
-
-  private readonly EXCEL_TYPE =
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+  private readonly EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 
   recipyList: Recipe[] = [];
 
@@ -48,18 +44,15 @@ export class RecipyComponent implements OnInit {
     'polymerName',
     'composition',
     'compounding',
-    'actions'
+    'actions',
   ];
 
   dataSource: MatTableDataSource<Recipe> = new MatTableDataSource<Recipe>();
 
-  @ViewChild(MatSort) sort: MatSort | null = null;
-  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(
-    private recipeService: RecipeService,
-    private dialog: MatDialog
-  ) {}
+  constructor(private recipeService: RecipeService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.loadRecipes();
@@ -68,19 +61,15 @@ export class RecipyComponent implements OnInit {
   loadRecipes(): void {
     this.recipeService.getAllRecipes().subscribe({
       next: (data) => {
-
-        const enrichedData: Recipe[] = data.map(recipe => ({
+        this.recipyList = data.map((recipe) => ({
           ...recipe,
-          // recipeNumber: recipe.receipeId,
-          composition: 'Polymer A: 60%, Additive B: 30%, Color C: 10%'
+          composition: 'Polymer A: 60%, Additive B: 30%, Color C: 10%', // placeholder
         }));
-
-        this.recipyList = data;
-        this.dataSource.data = data;
+        this.dataSource = new MatTableDataSource(this.recipyList);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       },
-      error: (err: any) => console.error('Error fetching recipes', err)
+      error: (err) => console.error('Error fetching recipes', err),
     });
   }
 
@@ -96,47 +85,46 @@ export class RecipyComponent implements OnInit {
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddRecipyComponent, {
       width: '90%',
-      maxWidth: '900px',
+      maxWidth: '1000px',
       disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.loadRecipes(); 
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.loadRecipes();
       }
     });
   }
 
   editRecipe(recipe: Recipe): void {
-    console.log('Edit recipe:', recipe);
-   
+    const dialogRef = this.dialog.open(AddRecipyComponent, {
+      width: '90%',
+      maxWidth: '1000px',
+      disableClose: true,
+      data: { recipe }, // pass recipe for edit
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.loadRecipes();
+      }
+    });
   }
 
   downloadCompoundingData(recipe: Recipe): void {
-    if (!recipe) {
-      console.error('No recipe provided for download.');
-      return;
-    }
-
-    const compoundingData = [
+    const worksheet = XLSX.utils.json_to_sheet([
       {
-        'Product Name': recipe.productName || 'N/A',
-        'Project Name': recipe.projectName || 'N/A',
-        'Additive': recipe.additiveName || 'N/A',
-        'Main Polymer': recipe.polymerName || 'N/A'
-      }
-    ];
+        ProductName: recipe.productName,
+        RecipeNumber: recipe.receipeId,
+        Additive: recipe.additiveName,
+        Polymer: recipe.polymerName,
+        Composition: recipe.composition,
+      },
+    ]);
 
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(compoundingData);
-    const workbook: XLSX.WorkBook = {
-      Sheets: { 'Compounding Data': worksheet },
-      SheetNames: ['Compounding Data']
-    };
-
-    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     const data: Blob = new Blob([excelBuffer], { type: this.EXCEL_TYPE });
-    FileSaver.saveAs(data, `Compounding_${recipe.productName || 'data'}.xlsx`);
+    FileSaver.saveAs(data, `${recipe.productName}_Compounding.xlsx`);
   }
 }
-
-

@@ -1,0 +1,51 @@
+<button class=" btn btn-danger pdf-download-btn" (click)="downloadPDF()">
+    <i class="fas fa-file-pdf"></i></button>
+
+<div id="pdf-content">
+<div *ngIf="rec" style="background-color: white; padding: 1.5rem; border: 1px solid #dee2e6; border-radius: 0.25rem; box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);">
+   
+   <!-- <p> <strong class="mb-4">Project Number</strong></p> -->
+  
+    <h2 class="text-primary mb-4">{{ rec.projectNumber }}</h2>
+  
+    <p>
+        <p><strong>Description:</strong></p>
+     
+      <p class="text-muted">{{ rec.description }}</p>   
+  
+    <p>
+      <!-- <strong>Recipe ID: </strong> -->
+      <span class="text-muted">{{ rec.recipeId }}</span>
+    </p>
+  
+    <!-- <div class="mt-4">
+      <a routerLink="/dashboard">
+        <button class="btn btn-secondary" (click)="onCancel()">Back to Dashboard</button>
+      </a>
+    </div> -->
+  
+    <!-- Hardcoded Properties Section -->
+    <div class="row mt-5">
+      <div class="col-md-4">
+        <h6> <strong>Temperature Properties</strong></h6>
+        <p>Melting Temp: <strong>250 °C</strong></p>
+        <p>Deflection Temp: <strong>150 °C</strong></p>
+      </div>
+      <div class="col-md-4">
+        <h6><strong> Properties</strong></h6>
+        <p>Tensile Modulus: <strong>700 MPa</strong></p>
+        <p>Charpy Impact Strength: <strong>105 kJ/m²</strong></p>
+      </div>
+      <div class="col-md-4">
+        <h6><strong>Other Info</strong></h6>
+        <p>Shore D Hardness: <strong>33</strong></p>
+        <p>Stress at Yield: <strong>700 MPa</strong></p>
+      </div>
+    </div>
+  
+   
+  </div>
+</div>
+<div class="modal-footer mt-4 ">
+    <button type="button" class="btn mat-raised" (click)="onCancel()" data-bs-dismiss="modal">Close</button>
+  </div>

@@ -5,36 +5,32 @@ export interface Contact {
     addressLine1: string;
     addressLine2?: string;
     
-    city: string;
-    state: string;
+    cityId: number;
+    cities:Cities;
+    stateId: number;
+    states:States;
     zip: number;
     email: string;
     phone?: string;
-    // isDelete?:boolean;
+    isDelete?:boolean;
      createdBy? :number;
- updatedBy? :number;
+ modifiedBy? :number;
 createdDate? :Date;
-updatedDate? :Date;
+modifiedDate? :Date;
 }
 
-// export interface ContactDTO{
-//     contactId: number;
+export interface States{
+    stateId?:number;
+    stateName:string;
 
-//     contactName: string;
-//     contactType: ContactTyps;
-//     addressLine1: string;
-//     addressLine2?: string;
-//     city: string;
-//     state: string;
-//     zip: number;
-//     email: string;
-//     phone?: string;
-//     // createdBy :number;
-//     // createdDate :Date;
+}
 
-
-// }
-
+export interface Cities{
+    cityId?:number;
+    cityName:string;
+    stateId:number;
+    // states:States;
+}
 export enum ContactTyps{
     Manufacturer=1,
     Supplier,
@@ -44,33 +40,19 @@ export enum ContactTyps{
 export interface Additives{
     id?: number;
     additiveName: string;
-    createdBy: number | null;
-    createdDate: Date;
-    modifiedBy: number | null;
-    modifiedDate: Date ;
+    createdBy?: number;
+    createdDate?: Date;
+    modifiedBy?: number;
+    modifiedDate?: Date ;
     }
-
-    // export interface AddAdditives{
-    //     id: number;
-    //     additiveName: string;
-    //     // createdBy: number | null;
-    //     // createdDate: Date;
-    //     // modifiedBy: string | null;
-    //     // modifiedDate: string | null;
-    //     }
-
-        // export interface UpdateAdditive{
-
-        //     id: number;
-        //     additiveName: string;
-            
-        //     // modifiedBy: number | null;
-        //     // modifiedDate: Date;
-
-        // }
-
-
-        export interface MainPolymer{
+   
+export interface MainPolymer{
             id?:number;
             polymerName:string;
+            createdBy?: number;
+            createdDate?: Date;
+            modifiedBy?: number;
+            modifiedDate?: Date ;
         }
+
+       

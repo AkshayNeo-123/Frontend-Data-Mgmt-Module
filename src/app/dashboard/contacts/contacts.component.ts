@@ -56,7 +56,21 @@ export class ContactsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'contactName':
+          return item.contactName?.toLowerCase() || '';
+          case 'contactType':
+            return ContactTyps[item.contactType]?.toLowerCase() || '';        default:
+          return (item as any)[property];
+      }
+    };
   }
+  getContactTypeName(type: number): string {
+    return ContactTyps[type];
+  }
+
 
   fetchContacts(): void {
     this.contactService.getAllContacts().subscribe({
@@ -70,11 +84,15 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  applyFilter(event: Event): void {
+  applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.dataSource.filter = filterValue;
+     this.dataSource.filterPredicate = (data, filter: string) => {
+      return data.contactName.toLowerCase().includes(filter);
+    };
+  this.dataSource.filter=filterValue
   }
 
+  
   openAddContactDialog(contact?:Contact) {
     console.log('Data passed to dialog:', contact);
       const dialogRef = this.dialog.open(AddcontactsComponent, {
@@ -87,7 +105,7 @@ export class ContactsComponent implements OnInit, AfterViewInit {
       dialogRef.afterClosed().subscribe(result => {
 
         if (result) {
-                  this.toastr.success('Added successfully');
+                  this.toastr.success('Added successfully','Success');
 
           this.fetchContacts();  
         }
@@ -107,7 +125,7 @@ export class ContactsComponent implements OnInit, AfterViewInit {
         
 
         if (result) {
-                  this.toastr.success('Updated successfully');
+                  this.toastr.success('Updated successfully','Success');
                
                 
           this.fetchContacts(); 
@@ -129,7 +147,8 @@ export class ContactsComponent implements OnInit, AfterViewInit {
           this.dataSource.data = this.dataSource.data.filter(material => material.contactId !== contactId);
     
           console.log('Deleting Contact with ID:', contactId);
-          this.contactService.deleteContact(contactId).subscribe(
+          const userId=Number(localStorage.getItem('UserId'))
+          this.contactService.deleteContact(contactId,userId).subscribe(
             (response) => {
               console.log('Contact deleted successfully:', response);
               this.toastr.success('deleted successfully');

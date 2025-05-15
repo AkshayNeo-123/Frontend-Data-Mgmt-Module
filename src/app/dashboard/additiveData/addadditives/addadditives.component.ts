@@ -47,6 +47,15 @@ export class AddAdditiveComponent implements OnInit {
        });
   }
   onSubmit(): void {
+    
+    if (this.additiveForm.invalid) {
+      this.toastr.error(
+        'Please fill all required fields.',
+        'Error',
+        { timeOut: 5000 }
+      );
+      return; 
+    }
     if (this.additiveForm.valid) {
       const userJson = localStorage.getItem('user');
       const user = userJson ? JSON.parse(userJson) : null;
@@ -56,12 +65,17 @@ export class AddAdditiveComponent implements OnInit {
         return;
       }
 
-      
+      const addUser=localStorage.getItem("UserId");
+
       const contactPayload = {
         ...this.additiveForm.value,
-        createdBy: user.userId,
-        createdDate: new Date().toISOString(),
+        ...(this.isEditMode
+          ? { modifiedBy: addUser, modifiedDate: new Date().toISOString() }
+          : { createdBy: addUser, createdDate: new Date().toISOString(), modifiedDate: new Date().toISOString() }
+        )
       };
+
+      console.log("added dat",contactPayload)
 
       if (this.isEditMode) {
         console.log(this.data.id,contactPayload)

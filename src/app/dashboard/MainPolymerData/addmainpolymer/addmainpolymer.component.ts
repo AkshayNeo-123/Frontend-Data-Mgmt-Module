@@ -44,12 +44,23 @@ export class AddmainpolymerComponent {
       id: [this.data?.id || null],  
       polymerName: [this.data?.polymerName || '', Validators.required],  
     });
+
+    
   }
 
   onSubmit(): void {
+
+    if (this. mainPolymerForm.invalid) {
+      this.toastr.error(
+        'Please fill all required fields.',
+        'Error',
+        { timeOut: 5000 }
+      );
+      return; 
+    }
     if (this.mainPolymerForm.valid) {
-      const userJson = localStorage.getItem('user');
-      const user = userJson ? JSON.parse(userJson) : null;
+      const adduserId = localStorage.getItem('UserId');
+      const user = adduserId ? JSON.parse(adduserId) : null;
 
       if (!user) {
         this.toastr.error('User not found. Please log in again.', 'Error');
@@ -58,8 +69,10 @@ export class AddmainpolymerComponent {
 
       const polymerPayload = {
         ...this.mainPolymerForm.value,
-        createdBy: user.userId,
-        createdDate: new Date().toISOString(),
+        ...(this.isEditMode
+          ? { modifiedBy: adduserId, modifiedDate: new Date().toISOString() }
+          : { createdBy: adduserId, createdDate: new Date().toISOString(), modifiedDate: new Date().toISOString() }
+        )
       };
 
       if (this.isEditMode) {
