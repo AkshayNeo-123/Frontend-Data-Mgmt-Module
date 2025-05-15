@@ -255,8 +255,9 @@ onViewChange(menuId: string): void {
           this.roleForm.reset();
           this.dialogRef.close(true);
         },
-        error: () => {
-          this.snackBar.open('Failed to add role.', 'Close', { duration: 3000 });
+        error: (error) => {
+          const errorMsg = error?.error?.message || 'Failed to add role.';
+          this.snackBar.open(errorMsg, 'Close', { duration: 3000 });
           // this.toastr.error(
           //   'Failed to add role.' ,
           //   'Error',{
