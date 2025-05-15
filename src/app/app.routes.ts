@@ -5,7 +5,7 @@ import { AddcontactsComponent } from './dashboard/contactsData/addcontacts/addco
 import { AllMainPolymersComponent } from './dashboard/MainPolymerData/all-main-polymers/all-main-polymers.component';
 import { GetAdditivebyidComponent } from './dashboard/additiveData/get-additivebyid/get-additivebyid.component';
 import { ManageusersComponent } from './dashboard/manageusers/manageusers.component';
-import { UpdateInjectionMoldingComponent } from './dashboard/update-injection-molding/update-injection-molding.component';
+import { RecipedetailsComponent } from './dashboard/recipedetails/recipedetails.component';
 
 export const routes: Routes = [
   {
@@ -66,19 +66,7 @@ export const routes: Routes = [
         pathMatch: 'full',
          // Ensures that this is the default path when navigating to 'contacts'
       },
-      {
-        path: 'compounding',
-        loadComponent: () => import('./dashboard/add-compounding/add-compounding.component').then(m => m.AddCompoundingComponent),
-      },
-      {
-        path: 'updateinjectionMolding',
-        loadComponent: () => import('./dashboard/update-injection-molding/update-injection-molding.component').then(m => m.UpdateInjectionMoldingComponent),
-      },
 
-      {
-        path: 'updatecompounding',
-        loadComponent: () => import('./dashboard/update-compounding/update-compounding.component').then(m => m.UpdateCompoundingComponent),
-      },
       
 
       // Additive Routes
@@ -97,13 +85,25 @@ export const routes: Routes = [
       //   path: 'manageusers',
       //   component: ManageusersComponent
       // }
+      {
+        path: 'recipedetails/:id', 
+        component: RecipedetailsComponent,
+      },
       
     ]
   },
-  
+  // {
+  //   path:"app-recipedetails",
+  //   component:RecipedetailsComponent
+  // },
+  {
+    path: 'app-recipedetails',
+    redirectTo: '/',
+    pathMatch: 'full',
+  },
   {
     path: '',
-    redirectTo: 'auth/login',
+    redirectTo: 'dashboard/recipedetails',
     pathMatch: 'full',
   },
   {
@@ -113,9 +113,5 @@ export const routes: Routes = [
   {
     path: 'GetAllProject',
     component: ProjectComponent
-  },
-  {
-    path: 'updaetInjection',
-    component: UpdateInjectionMoldingComponent
-  },
+  }
 ];

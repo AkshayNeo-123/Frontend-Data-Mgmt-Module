@@ -4,7 +4,7 @@
 
   <div mat-dialog-content>
     <div>
-    <div class="row" style="margin-top: 20px;">
+    <div class="row">
       <!-- <mat-label> Name</mat-label> -->
 
       <div class="half-width" style="padding: 20px">
@@ -22,7 +22,7 @@
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Contact Name</mat-label>
-        <input matInput formControlName="contactName" placeholder="Enter contact name" />
+        <input matInput formControlName="contactName" placeholder="Enter contact name" (keypress)="allowOnlyLetters($event)" maxlength="49"/>
       </mat-form-field>
     </div>
 
@@ -32,46 +32,89 @@
       <mat-form-field appearance="outline" class="half-width">
         <mat-label> Line 1</mat-label>
 
-        <input matInput formControlName="addressLine1" placeholder="Enter address line 1" />
+        <input matInput formControlName="addressLine1" placeholder="Enter address line 1" maxlength="49"/>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label> Line 2</mat-label>
-        <input matInput formControlName="addressLine2" placeholder="Enter address line 2" />
+        <input matInput formControlName="addressLine2" placeholder="Enter address line 2"  maxlength="49"/>
       </mat-form-field>
     </div>
 
-    <div class="row">
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>City</mat-label>
-        <input matInput formControlName="city" placeholder="Enter city" />
-      </mat-form-field>
-
-    
-
-      <mat-form-field  appearance="outline" class="half-width" >
+    <div class="row" >
+      <!-- <mat-form-field appearance="outline">
         <mat-label>State</mat-label>
-        <mat-select  matNativeControl formControlName="state" panelClass="dropdown-panel">
-          <mat-option [value]="0">--- Select ---</mat-option>
+        <mat-select formControlName="state" (selectionChange)="onStateChange($event.value)">
+          <mat-option value="">--- Select ---</mat-option>
+
           <mat-option *ngFor="let state of states" [value]="state.value">
             {{ state.viewValue }}
           </mat-option>
         </mat-select>
-        
       </mat-form-field>
       
+      <mat-form-field appearance="outline">
+        <mat-label>City</mat-label>
+        <mat-select formControlName="city" [disabled]="!filteredCities.length">
+          <mat-option value="">--- Select ---</mat-option>
+
+          <mat-option *ngFor="let city of filteredCities" [value]="city">
+            {{ city }}
+          </mat-option>
+          <mat-option value="other">Other</mat-option>
+       
+        </mat-select>
+      </mat-form-field>       -->
+      <mat-form-field appearance="outline">
+    <mat-label>State</mat-label>
+    <mat-select formControlName="stateId">
+      <mat-option value="">--- Select ---</mat-option>
+
+      <mat-option *ngFor="let state of states"  [value]="state.stateId">{{ state.statesName }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>City</mat-label>
+    <mat-select formControlName="cityId" (selectionChange)="onCityChange()">
+      <mat-option value="">--- Select ---</mat-option>
+
+      <mat-option *ngFor="let city of cities" [value]="city.cityId">{{ city.cityName }}</mat-option>
+      <!-- <mat-option *ngIf="cities.length === 0" [disabled]="!contactForm.get('stateId')?.value"  value="other">Other</mat-option> -->
+
+      <mat-option [value]="'Other'" [disabled]="!cities.length">Other</mat-option>
       
+    
+    </mat-select>
+  </mat-form-field>
+  <div *ngIf="isOtherCitySelected">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>City Name</mat-label>
+      <input matInput formControlName="newCityName" placeholder="Enter new city name" (keypress)="allowOnlyLetters($event)"/>
+      <mat-error *ngIf="contactForm.get('newCityName')?.hasError('required')">
+        New City Name is required when 'Other' is selected.
+      </mat-error>
+    </mat-form-field>
+  </div>
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Zip</mat-label>
-        <input matInput  formControlName="zip" placeholder="Enter zip code" />
+        <input matInput  formControlName="zip" placeholder="Enter zip code" maxlength="6"  (keypress)="allowOnlyNumber($event)" />
+        <mat-error *ngIf="contactForm.get('zip')?.hasError('duplicate')">
+          This ZIP code is already in use.
+        </mat-error>
       </mat-form-field>
+
+      
     </div>
 
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Phone</mat-label>
-        <input matInput type="tel" formControlName="phone" placeholder="Enter phone" />
+        <input matInput type="tel" formControlName="phone" placeholder="Enter phone" maxlength="10"  (keypress)="allowOnlyNumber($event)" />
+        <mat-error *ngIf="contactForm.get('phone')?.hasError('duplicate')">
+          This phone number is already in use.
+        </mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Email</mat-label>
@@ -82,11 +125,11 @@
     </div>
   </div>
 
-  <mat-dialog-actions align="end">
-    <button mat-button class="primary-button" type="submit">
+  <mat-dialog-actions align="end" class="buttons">
+    <button mat-raised-button class="primary" type="submit">
       {{ isEditMode ? 'Update' : 'Save' }}
     </button>
-    <button mat-button type="button" (click)="onCancel()">Cancel</button>
-
+    <button  mat-raised-button type="button" (click)="onCancel()">Cancel</button>
+    
   </mat-dialog-actions>
 </form>

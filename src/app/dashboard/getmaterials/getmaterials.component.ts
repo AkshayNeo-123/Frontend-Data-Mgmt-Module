@@ -29,7 +29,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    ConfirmDialogComponent,
     MatTooltipModule
 
   ],

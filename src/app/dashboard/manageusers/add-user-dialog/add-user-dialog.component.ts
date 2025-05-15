@@ -40,7 +40,9 @@
       confirmPasswordHash: '',
       phone: '',
       roleId: '',
-      status: 'Active'
+      status: 'Active',
+      createdBy: 0,
+      modifiedBy: 0
     };
     get passwordsMatch(): boolean {
 
@@ -180,6 +182,9 @@
         return;
       }
     
+      const uId=Number(localStorage.getItem('UserId'));
+      this.newUser.createdBy=uId;
+
       this.userService.addUser(this.newUser).subscribe({
         next: (res) => {
           // alert('Saved successfully!');

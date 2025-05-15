@@ -23,7 +23,7 @@ export class MainpolymerserviceService {
     return this.http.put<MainPolymer>(`${this.baseUrl}/${id}`, contact);
   }
 
-  deletePolymer(id: number): Observable<any> {
-    return this.http.delete<MainPolymer>(`${this.baseUrl}/${id}`);
+  deletePolymer(id: number,deletedBy:number): Observable<any> {
+    return this.http.delete<MainPolymer>(`${this.baseUrl}/${id}?deletedBy=${deletedBy}`);
   }
 }

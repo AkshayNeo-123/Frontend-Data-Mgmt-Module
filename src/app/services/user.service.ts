@@ -14,8 +14,8 @@ export class UserService {
     return this.http.get<any[]>(this.baseUrl);
   }
 
-  deleteUser(id: number){
-    return this.http.delete(`https://localhost:7030/api/User/${id}`);
+  deleteUser(id: number,deletedBy:number){
+    return this.http.delete(`https://localhost:7030/api/User/${id}?deletedBy=${deletedBy}`);
   }
 
   addUser(user: any): Observable<any> {

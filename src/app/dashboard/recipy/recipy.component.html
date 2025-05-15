@@ -1,10 +1,14 @@
-<div class="container">
-  <h4 class="fw-bold">Recipe Table</h4>
+<div class="container mb-5">
+  <h4 class="fw-bold">Recipe</h4>
 
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <button mat-raised-button class="mr-3 add-material-btn me-4" (click)="openAddDialog()">
+    <button class="mr-3 add-material-btn me-4" (click)="openAddDialog()">
       <i class="fas fa-plus me-2"></i> Add New Recipe
     </button>
+    <!-- <div class="d-flex justify-content-start align-items-center mb-3 flex-wrap">      
+      <button class="mr-3 add-user-btn me-4" (click)="openAddUserDialog()">
+        <i class="fas fa-plus me-2"></i> Add New User
+      </button> -->
 
     <mat-form-field appearance="outline">
       <mat-label>Filter</mat-label>
@@ -14,7 +18,14 @@
 
 
   <table mat-table [dataSource]="dataSource" matSort
-    class="styled-table table table-bordered table-striped table-hover mat-elevation-z8">
+    class="styled-table table table-bordered table-striped table-hover mat-elevation-z8 ">
+
+
+
+    <ng-container matColumnDef="recipeId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> RecipeId </th>
+      <td mat-cell *matCellDef="let recipe"> {{recipe.recipeId}} </td>
+    </ng-container>
 
     <ng-container matColumnDef="productName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
@@ -25,16 +36,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Recipe Number </th>
       <td mat-cell *matCellDef="let recipe"> {{recipe.receipeId}} </td>
     </ng-container>
-<!-- 
-    <ng-container matColumnDef="projectName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Project Id </th>
-      <td mat-cell *matCellDef="let recipe"> {{recipe.project.projectNumber}} </td>
-    </ng-container>
 
-    <ng-container matColumnDef="additiveName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Additive </th>
-      <td mat-cell *matCellDef="let recipe"> {{recipe.additive.additiveName}} </td>
-    </ng-container> -->
 
     <ng-container matColumnDef="composition">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Composition </th>
@@ -44,25 +46,19 @@
     </ng-container>
 
     <ng-container matColumnDef="projectName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Project Id </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Project Number </th>
       <td mat-cell *matCellDef="let recipe"> {{recipe.projectNumber}} </td>
     </ng-container>
-    
+
     <ng-container matColumnDef="additiveName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Additive </th>
       <td mat-cell *matCellDef="let recipe"> {{recipe.additiveName}} </td>
     </ng-container>
-    
+
     <ng-container matColumnDef="polymerName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Main Polymer </th>
       <td mat-cell *matCellDef="let recipe"> {{recipe.polymerName}} </td>
     </ng-container>
-    
-
-    <!-- <ng-container matColumnDef="polymerName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Main Polymer </th>
-      <td mat-cell *matCellDef="let recipe"> {{recipe.mainPolymer.polymerName}} </td>
-    </ng-container> -->
 
     <ng-container matColumnDef="compounding">
       <th mat-header-cell *matHeaderCellDef> Compounding Data </th>
@@ -72,13 +68,22 @@
         </button>
       </td>
     </ng-container>
-    
 
-    <ng-container matColumnDef="actions">
+
+    <!-- <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let element">
         <i class="fas fa-pencil-alt me-3 action-icon"></i>
         <i class="fas fa-trash-alt action-icon"></i>
+      </td>
+    </ng-container> -->
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element">
+        <!-- <div></div> -->
+        <i class="fas fa-pencil-alt action-icon me-2"  (click)="editRecipe(element)"></i>
+        <i class="fas fa-trash-alt action-icon " (click)="deleteContactsDetails(element.receipeId)"></i>
       </td>
     </ng-container>
 

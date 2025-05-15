@@ -219,7 +219,9 @@ export class EditUserDialogComponent implements OnInit{
       return;
     }
   
-    
+    const uId=Number(localStorage.getItem('UserId'));
+    this.user.modifiedBy  =uId;
+
     this.userService.updateUser(this.user.userId, this.user).subscribe({
       next: () => {
         this.toastr.success('Updated successfully!', 'Success', { timeOut: 5000 });

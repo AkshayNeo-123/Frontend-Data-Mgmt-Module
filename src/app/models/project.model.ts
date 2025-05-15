@@ -52,4 +52,29 @@ export interface Project {
 
 
   }
+
+
+export interface Component {
+  componentId: number;
+  wtPercent: number | null;
+  valPercent: number | null;
+  density: number | null;
+  mp: boolean;
+  mf: boolean;
+  typeId: number | null;
+}
+export interface Recipe {
+  productName: string;
+  comments: string;
+  projectId: number;
+  additiveId: number;
+  mainPolymerId: number;
+}
+
+
+export interface RecipeAndComponent {
+  recipe: Recipe;
+  component: Component[];
+}
+
   
