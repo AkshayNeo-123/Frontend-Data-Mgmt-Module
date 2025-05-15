@@ -25,7 +25,7 @@
     <div class="col-4">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="startPicker" formControlName="date" />
+        <input matInput [matDatepicker]="startPicker" formControlName="date" (dateChange)="formatDate($event)"/>
         <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
         <mat-datepicker #startPicker></mat-datepicker>
       </mat-form-field>

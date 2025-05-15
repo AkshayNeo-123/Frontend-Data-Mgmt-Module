@@ -22,7 +22,7 @@
     <div class="col-4">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="startPicker" formControlName="date" />
+        <input matInput [matDatepicker]="startPicker" formControlName="date" (dateChange)="formatDate($event)" />
         <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
         <mat-datepicker #startPicker></mat-datepicker>
       </mat-form-field>
@@ -32,7 +32,7 @@
     <div class="col-4">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Note</mat-label>
-        <input matInput formControlName="note" maxlength="229"/>
+        <input matInput formControlName="note" maxlength="229" />
       </mat-form-field>
     </div>
 
@@ -76,7 +76,7 @@
     <div class="col-4">
       <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
         <mat-label>Temperature (°C)</mat-label>
-        <input type="number" matInput formControlName="temperature"  min="-100" max="300"/>
+        <input type="number" matInput formControlName="temperature" min="-100" max="300" />
       </mat-form-field>
     </div>
 
@@ -87,18 +87,18 @@
       </mat-form-field>
     </div>
 
-     <div class="col-4" style="margin-bottom: 40px;">
+    <div class="col-4" style="margin-bottom: 40px;">
       <mat-checkbox formControlName="notMeasured">Not Measured</mat-checkbox>
     </div>
 
     <div class="col-4">
       <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
         <mat-label>Residual M. %</mat-label>
-        <input type="number" matInput formControlName="residualMoisture"  min="0"  max="100"/>
+        <input type="number" matInput formControlName="residualMoisture" min="0" max="100" />
       </mat-form-field>
     </div>
 
-   
+
   </div>
 
   <hr class="my-3" />
@@ -136,7 +136,7 @@
           </td>
 
           <td>
-            <input type="number" class="form-control" formControlName="share" min="0" max="100"/>
+            <input type="number" class="form-control" formControlName="share" min="0" max="100" />
           </td>
           <td><mat-checkbox type="checkbox" formControlName="MF" /></td>
           <td><mat-checkbox type="checkbox" formControlName="SecondF" /></td>
@@ -183,11 +183,17 @@
     </div>
 
 
-    <div class="col-4" style="margin-bottom: 40px;">
-      <label for="screwConfig" class="form-label">Upload Screwconfig</label>
-      <input type="file" class="form-control w-auto" id="screwConfig"
-        (change)="onFileSelected($event, 'upload_Screwconfig')">
-    </div>
+<div class="col-4" style="margin-bottom: 40px;">
+  <label for="screwConfig" class="form-label">Upload Screwconfig</label>
+    <input type="file" class="form-control w-auto" id="screwConfig"
+    (change)="onFileSelected($event, 'upload_Screwconfig')">
+ <div *ngIf="selectedFileNames['upload_Screwconfig']" class="mt-2 text-secondary">
+
+</div>
+
+</div>
+
+
 
     <div class="mb-2">
       <label class="form-label">Temperature Profile</label>
@@ -196,44 +202,56 @@
       </div>
     </div>
 
-      <div class="d-flex flex-wrap gap-2 mt-2" style="margin-left: 30px;">
-  <mat-form-field appearance="outline" style="width: 80px;">
-    <input matInput type="number" class="text-center" placeholder="100" formControlName="temp1" min="-100" max="100"/>
-  </mat-form-field>
-  <mat-form-field appearance="outline" style="width: 80px;">
-    <input matInput type="number" class="text-center" placeholder="200" formControlName="temp2" min="-100" max="200"/>
-  </mat-form-field>
-  <mat-form-field appearance="outline" style="width: 80px;">
-    <input matInput type="number" class="text-center" placeholder="200" formControlName="temp3" min="-100" max="200"/>
-  </mat-form-field>
-  <mat-form-field appearance="outline" style="width: 80px;">
-    <input matInput type="number" class="text-center"  placeholder="200" formControlName="temp4" min="-100" max="200"/>
-  </mat-form-field>
-  <mat-form-field appearance="outline"style="width: 80px;">
-    <input matInput type="number" class="text-center"  placeholder="200" formControlName="temp5" min="-100" max="200"/>
-  </mat-form-field>
-  <mat-form-field appearance="outline"style="width: 80px;">
-    <input matInput type="number" class="text-center"  placeholder="100" formControlName="temp6" min="-100" max="100"/>
-  </mat-form-field>
-  <mat-form-field appearance="outline"style="width: 80px;">
-    <input matInput type="number" class="text-center"  placeholder="200" formControlName="temp7" min="-100" max="200"/>
-  </mat-form-field>
-  <mat-form-field appearance="outline"style="width: 80px;">
-    <input matInput type="number" class="text-center"  placeholder="200" formControlName="temp8" min="-100" max="200"/>
-  </mat-form-field>
-  <mat-form-field appearance="outline" style="width: 80px;">
-    <input matInput type="number" class="text-center"  placeholder="230" formControlName="temp9" min="-100" max="230"/>
-  </mat-form-field>
-  <mat-form-field appearance="outline" style="width: 80px;">
-    <input matInput type="number" class="text-center"  placeholder="230" formControlName="temp10" min="-100" max="230"/>
-  </mat-form-field>
-  <mat-form-field appearance="outline" style="width: 80px;">
-    <input matInput type="number" class="text-center"  placeholder="230" formControlName="temp11" min="-100" max="230"/>
-  </mat-form-field>
-  <mat-form-field appearance="outline"style="width: 80px;">
-    <input matInput type="number" class="text-center"  placeholder="230" formControlName="temp12" min="-100" max="230"/>
-  </mat-form-field>
-</div>
+    <div class="d-flex flex-wrap gap-2 mt-2" style="margin-left: 30px;">
+      <mat-form-field appearance="outline" style="width: 80px;">
+        <input matInput type="number" class="text-center" placeholder="100" formControlName="temp1" min="-100"
+          max="100" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width: 80px;">
+        <input matInput type="number" class="text-center" placeholder="200" formControlName="temp2" min="-100"
+          max="200" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width: 80px;">
+        <input matInput type="number" class="text-center" placeholder="200" formControlName="temp3" min="-100"
+          max="200" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width: 80px;">
+        <input matInput type="number" class="text-center" placeholder="200" formControlName="temp4" min="-100"
+          max="200" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width: 80px;">
+        <input matInput type="number" class="text-center" placeholder="200" formControlName="temp5" min="-100"
+          max="200" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width: 80px;">
+        <input matInput type="number" class="text-center" placeholder="100" formControlName="temp6" min="-100"
+          max="100" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width: 80px;">
+        <input matInput type="number" class="text-center" placeholder="200" formControlName="temp7" min="-100"
+          max="200" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width: 80px;">
+        <input matInput type="number" class="text-center" placeholder="200" formControlName="temp8" min="-100"
+          max="200" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width: 80px;">
+        <input matInput type="number" class="text-center" placeholder="230" formControlName="temp9" min="-100"
+          max="230" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width: 80px;">
+        <input matInput type="number" class="text-center" placeholder="230" formControlName="temp10" min="-100"
+          max="230" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width: 80px;">
+        <input matInput type="number" class="text-center" placeholder="230" formControlName="temp11" min="-100"
+          max="230" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width: 80px;">
+        <input matInput type="number" class="text-center" placeholder="230" formControlName="temp12" min="-100"
+          max="230" />
+      </mat-form-field>
+    </div>
 
 
   </div>
@@ -272,7 +290,7 @@
     <div class="col-4">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Pressure (bar)</mat-label>
-        <input type="number" matInput formControlName="pressure"  min="0" max="200" />
+        <input type="number" matInput formControlName="pressure" min="0" max="200" />
       </mat-form-field>
     </div>
 
@@ -286,36 +304,36 @@
     <div class="col-4">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Granulator (rpm)</mat-label>
-        <input type="number" matInput formControlName="granulator" min="0" max="5000"  />
+        <input type="number" matInput formControlName="granulator" min="0" max="5000" />
       </mat-form-field>
     </div>
 
     <div class="col-4">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Bulk Density (g/l)</mat-label>
-        <input type="number" matInput formControlName="bulkDensity" min="0" max="2000"  />
+        <input type="number" matInput formControlName="bulkDensity" min="0" max="2000" />
       </mat-form-field>
     </div>
 
     <div class="col-4">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Cooling Section (cm)</mat-label>
-        <input type="number" matInput formControlName="coolingSection" min="0" max="500"  />
+        <input type="number" matInput formControlName="coolingSection" min="0" max="500" />
       </mat-form-field>
     </div>
 
-   <div class="col-4">
+    <div class="col-4">
       <label class="form-label">Temperature Water Bath</label>
       <div class="d-flex gap-2">
-        <mat-form-field appearance="outline"style="width: 100px;">
-        <input type="number" matInput class="form-control" formControlName="tempBath1" min="-100" max="300"/>
+        <mat-form-field appearance="outline" style="width: 100px;">
+          <input type="number" matInput class="form-control" formControlName="tempBath1" min="-100" max="300" />
         </mat-form-field>
-       <mat-form-field appearance="outline"style="width: 100px;">
-        <input type="number" matInput class="form-control" formControlName="tempBath2" min="-100" max="300"/>
-       </mat-form-field>
-              <mat-form-field appearance="outline"style="width: 100px;">
-        <input type="number" matInput class="form-control" formControlName="tempBath3" min="-100" max="300"/>
-              </mat-form-field>
+        <mat-form-field appearance="outline" style="width: 100px;">
+          <input type="number" matInput class="form-control" formControlName="tempBath2" min="-100" max="300" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width: 100px;">
+          <input type="number" matInput class="form-control" formControlName="tempBath3" min="-100" max="300" />
+        </mat-form-field>
         <div class="d-flex align-items-center">C</div>
       </div>
     </div>
@@ -337,7 +355,7 @@
     <div class="col-4">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Note</mat-label>
-        <input matInput formControlName="productionNote" placeholder="This is ready for production." maxlength="229"/>
+        <input matInput formControlName="productionNote" placeholder="This is ready for production." maxlength="229" />
       </mat-form-field>
     </div>
     <div class="col-2" style="margin-bottom: 35px;">
@@ -347,14 +365,14 @@
     <div class="col-6">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Premix</mat-label>
-        <input matInput formControlName="PremixNote" placeholder="Note" maxlength="229"/>
+        <input matInput formControlName="PremixNote" placeholder="Note" maxlength="229" />
       </mat-form-field>
     </div>
   </div>
 
   <div mat-dialog-actions align="end" style="margin-top: 30px;">
     <button mat-raised-button color="primary" type="submit" style="margin-right: 10px;">Update</button>
-        <button mat-raised-button type="button">Cancel</button>
+    <button mat-raised-button type="button">Cancel</button>
 
   </div>
 </form>

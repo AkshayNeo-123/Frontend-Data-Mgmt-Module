@@ -57,7 +57,6 @@ export class UpdateCompoundingComponent implements OnInit {
 
 
   private patchFormWithCompoundingData(data: any): void {
-
     this.compoundForm.patchValue({
       recipeNumber: data.compoundingDataDTO.receipeId,
       parameterSet: data.compoundingDataDTO.parameterSet,
@@ -106,7 +105,7 @@ export class UpdateCompoundingComponent implements OnInit {
       temp10: data.dosageDTO?.temp10,
       temp11: data.dosageDTO?.temp11,
       temp12: data.dosageDTO?.temp12,
-      upload_Screwconfig: data.dosageDTO?.upload_Screwconfig,
+upload_Screwconfig: data.dosageDTO?.upload_Screwconfig
     });
 
     this.repetitionCount = Number(this.compoundForm.get('repetitionCount')?.value || 0);
@@ -243,88 +242,50 @@ export class UpdateCompoundingComponent implements OnInit {
       .reduce((acc: number, curr: any) => acc + (+curr.share || 0), 0);
   }
 
-  // onFileSelected(event: Event, controlName: string): void {
-  //   const input = event.target as HTMLInputElement;
-  //   const file = input.files?.[0];
-
-  //   if (file) {
-  //     if (file.type !== 'application/pdf') {
-  //       this.toastr.error('Only PDF files are allowed.', 'Invalid File', { timeOut: 3000 });
-  //       input.value = '';
-  //       return;
-  //     }
-
-  //     const currentFilePath = this.compoundForm.get(controlName)?.value;
-  //     if (currentFilePath) {
-  //       this.materialService.updateMaterialFile(file, currentFilePath).subscribe({
-  //         next: (res) => {
-  //           const filePath = `${res.fileName}`;
-  //           this.compoundForm.get(controlName)?.setValue(filePath);  
-  //         },
-  //         error: (err) => {
-  //           console.error('File upload failed:', err);
-  //           this.toastr.error('File upload failed.', 'Error', { timeOut: 3000 });
-  //         }
-  //       });
-  //     } else {
-  //       this.materialService.postFileMaterial(file).subscribe({
-  //         next: (res) => {
-  //           const filePath = `${res.fileName}`;
-  //           this.compoundForm.get(controlName)?.setValue(filePath);
-  //         },
-  //         error: (err) => {
-  //           console.error('File upload failed:', err);
-  //           this.toastr.error('File upload failed.', 'Error', { timeOut: 3000 });
-  //         }
-  //       });
-  //     }
-  //   }
-  // }
-
+  selectedFileNames: { [key: string]: string } = {};
 
   onFileSelected(event: Event, controlName: string): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
 
-    if (!file) return;
+    if (file) {
+      if (file.type !== 'application/pdf') {
+        this.toastr.error('Only PDF files are allowed.', 'Invalid File', { timeOut: 3000 });
+        input.value = '';
+        return;
+      }
 
-    // Allow only PDF files
-    if (file.type !== 'application/pdf') {
-      this.toastr.error('Only PDF files are allowed.', 'Invalid File', { timeOut: 3000 });
-      input.value = '';
-      return;
-    }
+      const currentFilePath = this.compoundForm.get(controlName)?.value;
+      console.log('Current file path before update:', currentFilePath);
 
-    const currentFilePath = this.compoundForm.get(controlName)?.value;
+      const onSuccess = (res: any) => {
+        console.log('File update response:', res);
+        const filePath =  `${res.fileName}`;
+        this.compoundForm.get(controlName)?.setValue(filePath);
+        this.selectedFileNames[controlName] = file.name;
+      };
 
-    if (currentFilePath) {
-      // Update the existing file
-      this.materialService.updateMaterialFile(file, currentFilePath).subscribe({
-        next: (res) => {
-          const filePath = res.fileName || res.newFilePath || ''; // adjust key if your backend returns differently
-          this.compoundForm.get(controlName)?.setValue(filePath);
-          this.toastr.success('File updated successfully.');
-        },
-        error: (err) => {
-          console.error('File update failed:', err);
-          this.toastr.error('Failed to update the file.', 'Error', { timeOut: 3000 });
-        }
-      });
-    } else {
-      // Upload a new file
-      this.materialService.postFileMaterial(file).subscribe({
-        next: (res) => {
-          const filePath = res.fileName || res.path || ''; // adjust key if your backend returns differently
-          this.compoundForm.get(controlName)?.setValue(filePath);
-          this.toastr.success('File uploaded successfully.');
-        },
-        error: (err) => {
-          console.error('File upload failed:', err);
-          this.toastr.error('Failed to upload the file.', 'Error', { timeOut: 3000 });
-        }
-      });
+      if (currentFilePath) {
+        this.materialService.updateMaterialFile(file, currentFilePath).subscribe({
+          next: onSuccess,
+          error: (err) => {
+            console.error('File upload failed:', err);
+            this.toastr.error('File upload failed.', 'Error', { timeOut: 3000 });
+          }
+        });
+      } else {
+        this.materialService.postFileMaterial(file).subscribe({
+          next: onSuccess,
+          error: (err) => {
+            console.error('File upload failed:', err);
+            this.toastr.error('File upload failed.', 'Error', { timeOut: 3000 });
+          }
+        });
+      }
     }
   }
+
+
 
 
   increaseRepetition() {
@@ -340,7 +301,7 @@ export class UpdateCompoundingComponent implements OnInit {
   }
 
   onSubmit() {
-        const adduserId=localStorage.getItem('UserId');
+    const adduserId = localStorage.getItem('UserId');
 
     if (this.compoundForm.invalid) {
       this.compoundForm.markAllAsTouched();
@@ -405,8 +366,8 @@ export class UpdateCompoundingComponent implements OnInit {
         pretreatmentNone: formValue.pretreatmentNone,
         pretreatmentDrying: formValue.pretreatmentDrying,
         dryingTime: formValue.dryingTime,
-         modifiedBy: adduserId,
-        
+        modifiedBy: adduserId,
+
       },
       ...(filteredComponents.length > 0 && {
         components: filteredComponents,
@@ -473,6 +434,14 @@ export class UpdateCompoundingComponent implements OnInit {
       }
     });
   }
-
+  /* format date */
+  formatDate(e: any) {
+    console.log("hiiiiiiii");
+    const d = new Date(e.target.value);
+    d.setDate(d.getDate() + 1); // ✅ Add one day
+    const convertDate = d.toISOString().split('T')[0]; // Optional: format as YYYY-MM-DD
+    console.log(convertDate);
+    this.compoundForm.get('date')?.setValue(convertDate, { onlySelf: true });
+  }
 
 }
