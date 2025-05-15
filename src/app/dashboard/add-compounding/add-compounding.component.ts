@@ -10,6 +10,8 @@ import { AddCompoundingService } from '../../services/add-compounding.service';
 import { ToastrService } from 'ngx-toastr';
 import { ComponentService } from '../../services/component.service';
 import { MaterialService } from '../../services/material.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-add-compounding',
@@ -21,7 +23,9 @@ import { MaterialService } from '../../services/material.service';
     MatCheckboxModule,
     MatButtonModule,
     CommonModule,
-    MatRadioModule
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   templateUrl: './add-compounding.component.html',
   styleUrls: ['./add-compounding.component.css']
@@ -30,6 +34,9 @@ export class AddCompoundingComponent {
   compoundForm: FormGroup;
   componentOptions: any[] = [];
   repetitionCount = 0;
+maxRepetition: number = 230;
+
+  today = new Date();
 
   get components() {
     return (this.compoundForm.get('components') as FormArray).controls;
@@ -141,14 +148,6 @@ export class AddCompoundingComponent {
       .reduce((acc: number, curr: any) => acc + (+curr.share || 0), 0);
   }
 
-  // onFileSelected(event: Event) {
-  //   const input = event.target as HTMLInputElement;
-  //   if (input.files && input.files.length > 0) {
-  //     const file = input.files[0];
-  //     console.log('Selected file:', file.name);
-  //   }
-  // }
-
   onFileSelected(event: Event, controlName: string): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
@@ -187,17 +186,22 @@ export class AddCompoundingComponent {
     }
   }
 
-  increaseRepetition() {
+ increaseRepetition() {
+  if (this.repetitionCount < this.maxRepetition) {
     this.repetitionCount++;
   }
+}
 
-  decreaseRepetition() {
-    if (this.repetitionCount > 0) {
-      this.repetitionCount--;
-    }
+decreaseRepetition() {
+  if (this.repetitionCount > 0) {
+    this.repetitionCount--;
   }
+}
 
   onSubmit() {
+    const adduserId=localStorage.getItem('UserId');
+
+
     if (this.compoundForm.invalid) {
       this.compoundForm.markAllAsTouched();
       return;
@@ -222,13 +226,13 @@ export class AddCompoundingComponent {
         return;
       }
 
-      // ✅ 2. If name is selected, it must be valid
+      //  If name is selected, it must be valid
       if (name && !validComponentIds.includes(+name)) {
         this.toastr.error(`Invalid component selected: ${name}`);
         return;
       }
 
-      // ✅ 3. Only push if name is selected
+      //  Only push if name is selected
       if (name && name.trim() !== "") {
         filteredComponents.push({
           componentId: +name,
@@ -250,7 +254,7 @@ export class AddCompoundingComponent {
       compoundingDataDTO: {
         receipeId: formValue.recipeNumber,
         parameterSet: formValue.parameterSet,
-        date: formValue.date,
+        date: new Date(formValue.date).toISOString().split('T')[0],
         notes: formValue.note,
         repetation: this.repetitionCount,
         pretreatment: formValue.pretreatment,
@@ -260,10 +264,12 @@ export class AddCompoundingComponent {
         notMeasured: formValue.notMeasured,
         pretreatmentNone: formValue.pretreatmentNone,
         pretreatmentDrying: formValue.pretreatmentDrying,
-        dryingTime: formValue.dryingTime
+        dryingTime: formValue.dryingTime,
+         createdBy: adduserId,
       },
       ...(filteredComponents.length > 0 && {
-        components: filteredComponents
+        components: filteredComponents,
+        createdBy: adduserId,
       }),
       dosageDTO: {
         speedSideFeeder1: formValue.speedFeeder1,
@@ -304,7 +310,7 @@ export class AddCompoundingComponent {
         temperatureWaterBath2: formValue.tempBath2,
         temperatureWaterBath3: formValue.tempBath3,
         createdDate: formValue.createdDate,
-        createdBy: formValue.createdBy,
+        createdBy:adduserId,
         modifiedBy: formValue.modifiedBy,
         modifiedDate: formValue.modifiedDate
       }

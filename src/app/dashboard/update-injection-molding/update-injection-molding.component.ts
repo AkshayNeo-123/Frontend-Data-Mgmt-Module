@@ -229,4 +229,11 @@ export class UpdateInjectionMoldingComponent {
     
   }
 
+  blockNumbers(event: KeyboardEvent) {
+  const charCode = event.key;
+  if (/\d/.test(charCode)) {
+    event.preventDefault(); // Block number input
+  }
+}
+
 }

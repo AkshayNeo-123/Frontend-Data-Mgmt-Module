@@ -116,6 +116,28 @@ export class AddRecipyComponent implements OnInit {
     }
   }
 
+  // Custom validator for percentage range
+  percentageRangeValidator() {
+    return (control: any) => {
+      const value = control.value;
+      if (value < 0 || value > 100) {
+        return { invalidPercentage: true };
+      }
+      return null;
+    };
+  }
+
+  initForm(): void {
+    this.recipeForm = this.fb.group({
+      productName: ['', Validators.required],
+      comments: [''],
+      projectId: [null, Validators.required],
+      mainPolymerId: ['', Validators.required],
+      additiveId: ['', Validators.required],
+      components: this.fb.array([]),
+    });
+  }
+
   loadDropdownData(): void {
     this.projectService.getAllProjects().subscribe((res) => (this.projects = res));
     this.commonService.getAdditives().subscribe((res) => (this.additives = res));
@@ -131,8 +153,14 @@ export class AddRecipyComponent implements OnInit {
   addComponent(component: any = {}): void {
     const componentGroup = this.fb.group({
       componentId: [component.componentId || null, Validators.required],
-      wtPercentage: [component.wtPercentage || null],
-      volPercentage: [component.volPercentage || null],
+      wtPercentage: [
+        component.wtPercentage ?? null,
+        [Validators.required, this.percentageRangeValidator()],
+      ],
+      volPercentage: [
+        component.volPercentage ?? null,
+        [Validators.required, this.percentageRangeValidator()],
+      ],
       density: [component.density || null],
       type: [component.type || ''],
       mp: [component.mp || false],
@@ -152,13 +180,13 @@ export class AddRecipyComponent implements OnInit {
 
       const payload = {
         recipe: {
-          productName: formValue.productName,
-          comments: formValue.comments,
-          projectId: formValue.projectId,
-          additiveId: formValue.additiveId,
-          mainPolymerId: formValue.mainPolymerId,
+          productName: this.recipeForm.value.productName,
+          comments: this.recipeForm.value.comments,
+          projectId: this.recipeForm.value.projectId,
+          additiveId: this.recipeForm.value.additiveId,
+          mainPolymerId: this.recipeForm.value.mainPolymerId,
         },
-        components: this.components.value,  // Collects array of components
+        component: this.components.value,
       };
 
       if (this.isEdit && this.data.recipe?.receipeId) {

@@ -192,4 +192,15 @@ loadMaster(){
 //   );
 // }
 
+
+
+// Block number input
+blockNumbers(event: KeyboardEvent) {
+  const charCode = event.key;
+  if (/\d/.test(charCode)) {
+    event.preventDefault(); 
+  }
+}
+
+
 }

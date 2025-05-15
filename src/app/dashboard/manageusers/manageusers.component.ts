@@ -24,7 +24,7 @@ import { ToastrService } from 'ngx-toastr';
     MatPaginatorModule,
     MatSortModule,
     MatButtonModule,
-    ConfirmDialogComponent
+    
   ],
   templateUrl: './manageusers.component.html',
   styleUrl: './manageusers.component.css'

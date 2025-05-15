@@ -75,7 +75,7 @@
             </mat-form-field>
           </div>
 
-          <div class="col-md-2">
+          <!-- <div class="col-md-2">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>WT%</mat-label>
               <input matInput type="number" formControlName="wtPercentage" />
@@ -86,6 +86,33 @@
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>VOL%</mat-label>
               <input matInput type="number" formControlName="volPercentage" />
+            </mat-form-field>
+          </div> -->
+
+          <div class="col-md-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>WT%</mat-label>
+              <input matInput type="number" formControlName="wtPercentage" />
+              <mat-error *ngIf="comp.get('wtPercentage')?.hasError('required')">
+                WT% is required
+              </mat-error>
+              <mat-error *ngIf="comp.get('wtPercentage')?.hasError('percentageRange')">
+                WT% must be between 0 and 100
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- VOL% Field -->
+          <div class="col-md-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>VOL%</mat-label>
+              <input matInput type="number" formControlName="volPercentage" />
+              <mat-error *ngIf="comp.get('volPercentage')?.hasError('required')">
+                VOL% is required
+              </mat-error>
+              <mat-error *ngIf="comp.get('volPercentage')?.hasError('percentageRange')">
+                VOL% must be between 0 and 100
+              </mat-error>
             </mat-form-field>
           </div>
 
@@ -113,7 +140,8 @@
           </div>
 
           <div class="col-md-1 d-flex align-items-center justify-content-center">
-            <button mat-icon-button color="warn" (click)="deleteComponent(i)" type="button" aria-label="Delete component">
+            <button mat-icon-button color="warn" (click)="deleteComponent(i)" type="button"
+              aria-label="Delete component">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
