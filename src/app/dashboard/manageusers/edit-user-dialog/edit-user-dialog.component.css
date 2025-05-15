@@ -45,3 +45,12 @@
     display: block;
     padding-left: 3%;
   }
+
+  .btnFix{
+    position: sticky;
+  bottom: 0;
+  background-color: white; /* prevents overlap with form */
+  z-index: 10;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}

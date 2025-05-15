@@ -294,7 +294,7 @@ export class UpdateProjectComponent implements OnInit,AfterViewInit {
       const user = userJson ? JSON.parse(userJson) : null;
 
       if (!user) {
-        console.error('No user found in localStorage!');
+        console.error('Unauthorized User!');
         return;
       }
 
