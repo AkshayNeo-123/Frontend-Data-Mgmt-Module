@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RecipeComponentType } from '../models/recipe-component-type.model';
+import { RecipeAndComponent } from '../models/project.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,9 @@ export class CommonService {
 
   getAdditives(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/Additive`);
+  }
+  getRecipeDataForUpdate(recipeid:number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/Recipe/getForUpdate?recipeId=${recipeid}`);
   }
 
   getMainPolymers(): Observable<any[]> {
