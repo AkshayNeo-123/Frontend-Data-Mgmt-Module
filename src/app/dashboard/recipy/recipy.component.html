@@ -16,6 +16,13 @@
   <table mat-table [dataSource]="dataSource" matSort
     class="styled-table table table-bordered table-striped table-hover mat-elevation-z8">
 
+
+
+    <ng-container matColumnDef="recipeId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> RecipeId </th>
+      <td mat-cell *matCellDef="let recipe"> {{recipe.recipeId}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="productName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
       <td mat-cell *matCellDef="let recipe"> {{recipe.productName}} </td>
@@ -71,7 +78,7 @@
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let element">
         <i class="fas fa-pencil-alt me-3 action-icon"  (click)="editRecipe(element)"></i>
-        <i class="fas fa-trash-alt action-icon"></i>
+        <i class="fas fa-trash-alt action-icon" (click)="deleteContactsDetails(element.receipeId)"></i>
       </td>
     </ng-container>
 

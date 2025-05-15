@@ -9,11 +9,12 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-recipedetails',
   standalone:true,
-  imports: [CommonModule,MatDialogActions],
+  imports: [CommonModule,MatDialogActions,  MatButtonModule,],
   templateUrl: './recipedetails.component.html',
   styleUrl: './recipedetails.component.css'
 })

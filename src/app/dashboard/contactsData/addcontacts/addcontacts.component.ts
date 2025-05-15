@@ -42,15 +42,13 @@ export class AddcontactsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('Data passed to dialog:', this.data);
     this.isEditMode = !!this.data;
-
     this.initForm();
     this.loadStates();
 
     this.contactForm.get('stateId')?.valueChanges.subscribe(stateId => {
-      console.log('State selected:', stateId);
       this.contactForm.get('cityId')?.reset();
+      this.isOtherCitySelected = false;
       this.cities = [];
       this.loadCitiesByState(stateId);
     });
@@ -83,20 +81,18 @@ export class AddcontactsComponent implements OnInit {
       ]],
       phone: [this.data?.phone || '', [
         Validators.required,
-        Validators.pattern(/^[6-9]\d{9}$/)
+        Validators.pattern(/^[0-9]\d{9}$/)
       ]],
-      newCityName: ['']  
+      newCityName: ['', Validators.required]
     });
   }
 
   loadStates(): void {
     this.contactService.GetAllStates().subscribe({
       next: (res) => {
-        console.log("States loaded:", res);
         this.states = res;
       },
-      error: (err) => {
-        console.error('Failed to load states', err);
+      error: () => {
         this.toastr.error('Failed to load states', 'Error');
       }
     });
@@ -105,15 +101,12 @@ export class AddcontactsComponent implements OnInit {
   loadCitiesByState(stateId: number): void {
     this.contactService.getCitiesByState(stateId).subscribe({
       next: (res) => {
-        console.log("Cities loaded:", res);
         this.cities = res;
-
         if (this.isEditMode && this.data?.cityId) {
           this.contactForm.patchValue({ cityId: this.data.cityId });
         }
       },
-      error: (err) => {
-        console.error('Failed to load cities', err);
+      error: () => {
         this.toastr.error('Failed to load cities', 'Error');
       }
     });
@@ -122,13 +115,17 @@ export class AddcontactsComponent implements OnInit {
   onCityChange(): void {
     const cityId = this.contactForm.get('cityId')?.value;
     this.isOtherCitySelected = cityId === 'Other';
+  
+    if (!this.isOtherCitySelected) {
+      this.contactForm.patchValue({ newCityName: '' });
+    }
   }
 
   onSubmit(): void {
     this.contactForm.markAllAsTouched();
 
     if (this.contactForm.invalid) {
-      this.toastr.error('Please fill all required fields.', 'Error', { timeOut: 5000 });
+      this.toastr.error('Please fill all required fields.', 'Error');
       return;
     }
 
@@ -140,53 +137,53 @@ export class AddcontactsComponent implements OnInit {
       return;
     }
 
-    const contactPayload = {
-      ...this.contactForm.value,
-      ...(this.isEditMode
-        ? { modifiedBy: adduserId, modifiedDate: new Date().toISOString() }
-        : { createdBy: adduserId, createdDate: new Date().toISOString(), modifiedDate: new Date().toISOString() }
-      )
-    };
-
     if (this.isOtherCitySelected) {
       const newCityName = this.contactForm.get('newCityName')?.value;
       const stateId = this.contactForm.get('stateId')?.value;
 
-      
       this.contactService.addCity(newCityName, stateId).subscribe({
-       
         next: (newCity) => {
-          contactPayload.cityId = newCity.cityId; 
-          console.log("this is other city selected", newCity.cityId);
+          this.contactForm.patchValue({ cityId: newCity.cityId });
 
-          this.saveContact(contactPayload); 
+          const contactPayload = {
+            ...this.contactForm.value,
+            ...(this.isEditMode
+              ? { modifiedBy: adduserId, modifiedDate: new Date().toISOString() }
+              : { createdBy: adduserId, createdDate: new Date().toISOString(), modifiedDate: new Date().toISOString() }
+            )
+          };
+
+          this.saveContact(contactPayload);
         },
-        error: (err) => {
-          console.error('Failed to add new city', err);
+        error: () => {
           this.toastr.error('Failed to add new city', 'Error');
         }
       });
     } else {
-      this.saveContact(contactPayload);  
+      const contactPayload = {
+        ...this.contactForm.value,
+        ...(this.isEditMode
+          ? { modifiedBy: adduserId, modifiedDate: new Date().toISOString() }
+          : { createdBy: adduserId, createdDate: new Date().toISOString(), modifiedDate: new Date().toISOString() }
+        )
+      };
+
+      this.saveContact(contactPayload);
     }
   }
 
   saveContact(contactPayload: any): void {
     if (this.isEditMode) {
-      console.log('Updating contact:', this.data.contactId, contactPayload);
       this.contactService.updateContact(this.data.contactId, contactPayload).subscribe({
         next: () => this.dialogRef.close(true),
-        error: (err) => {
-          console.error('Update failed', err);
+        error: () => {
           this.toastr.error('Failed to update contact', 'Error');
         }
       });
     } else {
-      console.log('Adding new contact:', contactPayload);
       this.contactService.addContacts(contactPayload).subscribe({
         next: () => this.dialogRef.close(true),
-        error: (err) => {
-          console.error('Save error:', err);
+        error: () => {
           this.toastr.error('Failed to add contact', 'Error');
         }
       });

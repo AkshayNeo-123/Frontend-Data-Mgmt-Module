@@ -16,7 +16,7 @@
           <div class="container-fluid">
             <div class="d-flex justify-content-start align-items-center mb-3">
               <mat-form-field appearance="outline" class="search-field">
-                <mat-label>Recipe Search</mat-label>
+                <mat-label>Search</mat-label>
                 <input matInput [(ngModel)]="projectFilter" placeholder="Search">
               </mat-form-field>
               <button class="mr-3 filter-recipe me-4" (click)="applyCustomFilter()">
@@ -39,7 +39,7 @@
                     </div>
                     <div class="card-body" style="max-height: 220px; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
                       <div class="card-text text-muted small mb-2">
-                        ID: {{ recipe.recipeId }}
+                        <!-- ID: {{ recipe.recipeId }} -->
                       </div>
                       <hr>
                       <div class="descriptions">
@@ -47,7 +47,7 @@
                       </div>
                       </div>
                       <div *ngIf="recipe.recipeId !== undefined" (click)="openRecipeDetailsDialog(recipe)">
-                        <button class="btn btn-light " style=" color:#007bff ;border-radius: 50px; background-color: white;border-color: white;">Details</button>
+                        <button class="btn btn-light " style=" color:#007bff ;border-radius: 50px;border-color: white;background-color: white;">Details</button>
                       </div> 
                   </div>
                   
@@ -56,7 +56,7 @@
 
             </div>
           </div>
-          <nav aria-label="Page navigation example ">
+          <nav aria-label="Page navigation example " style="margin-bottom: 50px;">
             <ul class="pagination justify-content-center">
               <li class="page-item disabled"[class.disabled]="currentPage===1">
                 <a class="page-link rounded-0 "  (click)="goToPage(currentPage - 1)" aria-label="Previous"> << </a>

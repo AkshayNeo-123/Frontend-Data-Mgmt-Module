@@ -13,6 +13,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { AddRecipyComponent } from './add-recipy/add-recipy.component';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
+import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-recipy',
@@ -52,7 +55,9 @@ export class RecipyComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private recipeService: RecipeService, private dialog: MatDialog) {}
+  constructor(private recipeService: RecipeService,  private dialog: MatDialog,
+    private router: Router,
+    private toastr:ToastrService) {}
 
   ngOnInit(): void {
     this.loadRecipes();
@@ -110,6 +115,46 @@ export class RecipyComponent implements OnInit {
       }
     });
   }
+
+    
+     
+  
+
+  
+  deleteContactsDetails(recipeId: number) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+               width: '350px',
+               data: {
+                 title: 'Confirm Deletion',
+                 message: 'Do you really want to delete this record?'
+               }
+             });
+         
+         dialogRef.afterClosed().subscribe(result => {
+           if (result === true) {
+       this.dataSource.data = this.dataSource.data.filter(recipe => recipe.receipeId !== recipeId);
+ 
+       console.log('Deleting Contact with ID:', recipeId);
+       const userId=Number(localStorage.getItem('UserId'))
+       this.recipeService.deleteRecipes(recipeId,userId).subscribe(
+         (response) => {
+           console.log('Contact deleted successfully:', response);
+           this.toastr.success('deleted successfully');
+         },
+         (error) => {
+           console.error('Error deleting contact:', error);
+           this.toastr.error('Failed to delete contact');
+         }
+       );
+     }
+   });
+ }
+
+
+                          
+
+
+
 
   downloadCompoundingData(recipe: Recipe): void {
     const worksheet = XLSX.utils.json_to_sheet([
