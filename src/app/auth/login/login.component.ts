@@ -8,6 +8,8 @@ import Swal from 'sweetalert2'; // Import SweetAlert2
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
@@ -17,10 +19,12 @@ import { MatButtonModule } from '@angular/material/button';
     ReactiveFormsModule,
     RouterModule,
     HttpClientModule,
+    MatSnackBarModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
   ],
+  // providers: [MatDialogRef],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -34,16 +38,17 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private cdRef: ChangeDetectorRef
+    private snackBar: MatSnackBar
+    // private cdRef: ChangeDetectorRef
   ) {}
 
-  ngAfterViewInit(): void {
-    // Wait a moment to allow autofill to happen
-    setTimeout(() => {
-      this.loginForm.updateValueAndValidity();
-      this.cdRef.detectChanges(); // Make Angular aware of changes
-    }, 500);
-  }
+  // ngAfterViewInit(): void {
+  //   // Wait a moment to allow autofill to happen
+  //   setTimeout(() => {
+  //     this.loginForm.updateValueAndValidity();
+  //     this.cdRef.detectChanges(); // Make Angular aware of changes
+  //   }, 500);
+  // }
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
