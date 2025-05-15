@@ -36,7 +36,7 @@ export class AddCompoundingComponent {
   repetitionCount = 0;
 maxRepetition: number = 230;
 
-  today = new Date();
+  // today = new Date();
 
   get components() {
     return (this.compoundForm.get('components') as FormArray).controls;
