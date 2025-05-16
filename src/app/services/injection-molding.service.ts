@@ -29,4 +29,8 @@ export class InjectionMoldingService {
       
     }
 
+    GetInjectionByRecipeId(recipeId:number):Observable<any>{
+      return this.http.get<any>(`${this.apiUrl}/InjectionModling/GetByRecipeId?id=${recipeId}`)
+    }
+
 }

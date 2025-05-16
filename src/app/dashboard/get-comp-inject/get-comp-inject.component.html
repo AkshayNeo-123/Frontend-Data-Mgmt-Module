@@ -1,67 +1,100 @@
 <div class="container">
-    <h4 class="fw-bold">Compounding/Injection </h4>
+  <h4 class="fw-bold">Compounding</h4>
 
-    <div class="d-flex align-items-center justify-content-between">
-        <div class="w-100">
-            <mat-form-field appearance="outline" class="search-field">
-                <mat-label>Search for Name</mat-label>
-                <input matInput placeholder="Search" minlength="1">
-            </mat-form-field>
-        </div>
-
-        <div>
-            <button mat-raised-button class="me-5 add-material-btn w-100">
-                <i class="fas fa-plus me-2"></i>Add Compounding
-            </button>
-        </div>
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="w-100">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search for Notes</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Search notes..." />
+      </mat-form-field>
     </div>
 
-    <h2>Compounding Data</h2>
+    <div>
+      <button mat-raised-button class="me-5 add-material-btn w-100">
+        <i class="fas fa-plus me-2"></i>Add Compounding
+      </button>
+    </div>
+  </div>
 
-<table mat-table [dataSource]="compoundingData" class="mat-elevation-z8 w-100 mt-4">
+  <div class="table-responsive">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      class="table table-bordered table-striped table-hover mat-elevation-z8"
+      style="table-layout: fixed; width: 100%;"
+    >
+      <!-- <ng-container matColumnDef="compoundingId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+        <td mat-cell *matCellDef="let element">{{ element.compoundingId }}</td>
+      </ng-container> -->
 
-  <!-- Compounding ID -->
-  <ng-container matColumnDef="compoundingId">
-    <th mat-header-cell *matHeaderCellDef> ID </th>
-    <td mat-cell *matCellDef="let element"> {{ element.compoundingId }} </td>
-  </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.date | date: 'yyyy-MM-dd' }}</td>
+      </ng-container>
 
-  <!-- Date -->
-  <ng-container matColumnDef="date">
-    <th mat-header-cell *matHeaderCellDef> Date </th>
-    <td mat-cell *matCellDef="let element"> {{ element.date }} </td>
-  </ng-container>
+      <ng-container matColumnDef="notes">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Notes</th>
+        <td mat-cell *matCellDef="let element">{{ element.notes }}</td>
+      </ng-container>
 
-  <!-- Temperature -->
-  <ng-container matColumnDef="temperature">
-    <th mat-header-cell *matHeaderCellDef> Temp (°C) </th>
-    <td mat-cell *matCellDef="let element"> {{ element.temperature }} </td>
-  </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <i class="fas fa-pencil-alt me-3 action-icon text-primary"></i>
+          <i class="fas fa-trash-alt action-icon text-danger"></i>
+        </td>
+      </ng-container>
 
-  <!-- Notes -->
-  <ng-container matColumnDef="notes">
-    <th mat-header-cell *matHeaderCellDef> Notes </th>
-    <td mat-cell *matCellDef="let element"> {{ element.notes || '-' }} </td>
-  </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
 
-  <!-- Pretreatment -->
-  <ng-container matColumnDef="pretreatment">
-    <th mat-header-cell *matHeaderCellDef> Pretreatment </th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.pretreatmentNone ? 'None' : '' }}
-      {{ element.pretreatmentDrying ? 'Drying' : '' }}
-    </td>
-  </ng-container>
 
-  <!-- Not Measured -->
-  <ng-container matColumnDef="notMeasured">
-    <th mat-header-cell *matHeaderCellDef> Not Measured </th>
-    <td mat-cell *matCellDef="let element"> {{ element.notMeasured ? 'Yes' : 'No' }} </td>
-  </ng-container>
+  <h4 class="fw-bold">injection Moulding</h4>
 
-  <!-- Header & Row Definitions -->
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+ <div class="table-responsive">
+    <table
+      mat-table
+      [dataSource]="dataSourceInjection"
+      matSort
+      class="table table-bordered table-striped table-hover mat-elevation-z8"
+      style="table-layout: fixed; width: 100%;"
+    >
+      <!-- <ng-container matColumnDef="compoundingId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+        <td mat-cell *matCellDef="let element">{{ element.compoundingId }}</td>
+      </ng-container> -->
 
+      <ng-container matColumnDef="parameterSet">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+        <td mat-cell *matCellDef="let elements">{{ elements.parameterSet }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="dryingTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Notes</th>
+        <td mat-cell *matCellDef="let elements">{{ elements.dryingTime }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let elements">
+          <i class="fas fa-pencil-alt me-3 action-icon text-primary"></i>
+          <i class="fas fa-trash-alt action-icon text-danger"></i>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsData"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsData;"></tr>
+    </table>
+  </div>
+
+
+
+
+
+
+  <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator> -->
 </div>
