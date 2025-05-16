@@ -29,5 +29,11 @@ export class AddCompoundingService {
   return this.http.put<any>(url, compounding, { headers });
 }
 
+getCompoundingDataByRecipeId(recipeId: number): Observable<any> {
+  const url = `${this.addCompounding}/get-by-recipe-id/${recipeId}`;
+  return this.http.get<any>(url);
+}
+
+
 
 }
