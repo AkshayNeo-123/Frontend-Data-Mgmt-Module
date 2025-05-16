@@ -2,10 +2,11 @@
     position: fixed;
     bottom: 0;
     width: 100%;
+    right: 0;
     font-size: 14px;
-    background-color: #c3edb1;
+    background-color: #f6f6f6;
     color:black;
     font-weight: 600;
-    z-index: 999;
+    z-index: 1;
   }
   
