@@ -6,6 +6,7 @@ export interface LoggedInUser {
   name: string;
   email?: string;
   userid: number;
+  rolePermissions: string;
 }
 
 @Injectable({

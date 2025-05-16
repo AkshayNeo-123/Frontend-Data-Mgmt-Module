@@ -163,6 +163,20 @@ export class AddRoleComponent {
   });
 }
 
+   toggleMenuPermissions(menuId: string, event: MatCheckboxChange): void {
+  const isChecked = event.checked;
+  const permissionsGroup = this.roleForm.get('permissions') as FormGroup;
+
+  const menuGroup = permissionsGroup.get(menuId) as FormGroup;
+
+  if (menuGroup) {
+    Object.keys(menuGroup.controls).forEach(permission => {
+      menuGroup.get(permission)?.setValue(isChecked);
+    });
+  }
+  this.onAnyPermissionChange();
+}
+
 onAnyPermissionChange(): void {
   const permissionsGroup = this.roleForm.get('permissions') as FormGroup;
 
@@ -266,6 +280,8 @@ onViewChange(menuId: string): void {
           );
         }
       });
+      
+
   }
   onCancel() {
     this.dialogRef.close();

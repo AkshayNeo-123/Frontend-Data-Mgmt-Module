@@ -85,16 +85,18 @@ export class EditRoleComponent implements OnInit {
   });
 }
 
-toggleMenuPermissions(menuId: string, event: MatCheckboxChange): void {
-  const isChecked = event.checked;
-  const permissionGroup = (this.roleForm.get('permissions') as FormGroup).get(menuId) as FormGroup;
 
-  permissionGroup.patchValue({
-    view: isChecked,
-    create: isChecked,
-    update: isChecked,
-    delete: isChecked
-  });
+  toggleMenuPermissions(menuId: string, event: MatCheckboxChange): void {
+  const isChecked = event.checked;
+  const permissionsGroup = this.roleForm.get('permissions') as FormGroup;
+
+  const menuGroup = permissionsGroup.get(menuId) as FormGroup;
+
+  if (menuGroup) {
+    Object.keys(menuGroup.controls).forEach(permission => {
+      menuGroup.get(permission)?.setValue(isChecked);
+    });
+  }
 }
 
   ngOnInit(): void {
@@ -222,6 +224,7 @@ toggleMenuPermissions(menuId: string, event: MatCheckboxChange): void {
         console.log(error.error);
       }
     });
+    console.log(localStorage);
   }
 
   onCancel() {

@@ -4,6 +4,16 @@
     background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
     color: #000;
   }
+  .list-unstyled{
+    /* border: 2px solid; */
+    height: 91vh;
+    overflow-y: scroll;
+    
+  }
+
+  .list-unstyled::-webkit-scrollbar{
+    display: none;
+  }
   
   .sidebar-expanded {
     width: 220px;

@@ -3,6 +3,7 @@ import { RoleService } from '../../services/role.service';
 import { CommonModule } from '@angular/common';
 import { MastertableComponent } from '../mastertable/mastertable.component';
 import { Menu } from '../../models/menu.model';
+import { PermissionServiceService } from '../../services/permission-service.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,7 +19,10 @@ export class SidebarComponent implements OnInit {
   @Input() isOpen: boolean = true;
   @Output() sectionChange = new EventEmitter<string>();  // Output to notify parent
   permissions: any[] = [];
-  constructor(private roleService: RoleService) {}
+  constructor(
+    private roleService: RoleService,
+    private permissionService: PermissionServiceService
+  ) {}
 
   // Method to emit the section change event
   emitSection(section: string) {
@@ -35,6 +39,9 @@ export class SidebarComponent implements OnInit {
     this.roleService.getRoleById(roleId).subscribe({
       next: (res) => {
         const permissions = res.rolePermissions;
+
+        this.permissionService.setPermissions(permissions);
+
         const allowedMenuIds = permissions
           .filter((p: any) => p.canView)
           .map((p: any) => p.menuId);

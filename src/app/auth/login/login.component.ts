@@ -75,7 +75,8 @@ export class LoginComponent implements OnInit {
         this.authService.setLoggedInUser({
           name: response.email,
           email: response.email,
-          userid: response.userId
+          userid: response.userId,
+          rolePermissions: response.rolePermissions
         });
   
         // Show Swal message on successful login

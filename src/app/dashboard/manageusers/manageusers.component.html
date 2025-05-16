@@ -4,7 +4,7 @@
   
     <!-- Add + Search -->
     <div class="d-flex justify-content-start align-items-center mb-3 flex-wrap">      
-      <button class="mr-3 add-user-btn me-4" (click)="openAddUserDialog()">
+      <button *ngIf="canAddUser" class="mr-3 add-user-btn me-4" (click)="openAddUserDialog()">
         <i class="fas fa-plus me-2"></i> Add New User
       </button>
 
@@ -59,8 +59,8 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let user">
-            <i class="fas fa-pencil-alt me-3 action-icon" (click)="editUser(user)"></i>
-            <i class="fas fa-trash-alt action-icon text-danger" (click)="deleteUser(user.userId)"></i>
+            <i *ngIf="canEditUser" class="fas fa-pencil-alt me-3 action-icon" (click)="editUser(user)"></i>
+            <i *ngIf="canDeleteUser" class="fas fa-trash-alt action-icon text-danger" (click)="deleteUser(user.userId)"></i>
           </td>
         </ng-container>
   
@@ -74,3 +74,4 @@
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   </div>
   
+  <!-- <button (click)="getbutton()">button</button> -->

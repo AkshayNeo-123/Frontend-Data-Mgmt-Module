@@ -12,18 +12,30 @@
 
   <div formGroupName="permissions">
     <label class="font-weight-bold">Permissions:</label> 
-    <mat-checkbox class="selectAllChkbox" (change)="toggleAllPermissions($event)">Select All</mat-checkbox>
-    <div *ngFor="let permission of modulePermissions" [formGroupName]="permission.id" class="mt-2">
+    <mat-checkbox class="selectAllChkbox" (change)="toggleAllPermissions($event)">Select All</mat-checkbox><br><hr>
+    <table>
+      <tbody *ngFor="let permission of modulePermissions" [formGroupName]="permission.id">
+        <tr>
+          <td class="menuNameList"><strong>{{ permission.menuName }}</strong></td>
+          <td><mat-checkbox formControlName="view">View</mat-checkbox></td>
+          <td><mat-checkbox formControlName="create">Create</mat-checkbox></td>
+          <td><mat-checkbox formControlName="update">Update</mat-checkbox></td>
+          <td><mat-checkbox formControlName="delete">Delete</mat-checkbox></td>
+          <td>&nbsp;&nbsp;&nbsp;</td>
+          <td class="verticalLine"><mat-checkbox (change)="toggleMenuPermissions(permission.id.toString(), $event)">Select All</mat-checkbox></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- <div *ngFor="let permission of modulePermissions" [formGroupName]="permission.id" class="mt-2">
       <strong>{{ permission.menuName }}</strong>
       
       <mat-checkbox formControlName="view">View</mat-checkbox>
       <mat-checkbox formControlName="create">Create</mat-checkbox>
       <mat-checkbox formControlName="update">Update</mat-checkbox>
       <mat-checkbox formControlName="delete">Delete</mat-checkbox>
-      <!-- <div>
-        <mat-checkbox (change)="toggleMenuPermissions(permission.id, $event)">Select All</mat-checkbox>
-      </div> -->
-    </div>
+      <mat-checkbox (change)="toggleMenuPermissions(permission.id.toString(), $event)">Select All</mat-checkbox>
+    </div> -->
   </div>
 
   <!-- <mat-form-field class="w-100">
