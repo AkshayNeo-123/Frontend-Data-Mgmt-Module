@@ -4,29 +4,37 @@
     background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
     color: #000;
     scrollbar-width: none;
-    position: sticky;
-    top: 0;
-    overflow-y: auto;
-    z-index: 1000;
-    -ms-overflow-style: none;
-  }
-  
-  .sidebar-expanded {
-    width: 220px;
-  }
-  
-  .sidebar-collapsed {
-    width: 90px;
-  }
-  
+    position: fixed;
+    top: 64px;
+    overflow-y: auto !important;
 
-  .hover-effect:hover {
-    background-color: rgba(255, 96, 4, 0.1);
-    cursor: pointer;
+    z-index: 1;
+    /* -ms-overflow-style: none; */
+    scrollbar-width: none;
+    bottom: 0;
+    -ms-overflow-style: none;
+  overflow-y: auto;
   }
-  
-  i {
-    min-width: 20px;
-    font-size: 18px;
-  }
-  
+
+sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar-expanded {
+  width: 200px;
+}
+
+.sidebar-collapsed {
+  width: 90px;
+}
+
+
+.hover-effect:hover {
+  background-color: rgba(255, 96, 4, 0.1);
+  cursor: pointer;
+}
+
+i {
+  min-width: 20px;
+  font-size: 18px;
+}

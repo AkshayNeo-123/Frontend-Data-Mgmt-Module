@@ -1,117 +1,50 @@
 import { Routes } from '@angular/router';
+
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { ProjectComponent } from './dashboard/project/project.component';
 import { AddcontactsComponent } from './dashboard/contactsData/addcontacts/addcontacts.component';
 import { AllMainPolymersComponent } from './dashboard/MainPolymerData/all-main-polymers/all-main-polymers.component';
 import { GetAdditivebyidComponent } from './dashboard/additiveData/get-additivebyid/get-additivebyid.component';
 import { ManageusersComponent } from './dashboard/manageusers/manageusers.component';
-import { RecipedetailsComponent } from './dashboard/recipedetails/recipedetails.component';
+import { UpdateInjectionMoldingComponent } from './dashboard/update-injection-molding/update-injection-molding.component';
+
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { RecipyComponent } from './dashboard/recipy/recipy.component';
+import { GetmaterialsComponent } from './dashboard/getmaterials/getmaterials.component';
+import { AddInjectionMoldingComponent } from './dashboard/add-injection-molding/add-injection-molding.component';
+import { MastertableComponent } from './dashboard/mastertable/mastertable.component';
+import { ContactsComponent } from './dashboard/contacts/contacts.component';
+import { GetAllAdditivesComponent } from './dashboard/get-all-additives/get-all-additives.component';
+import { AddCompoundingComponent } from './dashboard/add-compounding/add-compounding.component';
+import { UpdateCompoundingComponent } from './dashboard/update-compounding/update-compounding.component';
+import { RolemasterComponent } from './dashboard/rolemaster/rolemaster.component';
+import { AddRecipyComponent } from './dashboard/recipy/add-recipy/add-recipy.component';
 
 export const routes: Routes = [
-  {
-    path: 'auth',
-    children: [
-      {
-        path: 'login',
-        loadComponent: () => import('./auth/login/login.component').then(m => m.LoginComponent),
-      },
-      {
-        path: 'register',
-        loadComponent: () => import('./auth/register/register.component').then(m => m.RegisterComponent),
-      }
-    ]
-  },
-  
-  {
-    path: 'dashboard',
-    component: DashboardComponent,
-    children: [
-      {
-        path: 'recipy',
-        loadComponent: () => import('./dashboard/recipy/recipy.component').then(m => m.RecipyComponent),
-      },
-      {
-        path: 'getmaterials',
-        loadComponent: () => import('./dashboard/getmaterials/getmaterials.component').then(m => m.GetmaterialsComponent),
-      },
-    
-      {
-        path: 'getproject',
-        loadComponent: () => import('./dashboard/project/project.component').then(m => m.ProjectComponent),
-      },
-      {
-        path: 'injectionMolding',
-        loadComponent: () => import('./dashboard/add-injection-molding/add-injection-molding.component').then(m => m.AddInjectionMoldingComponent),
-      },
-      {
-        path: 'mastertable',
-        loadComponent: () => import('./dashboard/mastertable/mastertable.component').then(m => m.MastertableComponent),
-      },
-      
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
 
-      // Contact Routes
-      {
-        path: 'contacts',
-        loadComponent: () => import('./dashboard/contacts/contacts.component').then(m => m.ContactsComponent),
-        pathMatch: 'full',
-      },
-      {
-        path: 'get-all-additives',
-        loadComponent: () => import('./dashboard/get-all-additives/get-all-additives.component').then(m => m.GetAllAdditivesComponent),
-        pathMatch: 'full',
-      },
-      {
-        path: 'all-main-polymers',
-        loadComponent: () => import('./dashboard/MainPolymerData/all-main-polymers/all-main-polymers.component').then(m => m.AllMainPolymersComponent),
-        pathMatch: 'full',
-         // Ensures that this is the default path when navigating to 'contacts'
-      },
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'recipe', component: RecipyComponent },
+  { path: 'getmaterials', component: GetmaterialsComponent },
+  { path: 'getproject', component: ProjectComponent },
+  { path: 'injectionMolding', component: AddInjectionMoldingComponent },
+  { path: 'mastertable', component: MastertableComponent },
+  { path: 'contacts', component: ContactsComponent },
+  { path: 'get-all-additives', component: GetAllAdditivesComponent },
+  { path: 'all-main-polymers', component: AllMainPolymersComponent },
+  { path: 'compounding', component: AddCompoundingComponent },
+  { path: 'updateinjectionMolding', component: UpdateInjectionMoldingComponent },
+  { path: 'updatecompounding', component: UpdateCompoundingComponent },
+  {path: 'rolemaster' , component:RolemasterComponent},
+  {path:'addRecipe', component:AddRecipyComponent},
 
-      
+  { path: 'GetAllProject', component: ProjectComponent },
+  { path: 'updaetInjection', component: UpdateInjectionMoldingComponent },
+  { path: 'get-additivebyid/:id', component: GetAdditivebyidComponent },
+  { path: 'manageusers', component: ManageusersComponent },
 
-      // Additive Routes
-      // {
-      //   path: 'addadditives',
-      //   component: AddadditivesComponent,
-      // },
-      // {
-      //   path: 'get-all-additives',
-      //   component: GetAllAdditivesComponent,
-      // },
-      // {
-      //   path: 'get-additivebyid/:id',
-      //   component: GetAdditivebyidComponent
-      // },{
-      //   path: 'manageusers',
-      //   component: ManageusersComponent
-      // }
-      {
-        path: 'recipedetails/:id', 
-        component: RecipedetailsComponent,
-      },
-      
-    ]
-  },
-  // {
-  //   path:"app-recipedetails",
-  //   component:RecipedetailsComponent
-  // },
-  {
-    path: 'app-recipedetails',
-    redirectTo: '/',
-    pathMatch: 'full',
-  },
-  {
-    path: '',
-    redirectTo: 'dashboard/recipedetails',
-    pathMatch: 'full',
-  },
-  {
-    path: '**',
-    redirectTo: 'auth/login',
-  },
-  {
-    path: 'GetAllProject',
-    component: ProjectComponent
-  }
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '**', redirectTo: 'login' }
 ];
