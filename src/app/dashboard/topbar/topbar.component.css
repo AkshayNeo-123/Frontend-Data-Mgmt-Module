@@ -2,7 +2,8 @@
   height: 60px;
   width: 100%;
   position: fixed;
-  background: #bfccf4;
+  /* background: #bfccf4; */
+   background: linear-gradient(135deg, #7addf6 0%, #8e9de2 100%);
 }
 
 button.topbar.btn.btn-outline-light {
