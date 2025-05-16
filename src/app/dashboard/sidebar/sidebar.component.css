@@ -31,7 +31,8 @@ sidebar::-webkit-scrollbar {
 
 
 .hover-effect:hover {
-  background-color: #bfccf4 !important; 
+  /* background-color: #bfccf4 !important;  */
+      background: linear-gradient(135deg, #7addf6 0%, #8e9de2 100%) !important;
   cursor: pointer;
 }
 
@@ -41,8 +42,8 @@ i {
 }
 
 .active-link {
-  background-color: #bfccf4; 
-  /* border-radius: 8px; */
+  /* background-color: #bfccf4;  */
+   background: linear-gradient(135deg, #7addf6 0%, #8e9de2 100%);
 }
 
 .nav-item {
