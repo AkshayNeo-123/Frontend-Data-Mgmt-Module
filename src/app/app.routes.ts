@@ -45,7 +45,7 @@ export const routes: Routes = [
   { path: 'updaetInjection', component: UpdateInjectionMoldingComponent },
   { path: 'get-additivebyid/:id', component: GetAdditivebyidComponent },
   { path: 'manageusers', component: ManageusersComponent },
-  {path:'comp-inject', component:GetCompInjectComponent},
+  { path: 'comp-inject', component:GetCompInjectComponent},
 
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }

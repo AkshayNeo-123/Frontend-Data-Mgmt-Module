@@ -16,4 +16,52 @@
         </div>
     </div>
 
+    <h2>Compounding Data</h2>
+
+<table mat-table [dataSource]="compoundingData" class="mat-elevation-z8 w-100 mt-4">
+
+  <!-- Compounding ID -->
+  <ng-container matColumnDef="compoundingId">
+    <th mat-header-cell *matHeaderCellDef> ID </th>
+    <td mat-cell *matCellDef="let element"> {{ element.compoundingId }} </td>
+  </ng-container>
+
+  <!-- Date -->
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef> Date </th>
+    <td mat-cell *matCellDef="let element"> {{ element.date }} </td>
+  </ng-container>
+
+  <!-- Temperature -->
+  <ng-container matColumnDef="temperature">
+    <th mat-header-cell *matHeaderCellDef> Temp (°C) </th>
+    <td mat-cell *matCellDef="let element"> {{ element.temperature }} </td>
+  </ng-container>
+
+  <!-- Notes -->
+  <ng-container matColumnDef="notes">
+    <th mat-header-cell *matHeaderCellDef> Notes </th>
+    <td mat-cell *matCellDef="let element"> {{ element.notes || '-' }} </td>
+  </ng-container>
+
+  <!-- Pretreatment -->
+  <ng-container matColumnDef="pretreatment">
+    <th mat-header-cell *matHeaderCellDef> Pretreatment </th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.pretreatmentNone ? 'None' : '' }}
+      {{ element.pretreatmentDrying ? 'Drying' : '' }}
+    </td>
+  </ng-container>
+
+  <!-- Not Measured -->
+  <ng-container matColumnDef="notMeasured">
+    <th mat-header-cell *matHeaderCellDef> Not Measured </th>
+    <td mat-cell *matCellDef="let element"> {{ element.notMeasured ? 'Yes' : 'No' }} </td>
+  </ng-container>
+
+  <!-- Header & Row Definitions -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
 </div>
