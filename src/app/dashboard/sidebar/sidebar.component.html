@@ -101,6 +101,12 @@
       </a>
     </li>
 
+    <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect">
+      <a [routerLink]="['/comp-inject']" class="text-decoration-none text-dark d-flex align-items-center w-100">
+        <i class="fas fa-box-open me-3"></i>
+        <span *ngIf="isOpen">CompoundingInjection</span>
+      </a>
+    </li>
   </ul>
 </div>
 
