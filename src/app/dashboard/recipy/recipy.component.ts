@@ -16,7 +16,7 @@ import * as FileSaver from 'file-saver';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-
+ 
 @Component({
   selector: 'app-recipy',
   templateUrl: './recipy.component.html',
@@ -37,9 +37,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RecipyComponent implements OnInit {
   private readonly EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-
+ 
   recipyList: Recipe[] = [];
-
+ 
   displayedColumns: string[] = [
     'productName',
     'recipeNumber',
@@ -50,20 +50,20 @@ export class RecipyComponent implements OnInit {
     // 'compounding',
     'actions',
   ];
-
+ 
   dataSource: MatTableDataSource<Recipe> = new MatTableDataSource<Recipe>();
-
+ 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+ 
   constructor(private recipeService: RecipeService,  private dialog: MatDialog,
     private router: Router,
     private toastr:ToastrService) {}
-
+ 
   ngOnInit(): void {
     this.loadRecipes();
   }
-
+ 
   loadRecipes(): void {
     this.recipeService.getAllRecipes().subscribe({
       next: (data) => {
@@ -78,35 +78,35 @@ export class RecipyComponent implements OnInit {
       error: (err) => console.error('Error fetching recipes', err),
     });
   }
-
+ 
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.dataSource.filter = filterValue;
-
+ 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
-
-  // openAddDialog(): void {
-  //   // const dialogRef = this.dialog.open(AddRecipyComponent, {
-  //   //   width: '90%',
-  //   //   maxWidth: '1000px',
-  //   //   disableClose: true,
-  //   // });
-
-  //   // dialogRef.afterClosed().subscribe((result) => {
-  //   //   if (result === true) {
-  //   //     this.loadRecipes();
-  //   //   }
-  //   // });
-  //   this.router.navigate(['/addRecipe']);
-  // }
-  addRecipe(){
-    this.router.navigate(['/addRecipe']);
-
+ 
+  openAddDialog(): void {
+    const dialogRef = this.dialog.open(AddRecipyComponent, {
+      width: '90%',
+      maxWidth: '1000px',
+      disableClose: true,
+    });
+ 
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.loadRecipes();
+      }
+    });
+ 
   }
-
+  // addRecipe(){
+  //   this.router.navigate(['/addRecipe']);
+ 
+  // }
+ 
   editRecipe(recipe: Recipe): void {
     const dialogRef = this.dialog.open(AddRecipyComponent, {
       width: '90%',
@@ -114,19 +114,19 @@ export class RecipyComponent implements OnInit {
       disableClose: true,
       data: { recipe }, // pass recipe for edit
     });
-
+ 
     dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
         this.loadRecipes();
       }
     });
   }
-
-    
+ 
+   
      
-  
-
-  
+ 
+ 
+ 
   deleteContactsDetails(recipeId: number) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
                width: '350px',
@@ -155,13 +155,13 @@ export class RecipyComponent implements OnInit {
      }
    });
  }
-
-
-                          
-
-
-
-
+ 
+ 
+                         
+ 
+ 
+ 
+ 
   downloadCompoundingData(recipe: Recipe): void {
     const worksheet = XLSX.utils.json_to_sheet([
       {
@@ -172,10 +172,11 @@ export class RecipyComponent implements OnInit {
         Composition: recipe.composition,
       },
     ]);
-
+ 
     const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
     const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     const data: Blob = new Blob([excelBuffer], { type: this.EXCEL_TYPE });
     FileSaver.saveAs(data, `${recipe.productName}_Compounding.xlsx`);
   }
 }
+ 

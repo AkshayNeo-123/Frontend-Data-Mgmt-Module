@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormBuilder,   
+  FormBuilder,  
   FormGroup,
   Validators,
   ReactiveFormsModule,
@@ -25,8 +25,7 @@ import { ComponentService } from '../../../services/component.service';
 import { RecipeComponentType } from '../../../models/recipe-component-type.model';
 import { Recipe } from '../../../models/recipe.model';
 import { ToastrService } from 'ngx-toastr';
-import { RouterModule } from '@angular/router';
-
+ 
 interface ComponentRow {
   componentId: number | null;
   wtPercentage: number | null;
@@ -36,7 +35,7 @@ interface ComponentRow {
   mp: boolean;
   mf: boolean;
 }
-
+ 
 @Component({
   selector: 'app-add-recipy',
   standalone: true,
@@ -53,11 +52,7 @@ interface ComponentRow {
     MatCheckboxModule,
     MatIconModule,
     MatTableModule,
-    RouterModule
   ],
-  providers: [
-  { provide: MAT_DIALOG_DATA, useValue: {} }
-]
 })
 export class AddRecipyComponent implements OnInit {
   recipeForm: FormGroup;
@@ -77,15 +72,14 @@ export class AddRecipyComponent implements OnInit {
     'actions',
   ];
   isEdit = false;
-
+ 
   constructor(
     private fb: FormBuilder,
-    // private dialogRef: MatDialogRef<AddRecipyComponent>,
+    private dialogRef: MatDialogRef<AddRecipyComponent>,
     private recipeService: RecipeService,
     private commonService: CommonService,
     private componentService: ComponentService,
-    // @Inject(MAT_DIALOG_DATA) public data: { recipe: Recipe },
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: { recipe: Recipe },
     private projectService: ProjectService,
     private toastr: ToastrService
   ) {
@@ -98,10 +92,10 @@ export class AddRecipyComponent implements OnInit {
       components: this.fb.array([]),
     });
   }
-
+ 
   ngOnInit(): void {
     this.loadDropdownData();
-
+ 
     if (this.data?.recipe) {
       this.isEdit = true;
       const r = this.data.recipe;
@@ -113,7 +107,7 @@ export class AddRecipyComponent implements OnInit {
         projectId: res.recipe.projectId,
         additiveId: res.recipe.additiveId,
         mainPolymerId: res.recipe.mainPolymerId,
-        
+       
       });
       const composition = res.component ?? [];
       if (Array.isArray(composition) && composition.length > 0) {
@@ -126,20 +120,20 @@ export class AddRecipyComponent implements OnInit {
           this.toastr.error('Failed to load recipe', 'Error');
         },
       });
-
+ 
       // this.recipeForm.patchValue({
       //   productName: r,
       //   comments: r.comment,
       //   projectId: r.projectId,
       //   additiveId: r.additiveId,
       //   mainPolymerId: r.mainPolymerId,
-        
+       
       // });
-
-      
+ 
+     
     }
   }
-
+ 
   // Custom validator for percentage range
   percentageRangeValidator() {
     return (control: any) => {
@@ -150,7 +144,7 @@ export class AddRecipyComponent implements OnInit {
       return null;
     };
   }
-
+ 
   initForm(): void {
     this.recipeForm = this.fb.group({
       productName: ['', Validators.required],
@@ -161,7 +155,7 @@ export class AddRecipyComponent implements OnInit {
       components: this.fb.array([]),
     });
   }
-
+ 
   loadDropdownData(): void {
     this.projectService.getAllProjects().subscribe((res) => (this.projects = res));
     this.commonService.getAdditives().subscribe((res) => (this.additives = res));
@@ -169,11 +163,11 @@ export class AddRecipyComponent implements OnInit {
     this.componentService.getAllComponents().subscribe((res) => (this.availableComponents = res));
     this.commonService.getRecipeComponentTypes().subscribe((res) => (this.componentTypes = res));
   }
-
+ 
   get components(): FormArray {
     return this.recipeForm.get('components') as FormArray;
   }
-
+ 
   addComponent(component: any = {}): void {
     const componentGroup = this.fb.group({
       componentId: [component.componentId || null],
@@ -189,8 +183,8 @@ export class AddRecipyComponent implements OnInit {
       typeId: [component.typeId || null],
       mp: [component.mp || false],
       mf: [component.mf || false],
-    }); 
-
+    });
+ 
     this.components.push(componentGroup);
   }
 //   addComponent(component: any = {}): void {
@@ -209,19 +203,19 @@ export class AddRecipyComponent implements OnInit {
 //     mp: [component.mp || false],
 //     mf: [component.mf || false],
 //   });
-
+ 
 //   this.components.push(componentGroup);
 // }
-
-
+ 
+ 
   deleteComponent(index: number): void {
     this.components.removeAt(index);
   }
-
+ 
   onSubmit(): void {
     if (this.recipeForm.valid) {
       const formValue = this.recipeForm.value;
-
+ 
       const payload = {
         recipe: {
           productName: this.recipeForm.value.productName,
@@ -232,15 +226,15 @@ export class AddRecipyComponent implements OnInit {
         },
         component: this.components.value,
       };
-
+ 
       if (this.isEdit && this.data.recipe?.receipeId) {
         console.log(payload);
-        
+       
         this.recipeService.updateRecipe(this.data.recipe.receipeId, payload).subscribe({
           next: () => {
             console.log('Recipe Updated successfully');
             this.toastr.success('Updated successfully', 'Success');
-            // this.dialogRef.close(true); // ✅ Triggers reload in parent
+            this.dialogRef.close(true); // ✅ Triggers reload in parent
           },
           error: (err) => {
             console.error('Error updating recipe', err);
@@ -252,7 +246,7 @@ export class AddRecipyComponent implements OnInit {
           next: () => {
             console.log('Recipe added successfully');
             this.toastr.success('Added successfully', 'Success');
-            // this.dialogRef.close(true); // ✅ Triggers reload in parent
+            this.dialogRef.close(true); // ✅ Triggers reload in parent
           },
           error: (err) => {
             console.error('Error adding recipe', err);
@@ -264,8 +258,9 @@ export class AddRecipyComponent implements OnInit {
       this.toastr.error('Please fill in all required fields', 'Form Error');
     }
   }
-
+ 
   onCancel(): void {
-    // this.dialogRef.close(false); // Close without saving
+    this.dialogRef.close(false); // Close without saving
   }
 }
+ 
