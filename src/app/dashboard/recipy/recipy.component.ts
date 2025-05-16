@@ -14,7 +14,7 @@ import { AddRecipyComponent } from './add-recipy/add-recipy.component';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -32,6 +32,7 @@ import { ToastrService } from 'ngx-toastr';
     MatDialogModule,
     MatIconModule,
     MatButtonModule,
+    // RouterModule
   ],
 })
 export class RecipyComponent implements OnInit {
@@ -87,18 +88,23 @@ export class RecipyComponent implements OnInit {
     }
   }
 
-  openAddDialog(): void {
-    const dialogRef = this.dialog.open(AddRecipyComponent, {
-      width: '90%',
-      maxWidth: '1000px',
-      disableClose: true,
-    });
+  // openAddDialog(): void {
+  //   // const dialogRef = this.dialog.open(AddRecipyComponent, {
+  //   //   width: '90%',
+  //   //   maxWidth: '1000px',
+  //   //   disableClose: true,
+  //   // });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === true) {
-        this.loadRecipes();
-      }
-    });
+  //   // dialogRef.afterClosed().subscribe((result) => {
+  //   //   if (result === true) {
+  //   //     this.loadRecipes();
+  //   //   }
+  //   // });
+  //   this.router.navigate(['/addRecipe']);
+  // }
+  addRecipe(){
+    this.router.navigate(['/addRecipe']);
+
   }
 
   editRecipe(recipe: Recipe): void {

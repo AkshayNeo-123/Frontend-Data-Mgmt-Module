@@ -13,9 +13,9 @@ export class SidebarComponent {
   @Input() isOpen: boolean = true;
   isSidebarOpen = true;
 
-  // toggleSidebar() {
-  //   this.isOpen = !this.isOpen;
-  // }
+  toggleSidebar() {
+    this.isOpen = !this.isOpen;
+  }
 
   onToggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;

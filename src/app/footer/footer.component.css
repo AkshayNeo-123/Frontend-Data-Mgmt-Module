@@ -6,6 +6,7 @@
     background-color: #c3edb1;
     color:black;
     font-weight: 600;
-    z-index: 999;
+    z-index: 1;
+    /* height: 7vh; */
   }
   

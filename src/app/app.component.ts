@@ -39,6 +39,10 @@ export class AppComponent {
   get needSideBar(): boolean {
     return this.isCurrentRoute([ '/login','/']);
   }
+  // isSidebarOpen = true;
+  // onToggleSidebar(): void {
+  //   this.isSidebarOpen = !this.isSidebarOpen;
+  // }
   
  
  

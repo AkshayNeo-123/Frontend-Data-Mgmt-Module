@@ -35,4 +35,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
   }
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('UserId');  // Or your actual auth check
+  }
 }
