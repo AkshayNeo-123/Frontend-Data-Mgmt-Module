@@ -1,0 +1,124 @@
+<div class="container">
+  <h1 mat-dialog-title>Add Role</h1>
+
+<form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
+  <mat-form-field class="w-100">
+    <mat-label>Role Name</mat-label>
+    <input matInput formControlName="roleName" required />
+    <mat-error *ngIf="roleForm.get('roleName')?.hasError('required')">
+      Role Name is required.
+    </mat-error>
+  </mat-form-field>
+
+  <!-- <mat-form-field class="w-100">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field> -->
+
+  <!-- <div class="mt-3" formGroupName="permissions">
+    <label class="font-weight-bold">Permissions:</label>
+    <div *ngFor="let permission of modulePermissions">
+      <mat-checkbox [formControlName]="permission.key">
+        {{ permission.label }}
+      </mat-checkbox>
+    </div>
+  </div> -->
+
+  
+  <!-- <div class="mt-3" [formGroup]="permissionsFormGroup"> -->
+    <div formGroupName="permissions">
+      <label class="font-weight-bold">Permissions:</label>
+      <mat-checkbox [checked]="selectAllChecked" (change)="toggleAllPermissions($event)">Select All</mat-checkbox>
+      <div *ngFor="let permission of modulePermissions" [formGroupName]="permission.id" class="mt-2">
+        <strong>{{ permission.menuName }}</strong>
+        <!-- <mat-checkbox formControlName="view" (change)="onViewChange(permission.id.toString())">View</mat-checkbox> -->
+        <mat-checkbox formControlName="view" (change)="onAnyPermissionChange()">View</mat-checkbox>
+        <mat-checkbox formControlName="create" (change)="onAnyPermissionChange()">Create</mat-checkbox>
+        <mat-checkbox formControlName="update" (change)="onAnyPermissionChange()">Update</mat-checkbox>
+        <mat-checkbox formControlName="delete" (change)="onAnyPermissionChange()">Delete</mat-checkbox>
+      </div>
+    </div>
+    
+  <!-- </div> -->
+
+  <!-- <div class="mt-4" style="text-align: right;">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary" type="submit">
+      Save
+    </button>
+  </div> -->
+
+  <mat-dialog-actions align="end" class="btnFix">
+    <button mat-raised-button color="primary" type="submit">Save</button>
+    <button mat-raised-button type="button" (click)="onCancel()">Cancel</button>
+  </mat-dialog-actions>
+
+</form>
+</div> 
+
+<!-- <h1 mat-dialog-title>{{ isEditMode ? 'Edit Role' : 'Add Role' }}</h1>
+
+<form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
+  <mat-form-field class="w-100">
+    <mat-label>Role Name</mat-label>
+    <input matInput formControlName="roleName" required />
+    <mat-error *ngIf="roleForm.get('roleName')?.hasError('required')">
+      Role Name is required.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="w-100">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+
+  <div class="mt-3" [formGroup]="permissionsFormGroup">
+    <label class="font-weight-bold">Permissions:</label>
+    <div *ngFor="let permission of modulePermissions">
+      <mat-checkbox [formControlName]="permission.key">
+        {{ permission.label }}
+      </mat-checkbox>
+    </div>
+  </div>
+
+  <div class="mt-4" style="text-align: right;">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="roleForm.invalid">
+      Save
+    </button>
+  </div>
+</form> -->
+
+<!-- 
+<h1 mat-dialog-title>Add Role</h1>
+
+<form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
+  <mat-form-field class="w-100">
+    <mat-label>Role Name</mat-label>
+    <input matInput formControlName="roleName" required />
+    <mat-error *ngIf="roleForm.get('roleName')?.hasError('required')">
+      Role Name is required.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="w-100">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+
+  <div class="mt-3" [formGroup]="permissionsFormGroup">
+    <label class="font-weight-bold">Permissions:</label>
+    <div *ngFor="let permission of modulePermissions">
+      <mat-checkbox [formControlName]="permission.key">
+        {{ permission.label }}
+      </mat-checkbox>
+    </div>
+  </div>
+
+  <div class="mt-4" style="text-align: right;">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="roleForm.invalid">
+      Save
+    </button>
+  </div>
+</form> -->

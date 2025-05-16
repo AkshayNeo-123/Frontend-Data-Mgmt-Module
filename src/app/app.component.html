@@ -1,2 +1,22 @@
+<!-- <app-topbar></app-topbar>
+<div class="d-flex gap-1">
+<app-sidebar></app-sidebar>
 
 <router-outlet></router-outlet>
+</div>
+<app-footer></app-footer> -->
+<div class="app-container">
+  <app-topbar *ngIf="showSidebar" class="app-header"></app-topbar>
+ 
+  <div class="app-body" [ngClass]="{ 'no-sidebar': !showSidebar }">
+    <app-sidebar *ngIf="showSidebar" class="app-sidebar"></app-sidebar>
+ 
+    <main class="app-content"  [ngClass]="{ 'auth-bg': isCurrentRoute(['/login','/']) }">
+      <!-- <app-back-button *ngIf="showBackButton"></app-back-button> -->
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+ 
+  <app-footer *ngIf="showHeaderAndFooter" class="app-footer"></app-footer>
+</div>
+ 

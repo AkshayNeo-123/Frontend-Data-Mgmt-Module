@@ -17,6 +17,7 @@ import { UpdateProjectComponent } from '../update-project/update-project.compone
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { Location } from '@angular/common';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-project',
@@ -90,7 +91,7 @@ export class ProjectComponent implements OnInit {
       const dialogRef = this.dialog.open(AddprojectComponent, {
         width: '80%',  
         maxWidth: '800px',
-        // maxHeight:'65vh',
+        maxHeight:'65vh',
         disableClose: true,
       });
     }
@@ -152,9 +153,24 @@ export class ProjectComponent implements OnInit {
         }
       });
     }
-    onExport() {
-      this.projectService.exportData();
-    }
+onExport(): void {
+  const exportData = this.dataSource.data.map((project: any) => ({
+    'Project Number': project.projectNumber || '-',
+    'Project Name': project.projectName || '-',
+    'Status': project.status?.status || '-',
+    'Area': project.areas?.area || '-',
+    'Project Type': project.projectTypes?.projectTypeName || '-',
+    'Priority': project.priorities?.priority || '-',
+    'Start Date': project.startDate ? new Date(project.startDate).toLocaleDateString() : '-',
+    'End Date': project.endDate ? new Date(project.endDate).toLocaleDateString() : '-'
+  }));
+
+  const worksheet = XLSX.utils.json_to_sheet(exportData);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Projects');
+
+  XLSX.writeFile(workbook, 'Projects.xlsx');
+}
 
     goBack(): void {
       this.location.back();

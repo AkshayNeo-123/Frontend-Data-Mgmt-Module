@@ -9,6 +9,10 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { inject } from '@angular/core';
 import { RoleService } from '../../services/role.service';
+import { AddRoleComponent } from './add-role/add-role.component';
+import { EditRoleComponent } from './edit-role/edit-role.component';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 
 @Component({
   selector: 'app-rolemaster',
@@ -26,6 +30,7 @@ import { RoleService } from '../../services/role.service';
   styleUrl: './rolemaster.component.css'
 })
 export class RolemasterComponent implements OnInit {
+  roleList: any[] = [];
   private roleService = inject(RoleService);
   displayedColumns: string[] = ['roleName', 'actions'];
   dataSource = new MatTableDataSource<any>();
@@ -33,10 +38,31 @@ export class RolemasterComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    // private roleService: RoleService,
+    private dialog: MatDialog,
+    private toastr: ToastrService  
+  ) {}
 
   ngOnInit(): void {
+    this.dataSource.filterPredicate = (data, filter) => {
+      return data.roleName.toLowerCase().includes(filter);
+    };
     this.fetchRoles();
+  }
+
+  ngAfterViewInit(){
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+    this.dataSource.sortingDataAccessor = (data, property) => {
+      switch(property){
+        case 'roleName':
+          return data.roleName?.toLowerCase();
+          default:
+            return (data as any)[property];
+      }
+    }
   }
 
   fetchRoles() {
@@ -57,27 +83,101 @@ export class RolemasterComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
+  // openAddRoleDialog() {
+  //   const dialogRef = this.dialog.open(AddRoleDialogComponent, {
+  //     width: '400px',
+  //   });
+  
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result) {
+  //       this.fetchRoles(); // Refresh roles list
+  //     }
+  //   });
+  //   // console.log('Add Role clicked');
+  //   //will update later
+  // }
+
+  
+
   openAddRoleDialog() {
-    console.log('Add Role clicked');
-    //will update later
+    // this.dialog.open(AddRoleComponent);
+    const dialogRef = this.dialog.open(AddRoleComponent, {
+      height: '70%',
+      width: '80%',
+      maxWidth: '800px'
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fetchRoles(); 
+        }
+      });
   }
+
+  openEditRoleDialog(role: any): void {
+    const dialogRef = this.dialog.open(EditRoleComponent, {
+      height: '70%',
+      width: '80%',
+      maxWidth: '800px',
+      data: role
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fetchRoles();
+      }
+    });
+  }
+
+  // getRoles(): void {
+  //   this.roleService.getRoles().subscribe((roles) => {
+  //     this.roleList = roles;
+  //   });
+  // }
 
   editRole(role: any) {
     console.log('Edit Role:', role);
   }
 
-  deleteRole(id: number) {
-    if (confirm('Are you sure you want to delete this role?')) {
+  // deleteRole(id: number) {
+  //   if (confirm('Are you sure you want to delete this role?')) {
+  //     this.roleService.deleteRole(id).subscribe({
+  //       next: () => {
+  //         this.dataSource.data = this.dataSource.data.filter(r => r.roleId !== id);
+  //         alert('Role deleted successfully!');
+  //       },
+  //       error: err => {
+  //         console.error('Error deleting role:', err);
+  //         alert('Failed to delete role!');
+  //       }
+  //     });
+  //   }
+  // }
+deleteRole(id: number) {
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    data: {
+      title: 'Confirm Delete',
+      message: 'Are you sure you want to delete this role?'
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result === true) {
       this.roleService.deleteRole(id).subscribe({
         next: () => {
-          this.dataSource.data = this.dataSource.data.filter(r => r.roleId !== id);
-          alert('Role deleted successfully!');
+          this.dataSource.data = this.dataSource.data.filter(role => role.roleId !== id);
+          this.toastr.success('Role deleted successfully!', 'Success', {
+            timeOut: 5000
+          });
         },
         error: err => {
           console.error('Error deleting role:', err);
-          alert('Failed to delete role!');
+          this.toastr.warning('Failed to delete the role!', 'Warning', {
+            timeOut: 5000
+          });
         }
       });
     }
-  }
+  });
 }
+}
+
