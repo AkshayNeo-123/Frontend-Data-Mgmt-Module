@@ -72,259 +72,150 @@
       </div>
     </div>
 
-    <!-- <div formArrayName="components" class="mt-4">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <label class="fw-bold fs-5">Components</label>
-        <button type="button" class="btn btn-outline-primary btn-sm" (click)="addComponent()">Add Component</button>
-      </div>
+<div formArrayName="components" class="mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <label class="fw-bold fs-5">Components</label>
+    <button
+      type="button"
+      class="btn btn-outline-primary btn-sm"
+      (click)="addComponent()"
+    >
+      Add Component
+    </button>
+  </div>
 
-      <div *ngFor="let comp of components.controls; let i = index" [formGroupName]="i">
-        <div class="row mb-3 g-2">
-          <div class="col-md-2">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Component</mat-label>
-              <mat-select formControlName="componentId" required>
-                <mat-option *ngFor="let c of availableComponents" [value]="c.id">
-                  {{ c.componentName }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-
-         
-
-          <div class="col-md-2">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>WT%</mat-label>
-              <input matInput type="number" formControlName="wtPercent" />
-              <mat-error *ngIf="comp.get('wtPercent')?.hasError('required')">
-                WT% is required
-              </mat-error>
-              <mat-error *ngIf="comp.get('wtPercent')?.hasError('percentageRange')">
-                WT% must be between 0 and 100
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-         
-          <div class="col-md-1">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>VOL%</mat-label>
-              <input matInput type="number" formControlName="valPercent" />
-              <mat-error *ngIf="comp.get('valPercent')?.hasError('required')">
-                VOL% is required
-              </mat-error>
-              <mat-error *ngIf="comp.get('valPercent')?.hasError('percentageRange')">
-                VOL% must be between 0 and 100
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-          <div class="col-md-2">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Density</mat-label>
-              <input matInput type="number" formControlName="density" />
-              <mat-error *ngIf="comp.get('density')?.hasError('percentageRange')">
-                WT% must be between 0 and 100
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-          <div class="col-md-2">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Type</mat-label>
-              <mat-select formControlName="typeId">
-                <mat-option *ngFor="let type of componentTypes" [value]="type.id">
-                  {{ type.type }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-
-          <div class="col-md-2 d-flex align-items-center">
-            <mat-checkbox formControlName="mp">MP</mat-checkbox>
-            <mat-checkbox formControlName="mf" class="ms-2">MF</mat-checkbox>
-          </div>
-
-          <div class="col-md-1 d-flex align-items-center justify-content-center">
-            <button mat-icon-button color="warn" (click)="deleteComponent(i)" type="button"
-              aria-label="Delete component">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>  -->
-    <div formArrayName="components" class="mt-4">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <label class="fw-bold fs-5">Components</label>
-        <button
-          type="button"
-          class="btn btn-outline-primary btn-sm"
-          (click)="addComponent()"
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle text-center">
+      <thead class="table-light">
+        <tr>
+          <th>Component</th>
+          <th>WT%</th>
+          <th>VOL%</th>
+          <th>Density</th>
+          <th>Type</th>
+          <th>MP / MF</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let comp of components.controls; let i = index"
+          [formGroupName]="i"
         >
-          Add Component
-        </button>
-      </div>
-
-
-      <div class="row fw-bold text-center mb-2">
-        <div class="col-md-2">Component</div>
-        <div class="col-md-2">WT%</div>
-        <div class="col-md-2">VOL%</div>
-        <div class="col-md-1">Density</div>
-        <div class="col-md-2">Type</div>
-        <div class="col-md-2">MP / MF</div>
-        <div class="col-md-1">Delete</div>
-      </div>
-
- 
-      <div
-        *ngFor="let comp of components.controls; let i = index"
-        [formGroupName]="i"
-        class="row align-items-center mb-2"
-      >
-
-        <div class="col-md-2">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select formControlName="componentId" required>
-              <mat-option *ngFor="let c of availableComponents" [value]="c.id">
+          <!-- Component dropdown -->
+          <td>
+            <select
+              class="form-select"
+              formControlName="componentId"
+              required
+            >
+              <option value="" disabled selected>Select</option>
+              <option
+                *ngFor="let c of availableComponents"
+                [value]="c.id"
+              >
                 {{ c.componentName }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+              </option>
+            </select>
+          </td>
 
-
-        <div class="col-md-2">
-          <mat-form-field appearance="outline" class="w-100">
+          <!-- WT% input -->
+          <td>
             <input
-              matInput
+              type="number"
               min="0"
               max="100"
               step="0.1"
-              type="number"
+              class="form-control"
               formControlName="wtPercent"
             />
-            
-          </mat-form-field>
-        </div>
+          </td>
 
-
-        <div class="col-md-2">
-          <mat-form-field appearance="outline" class="w-100">
+          <!-- VOL% input -->
+          <td>
             <input
-              matInput
+              type="number"
               min="0"
               max="100"
               step="0.1"
-              type="number"
+              class="form-control"
               formControlName="valPercent"
             />
-            
-          </mat-form-field>
-        </div>
+          </td>
 
-        <div class="col-md-1">
-          <mat-form-field appearance="outline" class="w-100">
+          <!-- Density input -->
+          <td>
             <input
-              matInput
+              type="number"
               min="0"
               max="25"
               step="0.01"
-              type="number"
+              class="form-control"
               formControlName="density"
             />
-          </mat-form-field>
-        </div>
+          </td>
 
-
-        <div class="col-md-2">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select formControlName="typeId">
-              <mat-option *ngFor="let type of componentTypes" [value]="type.id">
-                {{ type.type }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-
-        <div class="col-md-2 d-flex align-items-center checkboxgrp">
-          <mat-checkbox formControlName="mp">MP</mat-checkbox>
-          <mat-checkbox formControlName="mf">MF</mat-checkbox>
-        </div>
-  
-        <div class="col-md-1 text-center checkboxgrp">
-          <button
-            mat-icon-button
-            color="warn"
-            (click)="deleteComponent(i)"
-            type="button"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- <div class="card p-3">
-    <table class="table table-bordered table-sm text-center align-middle">
-      <thead class="table-light">
-        <tr>
-          <th>Component Name</th>
-          <th>wtPercentage [%]</th>
-          <th>volPercentage [%]</th>
-          <th>density</th>
-          <th>MF</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody formArrayName="components">
-        <tr *ngFor="let row of availableComponents; let i = index" [formGroupName]="i">
+          <!-- Type dropdown -->
           <td>
-            <select class="form-select" formControlName="name">
-              <option value="" disabled selected>-- Select --</option>
-              <option *ngFor="let option of availableComponents" [value]="option.id">
-                {{ option.componentName }}
+            <select
+              class="form-select"
+              formControlName="typeId"
+              required
+            >
+              <option value="" disabled selected>Select</option>
+              <option
+                *ngFor="let type of componentTypes"
+                [value]="type.id"
+              >
+                {{ type.type }}
               </option>
             </select>
-
           </td>
 
+          <!-- MP / MF checkboxes -->
           <td>
-            <input type="number" class="form-control" formControlName="wtPercentage" min="0" max="100"/>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="mp"
+                id="mp-{{ i }}"
+              />
+              <label class="form-check-label" for="mp-{{ i }}">MP</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="mf"
+                id="mf-{{ i }}"
+              />
+              <label class="form-check-label" for="mf-{{ i }}">MF</label>
+            </div>
           </td>
-          <td>
-            <input type="number" class="form-control" formControlName="volPercentage" min="0" max="100"/>
-          </td>
-          <td><mat-checkbox type="checkbox" formControlName="MF" /></td>
-          <td><mat-checkbox type="checkbox" formControlName="SecondF" /></td>
-          <td><mat-checkbox type="checkbox" formControlName="SF" /></td>
-          <td><mat-checkbox type="checkbox" formControlName="A" /></td>
-          <td><mat-checkbox type="checkbox" formControlName="B" /></td>
-          <td><mat-checkbox type="checkbox" formControlName="C" /></td>
-          <td><mat-checkbox type="checkbox" formControlName="D" /></td>
-          <td><mat-checkbox type="checkbox" formControlName="E" /></td>
-          <td><mat-checkbox type="checkbox" formControlName="F" /></td>
 
+          <!-- Delete button -->
           <td>
-            <button type="button" class="btn btn-outline-danger" (click)="removeComponent(i)">
-              <i class="fas fa-trash-alt action-icon"></i>
+            <button
+              type="button"
+              class="btn btn-sm btn-danger"
+              (click)="deleteComponent(i)"
+            >
+              Delete
             </button>
           </td>
         </tr>
       </tbody>
     </table>
+  </div>
+</div>
 
-    <div class="d-flex justify-content-between">
-      <div><strong>Total [%]: {{ getTotalShare() }}</strong></div>
-      <button type="button" class="btn btn-primary btn-sm" (click)="addComponent()">Add new component</button>
-    </div>
-  </div> -->
+
+
+
 
     <div class="mt-4 d-flex justify-content-end gap-2">
-      <button mat-raised-button type="submit" color="primary">Submit</button>
+      <button mat-raised-button type="submit" color="primary">{{isEdit ? 'Update' :'Save'}}</button>
       <button
         mat-stroked-button
         type="button"
