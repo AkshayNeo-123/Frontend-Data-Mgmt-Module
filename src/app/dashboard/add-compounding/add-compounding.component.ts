@@ -34,7 +34,7 @@ export class AddCompoundingComponent {
   compoundForm: FormGroup;
   componentOptions: any[] = [];
   repetitionCount = 0;
-maxRepetition: number = 230;
+  maxRepetition: number = 230;
 
   // today = new Date();
 
@@ -148,23 +148,25 @@ maxRepetition: number = 230;
       .reduce((acc: number, curr: any) => acc + (+curr.share || 0), 0);
   }
 
+    selectedFileNames: { [key: string]: string } = {};
+
   onFileSelected(event: Event, controlName: string): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
-
+  
     if (file) {
       if (file.type !== 'application/pdf') {
         this.toastr.error('Only PDF files are allowed.', 'Invalid File', { timeOut: 3000 });
         input.value = '';
         return;
       }
-
+  
       const currentFilePath = this.compoundForm.get(controlName)?.value;
       if (currentFilePath) {
         this.materialService.updateMaterialFile(file, currentFilePath).subscribe({
           next: (res) => {
             const filePath = `${res.fileName}`;
-            this.compoundForm.get(controlName)?.setValue(filePath);
+            this.compoundForm.get(controlName)?.setValue(filePath);  
           },
           error: (err) => {
             console.error('File upload failed:', err);
@@ -185,21 +187,22 @@ maxRepetition: number = 230;
       }
     }
   }
+  
 
- increaseRepetition() {
-  if (this.repetitionCount < this.maxRepetition) {
-    this.repetitionCount++;
+  increaseRepetition() {
+    if (this.repetitionCount < this.maxRepetition) {
+      this.repetitionCount++;
+    }
   }
-}
 
-decreaseRepetition() {
-  if (this.repetitionCount > 0) {
-    this.repetitionCount--;
+  decreaseRepetition() {
+    if (this.repetitionCount > 0) {
+      this.repetitionCount--;
+    }
   }
-}
 
   onSubmit() {
-    const adduserId=localStorage.getItem('UserId');
+    const adduserId = localStorage.getItem('UserId');
 
 
     if (this.compoundForm.invalid) {
@@ -265,7 +268,7 @@ decreaseRepetition() {
         pretreatmentNone: formValue.pretreatmentNone,
         pretreatmentDrying: formValue.pretreatmentDrying,
         dryingTime: formValue.dryingTime,
-         createdBy: adduserId,
+        createdBy: adduserId,
       },
       ...(filteredComponents.length > 0 && {
         components: filteredComponents,
@@ -310,7 +313,7 @@ decreaseRepetition() {
         temperatureWaterBath2: formValue.tempBath2,
         temperatureWaterBath3: formValue.tempBath3,
         createdDate: formValue.createdDate,
-        createdBy:adduserId,
+        createdBy: adduserId,
         modifiedBy: formValue.modifiedBy,
         modifiedDate: formValue.modifiedDate
       }
@@ -335,6 +338,16 @@ decreaseRepetition() {
       }
     });
   }
+
+  formatDate(e: any) {
+    console.log("hiiiiiiii");
+    const d = new Date(e.target.value);
+    d.setDate(d.getDate() + 1);
+    const convertDate = d.toISOString().split('T')[0];
+    console.log(convertDate);
+    this.compoundForm.get('date')?.setValue(convertDate, { onlySelf: true });
+  }
+
 
 
 }

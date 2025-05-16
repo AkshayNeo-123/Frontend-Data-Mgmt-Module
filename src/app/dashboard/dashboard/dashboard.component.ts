@@ -69,9 +69,11 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MatGridListModule,
     MatMomentDateModule,
     RouterModule,
-    // AddCompoundingComponent,
-    // UpdateInjectionMoldingComponent,
-    // UpdateCompoundingComponent,InfiniteScrollModule
+    AddCompoundingComponent,
+    UpdateInjectionMoldingComponent,
+    UpdateCompoundingComponent,
+    AddInjectionMoldingComponent
+    ,InfiniteScrollModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']

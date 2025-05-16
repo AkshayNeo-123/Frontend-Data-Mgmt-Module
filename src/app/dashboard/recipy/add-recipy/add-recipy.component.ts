@@ -63,10 +63,10 @@ export class AddRecipyComponent implements OnInit {
   componentTypes: RecipeComponentType[] = [];
   displayedColumns: string[] = [
     'componentId',
-    'wtPercentage',
-    'volPercentage',
+    'wtPercent',
+    'valPercent',
     'density',
-    'type',
+    'typeId',
     'mp',
     'mf',
     'actions',
@@ -99,20 +99,38 @@ export class AddRecipyComponent implements OnInit {
     if (this.data?.recipe) {
       this.isEdit = true;
       const r = this.data.recipe;
-
-      this.recipeForm.patchValue({
-        productName: r.productName,
-        comments: r.comment,
-        projectId: r.projectId,
-        additiveId: r.additiveId,
-        mainPolymerId: r.mainPolymerId,
+      this.commonService.getRecipeDataForUpdate(r.receipeId).subscribe({
+        next: (res) =>{ console.log(res);
+          this.recipeForm.patchValue({
+        productName: res.recipe.productName,
+        comments: res.recipe.comments,
+        projectId: res.recipe.projectId,
+        additiveId: res.recipe.additiveId,
+        mainPolymerId: res.recipe.mainPolymerId,
         
       });
-
-      const composition = r.components ?? [];
+      const composition = res.component ?? [];
       if (Array.isArray(composition) && composition.length > 0) {
         composition.forEach((component: any) => this.addComponent(component));
       }
+        }
+        ,
+        error: (err) => {
+          console.error('Error loading recipe by ID', err);
+          this.toastr.error('Failed to load recipe', 'Error');
+        },
+      });
+
+      // this.recipeForm.patchValue({
+      //   productName: r,
+      //   comments: r.comment,
+      //   projectId: r.projectId,
+      //   additiveId: r.additiveId,
+      //   mainPolymerId: r.mainPolymerId,
+        
+      // });
+
+      
     }
   }
 
@@ -152,23 +170,43 @@ export class AddRecipyComponent implements OnInit {
 
   addComponent(component: any = {}): void {
     const componentGroup = this.fb.group({
-      componentId: [component.componentId || null, Validators.required],
-      wtPercentage: [
-        component.wtPercentage ?? null,
-        [Validators.required, this.percentageRangeValidator()],
+      componentId: [component.componentId || null],
+      wtPercent: [
+        component.wtPercent || null,
+        [this.percentageRangeValidator()],
       ],
-      volPercentage: [
-        component.volPercentage ?? null,
-        [Validators.required, this.percentageRangeValidator()],
-      ],
+      valPercent: [
+  component.valPercent ?? null,
+  [this.percentageRangeValidator()],
+],
       density: [component.density || null],
-      type: [component.type || ''],
+      typeId: [component.typeId || null],
       mp: [component.mp || false],
       mf: [component.mf || false],
-    });
+    }); 
 
     this.components.push(componentGroup);
   }
+//   addComponent(component: any = {}): void {
+//   const componentGroup = this.fb.group({
+//     componentId: [component.componentId || null, Validators.required],
+//     wtPercent: [
+//       component.wtPercentage ?? null, // Corrected from wtPercent
+//       [Validators.required, this.percentageRangeValidator()],
+//     ],
+//     valPercent: [
+//       component.volPercentage ?? null, // Corrected from valPercent
+//       [Validators.required, this.percentageRangeValidator()],
+//     ],
+//     density: [component.density || null],
+//     typeId: [component.typeId || ''],
+//     mp: [component.mp || false],
+//     mf: [component.mf || false],
+//   });
+
+//   this.components.push(componentGroup);
+// }
+
 
   deleteComponent(index: number): void {
     this.components.removeAt(index);
@@ -190,6 +228,8 @@ export class AddRecipyComponent implements OnInit {
       };
 
       if (this.isEdit && this.data.recipe?.receipeId) {
+        console.log(payload);
+        
         this.recipeService.updateRecipe(this.data.recipe.receipeId, payload).subscribe({
           next: () => {
             console.log('Recipe Updated successfully');
