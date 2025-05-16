@@ -40,6 +40,7 @@ export interface Recipe {
 
 export interface RecipeAndProject{
   recipeId?:number;
+  productName?:string;
   projectNumber?:string,
   description?:string
  

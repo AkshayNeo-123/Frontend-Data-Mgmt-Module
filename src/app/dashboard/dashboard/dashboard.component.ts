@@ -98,7 +98,7 @@ totalPages:number=0;
   //    description:''
   // }
 
-  displayedColumns: string[] = ['recipeId','projectNumber', 'description'];
+  displayedColumns: string[] = ['recipeId','productName','projectNumber', 'description'];
   dataSource: MatTableDataSource<RecipeAndProject> = new MatTableDataSource<RecipeAndProject>();
 
   @ViewChild(MatSort) sort: MatSort | null = null;
