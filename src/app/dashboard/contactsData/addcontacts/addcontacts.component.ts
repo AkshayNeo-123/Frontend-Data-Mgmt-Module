@@ -83,7 +83,7 @@ export class AddcontactsComponent implements OnInit {
         Validators.required,
         Validators.pattern(/^[0-9]\d{9}$/)
       ]],
-      newCityName: ['', Validators.required]
+      newCityName: ['']
     });
   }
 

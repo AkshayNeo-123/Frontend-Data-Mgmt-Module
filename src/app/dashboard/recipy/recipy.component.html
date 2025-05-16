@@ -1,19 +1,18 @@
-<div class="container mb-5">
-  <h4 class="fw-bold">Recipe</h4>
-
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <button class="mr-3 add-material-btn me-4" (click)="openAddDialog()">
+<div class="container">
+  <h4 class="fw-bold">Recipe Table</h4>
+   <div class="d-flex align-items-center justify-content-between">
+    <div class="w-100">
+      <mat-form-field appearance="outline">
+        <mat-label>Search</mat-label>
+        <input matInput (input)="applyFilter($event)" placeholder="Search">
+      </mat-form-field>
+    </div>
+  <div>
+    <button mat-raised-button class="me-5 add-material-btn w-100" (click)="openAddDialog()">
       <i class="fas fa-plus me-2"></i> Add New Recipe
     </button>
-    <!-- <div class="d-flex justify-content-start align-items-center mb-3 flex-wrap">      
-      <button class="mr-3 add-user-btn me-4" (click)="openAddUserDialog()">
-        <i class="fas fa-plus me-2"></i> Add New User
-      </button> -->
-
-    <mat-form-field appearance="outline">
-      <mat-label>Filter</mat-label>
-      <input matInput (input)="applyFilter($event)" placeholder="Search">
-    </mat-form-field>
+  </div>
+ 
   </div>
 
 

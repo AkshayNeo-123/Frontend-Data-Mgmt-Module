@@ -1,7 +1,16 @@
 <div class="container mt-4">
   <h4 class="fw-bold mb-3">Main Polymer</h4>
 
-  <div class="d-flex justify-content-start align-items-center mb-3">
+<div class="d-flex align-items-center justify-content-between">
+  <div class="w-100">
+
+     <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search by main polymer name</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search main polymer" />
+    </mat-form-field>
+       
+  </div>
+  <div>
     <button   style=" font-size: 16px;
     padding: 8px 16px;
     border-radius: 4px;
@@ -11,15 +20,11 @@
     color: white;
     border: none;
     transition: background-color 0.3s ease;;"
-    class="mr-3 add-additives-btn me-4"
+    class="add-additives-btn me-5 w-100"
     (click)="openMainPolymerDialog()">
     <i class="fas fa-plus me-2"></i> Add Main Polymer
   </button>
-
-    <mat-form-field appearance="outline" class="search-field">
-      <mat-label>Search by main polymer name</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Search main polymer" />
-    </mat-form-field>
+    </div>
   </div>
   <div>
 

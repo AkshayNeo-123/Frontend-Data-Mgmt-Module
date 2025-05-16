@@ -92,7 +92,7 @@
       <mat-label>City Name</mat-label>
       <input matInput formControlName="newCityName" placeholder="Enter new city name" (keypress)="allowOnlyLetters($event)"/>
       <mat-error *ngIf="contactForm.get('newCityName')?.hasError('required')">
-        New City Name is required when 'Other' is selected.
+        City Name is required when 'Other' is selected.
       </mat-error>
     </mat-form-field>
   </div>
@@ -100,9 +100,7 @@
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Zip</mat-label>
         <input matInput  formControlName="zip" placeholder="Enter zip code" maxlength="6"  (keypress)="allowOnlyNumber($event)" />
-        <mat-error *ngIf="contactForm.get('zip')?.hasError('duplicate')">
-          This ZIP code is already in use.
-        </mat-error>
+        
       </mat-form-field>
 
       
@@ -112,9 +110,7 @@
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Phone</mat-label>
         <input matInput type="tel" formControlName="phone" placeholder="Enter phone" maxlength="10"  (keypress)="allowOnlyNumber($event)" />
-        <mat-error *ngIf="contactForm.get('phone')?.hasError('duplicate')">
-          This phone number is already in use.
-        </mat-error>
+        
       </mat-form-field>
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Email</mat-label>
