@@ -33,7 +33,7 @@ import { PermissionServiceService } from '../../services/permission-service.serv
 })
 export class ManageusersComponent implements OnInit {
   // displayedColumns: string[] = ['userId', 'firstName', 'lastName', 'email', 'roleId', 'status', 'actions'];
-  displayedColumns: string[] = ['userId', 'userName', 'status', 'roleId', 'actions'];
+  displayedColumns: string[] = ['userId', 'userName', 'status', 'roleId'];
   canAddUser = false;
   canEditUser = false;
   canDeleteUser = false;
@@ -73,7 +73,9 @@ export class ManageusersComponent implements OnInit {
     this.canEditUser = this.permissionService.hasPermission('User Management', 'canEdit');
     this.canDeleteUser = this.permissionService.hasPermission('User Management', 'canDelete');
     this.fetchUsers();
-   
+    if (this.canEditUser || this.canDeleteUser) {
+    this.displayedColumns.push('actions');
+  }
   }
   // getbutton(){
   //    const perms = this.permissionService.getPermissions();

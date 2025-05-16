@@ -56,7 +56,7 @@
         </ng-container>
   
         <!-- Actions -->
-        <ng-container matColumnDef="actions">
+        <ng-container *ngIf="canEditUser || canDeleteUser" matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let user">
             <i *ngIf="canEditUser" class="fas fa-pencil-alt me-3 action-icon" (click)="editUser(user)"></i>
