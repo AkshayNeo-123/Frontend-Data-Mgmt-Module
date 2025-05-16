@@ -88,24 +88,24 @@ export class RecipyComponent implements OnInit {
     }
   }
 
-  // openAddDialog(): void {
-  //   // const dialogRef = this.dialog.open(AddRecipyComponent, {
-  //   //   width: '90%',
-  //   //   maxWidth: '1000px',
-  //   //   disableClose: true,
-  //   // });
+  openAddDialog(): void {
+    const dialogRef = this.dialog.open(AddRecipyComponent, {
+      width: '90%',
+      maxWidth: '1000px',
+      disableClose: true,
+    });
 
-  //   // dialogRef.afterClosed().subscribe((result) => {
-  //   //   if (result === true) {
-  //   //     this.loadRecipes();
-  //   //   }
-  //   // });
-  //   this.router.navigate(['/addRecipe']);
-  // }
-  addRecipe(){
-    this.router.navigate(['/addRecipe']);
-
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.loadRecipes();
+      }
+    });
+  
   }
+  // addRecipe(){
+  //   this.router.navigate(['/addRecipe']);
+
+  // }
 
   editRecipe(recipe: Recipe): void {
     const dialogRef = this.dialog.open(AddRecipyComponent, {
