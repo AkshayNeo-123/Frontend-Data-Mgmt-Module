@@ -27,7 +27,7 @@
     </ng-container>
 
     <ng-container matColumnDef="productName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Recipe Name </th>
       <td mat-cell *matCellDef="let recipe"> {{recipe.productName}} </td>
     </ng-container>
 
@@ -37,12 +37,12 @@
     </ng-container>
 
 
-    <ng-container matColumnDef="composition">
+    <!-- <ng-container matColumnDef="composition">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Composition </th>
       <td mat-cell *matCellDef="let recipe">
         {{ recipe.composition }}
       </td>
-    </ng-container>
+    </ng-container> -->
 
     <ng-container matColumnDef="projectName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Project Number </th>
@@ -59,14 +59,14 @@
       <td mat-cell *matCellDef="let recipe"> {{recipe.polymerName}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="compounding">
+    <!-- <ng-container matColumnDef="compounding">
       <th mat-header-cell *matHeaderCellDef> Compounding Data </th>
       <td mat-cell *matCellDef="let recipe">
         <button mat-button color="primary" (click)="downloadCompoundingData(recipe)">
           <i class="fas fa-file-excel me-2"></i>Download
         </button>
       </td>
-    </ng-container>
+    </ng-container> -->
 
 
     <!-- <ng-container matColumnDef="actions">

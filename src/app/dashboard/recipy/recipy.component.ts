@@ -45,8 +45,8 @@ export class RecipyComponent implements OnInit {
     'projectName',
     'additiveName',
     'polymerName',
-    'composition',
-    'compounding',
+    // 'composition',
+    // 'compounding',
     'actions',
   ];
 
