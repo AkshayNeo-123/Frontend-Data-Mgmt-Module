@@ -50,6 +50,7 @@ export class LoginComponent implements OnInit {
   //   }, 500);
   // }
   ngOnInit(): void {
+    localStorage.clear();
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],

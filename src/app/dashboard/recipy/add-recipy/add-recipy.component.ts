@@ -25,6 +25,7 @@ import { ComponentService } from '../../../services/component.service';
 import { RecipeComponentType } from '../../../models/recipe-component-type.model';
 import { Recipe } from '../../../models/recipe.model';
 import { ToastrService } from 'ngx-toastr';
+import { RouterModule } from '@angular/router';
 
 interface ComponentRow {
   componentId: number | null;
@@ -52,7 +53,11 @@ interface ComponentRow {
     MatCheckboxModule,
     MatIconModule,
     MatTableModule,
+    RouterModule
   ],
+  providers: [
+  { provide: MAT_DIALOG_DATA, useValue: {} }
+]
 })
 export class AddRecipyComponent implements OnInit {
   recipeForm: FormGroup;
@@ -75,11 +80,12 @@ export class AddRecipyComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<AddRecipyComponent>,
+    // private dialogRef: MatDialogRef<AddRecipyComponent>,
     private recipeService: RecipeService,
     private commonService: CommonService,
     private componentService: ComponentService,
-    @Inject(MAT_DIALOG_DATA) public data: { recipe: Recipe },
+    // @Inject(MAT_DIALOG_DATA) public data: { recipe: Recipe },
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private projectService: ProjectService,
     private toastr: ToastrService
   ) {
@@ -234,7 +240,7 @@ export class AddRecipyComponent implements OnInit {
           next: () => {
             console.log('Recipe Updated successfully');
             this.toastr.success('Updated successfully', 'Success');
-            this.dialogRef.close(true); // ✅ Triggers reload in parent
+            // this.dialogRef.close(true); // ✅ Triggers reload in parent
           },
           error: (err) => {
             console.error('Error updating recipe', err);
@@ -246,7 +252,7 @@ export class AddRecipyComponent implements OnInit {
           next: () => {
             console.log('Recipe added successfully');
             this.toastr.success('Added successfully', 'Success');
-            this.dialogRef.close(true); // ✅ Triggers reload in parent
+            // this.dialogRef.close(true); // ✅ Triggers reload in parent
           },
           error: (err) => {
             console.error('Error adding recipe', err);
@@ -260,6 +266,6 @@ export class AddRecipyComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.dialogRef.close(false); // Close without saving
+    // this.dialogRef.close(false); // Close without saving
   }
 }
