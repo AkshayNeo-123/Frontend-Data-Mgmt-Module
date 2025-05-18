@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { InjectionMoldingService } from '../../services/injection-molding.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-get-comp-inject',
@@ -34,7 +35,7 @@ export class GetCompInjectComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private compoundingService: AddCompoundingService,private injectionService:InjectionMoldingService) {}
+  constructor(private compoundingService: AddCompoundingService,private injectionService:InjectionMoldingService,private router: Router) {}
 
   ngOnInit(): void {
     this.idOfRecipe = history.state.id;
@@ -80,5 +81,9 @@ export class GetCompInjectComponent implements OnInit, AfterViewInit {
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.dataSource.filter = filterValue;
+  }
+
+    navigateToAddCompounding() {
+    this.router.navigate(['/compounding']);
   }
 }
