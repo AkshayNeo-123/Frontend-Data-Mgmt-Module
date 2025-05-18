@@ -16,24 +16,24 @@ export class AddCompoundingService {
     return this.http.post<any>(this.addCompounding, compounding, { headers });
   }
 
-  getCompoundingDataById(): Observable<any> {
-  const id = 10; // hardcoded ID
-  const url = `${this.addCompounding}/GetDataByCompoundingId?id=${id}`;
-  return this.http.get<any>(url);
+
+getCompoundingDataById(id: number): Observable<any> {
+  return this.http.get<any>(`${this.addCompounding}/GetDataByCompoundingId`, {
+    params: { id: id.toString() }
+  });
 }
 
- updateCompoundingData(compounding: any): Observable<any> {
-  const id = 10; // hardcoded ID
+
+updateCompoundingData(id: number, compounding: any): Observable<any> {
   const url = `${this.addCompounding}?CompoundingId=${id}`;
   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   return this.http.put<any>(url, compounding, { headers });
 }
 
+
 getCompoundingDataByRecipeId(recipeId: number): Observable<any> {
   const url = `${this.addCompounding}/get-by-recipe-id/${recipeId}`;
   return this.http.get<any>(url);
 }
-
-
 
 }
