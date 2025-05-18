@@ -1,5 +1,6 @@
 // compounding-data.model.ts
 export interface CompoundingDataDTO {
+  compoundingId:number;
     receipeId: number;
     parameterSet: number;
     date: Date;

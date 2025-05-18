@@ -19,21 +19,23 @@ import { Router } from '@angular/router';
     MatFormFieldModule,
     MatInputModule,
     RouterModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginator
   ],
   templateUrl: './get-comp-inject.component.html',
   styleUrls: ['./get-comp-inject.component.css']
 })
 export class GetCompInjectComponent implements OnInit, AfterViewInit {
   idOfRecipe!: number;
-  displayedColumns: string[] = [ 'date', 'notes', 'actions'];
+  displayedColumns: string[] = ['compoundingId' ,'date', 'notes', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
-    displayedColumnsData: string[] = [ 'parameterSet', 'dryingTime', 'actions'];
+    displayedColumnsData: string[] = ['id' ,'parameterSet', 'dryingTime', 'actions'];
 
   dataSourceInjection=new MatTableDataSource<any>([])
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('paginatorCompounding') paginatorCompounding!: MatPaginator;
+  @ViewChild('paginatorInjection') paginatorInjection!: MatPaginator;
+    @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private compoundingService: AddCompoundingService,private injectionService:InjectionMoldingService,private router: Router) {}
 
@@ -42,18 +44,31 @@ export class GetCompInjectComponent implements OnInit, AfterViewInit {
         // this.recipeId = history.state.id;
 
     console.log("Received recipeId:", this.idOfRecipe);
+        this.fetchInjectionDataByRecipe();
+
     this.fetchCompoundingData();
-    this.fetchInjectionDataByRecipe();
   }
 
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+   ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginatorCompounding;
     this.dataSource.sort = this.sort;
+
+    this.dataSourceInjection.paginator = this.paginatorInjection;
+    this.dataSourceInjection.sort = this.sort;
   }
 
+  get hasCompoundingData(): boolean {
+  return Array.isArray(this.dataSource.data) && this.dataSource.data.length > 0;
+}
+
+
+get hasInjectionData():boolean{
+  return Array.isArray(this.dataSourceInjection.data)&& this.dataSourceInjection.data.length>0;
+}
   fetchCompoundingData(): void {
     this.compoundingService.getCompoundingDataByRecipeId(this.idOfRecipe).subscribe({
       next: (data) => {
+        console.log(this.idOfRecipe);
         this.dataSource.data = data;
         console.log('Compounding Data:', this.dataSource.data);
       },
@@ -67,6 +82,7 @@ export class GetCompInjectComponent implements OnInit, AfterViewInit {
     this.injectionService.GetInjectionByRecipeId(this.idOfRecipe).subscribe({
       next: (data) => {
               console.log(this.idOfRecipe)
+      console.log("Received data from Injection API:", JSON.stringify(data, null, 2));
 
         this.dataSourceInjection.data = data;
         console.log('Compounding Data:', this.dataSourceInjection.data);

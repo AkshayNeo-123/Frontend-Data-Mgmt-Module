@@ -3,7 +3,7 @@
 
   <div class="d-flex align-items-center justify-content-between">
     <div class="w-100">
-      <mat-form-field appearance="outline" class="search-field">
+      <mat-form-field appearance="outline" class="search-field" *ngIf="hasCompoundingData">
         <mat-label>Search for Notes</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Search notes..." />
       </mat-form-field>
@@ -16,7 +16,7 @@
     </div>
   </div>
 
-  <div class="table-responsive">
+  <div class="table-responsive" *ngIf="hasCompoundingData; else noCompoundingData">
     <table
       mat-table
       [dataSource]="dataSource"
@@ -24,10 +24,10 @@
       class="table table-bordered table-striped table-hover mat-elevation-z8"
       style="table-layout: fixed; width: 100%;"
     >
-      <!-- <ng-container matColumnDef="compoundingId">
+      <ng-container matColumnDef="compoundingId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
         <td mat-cell *matCellDef="let element">{{ element.compoundingId }}</td>
-      </ng-container> -->
+      </ng-container>
 
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
@@ -51,11 +51,29 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
+  <ng-template #noCompoundingData>    <h4 class="text-center text-muted mt-3">No data found for Compounding.</h4>
+</ng-template>
+<mat-paginator *ngIf="hasCompoundingData"   #paginatorCompounding [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
 
 
-  <h4 class="fw-bold">injection Moulding</h4>
+  <h4 class="fw-bold">Injection Moulding</h4>
 
- <div class="table-responsive">
+
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="w-100">
+      <mat-form-field appearance="outline" class="search-field" *ngIf="hasInjectionData">
+        <mat-label>Search for Notes</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Search notes..." />
+      </mat-form-field>
+    </div>
+
+    <div>
+      <button mat-raised-button class="me-5 add-material-btn w-100">
+        <i class="fas fa-plus me-2"></i>Add Injection
+      </button>
+    </div>
+  </div>
+ <div class="table-responsive" *ngIf="hasInjectionData ;else noInjectionData">
     <table
       mat-table
       [dataSource]="dataSourceInjection"
@@ -63,10 +81,10 @@
       class="table table-bordered table-striped table-hover mat-elevation-z8"
       style="table-layout: fixed; width: 100%;"
     >
-      <!-- <ng-container matColumnDef="compoundingId">
+      <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-        <td mat-cell *matCellDef="let element">{{ element.compoundingId }}</td>
-      </ng-container> -->
+        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+      </ng-container>
 
       <ng-container matColumnDef="parameterSet">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
@@ -92,9 +110,10 @@
   </div>
 
 
+ <ng-template #noInjectionData>    <h4 class="text-center text-muted mt-3">No Data found for injection Moulding.</h4>
+</ng-template>
+
+<!-- <mat-paginator  #paginatorInjection [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons *ngIf="hasInjectionData"></mat-paginator> -->
 
 
-
-
-  <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator> -->
 </div>
