@@ -25,6 +25,7 @@ import { ComponentService } from '../../../services/component.service';
 import { RecipeComponentType } from '../../../models/recipe-component-type.model';
 import { Recipe } from '../../../models/recipe.model';
 import { ToastrService } from 'ngx-toastr';
+import { ValidatorFn, AbstractControl } from '@angular/forms';
  
 interface ComponentRow {
   componentId: number | null;
@@ -89,12 +90,17 @@ export class AddRecipyComponent implements OnInit {
       projectId: [null, Validators.required],
       mainPolymerId: ['', Validators.required],
       additiveId: ['', Validators.required],
-      components: this.fb.array([]),
+      components: this.fb.array([])
     });
+    
   }
+
+  
  
   ngOnInit(): void {
     this.loadDropdownData();
+    
+    
  
     if (this.data?.recipe) {
       this.isEdit = true;
@@ -133,6 +139,7 @@ export class AddRecipyComponent implements OnInit {
      
     }
   }
+   
  
   // Custom validator for percentage range
   percentageRangeValidator() {
@@ -186,33 +193,17 @@ export class AddRecipyComponent implements OnInit {
     });
  
     this.components.push(componentGroup);
+
   }
-//   addComponent(component: any = {}): void {
-//   const componentGroup = this.fb.group({
-//     componentId: [component.componentId || null, Validators.required],
-//     wtPercent: [
-//       component.wtPercentage ?? null, // Corrected from wtPercent
-//       [Validators.required, this.percentageRangeValidator()],
-//     ],
-//     valPercent: [
-//       component.volPercentage ?? null, // Corrected from valPercent
-//       [Validators.required, this.percentageRangeValidator()],
-//     ],
-//     density: [component.density || null],
-//     typeId: [component.typeId || ''],
-//     mp: [component.mp || false],
-//     mf: [component.mf || false],
-//   });
- 
-//   this.components.push(componentGroup);
-// }
  
  
   deleteComponent(index: number): void {
     this.components.removeAt(index);
+ 
   }
  
   onSubmit(): void {
+
     if (this.recipeForm.valid) {
       const formValue = this.recipeForm.value;
       // const currentUser = JSON.parse(localStorage.getItem('UserId') || '{}');

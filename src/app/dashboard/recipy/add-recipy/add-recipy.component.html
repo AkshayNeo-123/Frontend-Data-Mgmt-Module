@@ -82,15 +82,15 @@
       Add Component
     </button>
   </div>
-  <div class="table-responsive">
+  <div class="table-responsive"  *ngIf="components.controls.length > 0">
     <table class="table table-bordered align-middle text-center">
       <thead class="table-light">
-        <tr>
-          <th>Component</th>
+        <tr >
+          <th>Component*</th>
           <th>WT%</th>
           <th>VOL%</th>
           <th>Density</th>
-          <th>Type</th>
+          <th>Type*</th>
           <th>MP / MF</th>
           <th>Delete</th>
         </tr>
@@ -107,7 +107,7 @@
               formControlName="componentId"
               required
             >
-              <option value="" disabled selected>Select</option>
+            <option [ngValue]="null">--Select--</option>
               <option
                 *ngFor="let c of availableComponents"
                 [value]="c.id"
@@ -156,7 +156,7 @@
               formControlName="typeId"
               required
             >
-              <option value="" disabled selected>Select</option>
+            <option [ngValue]="null">--Select--</option>
               <option
                 *ngFor="let type of componentTypes"
                 [value]="type.id"
