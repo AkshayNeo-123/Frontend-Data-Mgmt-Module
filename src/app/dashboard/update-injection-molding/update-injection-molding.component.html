@@ -136,16 +136,18 @@
           <input type="number" step="0.01" min="0" matInput formControlName="decompressionVolume" />
         </mat-form-field>
       </div>
-  
-      
-    </div>
-    <div class="row align-items-center mt-3" style="height: 56px;">
+
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Holding Pressure (bar)</mat-label>
           <input type="number" matInput formControlName="holdingPressure"  min="0" max="200" />
         </mat-form-field>
       </div>
+  
+      
+    </div>
+    <div class="row align-items-center mt-3" style="height: 56px;">
+      
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Switching Point (cm3)</mat-label>
@@ -170,16 +172,17 @@
         <input matInput type="number"  formControlName="speedMms">
       </mat-form-field>
     </div>
-  
-      
-    </div>
-    <div class="row align-items-center mt-3" style="height: 56px;">
-      <div class="col-3">
+    <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Injection Speed (cm3/s)</mat-label>
           <input type="number" matInput formControlName="injectionSpeed" step="0.01" min="0" max="500"/>
         </mat-form-field>
       </div>
+  
+      
+    </div>
+    <div class="row align-items-center mt-3" style="height: 56px;">
+      
   
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
@@ -207,6 +210,12 @@
           <input type="number" step="0.1" matInput formControlName="meltTemperature" min="-100" max="300"/>
         </mat-form-field>
       </div>
+      <div class="col-3">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
+          <mat-label>Nozzle Temperature (°C)</mat-label>
+          <input type="number" step="0.1"  matInput formControlName="nozzleTemperature" min="-100" max="300"/>
+        </mat-form-field>
+      </div>
   
     </div>
 
@@ -227,9 +236,10 @@
     </div>
 
 
+
     <div mat-dialog-actions align="end">
-      <button mat-raised-button color="primary" type="submit" (disable)="!injectionForm.invalid" >Update</button>
-      <!-- <button mat-raised-button type="button" (click)="onCancel()">Cancel</button> -->
+      <button mat-raised-button color="primary" style="margin-bottom: 25px;" type="submit" (disable)="!injectionForm.invalid" >Update</button>
+      <button mat-raised-button type="button" (click)="onCancel()">Cancel</button>
     </div>
 </form>
 <!-- <button mat-raised-button color="primary" routerLink="/updaetInjection">Update</button> -->

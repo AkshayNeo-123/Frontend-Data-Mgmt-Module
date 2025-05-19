@@ -32,8 +32,14 @@ export class InjectionMoldingService {
     GetInjectionByRecipeId(recipeId:number):Observable<any>{
       console.log("dsgfiusff",recipeId);
       return this.http.get<any>(`${this.apiUrl}/InjectionModling/GetByRecipeId/${recipeId}`)
-            console.log("57658dsgfiusff",recipeId);
+            // console.log("57658dsgfiusff",recipeId);
 
     }
-
+    deleteinjection(injectionID: number, deletedBy: number): Observable<string> {
+      const url = `${this.apiUrl}/InjectionModling?moldingId=${injectionID}&deletedBy=${deletedBy}`;
+      return this.http.delete(url, { responseType: 'text' });
+    }
+    
+ 
 }
+ 

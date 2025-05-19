@@ -37,12 +37,13 @@ injectionForm!: FormGroup;
 projects: any[] = [];
 filteredProjects: any[] = [];
 parameterSetpreviousdata!:number;
+RecipeId!: number;
 
 constructor(private fb: FormBuilder,private injectionservice:InjectionMoldingService,private toastr: ToastrService,private projectservice:ProjectService) {
   this.injectionForm = this.fb.group({
     projectId: ['',Validators.required],
     parameterSet: [{value:'', disabled: true}],
-    recipeId: [{value:'7', disabled: true}],
+    recipeId: [{value:this.RecipeId, disabled: true}],
     repetition: ['0'],
     additive: [''],
     reference:[false],
@@ -76,6 +77,8 @@ constructor(private fb: FormBuilder,private injectionservice:InjectionMoldingSer
 }
 
 ngOnInit(): void {
+  this.RecipeId = history.state.id;
+  this.injectionForm.get('recipeId')?.setValue(this.RecipeId);
   
   this.loadMaster();
   this.repetitionCount = Number(this.injectionForm.get('repetition')?.value || 0);

@@ -65,12 +65,12 @@ export class LoginComponent implements OnInit {
         });
   
         // Show Swal message on successful login
-        Swal.fire({
-          title: 'Login Successful!',
-          text: 'You have logged in successfully.',
-          icon: 'success',
-          confirmButtonText: 'OK'
-        });
+        // Swal.fire({
+        //   title: 'Login Successful!',
+        //   text: 'You have logged in successfully.',
+        //   icon: 'success',
+        //   confirmButtonText: 'OK'
+        // });
 
         this.router.navigate(['/dashboard'],{ replaceUrl: true });
       },

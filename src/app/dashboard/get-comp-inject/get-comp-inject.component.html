@@ -67,7 +67,7 @@
     </div>
 
     <div>
-      <button mat-raised-button class="me-5 add-material-btn w-100">
+      <button mat-raised-button class="me-5 add-material-btn w-100" (click)="navigateToAddInjectionMOlding()">
         <i class="fas fa-plus me-2"></i>Add Injection
       </button>
     </div>
@@ -93,8 +93,8 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let elements">
-          <i class="fas fa-pencil-alt me-3 action-icon text-primary"></i>
-          <i class="fas fa-trash-alt action-icon text-danger"></i>
+          <i class="fas fa-pencil-alt me-3 action-icon text-primary" (click)="navigateToUpdateInjectionMolding(elements.id)"></i>
+          <i class="fas fa-trash-alt action-icon text-danger"(click)="deleteInjection(elements.id)"></i>
         </td>
       </ng-container>
 

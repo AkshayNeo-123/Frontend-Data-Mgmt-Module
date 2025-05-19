@@ -215,6 +215,8 @@ export class AddRecipyComponent implements OnInit {
   onSubmit(): void {
     if (this.recipeForm.valid) {
       const formValue = this.recipeForm.value;
+      // const currentUser = JSON.parse(localStorage.getItem('UserId') || '{}');
+    const userId = localStorage.getItem('UserId');
  
       const payload = {
         recipe: {
@@ -223,6 +225,7 @@ export class AddRecipyComponent implements OnInit {
           projectId: this.recipeForm.value.projectId,
           additiveId: this.recipeForm.value.additiveId,
           mainPolymerId: this.recipeForm.value.mainPolymerId,
+          ...(this.isEdit ? { modifiedBy: userId } : { createdBy: userId }),
         },
         component: this.components.value,
       };
@@ -242,6 +245,7 @@ export class AddRecipyComponent implements OnInit {
           },
         });
       } else {
+        console.log(payload);
         this.recipeService.addRecipe(payload).subscribe({
           next: () => {
             console.log('Recipe added successfully');
