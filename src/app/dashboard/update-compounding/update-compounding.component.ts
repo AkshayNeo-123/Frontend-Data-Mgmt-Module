@@ -32,6 +32,9 @@ import { MatNativeDateModule } from '@angular/material/core';
   styleUrl: './update-compounding.component.css'
 })
 export class UpdateCompoundingComponent implements OnInit {
+  compoundingId!: number;
+   recipeId!: number;
+
   compoundForm: FormGroup;
   componentOptions: any[] = [];
   repetitionCount = 0;
@@ -42,9 +45,22 @@ export class UpdateCompoundingComponent implements OnInit {
     return (this.compoundForm.get('components') as FormArray).controls;
   }
 
-  ngOnInit() {
-    this.compoundingService.getCompoundingDataById().subscribe({
+ngOnInit(): void {
+this.compoundingId = history.state.compoundingId;
+this.recipeId = history.state.recipeId;
+
+console.log("Received compoundingId:", this.compoundingId);
+console.log("Received recipeId:", this.recipeId);
+this.compoundForm.get('recipeNumber')?.setValue(this.recipeId);
+console.log("Set recipeNumber to:", this.recipeId);
+
+  if (this.compoundingId) {
+    console.log("checking...")
+    this.compoundingService.getCompoundingDataById(this.compoundingId).subscribe({
+      
       next: (data) => {
+          console.log("Received data from compoundingService:", data);
+
         if (data) {
           this.patchFormWithCompoundingData(data);
         }
@@ -53,12 +69,16 @@ export class UpdateCompoundingComponent implements OnInit {
         console.error('Failed to fetch compounding data:', err);
       }
     });
+  } else {
+    console.warn('No compoundingId provided in navigation state.');
   }
+}
+
 
 
   private patchFormWithCompoundingData(data: any): void {
     this.compoundForm.patchValue({
-      recipeNumber: data.compoundingDataDTO.receipeId,
+  recipeNumber: data.compoundingDataDTO?.receipeId ?? '',
       parameterSet: data.compoundingDataDTO.parameterSet,
       date: data.compoundingDataDTO.date,
       note: data.compoundingDataDTO.notes,
@@ -105,7 +125,7 @@ export class UpdateCompoundingComponent implements OnInit {
       temp10: data.dosageDTO?.temp10,
       temp11: data.dosageDTO?.temp11,
       temp12: data.dosageDTO?.temp12,
-upload_Screwconfig: data.dosageDTO?.upload_Screwconfig
+      upload_Screwconfig: data.dosageDTO?.upload_Screwconfig
     });
 
     this.repetitionCount = Number(this.compoundForm.get('repetitionCount')?.value || 0);
@@ -146,7 +166,7 @@ upload_Screwconfig: data.dosageDTO?.upload_Screwconfig
   ) {
     this.loadComponents();
     this.compoundForm = this.fb.group({
-      recipeNumber: [{ value: '7', disabled: true }],
+      recipeNumber: [{  value: this.recipeId, disabled: true }],
       parameterSet: [{ value: '001', disabled: true }],
       date: [null, ''],
       note: [''],
@@ -260,7 +280,7 @@ upload_Screwconfig: data.dosageDTO?.upload_Screwconfig
 
       const onSuccess = (res: any) => {
         console.log('File update response:', res);
-        const filePath =  `${res.fileName}`;
+        const filePath = `${res.fileName}`;
         this.compoundForm.get(controlName)?.setValue(filePath);
         this.selectedFileNames[controlName] = file.name;
       };
@@ -420,7 +440,7 @@ upload_Screwconfig: data.dosageDTO?.upload_Screwconfig
 
     };
 
-    this.compoundingService.updateCompoundingData(requestBody).subscribe({
+    this.compoundingService.updateCompoundingData(this.compoundingId,requestBody).subscribe({
       next: (res) => {
         console.log('API Success:', res);
         // Show success toast

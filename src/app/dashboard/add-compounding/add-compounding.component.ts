@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -30,7 +30,9 @@ import { MatNativeDateModule } from '@angular/material/core';
   templateUrl: './add-compounding.component.html',
   styleUrls: ['./add-compounding.component.css']
 })
-export class AddCompoundingComponent {
+export class AddCompoundingComponent implements OnInit {
+   recipeId!: number;
+
   compoundForm: FormGroup;
   componentOptions: any[] = [];
   repetitionCount = 0;
@@ -42,6 +44,12 @@ export class AddCompoundingComponent {
     return (this.compoundForm.get('components') as FormArray).controls;
   }
 
+    ngOnInit(): void {
+    this.recipeId = history.state.id;
+    console.log('Received Recipe ID in AddCompoundingComponent:', this.recipeId);
+      this.compoundForm.get('recipeNumber')?.setValue(this.recipeId);
+
+  }
   constructor(
     private fb: FormBuilder,
     private compoundingService: AddCompoundingService,
@@ -53,7 +61,7 @@ export class AddCompoundingComponent {
   ) {
     this.loadComponents();
     this.compoundForm = this.fb.group({
-      recipeNumber: [{ value: '7', disabled: true }],
+      recipeNumber: [{ value: this.recipeId, disabled: true }],
       parameterSet: [{ value: '001', disabled: true }],
       date: [null, ''],
       note: [''],
@@ -255,7 +263,7 @@ export class AddCompoundingComponent {
 
     const requestBody: any = {
       compoundingDataDTO: {
-        receipeId: formValue.recipeNumber,
+        receipeId: this.recipeId,
         parameterSet: formValue.parameterSet,
         date: new Date(formValue.date).toISOString().split('T')[0],
         notes: formValue.note,

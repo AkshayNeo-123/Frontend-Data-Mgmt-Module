@@ -42,7 +42,7 @@ constructor(private fb: FormBuilder,private injectionservice:InjectionMoldingSer
   this.injectionForm = this.fb.group({
     projectId: ['',Validators.required],
     parameterSet: [{value:'', disabled: true}],
-    recipeId: [{value:'2', disabled: true}],
+    recipeId: [{value:'7', disabled: true}],
     repetition: ['0'],
     additive: [''],
     reference:[false],

@@ -41,8 +41,8 @@ export class RecipyComponent implements OnInit {
   recipyList: Recipe[] = [];
  
   displayedColumns: string[] = [
-    'productName',
     'recipeNumber',
+    'productName',
     'projectName',
     'additiveName',
     'polymerName',
@@ -58,18 +58,29 @@ export class RecipyComponent implements OnInit {
  
   constructor(private recipeService: RecipeService,  private dialog: MatDialog,
     private router: Router,
-    private toastr:ToastrService) {}
- 
+    private toastr:ToastrService ) {}
   ngOnInit(): void {
     this.loadRecipes();
   }
- 
+
+goToAddPage(receipeId: number | undefined): void {
+  console.log('Clicked recipeId:', receipeId);
+  if (receipeId != null) {
+    this.router.navigate(['/comp-inject'],{
+      state:{id: receipeId}
+    });
+  } else {
+    console.error('recipeId is undefined or null!');
+  }
+}
+
+
   loadRecipes(): void {
     this.recipeService.getAllRecipes().subscribe({
       next: (data) => {
         this.recipyList = data.map((recipe) => ({
           ...recipe,
-          composition: 'Polymer A: 60%, Additive B: 30%, Color C: 10%', // placeholder
+          composition: 'Polymer A: 60%, Additive B: 30%, Color C: 10%', 
         }));
         this.dataSource = new MatTableDataSource(this.recipyList);
         this.dataSource.sort = this.sort;

@@ -47,19 +47,17 @@
                     <div class="card-header fw-bold">
                       {{ recipe.projectNumber }}
                     </div>
-                    <div
-                      class="card-body"
-                      style="
-                        max-height: 220px;
-                        overflow-y: scroll;
-                        scrollbar-width: none;
-                        -ms-overflow-style: none;
-                      "
-                    >
+                   
+                    <div class="card-body" style="max-height: 220px; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
+                       <div class="card-text text-muted small mb-2">
+                         {{ recipe.productName}}
+                      </div>
                       <div class="card-text text-muted small mb-2">
                         <!-- ID: {{ recipe.recipeId }} -->
                       </div>
-                      <hr />
+                      <hr>
+
+                      
                       <div class="descriptions">
                         {{ recipe.description }}
                       </div>

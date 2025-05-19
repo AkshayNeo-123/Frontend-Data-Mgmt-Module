@@ -98,6 +98,7 @@ export class ContactsComponent implements OnInit, AfterViewInit {
       const dialogRef = this.dialog.open(AddcontactsComponent, {
         width: '80%',  
         maxWidth: '600px',
+                //  height:'65vh',
         disableClose: true,
         data: contact
       });
@@ -117,6 +118,7 @@ export class ContactsComponent implements OnInit, AfterViewInit {
       const dialogRef = this.dialog.open(AddcontactsComponent, {
         width: '80%',
         maxWidth: '600px',
+        
         disableClose: true,
         data: contact
       });

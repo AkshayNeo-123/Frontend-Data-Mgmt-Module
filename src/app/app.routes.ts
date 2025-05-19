@@ -21,6 +21,7 @@ import { UpdateCompoundingComponent } from './dashboard/update-compounding/updat
 import { RolemasterComponent } from './dashboard/rolemaster/rolemaster.component';
 import { AddRecipyComponent } from './dashboard/recipy/add-recipy/add-recipy.component';
 import { authGuard } from './auth.guard';
+import { GetCompInjectComponent } from './dashboard/get-comp-inject/get-comp-inject.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -45,6 +46,7 @@ export const routes: Routes = [
   { path: 'updaetInjection', component: UpdateInjectionMoldingComponent },
   { path: 'get-additivebyid/:id', component: GetAdditivebyidComponent },
   { path: 'manageusers', component: ManageusersComponent },
+  { path: 'comp-inject', component:GetCompInjectComponent},
 
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }
