@@ -13,6 +13,8 @@ import { AddRoleComponent } from './add-role/add-role.component';
 import { EditRoleComponent } from './edit-role/edit-role.component';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
+import { PermissionServiceService } from '../../services/permission-service.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-rolemaster',
@@ -24,7 +26,8 @@ import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatButtonModule
+    MatButtonModule,
+    CommonModule
   ],
   templateUrl: './rolemaster.component.html',
   styleUrl: './rolemaster.component.css'
@@ -32,7 +35,10 @@ import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 export class RolemasterComponent implements OnInit {
   roleList: any[] = [];
   private roleService = inject(RoleService);
-  displayedColumns: string[] = ['roleName', 'actions'];
+  displayedColumns: string[] = ['roleName'];
+  canAddRole = false;
+  canEditRole = false;
+  canDeleteRole = false;
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -41,10 +47,17 @@ export class RolemasterComponent implements OnInit {
   constructor(
     // private roleService: RoleService,
     private dialog: MatDialog,
-    private toastr: ToastrService  
+    private toastr: ToastrService,
+    private permissionService: PermissionServiceService
   ) {}
 
   ngOnInit(): void {
+    this.canAddRole = this.permissionService.hasPermission('Role Management', 'canCreate');
+    this.canEditRole = this.permissionService.hasPermission('Role Management', 'canEdit');
+    this.canDeleteRole = this.permissionService.hasPermission('Role Management', 'canDelete');
+    if (this.canEditRole || this.canDeleteRole) {
+      this.displayedColumns.push('actions');
+    }
     this.dataSource.filterPredicate = (data, filter) => {
       return data.roleName.toLowerCase().includes(filter);
     };
