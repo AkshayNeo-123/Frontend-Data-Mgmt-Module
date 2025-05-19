@@ -2,8 +2,8 @@
   height: 60px;
   width: 100%;
   position: fixed;
-  /* background: #bfccf4; */
-   background: linear-gradient(135deg, #7addf6 0%, #8e9de2 100%);
+  background-color: rgb(95, 92, 92);
+   /* background: linear-gradient(135deg, #7addf6 0%, #8e9de2 100%); */
 }
 
 button.topbar.btn.btn-outline-light {
@@ -18,25 +18,25 @@ button.topbar.btn.btn-outline-light {
 }
 
 
-ul.dropdown-menu.dropdown-menu-end {
+/* ul.dropdown-menu.dropdown-menu-end {
   right: 10px;
   top: 45px;
-}
+} */
 
 
-.dropdown-item {
+/* .dropdown-item {
   padding: 10px 15px;
   transition: background-color 0.3s ease;
-}
+} */
 
-.dropdown-item:hover {
+/* .dropdown-item:hover {
   background-color: #fff;
   color: #fff;
-}
+} */
 
 
 .btn:hover {
-  background-color: #fff;
+  /* background-color: #fff; */
   cursor: pointer;
 }
 
