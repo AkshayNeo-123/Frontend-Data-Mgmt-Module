@@ -1,21 +1,21 @@
 .sidebar {
-    transition: width 0.3s ease;
-    overflow: hidden;
-    background: #e9e9e9;
-    color: #000;
-    scrollbar-width: none;
-    position: fixed;
-    top: 55px;
-    overflow-y: auto !important;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  background: #e9e9e9;
+  color: #000;
+  scrollbar-width: none;
+  position: fixed;
+  top: 55px;
+  overflow-y: auto !important;
 
 
-    z-index: 999;
-    /* -ms-overflow-style: none; */
-    scrollbar-width: none;
-    bottom: 0;
-    -ms-overflow-style: none;
+  z-index: 999;
+  /* -ms-overflow-style: none; */
+  scrollbar-width: none;
+  bottom: 0;
+  -ms-overflow-style: none;
   overflow-y: auto;
-  }
+}
 
 sidebar::-webkit-scrollbar {
   display: none;
@@ -32,7 +32,8 @@ sidebar::-webkit-scrollbar {
 
 .hover-effect:hover {
   /* background-color: #bfccf4 !important;  */
-      background: linear-gradient(135deg, #7addf6 0%, #8e9de2 100%) !important;
+  /* background: linear-gradient(135deg, #7addf6 0%, #8e9de2 100%) !important; */
+  background-color: rgb(95, 92, 92) !important;
   cursor: pointer;
 }
 
@@ -43,7 +44,9 @@ i {
 
 .active-link {
   /* background-color: #bfccf4;  */
-   background: linear-gradient(135deg, #7addf6 0%, #8e9de2 100%);
+  /* background: linear-gradient(135deg, #7addf6 0%, #8e9de2 100%); */
+  background-color: rgb(95, 92, 92);
+  color: #fff !important;
 }
 
 .nav-item {
@@ -53,14 +56,15 @@ i {
 
 .nav-link {
   text-decoration: none;
-  color: #1f2937; 
+  color: #1f2937;
   padding: 10px 5px;
   border-radius: 10px;
-  white-space: normal; 
+  white-space: normal;
   /* word-break: break-word; */
   transition: background-color 0.3s ease;
 }
 
 .nav-link:hover {
-  background-color: #bfccf4;
+  background-color: rgb(95, 92, 92);
+  color: #fff !important;
 }

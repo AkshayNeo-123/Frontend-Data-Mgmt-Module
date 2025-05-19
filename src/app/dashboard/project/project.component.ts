@@ -111,12 +111,12 @@ export class ProjectComponent implements OnInit {
     // this.dataSource.filter = filterValue;
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
   
-  // Custom filterPredicate to filter only projectName
+
   this.dataSource.filterPredicate = (data, filter: string) => {
-    return data.projectName.toLowerCase().includes(filter); // Only filter projectName
+    return data.projectName.toLowerCase().includes(filter); 
   };
 
-  this.dataSource.filter = filterValue;  // Apply the filter value
+  this.dataSource.filter = filterValue;  
   }
 
 
