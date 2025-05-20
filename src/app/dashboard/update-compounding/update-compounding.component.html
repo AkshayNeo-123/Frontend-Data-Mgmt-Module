@@ -340,6 +340,49 @@
         </div>
       </div>
 
+    <div class="d-flex justify-content-between">
+      <div><strong>Total [%]: {{ getTotalShare() }}</strong></div>
+      <button type="button" class="btn btn-primary btn-sm" (click)="addComponent()">Add new component</button>
+    </div>
+  </div>
+
+
+  <hr class="my-3" />
+
+  <div class="row align-items-center mt-3">
+
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Speed Side Feeder 1 (RPM)</mat-label>
+        <input type="number" matInput formControlName="speedFeeder1" min="0" max="300" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Speed Side Feeder 2 (RPM)</mat-label>
+        <input type="number" matInput formControlName="speedFeeder2" min="0" max="300" />
+      </mat-form-field>
+    </div>
+
+<div class="col-4" style="margin-bottom: 40px;">
+  <label for="screwConfig" class="form-label">Upload Screwconfig</label>
+  <input type="file" (change)="onFileSelected($event, 'upload_Screwconfig')" />
+
+  <div *ngIf="compoundForm.get('upload_Screwconfig')?.value">
+    <a [href]="baseUrl + '/' + compoundForm.get('upload_Screwconfig')?.value" target="_blank">
+      View existing Screwconfig
+    </a>
+  </div>
+</div>
+
+
+
+
+    <div class="mb-2">
+      <label class="form-label">Temperature Profile</label>
+      <div>
+        <img src="/image.png" alt="Screw Configuration" class="img-fluid" style="height: 100px; width: 100%;" />
       <div class="col-auto">
         <mat-checkbox formControlName="meltPump">Melt Pump</mat-checkbox>
       </div>

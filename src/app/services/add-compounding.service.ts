@@ -36,4 +36,12 @@ getCompoundingDataByRecipeId(recipeId: number): Observable<any> {
   return this.http.get<any>(url);
 }
 
+deleteCompoundingData(compoundingId: number, deletedBy: number): Observable<any> {
+  return this.http.delete(`https://localhost:7030/api/CompoundingData?CompoundingId=${compoundingId}&DeletedBy=${deletedBy}`);
+}
+
+getLastCommonSet(): Observable<any> {
+  return this.http.get<any>(`${this.addCompounding}/GetCommonSet`);
+}
+
 }

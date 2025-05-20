@@ -190,6 +190,35 @@ export class GetCompInjectComponent implements OnInit {
     }
   }
 
+deleteCompounding(compoundingId: number): void {
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    width: '350px',
+    data: {
+      title: 'Confirm Deletion',
+      message: 'Do you really want to delete this record?'
+    }
+  });
+
+  const deletedBy = Number(localStorage.getItem('UserId'));
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result === true) {
+      this.compoundingService.deleteCompoundingData(compoundingId, deletedBy).subscribe({
+        next: () => {
+          this.toastr.success('Deleted successfully.');
+          this.fetchCompoundingData(); // Refresh data
+        },
+        error: (err) => {
+          console.error('Failed to delete compounding data', err);
+          this.toastr.error('Failed to delete compounding data.');
+        }
+      });
+    } else {
+      this.toastr.info('Deletion cancelled.');
+    }
+  });
+}
+
   navigateToUpdateInjectionMolding(InjectionId: number | undefined): void {
     console.log('Clicked compoundingId:', InjectionId);
     if (InjectionId != null) {
