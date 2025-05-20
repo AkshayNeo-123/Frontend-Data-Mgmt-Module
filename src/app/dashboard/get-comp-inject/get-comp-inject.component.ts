@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-get-comp-inject',
@@ -23,12 +24,16 @@ import { ToastrService } from 'ngx-toastr';
     MatInputModule,
     RouterModule,
     MatTableModule,
-    MatPaginator
+    MatPaginator,
+    MatIcon
   ],
   templateUrl: './get-comp-inject.component.html',
   styleUrls: ['./get-comp-inject.component.css']
 })
 export class GetCompInjectComponent implements OnInit {
+goBack() {
+this.router.navigate(['/recipe']);
+}
   idOfRecipe!: number;
   displayedColumns: string[] = ['compoundingId', 'date', 'notes', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
@@ -88,47 +93,7 @@ export class GetCompInjectComponent implements OnInit {
     });
   }
 
-  // fetchInjectionDataByRecipe(): void {
-  //   this.injectionService.GetInjectionByRecipeId(this.idOfRecipe).subscribe({
-  //     next: (data) => {
-  //       console.log(this.idOfRecipe)
-  //       console.log("Received data from Injection API:", JSON.stringify(data, null, 2));
-
-  //       this.dataSourceInjection.data = data;
-  //       this.dataSourceInjection.paginator = this.paginatorInjection;
-  //       setTimeout(() => {
-  //         this.dataSourceInjection.paginator = this.paginatorInjection;
-  //         this.dataSourceInjection.sort = this.sort;
-  //       });
-  //       console.log('Compounding Data:', this.dataSourceInjection.data);
-  //     },
-  //     error: (err) => {
-  //       console.error('Failed to fetch compounding data', err);
-  //     }
-  //   });
-  // }
-  // fetchInjectionDataByRecipe(): void {
-  //   this.injectionService.GetInjectionByRecipeId(this.idOfRecipe).subscribe({
-  //     next: (data) => {
-  //       console.log(this.idOfRecipe);
-  //       console.log("Received data from Injection API:", JSON.stringify(data, null, 2));
-  
-  //       // Important: reset DataSource
-  //       this.dataSourceInjection = new MatTableDataSource<any>(data);
-  
-  //       // Ensure paginator and sort are re-applied
-  //       setTimeout(() => {
-  //         this.dataSourceInjection.paginator = this.paginatorInjection;
-  //         this.dataSourceInjection.sort = this.sort;
-  //       });
-  
-  //       console.log('Injection Data:', this.dataSourceInjection.data);
-  //     },
-  //     error: (err) => {
-  //       console.error('Failed to fetch injection data', err);
-  //     }
-  //   });
-  // }
+ 
   fetchInjectionDataByRecipe(): void {
   this.injectionService.GetInjectionByRecipeId(this.idOfRecipe).subscribe({
     next: (data) => {

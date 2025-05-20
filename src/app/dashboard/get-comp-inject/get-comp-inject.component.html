@@ -1,11 +1,17 @@
 <div class="container for-margin">
+  <div class="back-button-container">
+  <button (click)="goBack()" class="custom-back-button">
+    <mat-icon>arrow_back</mat-icon>
+    <span>Back</span>
+  </button>
+</div>
   <h4 class="fw-bold">Compounding</h4>
 
   <div class="d-flex align-items-center justify-content-between">
     <div class="w-100">
       <mat-form-field appearance="outline" class="search-field" *ngIf="hasCompoundingData">
         <mat-label>Search for Notes</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Search notes..." />
+        <input matInput (keyup)="applyFilter($event)" minlength="1" placeholder="Search notes..." />
       </mat-form-field>
     </div>
 
@@ -26,7 +32,7 @@
 
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-        <td mat-cell *matCellDef="let element">{{ element.date | date: 'yyyy-MM-dd' }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.date | date:'dd/MM/yyyy' }}</td>
       </ng-container>
 
       <ng-container matColumnDef="notes">
@@ -82,7 +88,7 @@
 
       <ng-container matColumnDef="parameterSet">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-        <td mat-cell *matCellDef="let elements">{{ elements.parameterSet }}</td>
+        <td mat-cell *matCellDef="let elements">{{ elements.createdDate| date:'dd/MM/yyyy' }}</td>
       </ng-container>
 
       <ng-container matColumnDef="dryingTime">
