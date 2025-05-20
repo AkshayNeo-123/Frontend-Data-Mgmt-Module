@@ -1,17 +1,17 @@
-<div class="container mt-4">
+<div class="container for-margin">
   <h4 class="fw-bold mb-3">Main Polymer</h4>
 
-<div class="d-flex align-items-center justify-content-between">
-  <div class="w-100">
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="w-100">
 
-     <mat-form-field appearance="outline" class="search-field">
-      <mat-label>Search by main polymer name</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Search main polymer" />
-    </mat-form-field>
-       
-  </div>
-  <div>
-    <button   style=" font-size: 16px;
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search by main polymer name</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Search main polymer" />
+      </mat-form-field>
+
+    </div>
+    <div>
+      <button style=" font-size: 16px;
     padding: 8px 16px;
     border-radius: 4px;
     margin-bottom: 40px;
@@ -19,40 +19,39 @@
     background-color: #4caf50; 
     color: white;
     border: none;
-    transition: background-color 0.3s ease;;"
-    class="add-additives-btn me-5 w-100"
-    (click)="openMainPolymerDialog()">
-    <i class="fas fa-plus me-2"></i> Add Main Polymer
-  </button>
+    transition: background-color 0.3s ease;;" class="add-additives-btn me-5 w-100" (click)="openMainPolymerDialog()">
+        <i class="fas fa-plus me-2"></i> Add Main Polymer
+      </button>
     </div>
   </div>
   <div>
 
-    <div class="w-auto" >
-      <table mat-table [dataSource]="dataSource" matSort matSortStart="desc" matSortDisableClear="true" disableClear="true" class="table table-bordered table-striped table-hover mat-elevation-z8"
-      >
+    <div class="w-auto">
+      <table mat-table [dataSource]="dataSource" matSort matSortStart="desc" matSortDisableClear="true"
+        disableClear="true" class="table table-bordered table-striped table-hover mat-elevation-z8">
 
-      <ng-container matColumnDef="polymerName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header 
-              >Main Polymer Name</th>
-        
-        <td mat-cell *matCellDef="let element" >
-          {{ element.polymerName}}
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="polymerName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Main Polymer Name</th>
 
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef >Actions</th>
-        <td mat-cell *matCellDef="let element" >
-          <i class="fas fa-pencil-alt me-3 action-icon text-primary" matTooltip="Edit" (click)="editMainPolymerData(element)"></i>
-          <i class="fas fa-trash-alt action-icon text-danger" matTooltip="Delete" (click)="deleteAdditivesData(element.id)"></i>
-        </td>
-      </ng-container>
+          <td mat-cell *matCellDef="let element">
+            {{ element.polymerName}}
+          </td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let element">
+            <i class="fas fa-pencil-alt me-3 action-icon text-primary" matTooltip="Edit"
+              (click)="editMainPolymerData(element)"></i>
+            <i class="fas fa-trash-alt action-icon text-danger" matTooltip="Delete"
+              (click)="deleteAdditivesData(element.id)"></i>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
   </div>
-</div>
   <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
 </div>
