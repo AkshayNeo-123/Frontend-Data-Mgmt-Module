@@ -1,3 +1,6 @@
+<h4 mat-dialog-title class="mb-2">Update Compounding</h4>
+<hr class="my-3" />
+
 <form [formGroup]="compoundForm" (ngSubmit)="onSubmit()" class="container" style="margin-bottom: 50px;">
   <div class="row align-items-center" style="height: 56px;">
     <div class="col-3">
@@ -182,16 +185,17 @@
       </mat-form-field>
     </div>
 
-
 <div class="col-4" style="margin-bottom: 40px;">
   <label for="screwConfig" class="form-label">Upload Screwconfig</label>
-    <input type="file" class="form-control w-auto" id="screwConfig"
-    (change)="onFileSelected($event, 'upload_Screwconfig')">
- <div *ngIf="selectedFileNames['upload_Screwconfig']" class="mt-2 text-secondary">
+  <input type="file" (change)="onFileSelected($event, 'upload_Screwconfig')" />
 
+  <div *ngIf="compoundForm.get('upload_Screwconfig')?.value">
+    <a [href]="baseUrl + '/' + compoundForm.get('upload_Screwconfig')?.value" target="_blank">
+      View existing Screwconfig
+    </a>
+  </div>
 </div>
 
-</div>
 
 
 

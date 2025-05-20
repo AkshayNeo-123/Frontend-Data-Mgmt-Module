@@ -10,6 +10,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { InjectionMoldingService } from '../../services/injection-molding.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
+import { provideToastr, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-get-comp-inject',
@@ -37,7 +40,12 @@ export class GetCompInjectComponent implements OnInit {
   @ViewChild('paginatorInjection') paginatorInjection!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private compoundingService: AddCompoundingService, private injectionService: InjectionMoldingService, private router: Router) { }
+  constructor(private compoundingService: AddCompoundingService, 
+    private injectionService: InjectionMoldingService,
+        private dialog: MatDialog,
+ private router: Router,  
+   private toastr: ToastrService
+ ) { }
 
   ngOnInit(): void {
     this.idOfRecipe = history.state.id;
@@ -130,6 +138,36 @@ export class GetCompInjectComponent implements OnInit {
       console.error('compoundingId is undefined or null!');
     }
   }
+
+deleteCompounding(compoundingId: number): void {
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    width: '350px',
+    data: {
+      title: 'Confirm Deletion',
+      message: 'Do you really want to delete this record?'
+    }
+  });
+
+  const deletedBy = Number(localStorage.getItem('UserId'));
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result === true) {
+      this.compoundingService.deleteCompoundingData(compoundingId, deletedBy).subscribe({
+        next: () => {
+          this.toastr.success('Deleted successfully.');
+          this.fetchCompoundingData(); // Refresh data
+        },
+        error: (err) => {
+          console.error('Failed to delete compounding data', err);
+          this.toastr.error('Failed to delete compounding data.');
+        }
+      });
+    } else {
+      this.toastr.info('Deletion cancelled.');
+    }
+  });
+}
+
 
 
 }

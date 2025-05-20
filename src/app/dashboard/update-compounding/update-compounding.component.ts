@@ -12,6 +12,8 @@ import { ComponentService } from '../../services/component.service';
 import { MaterialService } from '../../services/material.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
 
 
 @Component({
@@ -26,59 +28,62 @@ import { MatNativeDateModule } from '@angular/material/core';
     CommonModule,
     MatRadioModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+
   ],
   templateUrl: './update-compounding.component.html',
   styleUrl: './update-compounding.component.css'
 })
 export class UpdateCompoundingComponent implements OnInit {
   compoundingId!: number;
-   recipeId!: number;
-
+  recipeId!: number;
+  previewPdfFile: SafeResourceUrl | null = null;
   compoundForm: FormGroup;
   componentOptions: any[] = [];
   repetitionCount = 0;
   maxRepetition: number = 230;
-
+  baseUrl = `https://localhost:7030`
   today = new Date();
   get components() {
     return (this.compoundForm.get('components') as FormArray).controls;
   }
 
-ngOnInit(): void {
-this.compoundingId = history.state.compoundingId;
-this.recipeId = history.state.recipeId;
+  screwConfigUrl: string = ''; // This will store the full URL for the iframe
 
-console.log("Received compoundingId:", this.compoundingId);
-console.log("Received recipeId:", this.recipeId);
-this.compoundForm.get('recipeNumber')?.setValue(this.recipeId);
-console.log("Set recipeNumber to:", this.recipeId);
+  ngOnInit(): void {
+    this.compoundingId = history.state.compoundingId;
+    this.recipeId = history.state.recipeId;
 
-  if (this.compoundingId) {
-    console.log("checking...")
-    this.compoundingService.getCompoundingDataById(this.compoundingId).subscribe({
-      
-      next: (data) => {
+    console.log("Received compoundingId:", this.compoundingId);
+    console.log("Received recipeId:", this.recipeId);
+    this.compoundForm.get('recipeNumber')?.setValue(this.recipeId);
+    console.log("Set recipeNumber to:", this.recipeId);
+
+    if (this.compoundingId) {
+      console.log("checking...")
+      this.compoundingService.getCompoundingDataById(this.compoundingId).subscribe({
+
+        next: (data) => {
           console.log("Received data from compoundingService:", data);
 
-        if (data) {
-          this.patchFormWithCompoundingData(data);
+          if (data) {
+            this.patchFormWithCompoundingData(data);
+          }
+        },
+        error: (err) => {
+          console.error('Failed to fetch compounding data:', err);
         }
-      },
-      error: (err) => {
-        console.error('Failed to fetch compounding data:', err);
-      }
-    });
-  } else {
-    console.warn('No compoundingId provided in navigation state.');
+      });
+    } else {
+      console.warn('No compoundingId provided in navigation state.');
+    }
   }
-}
 
 
 
   private patchFormWithCompoundingData(data: any): void {
     this.compoundForm.patchValue({
-  recipeNumber: data.compoundingDataDTO?.receipeId ?? '',
+      recipeNumber: data.compoundingDataDTO?.receipeId ?? '',
       parameterSet: data.compoundingDataDTO.parameterSet,
       date: data.compoundingDataDTO.date,
       note: data.compoundingDataDTO.notes,
@@ -161,12 +166,13 @@ console.log("Set recipeNumber to:", this.recipeId);
     private toastr: ToastrService,
     private componentService: ComponentService,
     private materialService: MaterialService,
+    private sanitizer: DomSanitizer
 
 
   ) {
     this.loadComponents();
     this.compoundForm = this.fb.group({
-      recipeNumber: [{  value: this.recipeId, disabled: true }],
+      recipeNumber: [{ value: this.recipeId, disabled: true }],
       parameterSet: [{ value: '001', disabled: true }],
       date: [null, ''],
       note: [''],
@@ -220,7 +226,6 @@ console.log("Set recipeNumber to:", this.recipeId);
     this.addComponent();
   }
 
-  // ADDED: Load component options from API
   loadComponents() {
     this.componentService.getAllComponents().subscribe({
       next: (data) => {
@@ -264,48 +269,39 @@ console.log("Set recipeNumber to:", this.recipeId);
 
   selectedFileNames: { [key: string]: string } = {};
 
-  onFileSelected(event: Event, controlName: string): void {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0];
+onFileSelected(event: Event, controlName: string): void {
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
 
-    if (file) {
-      if (file.type !== 'application/pdf') {
-        this.toastr.error('Only PDF files are allowed.', 'Invalid File', { timeOut: 3000 });
-        input.value = '';
-        return;
-      }
+  if (!file) return;
 
-      const currentFilePath = this.compoundForm.get(controlName)?.value;
-      console.log('Current file path before update:', currentFilePath);
-
-      const onSuccess = (res: any) => {
-        console.log('File update response:', res);
-        const filePath = `${res.fileName}`;
-        this.compoundForm.get(controlName)?.setValue(filePath);
-        this.selectedFileNames[controlName] = file.name;
-      };
-
-      if (currentFilePath) {
-        this.materialService.updateMaterialFile(file, currentFilePath).subscribe({
-          next: onSuccess,
-          error: (err) => {
-            console.error('File upload failed:', err);
-            this.toastr.error('File upload failed.', 'Error', { timeOut: 3000 });
-          }
-        });
-      } else {
-        this.materialService.postFileMaterial(file).subscribe({
-          next: onSuccess,
-          error: (err) => {
-            console.error('File upload failed:', err);
-            this.toastr.error('File upload failed.', 'Error', { timeOut: 3000 });
-          }
-        });
-      }
-    }
+  if (file.type !== 'application/pdf') {
+    this.toastr.error('Only PDF files are allowed.', 'Invalid File', { timeOut: 3000 });
+    input.value = '';
+    return;
   }
 
+  const currentFilePath = this.compoundForm.get(controlName)?.value;
+  const fileNameDisplay = file.name;
 
+  const onSuccess = (res: any) => {
+    const filePath = `${res.fileName}`;
+    this.compoundForm.get(controlName)?.setValue(filePath);
+    this.selectedFileNames[controlName] = fileNameDisplay;
+    this.toastr.success('File uploaded successfully.', 'Success', { timeOut: 3000 });
+  };
+
+  const onError = (err: any) => {
+    console.error('File upload failed:', err);
+    this.toastr.error('File upload failed.', 'Error', { timeOut: 3000 });
+  };
+
+  if (currentFilePath) {
+    this.materialService.updateMaterialFile(file, currentFilePath).subscribe({ next: onSuccess, error: onError });
+  } else {
+    this.materialService.postFileMaterial(file).subscribe({ next: onSuccess, error: onError });
+  }
+}
 
 
   increaseRepetition() {
@@ -440,7 +436,7 @@ console.log("Set recipeNumber to:", this.recipeId);
 
     };
 
-    this.compoundingService.updateCompoundingData(this.compoundingId,requestBody).subscribe({
+    this.compoundingService.updateCompoundingData(this.compoundingId, requestBody).subscribe({
       next: (res) => {
         console.log('API Success:', res);
         // Show success toast
@@ -458,10 +454,13 @@ console.log("Set recipeNumber to:", this.recipeId);
   formatDate(e: any) {
     console.log("hiiiiiiii");
     const d = new Date(e.target.value);
-    d.setDate(d.getDate() + 1); // ✅ Add one day
-    const convertDate = d.toISOString().split('T')[0]; // Optional: format as YYYY-MM-DD
+    d.setDate(d.getDate() + 1);
+    const convertDate = d.toISOString().split('T')[0];
     console.log(convertDate);
     this.compoundForm.get('date')?.setValue(convertDate, { onlySelf: true });
   }
-
+  getSanitizedFileUrl(filePath?: string): SafeResourceUrl | null {
+    const fullUrl = filePath ? `${this.baseUrl}/${filePath}` : "";
+    return fullUrl ? this.sanitizer.bypassSecurityTrustResourceUrl(fullUrl) : null;
+  }
 }

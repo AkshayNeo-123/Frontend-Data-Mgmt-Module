@@ -31,12 +31,15 @@ import { MatNativeDateModule } from '@angular/material/core';
   styleUrls: ['./add-compounding.component.css']
 })
 export class AddCompoundingComponent implements OnInit {
-   recipeId!: number;
+  recipeId!: number;
 
   compoundForm: FormGroup;
   componentOptions: any[] = [];
   repetitionCount = 0;
   maxRepetition: number = 230;
+
+  parameterSetpreviousdata!:number;
+ compoundingSetpreviousdata!:number;
 
   // today = new Date();
 
@@ -44,11 +47,12 @@ export class AddCompoundingComponent implements OnInit {
     return (this.compoundForm.get('components') as FormArray).controls;
   }
 
-    ngOnInit(): void {
+  ngOnInit(): void {
     this.recipeId = history.state.id;
     console.log('Received Recipe ID in AddCompoundingComponent:', this.recipeId);
-      this.compoundForm.get('recipeNumber')?.setValue(this.recipeId);
-
+    this.compoundForm.get('recipeNumber')?.setValue(this.recipeId);
+  // this.compoundForm.get('compoundingId')?.setValue(this.compoundingSetpreviousdata);
+  this.compoundForm.get('parameterSet')?.setValue(this.parameterSetpreviousdata);
   }
   constructor(
     private fb: FormBuilder,
@@ -61,9 +65,10 @@ export class AddCompoundingComponent implements OnInit {
   ) {
     this.loadComponents();
     this.compoundForm = this.fb.group({
+      //  compoundingId:[{value:this.compoundingSetpreviousdata,disabled: true}],
       recipeNumber: [{ value: this.recipeId, disabled: true }],
-      parameterSet: [{ value: '001', disabled: true }],
-      date: [null, ''],
+      parameterSet: [{ value: this.parameterSetpreviousdata, disabled: true }],
+      date: [null],
       note: [''],
       temperature: [],
       duration: [],
@@ -125,6 +130,21 @@ export class AddCompoundingComponent implements OnInit {
         console.error('Failed to load components', err);
       }
     });
+
+      this.compoundingService.getLastCommonSet().subscribe({
+      
+    next: (data) => {
+      console.log('Common Set Data:', data);
+      this.compoundForm.patchValue({
+      parameterSet: data.parameterSet,     
+      // compoundingId: data.compoundingId    
+    });
+  
+    },
+    error: (error) => {
+      console.error('Error fetching common set data:', error);
+    }
+  });
   }
 
 
@@ -156,25 +176,25 @@ export class AddCompoundingComponent implements OnInit {
       .reduce((acc: number, curr: any) => acc + (+curr.share || 0), 0);
   }
 
-    selectedFileNames: { [key: string]: string } = {};
+  selectedFileNames: { [key: string]: string } = {};
 
   onFileSelected(event: Event, controlName: string): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
-  
+
     if (file) {
       if (file.type !== 'application/pdf') {
         this.toastr.error('Only PDF files are allowed.', 'Invalid File', { timeOut: 3000 });
         input.value = '';
         return;
       }
-  
+
       const currentFilePath = this.compoundForm.get(controlName)?.value;
       if (currentFilePath) {
         this.materialService.updateMaterialFile(file, currentFilePath).subscribe({
           next: (res) => {
             const filePath = `${res.fileName}`;
-            this.compoundForm.get(controlName)?.setValue(filePath);  
+            this.compoundForm.get(controlName)?.setValue(filePath);
           },
           error: (err) => {
             console.error('File upload failed:', err);
@@ -195,7 +215,7 @@ export class AddCompoundingComponent implements OnInit {
       }
     }
   }
-  
+
 
   increaseRepetition() {
     if (this.repetitionCount < this.maxRepetition) {
@@ -256,8 +276,10 @@ export class AddCompoundingComponent implements OnInit {
           c: C,
           d: D,
           e: E,
-          f: F
+          f: F,
+          createdBy: adduserId
         });
+
       }
     }
 
@@ -265,7 +287,7 @@ export class AddCompoundingComponent implements OnInit {
       compoundingDataDTO: {
         receipeId: this.recipeId,
         parameterSet: formValue.parameterSet,
-        date: new Date(formValue.date).toISOString().split('T')[0],
+        date: formValue.date ? new Date(formValue.date).toISOString().split('T')[0] : null,
         notes: formValue.note,
         repetation: this.repetitionCount,
         pretreatment: formValue.pretreatment,
@@ -279,8 +301,7 @@ export class AddCompoundingComponent implements OnInit {
         createdBy: adduserId,
       },
       ...(filteredComponents.length > 0 && {
-        components: filteredComponents,
-        createdBy: adduserId,
+        components: filteredComponents
       }),
       dosageDTO: {
         speedSideFeeder1: formValue.speedFeeder1,
