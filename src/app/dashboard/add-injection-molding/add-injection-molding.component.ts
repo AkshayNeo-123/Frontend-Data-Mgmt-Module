@@ -7,7 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { Router, RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ProjectService } from '../../services/project.service';
@@ -70,6 +70,11 @@ constructor( private location: Location,private fb: FormBuilder,private injectio
     meltTemperature: [''],
     nozzleTemperature: [''],
     mouldTemperature: ['']
+  });
+  this.route.events.subscribe((event) => {
+    if (event instanceof NavigationEnd) {
+      window.scrollTo(0, 0);
+    }
   });
 
  
