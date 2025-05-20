@@ -44,9 +44,9 @@ this.router.navigate(['/recipe']);
   @ViewChild('paginatorCompounding') paginatorCompounding!: MatPaginator;
   @ViewChild('paginatorInjection') paginatorInjection!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
 
-  constructor(private toastr: ToastrService,private dialog: MatDialog ,private compoundingService: AddCompoundingService, private injectionService: InjectionMoldingService, private router: Router,private injectionMoldingService:InjectionMoldingService) { }
+
+  constructor(private toastr: ToastrService, private dialog: MatDialog, private compoundingService: AddCompoundingService, private injectionService: InjectionMoldingService, private router: Router, private injectionMoldingService: InjectionMoldingService) { }
 
   ngOnInit(): void {
     this.idOfRecipe = history.state.id;
@@ -58,13 +58,6 @@ this.router.navigate(['/recipe']);
     this.fetchCompoundingData();
   }
 
-  //  ngAfterViewInit(): void {
-  //   this.dataSource.paginator = this.paginatorCompounding;
-  //   this.dataSource.sort = this.sort;
-
-  //   this.dataSourceInjection.paginator = this.paginatorInjection;
-  //   this.dataSourceInjection.sort = this.sort;
-  // }
 
   get hasCompoundingData(): boolean {
     return Array.isArray(this.dataSource.data) && this.dataSource.data.length > 0;
@@ -84,6 +77,10 @@ this.router.navigate(['/recipe']);
         setTimeout(() => {
           this.dataSource.paginator = this.paginatorCompounding;
           this.dataSource.sort = this.sort;
+
+          if (this.paginatorCompounding) {
+            this.paginatorCompounding.firstPage();
+          }
         });
         console.log('Compounding Data:', this.dataSource.data);
       },
@@ -93,36 +90,34 @@ this.router.navigate(['/recipe']);
     });
   }
 
- 
   fetchInjectionDataByRecipe(): void {
-  this.injectionService.GetInjectionByRecipeId(this.idOfRecipe).subscribe({
-    next: (data) => {
-      console.log(this.idOfRecipe);
-      console.log("Received data from Injection API:", JSON.stringify(data, null, 2));
+    this.injectionService.GetInjectionByRecipeId(this.idOfRecipe).subscribe({
+      next: (data) => {
+        console.log(this.idOfRecipe);
+        console.log("Received data from Injection API:", JSON.stringify(data, null, 2));
 
-      // Reset DataSource
-      this.dataSourceInjection = new MatTableDataSource<any>(data);
+        // Reset DataSource
+        this.dataSourceInjection = new MatTableDataSource<any>(data);
 
-      // Ensure paginator and sort are re-applied
-      setTimeout(() => {
-        this.dataSourceInjection.paginator = this.paginatorInjection;
-        this.dataSourceInjection.sort = this.sort;
+        // Ensure paginator and sort are re-applied
+        setTimeout(() => {
+          this.dataSourceInjection.paginator = this.paginatorInjection;
+          this.dataSourceInjection.sort = this.sort;
 
-        // ✅ Reset to first page if necessary
-        if (this.paginatorInjection) {
-          this.paginatorInjection.firstPage();
-        }
-      });
+          if (this.paginatorInjection) {
+            this.paginatorInjection.firstPage();
+          }
+        });
 
-      console.log('Injection Data:', this.dataSourceInjection.data);
-    },
-    error: (err) => {
-      console.error('Failed to fetch injection data', err);
-    }
-  });
-}
+        console.log('Injection Data:', this.dataSourceInjection.data);
+      },
+      error: (err) => {
+        console.error('Failed to fetch injection data', err);
+      }
+    });
+  }
 
-  
+
 
 
   applyFilter(event: Event): void {
@@ -155,34 +150,38 @@ this.router.navigate(['/recipe']);
     }
   }
 
-deleteCompounding(compoundingId: number): void {
-  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-    width: '350px',
-    data: {
-      title: 'Confirm Deletion',
-      message: 'Do you really want to delete this record?'
-    }
-  });
+  deleteCompounding(compoundingId: number): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Confirm Deletion',
+        message: 'Do you really want to delete this record?'
+      }
+    });
 
-  const deletedBy = Number(localStorage.getItem('UserId'));
+    const deletedBy = Number(localStorage.getItem('UserId'));
 
-  dialogRef.afterClosed().subscribe(result => {
-    if (result === true) {
-      this.compoundingService.deleteCompoundingData(compoundingId, deletedBy).subscribe({
-        next: () => {
-          this.toastr.success('Deleted successfully.');
-          this.fetchCompoundingData(); // Refresh data
-        },
-        error: (err) => {
-          console.error('Failed to delete compounding data', err);
-          this.toastr.error('Failed to delete compounding data.');
-        }
-      });
-    } else {
-      this.toastr.info('Deletion cancelled.');
-    }
-  });
-}
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.compoundingService.deleteCompoundingData(compoundingId, deletedBy).subscribe({
+          next: () => {
+            this.toastr.success('Deleted successfully.');
+            this.fetchCompoundingData(); // Refresh data
+
+            if (this.dataSource.data.length === 1) {
+              this.dataSource.data = [];
+            }
+          },
+          error: (err) => {
+            console.error('Failed to delete compounding data', err);
+            this.toastr.error('Failed to delete compounding data.');
+          }
+        });
+      } else {
+        this.toastr.info('Deletion cancelled.');
+      }
+    });
+  }
 
   navigateToUpdateInjectionMolding(InjectionId: number | undefined): void {
     console.log('Clicked compoundingId:', InjectionId);
@@ -199,41 +198,44 @@ deleteCompounding(compoundingId: number): void {
   }
 
   deleteInjection(id: number) {
-        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-          width: '350px',
-          data: {
-            title: 'Confirm Deletion',
-            message: 'Are you sure you want to delete this injection Molding?'
-          }
-        });
-        const deletedBY=Number(localStorage.getItem('UserId'));
-      
-        dialogRef.afterClosed().subscribe(result => {
-          if (result === true) {
-            this.injectionMoldingService.deleteinjection(id,deletedBY).subscribe({
-              next: (res: any) => {
-                // this.dataSource.data = this.dataSource.data.filter(material => material.projectId !== id);
-                this.toastr.success(' deleted successfully','success',{
-                  timeOut:5000
-                });
-              //   this.router.navigate(['/comp-inject'],{
-              // state:{id: this.idOfRecipe}
-              //   })
-                this.fetchInjectionDataByRecipe();
-              },
-              error: (err: any) => {
-                console.error('Error:', err);
-                this.toastr.error('Something went wrong!','error',{
-                  timeOut:5000
-                });
-              }
-            });
-            
-          } else {
-            this.toastr.info('Deletion cancelled');
-          }
-        });
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Confirm Deletion',
+        message: 'Are you sure you want to delete this injection Molding?'
       }
+    });
+    const deletedBY = Number(localStorage.getItem('UserId'));
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.injectionMoldingService.deleteinjection(id, deletedBY).subscribe({
+          next: (res: any) => {
+            // this.dataSource.data = this.dataSource.data.filter(material => material.projectId !== id);
+            this.toastr.success(' deleted successfully', 'success', {
+              timeOut: 5000
+            });
+            //   this.router.navigate(['/comp-inject'],{
+            // state:{id: this.idOfRecipe}
+            //   })
+            this.fetchInjectionDataByRecipe();
+            if (this.dataSourceInjection.data.length === 1) {
+              this.dataSourceInjection.data = [];
+            }
+          },
+          error: (err: any) => {
+            console.error('Error:', err);
+            this.toastr.error('Something went wrong!', 'error', {
+              timeOut: 5000
+            });
+          }
+        });
+
+      } else {
+        this.toastr.info('Deletion cancelled');
+      }
+    });
+  }
 
 
 }

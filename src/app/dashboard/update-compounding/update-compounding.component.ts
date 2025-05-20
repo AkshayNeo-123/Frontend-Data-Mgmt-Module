@@ -294,7 +294,7 @@ onFileSelected(event: Event, controlName: string): void {
     const filePath = `${res.fileName}`;
     this.compoundForm.get(controlName)?.setValue(filePath);
     this.selectedFileNames[controlName] = fileNameDisplay;
-    this.toastr.success('File uploaded successfully.', 'Success', { timeOut: 3000 });
+    // this.toastr.success('File uploaded successfully.', 'Success', { timeOut: 3000 });
   };
 
   const onError = (err: any) => {
