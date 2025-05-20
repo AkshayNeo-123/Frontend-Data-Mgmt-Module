@@ -12,6 +12,7 @@ import { ComponentService } from '../../services/component.service';
 import { MaterialService } from '../../services/material.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { Location } from '@angular/common'
 
 
 @Component({
@@ -161,6 +162,7 @@ console.log("Set recipeNumber to:", this.recipeId);
     private toastr: ToastrService,
     private componentService: ComponentService,
     private materialService: MaterialService,
+     private location: Location
 
 
   ) {
@@ -305,6 +307,9 @@ console.log("Set recipeNumber to:", this.recipeId);
     }
   }
 
+  onCancel(){
+    this.location.back();
+  }
 
 
 
@@ -447,6 +452,7 @@ console.log("Set recipeNumber to:", this.recipeId);
         this.toastr.success('Updated successfully.', 'Success', {
           timeOut: 3000
         });
+        this.location.back();
       },
       error: (err) => {
         console.error('API Error:', err);

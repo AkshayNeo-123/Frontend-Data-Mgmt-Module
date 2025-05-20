@@ -12,6 +12,7 @@ import { ComponentService } from '../../services/component.service';
 import { MaterialService } from '../../services/material.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { Location } from '@angular/common'
 
 @Component({
   selector: 'app-add-compounding',
@@ -56,6 +57,7 @@ export class AddCompoundingComponent implements OnInit {
     private toastr: ToastrService,
     private componentService: ComponentService,
     private materialService: MaterialService,
+     private location: Location
 
 
   ) {
@@ -339,6 +341,7 @@ export class AddCompoundingComponent implements OnInit {
         this.repetitionCount = 0;
         (this.compoundForm.get('components') as FormArray).clear();
         this.addComponent();
+        this.location.back();
       },
       error: (err) => {
         console.error('API Error:', err);
@@ -354,6 +357,9 @@ export class AddCompoundingComponent implements OnInit {
     const convertDate = d.toISOString().split('T')[0];
     console.log(convertDate);
     this.compoundForm.get('date')?.setValue(convertDate, { onlySelf: true });
+  }
+  OnCancel(){
+this.location.back();
   }
 
 

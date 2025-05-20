@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CommonModule, Location, LocationChangeEvent } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -186,7 +186,11 @@ this.recipeId = history.state.recipeId;
             next: (response) => {
               console.log('updated successfully', response);
               this.toastr.success('updated successfully');
-              this.injectionForm.reset();
+              // this.injectionForm.reset();
+              this.location.back();
+              // this.route.navigate(['/comp-inject'],{
+              // state:{id: this.recipeId}
+              // })
               // this.route.navigate(['/comp-inject']);
               // this.injectionservice.triggerRefresh();
               // this.dialogRef.close(true);

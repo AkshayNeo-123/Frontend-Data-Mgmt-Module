@@ -88,25 +88,76 @@ export class GetCompInjectComponent implements OnInit {
     });
   }
 
-  fetchInjectionDataByRecipe(): void {
-    this.injectionService.GetInjectionByRecipeId(this.idOfRecipe).subscribe({
-      next: (data) => {
-        console.log(this.idOfRecipe)
-        console.log("Received data from Injection API:", JSON.stringify(data, null, 2));
+  // fetchInjectionDataByRecipe(): void {
+  //   this.injectionService.GetInjectionByRecipeId(this.idOfRecipe).subscribe({
+  //     next: (data) => {
+  //       console.log(this.idOfRecipe)
+  //       console.log("Received data from Injection API:", JSON.stringify(data, null, 2));
 
-        this.dataSourceInjection.data = data;
+  //       this.dataSourceInjection.data = data;
+  //       this.dataSourceInjection.paginator = this.paginatorInjection;
+  //       setTimeout(() => {
+  //         this.dataSourceInjection.paginator = this.paginatorInjection;
+  //         this.dataSourceInjection.sort = this.sort;
+  //       });
+  //       console.log('Compounding Data:', this.dataSourceInjection.data);
+  //     },
+  //     error: (err) => {
+  //       console.error('Failed to fetch compounding data', err);
+  //     }
+  //   });
+  // }
+  // fetchInjectionDataByRecipe(): void {
+  //   this.injectionService.GetInjectionByRecipeId(this.idOfRecipe).subscribe({
+  //     next: (data) => {
+  //       console.log(this.idOfRecipe);
+  //       console.log("Received data from Injection API:", JSON.stringify(data, null, 2));
+  
+  //       // Important: reset DataSource
+  //       this.dataSourceInjection = new MatTableDataSource<any>(data);
+  
+  //       // Ensure paginator and sort are re-applied
+  //       setTimeout(() => {
+  //         this.dataSourceInjection.paginator = this.paginatorInjection;
+  //         this.dataSourceInjection.sort = this.sort;
+  //       });
+  
+  //       console.log('Injection Data:', this.dataSourceInjection.data);
+  //     },
+  //     error: (err) => {
+  //       console.error('Failed to fetch injection data', err);
+  //     }
+  //   });
+  // }
+  fetchInjectionDataByRecipe(): void {
+  this.injectionService.GetInjectionByRecipeId(this.idOfRecipe).subscribe({
+    next: (data) => {
+      console.log(this.idOfRecipe);
+      console.log("Received data from Injection API:", JSON.stringify(data, null, 2));
+
+      // Reset DataSource
+      this.dataSourceInjection = new MatTableDataSource<any>(data);
+
+      // Ensure paginator and sort are re-applied
+      setTimeout(() => {
         this.dataSourceInjection.paginator = this.paginatorInjection;
-        setTimeout(() => {
-          this.dataSourceInjection.paginator = this.paginatorInjection;
-          this.dataSourceInjection.sort = this.sort;
-        });
-        console.log('Compounding Data:', this.dataSourceInjection.data);
-      },
-      error: (err) => {
-        console.error('Failed to fetch compounding data', err);
-      }
-    });
-  }
+        this.dataSourceInjection.sort = this.sort;
+
+        // ✅ Reset to first page if necessary
+        if (this.paginatorInjection) {
+          this.paginatorInjection.firstPage();
+        }
+      });
+
+      console.log('Injection Data:', this.dataSourceInjection.data);
+    },
+    error: (err) => {
+      console.error('Failed to fetch injection data', err);
+    }
+  });
+}
+
+  
 
 
   applyFilter(event: Event): void {
@@ -171,6 +222,9 @@ export class GetCompInjectComponent implements OnInit {
                 this.toastr.success(' deleted successfully','success',{
                   timeOut:5000
                 });
+              //   this.router.navigate(['/comp-inject'],{
+              // state:{id: this.idOfRecipe}
+              //   })
                 this.fetchInjectionDataByRecipe();
               },
               error: (err: any) => {
