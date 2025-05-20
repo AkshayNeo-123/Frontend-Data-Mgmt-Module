@@ -26,12 +26,14 @@
 
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-        <td mat-cell *matCellDef="let element">{{ element.date | date: 'yyyy-MM-dd' }}</td>
+        <td mat-cell *matCellDef="let element">
+          {{ element.date ? (element.date | date: 'yyyy-MM-dd') : '-' }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="notes">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Notes</th>
-        <td mat-cell *matCellDef="let element">{{ element.notes }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.notes ? element.notes : '-' }}</td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
@@ -93,8 +95,9 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let elements">
-          <i class="fas fa-pencil-alt me-3 action-icon text-primary" (click)="navigateToUpdateInjectionMolding(elements.id)"></i>
-          <i class="fas fa-trash-alt action-icon text-danger"(click)="deleteInjection(elements.id)"></i>
+          <i class="fas fa-pencil-alt me-3 action-icon text-primary"
+            (click)="navigateToUpdateInjectionMolding(elements.id)"></i>
+          <i class="fas fa-trash-alt action-icon text-danger" (click)="deleteInjection(elements.id)"></i>
         </td>
       </ng-container>
 
@@ -108,7 +111,8 @@
     <h4 class="text-center text-muted mt-3">No Data found!</h4>
   </ng-template>
 
-  <mat-paginator  #paginatorInjection [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons *ngIf="hasInjectionData"></mat-paginator>
+  <mat-paginator #paginatorInjection [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons
+    *ngIf="hasInjectionData"></mat-paginator>
 
 
 </div>
