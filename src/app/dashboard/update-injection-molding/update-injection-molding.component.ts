@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -8,13 +8,14 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ProjectService } from '../../services/project.service';
 import { AddInjectionMoulding, UpdateInjectionMoulding } from '../../models/injection-molding';
 import { InjectionMoldingService } from '../../services/injection-molding.service';
 import { ToastrService } from 'ngx-toastr';
+// import { Location } from '@angular/common'
 
 @Component({
   selector: 'app-update-injection-molding',
@@ -34,12 +35,16 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './update-injection-molding.component.css'
 })
 export class UpdateInjectionMoldingComponent {
+
+  InjectionId!: number;
+   recipeId!: number;
+
   injectionForm!: FormGroup;
   projects: any[] = [];
   filteredProjects: any[] = [];
   parameterSetpreviousdata!:number;
   
-  constructor(private fb: FormBuilder,private injectionservice:InjectionMoldingService,private toastr: ToastrService,private projectservice:ProjectService) {
+  constructor(private fb: FormBuilder,private injectionservice:InjectionMoldingService,private toastr: ToastrService,private projectservice:ProjectService, private location: Location, private route:Router) {
     this.injectionForm = this.fb.group({
       projectId: ['',Validators.required],
       parameterSet: [{value:'', disabled: true}],
@@ -77,6 +82,9 @@ export class UpdateInjectionMoldingComponent {
   }
   
   ngOnInit(): void {
+    this.InjectionId = history.state.injectionId;
+this.recipeId = history.state.recipeId;
+// this.compoundForm.get('recipeNumber')?.setValue(this.recipeId);
     
     this.loadMaster();
     this.repetitionCount = Number(this.injectionForm.get('repetition')?.value || 0);
@@ -87,7 +95,7 @@ export class UpdateInjectionMoldingComponent {
       this.injectionForm.get('speedMms')!.setValue(converted, { emitEvent: false });
     });
 
-    this.injectionservice.GetByIdInjection(10).subscribe({
+    this.injectionservice.GetByIdInjection(this.InjectionId).subscribe({
       next: (data) => {
         console.log('API Response:', data);
         const projectArray = typeof data.projectId === 'string'
@@ -174,11 +182,16 @@ export class UpdateInjectionMoldingComponent {
             
           };
           console.log(newInjectionMolding);
-          this.injectionservice.UpdateInjection(10,newInjectionMolding).subscribe({
+          this.injectionservice.UpdateInjection(this.InjectionId,newInjectionMolding).subscribe({
             next: (response) => {
               console.log('updated successfully', response);
               this.toastr.success('updated successfully');
-              this.injectionForm.reset();
+              // this.injectionForm.reset();
+              this.location.back();
+              // this.route.navigate(['/comp-inject'],{
+              // state:{id: this.recipeId}
+              // })
+              // this.route.navigate(['/comp-inject']);
               // this.injectionservice.triggerRefresh();
               // this.dialogRef.close(true);
             },
@@ -190,7 +203,7 @@ export class UpdateInjectionMoldingComponent {
   
   }
   onCancel() {
-  throw new Error('Method not implemented.');
+  this.location.back();
   }
   
   

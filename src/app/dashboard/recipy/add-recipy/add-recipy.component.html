@@ -3,7 +3,7 @@
   <mat-hint class="global-hint mb-3 text-muted"
     >All fields marked with an asterisk (*) are required.</mat-hint
   >
-
+ 
   <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
     <div mat-dialog-content>
       <div class="row">
@@ -17,7 +17,7 @@
             >
           </mat-form-field>
         </div>
-
+ 
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Project Number</mat-label>
@@ -34,7 +34,7 @@
             >
           </mat-form-field>
         </div>
-
+ 
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Additive</mat-label>
@@ -48,7 +48,7 @@
             </mat-select>
           </mat-form-field>
         </div>
-
+ 
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Main Polymer</mat-label>
@@ -62,7 +62,7 @@
             </mat-select>
           </mat-form-field>
         </div>
-
+ 
         <div class="col-md-12">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Comments</mat-label>
@@ -71,7 +71,6 @@
         </div>
       </div>
     </div>
-
 <div formArrayName="components" class="mt-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <label class="fw-bold fs-5">Components</label>
@@ -83,16 +82,15 @@
       Add Component
     </button>
   </div>
-
-  <div class="table-responsive">
+  <div class="table-responsive"  *ngIf="components.controls.length > 0">
     <table class="table table-bordered align-middle text-center">
       <thead class="table-light">
-        <tr>
-          <th>Component</th>
+        <tr >
+          <th>Component*</th>
           <th>WT%</th>
           <th>VOL%</th>
           <th>Density</th>
-          <th>Type</th>
+          <th>Type*</th>
           <th>MP / MF</th>
           <th>Delete</th>
         </tr>
@@ -109,7 +107,7 @@
               formControlName="componentId"
               required
             >
-              <option value="" disabled selected>Select</option>
+            <option [ngValue]="null">--Select--</option>
               <option
                 *ngFor="let c of availableComponents"
                 [value]="c.id"
@@ -118,7 +116,6 @@
               </option>
             </select>
           </td>
-
           <!-- WT% input -->
           <td>
             <input
@@ -130,7 +127,6 @@
               formControlName="wtPercent"
             />
           </td>
-
           <!-- VOL% input -->
           <td>
             <input
@@ -142,7 +138,6 @@
               formControlName="valPercent"
             />
           </td>
-
           <!-- Density input -->
           <td>
             <input
@@ -154,7 +149,6 @@
               formControlName="density"
             />
           </td>
-
           <!-- Type dropdown -->
           <td>
             <select
@@ -162,7 +156,7 @@
               formControlName="typeId"
               required
             >
-              <option value="" disabled selected>Select</option>
+            <option [ngValue]="null">--Select--</option>
               <option
                 *ngFor="let type of componentTypes"
                 [value]="type.id"
@@ -171,7 +165,6 @@
               </option>
             </select>
           </td>
-
           <!-- MP / MF checkboxes -->
           <td>
             <div class="form-check form-check-inline">
@@ -193,7 +186,6 @@
               <label class="form-check-label" for="mf-{{ i }}">MF</label>
             </div>
           </td>
-
           <!-- Delete button -->
           <td>
             <button
@@ -209,11 +201,11 @@
     </table>
   </div>
 </div>
-
-
-
-
-
+ 
+ 
+ 
+ 
+ 
     <div class="mt-4 d-flex justify-content-end gap-2">
       <button mat-raised-button type="submit" color="primary">{{isEdit ? 'Update' :'Save'}}</button>
       <button
@@ -227,3 +219,5 @@
     </div>
   </form>
 </div>
+ 
+ 

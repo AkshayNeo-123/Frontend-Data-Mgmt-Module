@@ -39,12 +39,7 @@ export class LoginComponent implements OnInit {
     }, 500);
   }
   ngOnInit(): void {
-    const userId = localStorage.getItem('UserId');
-    if (userId) {
-      this.router.navigate(['/dashboard']);
-      return;
-    }
-  
+    localStorage.clear();
     this.loginForm = this.fb.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
@@ -70,12 +65,12 @@ export class LoginComponent implements OnInit {
         });
   
         // Show Swal message on successful login
-        Swal.fire({
-          title: 'Login Successful!',
-          text: 'You have logged in successfully.',
-          icon: 'success',
-          confirmButtonText: 'OK'
-        });
+        // Swal.fire({
+        //   title: 'Login Successful!',
+        //   text: 'You have logged in successfully.',
+        //   icon: 'success',
+        //   confirmButtonText: 'OK'
+        // });
 
         this.router.navigate(['/dashboard'],{ replaceUrl: true });
       },

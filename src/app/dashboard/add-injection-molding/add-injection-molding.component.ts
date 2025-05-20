@@ -7,13 +7,14 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ProjectService } from '../../services/project.service';
 import { AddInjectionMoulding } from '../../models/injection-molding';
 import { InjectionMoldingService } from '../../services/injection-molding.service';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common'
 
 @Component({
   selector: 'app-add-injection-molding',
@@ -27,7 +28,7 @@ import { ToastrService } from 'ngx-toastr';
     MatCheckboxModule,
     MatRadioModule,
     MatNativeDateModule,
-    RouterModule,
+    // RouterModule,
     CommonModule],
   templateUrl: './add-injection-molding.component.html',
   styleUrl: './add-injection-molding.component.css'
@@ -37,12 +38,13 @@ injectionForm!: FormGroup;
 projects: any[] = [];
 filteredProjects: any[] = [];
 parameterSetpreviousdata!:number;
+RecipeId!: number;
 
-constructor(private fb: FormBuilder,private injectionservice:InjectionMoldingService,private toastr: ToastrService,private projectservice:ProjectService) {
+constructor( private location: Location,private fb: FormBuilder,private injectionservice:InjectionMoldingService,private toastr: ToastrService,private projectservice:ProjectService,private route:Router) {
   this.injectionForm = this.fb.group({
     projectId: ['',Validators.required],
     parameterSet: [{value:'', disabled: true}],
-    recipeId: [{value:'7', disabled: true}],
+    recipeId: [{value:this.RecipeId, disabled: true}],
     repetition: ['0'],
     additive: [''],
     reference:[false],
@@ -76,6 +78,8 @@ constructor(private fb: FormBuilder,private injectionservice:InjectionMoldingSer
 }
 
 ngOnInit(): void {
+  this.RecipeId = history.state.id;
+  this.injectionForm.get('recipeId')?.setValue(this.RecipeId);
   
   this.loadMaster();
   this.repetitionCount = Number(this.injectionForm.get('repetition')?.value || 0);
@@ -135,8 +139,11 @@ onSubmit() {
             console.log('Project added successfully', response);
             this.toastr.success('Save successfully');
             this.injectionForm.reset();
-            // this.injectionservice.triggerRefresh();
-            // this.dialogRef.close(true);
+            // this.route.navigate(['/comp-inject'],{
+            //   state:{id: this.RecipeId}
+            // });
+            this.location.back();
+            
           },
           error: (error) => {
             console.error('Error adding project:', error);
@@ -146,7 +153,8 @@ onSubmit() {
 
 }
 onCancel() {
-throw new Error('Method not implemented.');
+  this.location.back();
+
 }
 
 

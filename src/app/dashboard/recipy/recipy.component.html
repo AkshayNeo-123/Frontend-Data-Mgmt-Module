@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container for-margin">
   <h4 class="fw-bold">Recipe Table</h4>
    <div class="d-flex align-items-center justify-content-between">
     <div class="w-100">
@@ -82,7 +82,7 @@
       <td mat-cell *matCellDef="let element">
         <!-- <div></div> -->
         <i class="fas fa-pencil-alt action-icon me-2"  (click)="editRecipe(element)"></i>
-        <i class="fas fa-trash-alt action-icon " (click)="deleteContactsDetails(element.receipeId)"></i>
+        <i class="fas fa-trash-alt action-icon me-2" (click)="deleteContactsDetails(element.receipeId)"></i>
             <i class="fas fa-plus action-icon" (click)="goToAddPage(element.receipeId)"></i>
       </td>
     </ng-container>

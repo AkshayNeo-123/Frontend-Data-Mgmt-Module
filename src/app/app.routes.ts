@@ -20,13 +20,14 @@ import { AddCompoundingComponent } from './dashboard/add-compounding/add-compoun
 import { UpdateCompoundingComponent } from './dashboard/update-compounding/update-compounding.component';
 import { RolemasterComponent } from './dashboard/rolemaster/rolemaster.component';
 import { AddRecipyComponent } from './dashboard/recipy/add-recipy/add-recipy.component';
+import { authGuard } from './auth.guard';
 import { GetCompInjectComponent } from './dashboard/get-comp-inject/get-comp-inject.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent , canActivate: [authGuard]},
   { path: 'recipe', component: RecipyComponent },
   { path: 'getmaterials', component: GetmaterialsComponent },
   { path: 'getproject', component: ProjectComponent },

@@ -2,10 +2,14 @@
     position: fixed;
     bottom: 0;
     width: 100%;
+    right: 0;
     font-size: 14px;
-    background-color: #c3edb1;
-    color:black;
+    /* background-color: #f6f6f6; */
+    background-color: rgb(95, 92, 92);
+    color:#fff;
     font-weight: 600;
-    z-index: 999;
+    z-index: 1;
+    right: 0;
+    /* height: 7vh; */
   }
   

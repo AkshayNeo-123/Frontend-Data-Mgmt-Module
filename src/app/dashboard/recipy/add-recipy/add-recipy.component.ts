@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormBuilder,   
+  FormBuilder,  
   FormGroup,
   Validators,
   ReactiveFormsModule,
@@ -25,7 +25,8 @@ import { ComponentService } from '../../../services/component.service';
 import { RecipeComponentType } from '../../../models/recipe-component-type.model';
 import { Recipe } from '../../../models/recipe.model';
 import { ToastrService } from 'ngx-toastr';
-
+import { ValidatorFn, AbstractControl } from '@angular/forms';
+ 
 interface ComponentRow {
   componentId: number | null;
   wtPercentage: number | null;
@@ -35,7 +36,7 @@ interface ComponentRow {
   mp: boolean;
   mf: boolean;
 }
-
+ 
 @Component({
   selector: 'app-add-recipy',
   standalone: true,
@@ -72,7 +73,7 @@ export class AddRecipyComponent implements OnInit {
     'actions',
   ];
   isEdit = false;
-
+ 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<AddRecipyComponent>,
@@ -89,13 +90,18 @@ export class AddRecipyComponent implements OnInit {
       projectId: [null, Validators.required],
       mainPolymerId: ['', Validators.required],
       additiveId: ['', Validators.required],
-      components: this.fb.array([]),
+      components: this.fb.array([])
     });
+    
   }
 
+  
+ 
   ngOnInit(): void {
     this.loadDropdownData();
-
+    
+    
+ 
     if (this.data?.recipe) {
       this.isEdit = true;
       const r = this.data.recipe;
@@ -107,7 +113,7 @@ export class AddRecipyComponent implements OnInit {
         projectId: res.recipe.projectId,
         additiveId: res.recipe.additiveId,
         mainPolymerId: res.recipe.mainPolymerId,
-        
+       
       });
       const composition = res.component ?? [];
       if (Array.isArray(composition) && composition.length > 0) {
@@ -120,20 +126,21 @@ export class AddRecipyComponent implements OnInit {
           this.toastr.error('Failed to load recipe', 'Error');
         },
       });
-
+ 
       // this.recipeForm.patchValue({
       //   productName: r,
       //   comments: r.comment,
       //   projectId: r.projectId,
       //   additiveId: r.additiveId,
       //   mainPolymerId: r.mainPolymerId,
-        
+       
       // });
-
-      
+ 
+     
     }
   }
-
+   
+ 
   // Custom validator for percentage range
   percentageRangeValidator() {
     return (control: any) => {
@@ -144,7 +151,7 @@ export class AddRecipyComponent implements OnInit {
       return null;
     };
   }
-
+ 
   initForm(): void {
     this.recipeForm = this.fb.group({
       productName: ['', Validators.required],
@@ -155,7 +162,7 @@ export class AddRecipyComponent implements OnInit {
       components: this.fb.array([]),
     });
   }
-
+ 
   loadDropdownData(): void {
     this.projectService.getAllProjects().subscribe((res) => (this.projects = res));
     this.commonService.getAdditives().subscribe((res) => (this.additives = res));
@@ -163,11 +170,11 @@ export class AddRecipyComponent implements OnInit {
     this.componentService.getAllComponents().subscribe((res) => (this.availableComponents = res));
     this.commonService.getRecipeComponentTypes().subscribe((res) => (this.componentTypes = res));
   }
-
+ 
   get components(): FormArray {
     return this.recipeForm.get('components') as FormArray;
   }
-
+ 
   addComponent(component: any = {}): void {
     const componentGroup = this.fb.group({
       componentId: [component.componentId || null],
@@ -183,39 +190,25 @@ export class AddRecipyComponent implements OnInit {
       typeId: [component.typeId || null],
       mp: [component.mp || false],
       mf: [component.mf || false],
-    }); 
-
+    });
+ 
     this.components.push(componentGroup);
+
   }
-//   addComponent(component: any = {}): void {
-//   const componentGroup = this.fb.group({
-//     componentId: [component.componentId || null, Validators.required],
-//     wtPercent: [
-//       component.wtPercentage ?? null, // Corrected from wtPercent
-//       [Validators.required, this.percentageRangeValidator()],
-//     ],
-//     valPercent: [
-//       component.volPercentage ?? null, // Corrected from valPercent
-//       [Validators.required, this.percentageRangeValidator()],
-//     ],
-//     density: [component.density || null],
-//     typeId: [component.typeId || ''],
-//     mp: [component.mp || false],
-//     mf: [component.mf || false],
-//   });
-
-//   this.components.push(componentGroup);
-// }
-
-
+ 
+ 
   deleteComponent(index: number): void {
     this.components.removeAt(index);
+ 
   }
-
+ 
   onSubmit(): void {
+
     if (this.recipeForm.valid) {
       const formValue = this.recipeForm.value;
-
+      // const currentUser = JSON.parse(localStorage.getItem('UserId') || '{}');
+    const userId = localStorage.getItem('UserId');
+ 
       const payload = {
         recipe: {
           productName: this.recipeForm.value.productName,
@@ -223,13 +216,14 @@ export class AddRecipyComponent implements OnInit {
           projectId: this.recipeForm.value.projectId,
           additiveId: this.recipeForm.value.additiveId,
           mainPolymerId: this.recipeForm.value.mainPolymerId,
+          ...(this.isEdit ? { modifiedBy: userId } : { createdBy: userId }),
         },
         component: this.components.value,
       };
-
+ 
       if (this.isEdit && this.data.recipe?.receipeId) {
         console.log(payload);
-        
+       
         this.recipeService.updateRecipe(this.data.recipe.receipeId, payload).subscribe({
           next: () => {
             console.log('Recipe Updated successfully');
@@ -242,6 +236,7 @@ export class AddRecipyComponent implements OnInit {
           },
         });
       } else {
+        console.log(payload);
         this.recipeService.addRecipe(payload).subscribe({
           next: () => {
             console.log('Recipe added successfully');
@@ -258,8 +253,10 @@ export class AddRecipyComponent implements OnInit {
       this.toastr.error('Please fill in all required fields', 'Form Error');
     }
   }
-
+ 
   onCancel(): void {
     this.dialogRef.close(false); // Close without saving
   }
 }
+ 
+ 

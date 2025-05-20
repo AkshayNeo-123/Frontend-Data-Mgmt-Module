@@ -10,9 +10,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { InjectionMoldingService } from '../../services/injection-molding.service';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
-import { provideToastr, ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-get-comp-inject',
@@ -39,13 +39,9 @@ export class GetCompInjectComponent implements OnInit {
   @ViewChild('paginatorCompounding') paginatorCompounding!: MatPaginator;
   @ViewChild('paginatorInjection') paginatorInjection!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  
 
-  constructor(private compoundingService: AddCompoundingService, 
-    private injectionService: InjectionMoldingService,
-        private dialog: MatDialog,
- private router: Router,  
-   private toastr: ToastrService
- ) { }
+  constructor(private toastr: ToastrService,private dialog: MatDialog ,private compoundingService: AddCompoundingService, private injectionService: InjectionMoldingService, private router: Router,private injectionMoldingService:InjectionMoldingService) { }
 
   ngOnInit(): void {
     this.idOfRecipe = history.state.id;
@@ -92,25 +88,76 @@ export class GetCompInjectComponent implements OnInit {
     });
   }
 
-  fetchInjectionDataByRecipe(): void {
-    this.injectionService.GetInjectionByRecipeId(this.idOfRecipe).subscribe({
-      next: (data) => {
-        console.log(this.idOfRecipe)
-        console.log("Received data from Injection API:", JSON.stringify(data, null, 2));
+  // fetchInjectionDataByRecipe(): void {
+  //   this.injectionService.GetInjectionByRecipeId(this.idOfRecipe).subscribe({
+  //     next: (data) => {
+  //       console.log(this.idOfRecipe)
+  //       console.log("Received data from Injection API:", JSON.stringify(data, null, 2));
 
-        this.dataSourceInjection.data = data;
+  //       this.dataSourceInjection.data = data;
+  //       this.dataSourceInjection.paginator = this.paginatorInjection;
+  //       setTimeout(() => {
+  //         this.dataSourceInjection.paginator = this.paginatorInjection;
+  //         this.dataSourceInjection.sort = this.sort;
+  //       });
+  //       console.log('Compounding Data:', this.dataSourceInjection.data);
+  //     },
+  //     error: (err) => {
+  //       console.error('Failed to fetch compounding data', err);
+  //     }
+  //   });
+  // }
+  // fetchInjectionDataByRecipe(): void {
+  //   this.injectionService.GetInjectionByRecipeId(this.idOfRecipe).subscribe({
+  //     next: (data) => {
+  //       console.log(this.idOfRecipe);
+  //       console.log("Received data from Injection API:", JSON.stringify(data, null, 2));
+  
+  //       // Important: reset DataSource
+  //       this.dataSourceInjection = new MatTableDataSource<any>(data);
+  
+  //       // Ensure paginator and sort are re-applied
+  //       setTimeout(() => {
+  //         this.dataSourceInjection.paginator = this.paginatorInjection;
+  //         this.dataSourceInjection.sort = this.sort;
+  //       });
+  
+  //       console.log('Injection Data:', this.dataSourceInjection.data);
+  //     },
+  //     error: (err) => {
+  //       console.error('Failed to fetch injection data', err);
+  //     }
+  //   });
+  // }
+  fetchInjectionDataByRecipe(): void {
+  this.injectionService.GetInjectionByRecipeId(this.idOfRecipe).subscribe({
+    next: (data) => {
+      console.log(this.idOfRecipe);
+      console.log("Received data from Injection API:", JSON.stringify(data, null, 2));
+
+      // Reset DataSource
+      this.dataSourceInjection = new MatTableDataSource<any>(data);
+
+      // Ensure paginator and sort are re-applied
+      setTimeout(() => {
         this.dataSourceInjection.paginator = this.paginatorInjection;
-        setTimeout(() => {
-          this.dataSourceInjection.paginator = this.paginatorInjection;
-          this.dataSourceInjection.sort = this.sort;
-        });
-        console.log('Compounding Data:', this.dataSourceInjection.data);
-      },
-      error: (err) => {
-        console.error('Failed to fetch compounding data', err);
-      }
-    });
-  }
+        this.dataSourceInjection.sort = this.sort;
+
+        // ✅ Reset to first page if necessary
+        if (this.paginatorInjection) {
+          this.paginatorInjection.firstPage();
+        }
+      });
+
+      console.log('Injection Data:', this.dataSourceInjection.data);
+    },
+    error: (err) => {
+      console.error('Failed to fetch injection data', err);
+    }
+  });
+}
+
+  
 
 
   applyFilter(event: Event): void {
@@ -123,7 +170,11 @@ export class GetCompInjectComponent implements OnInit {
       state: { id: this.idOfRecipe }
     });
   }
-
+  navigateToAddInjectionMOlding(): void {
+    this.router.navigate(['/injectionMolding'], {
+      state: { id: this.idOfRecipe }
+    });
+  }
 
   navigateToUpdateCompounding(compoundingId: number | undefined): void {
     console.log('Clicked compoundingId:', compoundingId);
@@ -168,6 +219,56 @@ deleteCompounding(compoundingId: number): void {
   });
 }
 
+  navigateToUpdateInjectionMolding(InjectionId: number | undefined): void {
+    console.log('Clicked compoundingId:', InjectionId);
+    if (InjectionId != null) {
+      this.router.navigate(['/updaetInjection'], {
+        state: {
+          injectionId: InjectionId,
+          recipeId: this.idOfRecipe
+        }
+      });
+    } else {
+      console.error('compoundingId is undefined or null!');
+    }
+  }
+
+  deleteInjection(id: number) {
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+          width: '350px',
+          data: {
+            title: 'Confirm Deletion',
+            message: 'Are you sure you want to delete this injection Molding?'
+          }
+        });
+        const deletedBY=Number(localStorage.getItem('UserId'));
+      
+        dialogRef.afterClosed().subscribe(result => {
+          if (result === true) {
+            this.injectionMoldingService.deleteinjection(id,deletedBY).subscribe({
+              next: (res: any) => {
+                // this.dataSource.data = this.dataSource.data.filter(material => material.projectId !== id);
+                this.toastr.success(' deleted successfully','success',{
+                  timeOut:5000
+                });
+              //   this.router.navigate(['/comp-inject'],{
+              // state:{id: this.idOfRecipe}
+              //   })
+                this.fetchInjectionDataByRecipe();
+              },
+              error: (err: any) => {
+                console.error('Error:', err);
+                this.toastr.error('Something went wrong!','error',{
+                  timeOut:5000
+                });
+              }
+            });
+            
+          } else {
+            this.toastr.info('Deletion cancelled');
+          }
+        });
+      }
 
 
 }

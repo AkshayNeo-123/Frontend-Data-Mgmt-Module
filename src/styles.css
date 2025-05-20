@@ -19,7 +19,9 @@ h4 {
     margin-bottom: 40px;
     
   
-    background-color: #4caf50; 
+    /* color: #ffffff; */
+    background-color: #4caf50;
+
     color: white;
     border: none;
     transition: background-color 0.3s ease;
@@ -304,3 +306,15 @@ button.toast-close-button {
   display: none;
 }
 
+.cdk-overlay-container, .cdk-global-overlay-wrapper {
+    pointer-events: none;
+    top: 17px !important;
+    left: 0;
+    bottom: 10px;
+    height: 90%;
+    width: 100%;
+}
+
+.for-margin{
+margin-top: 60px;
+}

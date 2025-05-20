@@ -41,8 +41,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
   imports: [
     CommonModule,
     FormsModule,
-    SidebarComponent,
-    TopbarComponent,
+    // SidebarComponent,
+    // TopbarComponent,
     FooterComponent,
     GetmaterialsComponent,
     RecipyComponent,
@@ -73,7 +73,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     UpdateInjectionMoldingComponent,
     UpdateCompoundingComponent,
     AddInjectionMoldingComponent
-    ,InfiniteScrollModule
+    // ,InfiniteScrollModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']

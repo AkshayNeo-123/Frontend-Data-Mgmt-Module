@@ -14,6 +14,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
+import { Location } from '@angular/common'
 
 
 @Component({
@@ -166,7 +167,8 @@ export class UpdateCompoundingComponent implements OnInit {
     private toastr: ToastrService,
     private componentService: ComponentService,
     private materialService: MaterialService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+     private location: Location
 
 
   ) {
@@ -266,6 +268,9 @@ export class UpdateCompoundingComponent implements OnInit {
     return (this.compoundForm.get('components') as FormArray).value
       .reduce((acc: number, curr: any) => acc + (+curr.share || 0), 0);
   }
+  onCancel(){
+    this.location.back();
+  }
 
   selectedFileNames: { [key: string]: string } = {};
 
@@ -283,6 +288,7 @@ onFileSelected(event: Event, controlName: string): void {
 
   const currentFilePath = this.compoundForm.get(controlName)?.value;
   const fileNameDisplay = file.name;
+  
 
   const onSuccess = (res: any) => {
     const filePath = `${res.fileName}`;
@@ -443,6 +449,7 @@ onFileSelected(event: Event, controlName: string): void {
         this.toastr.success('Updated successfully.', 'Success', {
           timeOut: 3000
         });
+        this.location.back();
       },
       error: (err) => {
         console.error('API Error:', err);
