@@ -32,20 +32,20 @@
       <table>
         <tbody *ngFor="let permission of modulePermissions" [formGroupName]="permission.id">
           <tr><td class="menuNameList"><strong>{{ permission.menuName }}</strong></td>
-          <td>
+          <td >
         <mat-checkbox formControlName="view" (change)="onAnyPermissionChange()">View</mat-checkbox>
           </td>
-          <td>
+          <td *ngIf="permission.childCount==0">
         <mat-checkbox formControlName="create" (change)="onAnyPermissionChange()">Create</mat-checkbox>
           </td>
-          <td>
+          <td *ngIf="permission.childCount==0">
         <mat-checkbox formControlName="update" (change)="onAnyPermissionChange()">Update</mat-checkbox>
           </td>
-          <td>
+          <td *ngIf="permission.childCount==0">
         <mat-checkbox formControlName="delete" (change)="onAnyPermissionChange()">Delete</mat-checkbox>
           </td>
           <td>&nbsp;&nbsp;&nbsp;</td>
-          <td class="verticalLine">
+          <td *ngIf="permission.childCount==0" class="verticalLine">
         <mat-checkbox (change)="toggleMenuPermissions(permission.id.toString(), $event)">Select All</mat-checkbox>
           </td>
         </tr>

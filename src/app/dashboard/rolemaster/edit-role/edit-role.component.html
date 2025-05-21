@@ -17,12 +17,12 @@
       <tbody *ngFor="let permission of modulePermissions" [formGroupName]="permission.id">
         <tr>
           <td class="menuNameList"><strong>{{ permission.menuName }}</strong></td>
-          <td><mat-checkbox formControlName="view">View</mat-checkbox></td>
-          <td><mat-checkbox formControlName="create">Create</mat-checkbox></td>
-          <td><mat-checkbox formControlName="update">Update</mat-checkbox></td>
-          <td><mat-checkbox formControlName="delete">Delete</mat-checkbox></td>
+          <td ><mat-checkbox formControlName="view">View</mat-checkbox></td>
+          <td *ngIf="permission.childCount==0"><mat-checkbox formControlName="create">Create</mat-checkbox></td>
+          <td *ngIf="permission.childCount==0"><mat-checkbox formControlName="update">Update</mat-checkbox></td>
+          <td *ngIf="permission.childCount==0"><mat-checkbox formControlName="delete">Delete</mat-checkbox></td>
           <td>&nbsp;&nbsp;&nbsp;</td>
-          <td class="verticalLine"><mat-checkbox (change)="toggleMenuPermissions(permission.id.toString(), $event)">Select All</mat-checkbox></td>
+          <td *ngIf="permission.childCount==0" class="verticalLine"><mat-checkbox (change)="toggleMenuPermissions(permission.id.toString(), $event)">Select All</mat-checkbox></td>
         </tr>
       </tbody>
     </table>

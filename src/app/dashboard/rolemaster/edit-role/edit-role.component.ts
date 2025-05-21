@@ -209,8 +209,11 @@ export class EditRoleComponent implements OnInit {
       roleId: this.editData.roleId
     };
 
-    console.log(updatedRole);
-
+    console.log('updatedrole',updatedRole);
+  
+     
+    
+    console.log('updatedrole2',updatedRole);
     this.roleService.updateRole(this.editData.roleId, updatedRole).subscribe({
       next: () => {
         // this.snackBar.open('Role updated successfully.', 'Close', { duration: 3000 });

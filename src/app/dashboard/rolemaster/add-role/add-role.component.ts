@@ -126,6 +126,7 @@ export class AddRoleComponent {
     this.menuService.getMenu().subscribe({
       next: (menus) => {
         this.modulePermissions = menus;
+        console.log('menus: ',menus)
         this.modulePermissions.forEach(permission => {
           const group = this.fb.group({
             view: [false],
