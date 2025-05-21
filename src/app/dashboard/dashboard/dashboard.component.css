@@ -130,17 +130,7 @@ background-color: rgb(95, 92, 92);
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   } */
   
-  .filter-recipe{
-    font-size: 16px;
-  padding: 8px 16px;
-  border-radius: 6px;
-  margin-bottom: 45px;
-   margin-left: 10px;
-  background-color: transparent; 
-  color:#000;
-  border: 1px solid gray;
-  transition: background-color 0.3s ease;
-}
+
 .count-box{
   font-size: 16px;
 padding: 8px 16px;
@@ -154,27 +144,7 @@ border: 1px solid gray;
 transition: background-color 0.3s ease;
 }
 
-.filter-recipe:hover {
-  /* background-color: #388e3c;  */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-.reset-contact-btn{
-  font-size: 16px;
-  padding: 8px 16px;
-  border-radius: 6px;
-  margin-bottom: 45px;
 
-  /* background-color: #4caf50;  */
-  color: #000;
-  border: 1px solid gray;
-  transition: background-color 0.3s ease;
-
-}
-.reset-contact-btn:hover{
-/* background-color: #388e3c;  */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-  
 
 
 

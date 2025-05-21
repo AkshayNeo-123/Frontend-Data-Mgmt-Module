@@ -19,8 +19,8 @@
 
   <!-- Column 2: Filter & Reset Buttons -->
   <div class="col-md-4 d-flex gap-2">
-<button mat-raised-button color="primary" (click)="onFilter()">Filter</button>
-<button mat-raised-button color="warn" (click)="resetFilter()">Reset</button>
+<button class="mr-3 filter-recipe me-4" (click)="onFilter()">Filter</button>
+<button class="mr-3 reset-contact-btn btn btn me-4" mat-raised-button color="warn" (click)="resetFilter()">Reset</button>
   </div>
 
   <!-- Column 3: Add Compounding Button -->
@@ -74,13 +74,21 @@
   <h4 class="fw-bold">Injection Moulding</h4>
 
 
-  <div class="d-flex align-items-center justify-content-between">
-    <div class="w-100">
-      <mat-form-field appearance="outline" class="search-field" *ngIf="hasInjectionData">
-        <mat-label>Search for Notes</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Search notes..." />
-      </mat-form-field>
-    </div>
+  <div class="row align-items-center">
+  <div class="col-md-4">
+    <mat-form-field appearance="outline" class="w-100">
+       <mat-label>Date</mat-label>
+  <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="selectedDate" name="date">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+  </div>
+
+  <!-- Column 2: Filter & Reset Buttons -->
+  <div class="col-md-4 d-flex gap-2">
+<button class="mr-3 filter-recipe me-4" (click)="onFilter()">Filter</button>
+<button class="mr-3 reset-contact-btn btn btn me-4" mat-raised-button color="warn" (click)="resetFilter()">Reset</button>
+  </div>
 
     <div>
       <button mat-raised-button class="me-5 add-material-btn w-100" (click)="navigateToAddInjectionMOlding()">
