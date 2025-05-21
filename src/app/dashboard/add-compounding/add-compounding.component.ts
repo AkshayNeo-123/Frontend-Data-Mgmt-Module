@@ -39,8 +39,8 @@ export class AddCompoundingComponent implements OnInit {
   repetitionCount = 0;
   maxRepetition: number = 230;
 
-  parameterSetpreviousdata!:number;
- compoundingSetpreviousdata!:number;
+  parameterSetpreviousdata!: number;
+  compoundingSetpreviousdata!: number;
 
   // today = new Date();
 
@@ -52,8 +52,9 @@ export class AddCompoundingComponent implements OnInit {
     this.recipeId = history.state.id;
     console.log('Received Recipe ID in AddCompoundingComponent:', this.recipeId);
     this.compoundForm.get('recipeNumber')?.setValue(this.recipeId);
-  // this.compoundForm.get('compoundingId')?.setValue(this.compoundingSetpreviousdata);
-  this.compoundForm.get('parameterSet')?.setValue(this.parameterSetpreviousdata);
+    // this.compoundForm.get('compoundingId')?.setValue(this.compoundingSetpreviousdata);
+    const paramSet = this.parameterSetpreviousdata ?? 1;
+    this.compoundForm.get('parameterSet')?.setValue(paramSet);
   }
   constructor(
     private fb: FormBuilder,
@@ -61,7 +62,7 @@ export class AddCompoundingComponent implements OnInit {
     private toastr: ToastrService,
     private componentService: ComponentService,
     private materialService: MaterialService,
-     private location: Location
+    private location: Location
 
 
   ) {
@@ -133,20 +134,20 @@ export class AddCompoundingComponent implements OnInit {
       }
     });
 
-      this.compoundingService.getLastCommonSet().subscribe({
-      
-    next: (data) => {
-      console.log('Common Set Data:', data);
-      this.compoundForm.patchValue({
-      parameterSet: data.parameterSet,     
-      // compoundingId: data.compoundingId    
+    this.compoundingService.getLastCommonSet().subscribe({
+
+      next: (data) => {
+        console.log('Common Set Data:', data);
+        this.compoundForm.patchValue({
+          parameterSet: data.parameterSet ?? 1
+          // compoundingId: data.compoundingId    
+        });
+
+      },
+      error: (error) => {
+        console.error('Error fetching common set data:', error);
+      }
     });
-  
-    },
-    error: (error) => {
-      console.error('Error fetching common set data:', error);
-    }
-  });
   }
 
 
@@ -255,7 +256,7 @@ export class AddCompoundingComponent implements OnInit {
         share || MF || SecondF || SF || A || B || C || D || E || F;
 
       if (anyCheckboxSelected && (!name || name.trim() === "")) {
-        this.toastr.error("Select component name");
+        this.toastr.error("Select component name in Dosage");
         return;
       }
 
@@ -379,8 +380,8 @@ export class AddCompoundingComponent implements OnInit {
     console.log(convertDate);
     this.compoundForm.get('date')?.setValue(convertDate, { onlySelf: true });
   }
-  OnCancel(){
-this.location.back();
+  OnCancel() {
+    this.location.back();
   }
 
 

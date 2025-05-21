@@ -14,6 +14,11 @@ import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { MatIcon } from '@angular/material/icon';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-get-comp-inject',
@@ -25,12 +30,19 @@ import { MatIcon } from '@angular/material/icon';
     RouterModule,
     MatTableModule,
     MatPaginator,
-    MatIcon
+    MatIcon,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    FormsModule
   ],
   templateUrl: './get-comp-inject.component.html',
   styleUrls: ['./get-comp-inject.component.css']
 })
 export class GetCompInjectComponent implements OnInit {
+searchByDate($event: MatDatepickerInputEvent<any,any>) {
+  console.log($event)
+throw new Error('Method not implemented.');
+}
 goBack() {
 this.router.navigate(['/recipe']);
 }
@@ -38,6 +50,8 @@ this.router.navigate(['/recipe']);
   displayedColumns: string[] = ['compoundingId', 'date', 'notes', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
   displayedColumnsData: string[] = ['id', 'parameterSet', 'dryingTime', 'actions'];
+selectedDate: Date | null = null;
+searchDate:Date|null=null;
 
   dataSourceInjection = new MatTableDataSource<any>([])
 
@@ -236,6 +250,55 @@ this.router.navigate(['/recipe']);
       }
     });
   }
+
+ formatDate(e: any) {
+    console.log("hiiiiiiii");
+    const d = new Date(e.target.value);
+    d.setDate(d.getDate() + 1);
+    const convertDate = d.toISOString().split('T')[0];
+    console.log(convertDate);
+    // this.compoundForm.get('date')?.setValue(convertDate, { onlySelf: true });
+  }
+
+onFilter(): void {
+  console.log("helll")
+  if (!this.selectedDate) {
+    this.toastr.warning('Please select a date to filter.');
+    return;
+  }
+
+  const formattedDate = this.formatDateForAPI(this.selectedDate);
+
+  this.compoundingService.getCompoundingDataByRecipeId(this.idOfRecipe, formattedDate).subscribe({
+    next: (data) => {
+      this.dataSource.data = data;
+      this.dataSource = new MatTableDataSource<any>(data);
+      setTimeout(() => {
+        this.dataSource.paginator = this.paginatorCompounding;
+        this.dataSource.sort = this.sort;
+        this.paginatorCompounding?.firstPage();
+      });
+    },
+    error: (err) => {
+      console.error('Filter fetch failed:', err);
+      this.toastr.error('Failed to fetch filtered data.');
+    }
+  });
+}
+
+resetFilter(): void {
+  this.selectedDate = null;
+  this.fetchCompoundingData(); 
+}
+
+
+formatDateForAPI(date: Date): string {
+  const year = date.getFullYear();
+  const month = ('0' + (date.getMonth() + 1)).slice(-2); 
+  const day = ('0' + date.getDate()).slice(-2);
+  return `${year}-${month}-${day}`;
+}
+
 
 
 }
