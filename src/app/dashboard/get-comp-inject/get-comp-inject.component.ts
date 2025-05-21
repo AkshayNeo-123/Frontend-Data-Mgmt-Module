@@ -14,6 +14,7 @@ import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { MatIcon } from '@angular/material/icon';
+import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-get-comp-inject',
@@ -25,12 +26,17 @@ import { MatIcon } from '@angular/material/icon';
     RouterModule,
     MatTableModule,
     MatPaginator,
-    MatIcon
+    MatIcon,
+    MatDatepickerModule
   ],
   templateUrl: './get-comp-inject.component.html',
   styleUrls: ['./get-comp-inject.component.css']
 })
 export class GetCompInjectComponent implements OnInit {
+searchByDate($event: MatDatepickerInputEvent<any,any>) {
+  console.log($event)
+throw new Error('Method not implemented.');
+}
 goBack() {
 this.router.navigate(['/recipe']);
 }

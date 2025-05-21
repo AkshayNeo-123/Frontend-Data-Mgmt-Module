@@ -105,9 +105,9 @@
             <select
               class="form-select"
               formControlName="componentId"
-              required
+             
             >
-            <option [ngValue]="null">--Select--</option>
+            <option [ngValue]=null>--Select--</option>
               <option
                 *ngFor="let c of availableComponents"
                 [value]="c.id"
@@ -154,9 +154,9 @@
             <select
               class="form-select"
               formControlName="typeId"
-              required
+              
             >
-            <option [ngValue]="null">--Select--</option>
+            <option [ngValue]=null>--Select--</option>
               <option
                 *ngFor="let type of componentTypes"
                 [value]="type.id"
