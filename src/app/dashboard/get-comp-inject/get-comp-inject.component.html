@@ -8,20 +8,19 @@
   <h4 class="fw-bold">Compounding</h4>
 
  <div class="row align-items-center">
-  <!-- Column 1: Date Picker -->
   <div class="col-md-4">
     <mat-form-field appearance="outline" class="w-100">
-      <mat-label>Date</mat-label>
-      <input matInput [matDatepicker]="startPicker" formControlName="date" (dateChange)="formatDate($event)" />
-      <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-      <mat-datepicker #startPicker></mat-datepicker>
-    </mat-form-field>
+       <mat-label>Date</mat-label>
+  <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="selectedDate" name="date">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
   </div>
 
   <!-- Column 2: Filter & Reset Buttons -->
   <div class="col-md-4 d-flex gap-2">
-    <button mat-raised-button color="primary" >Filter</button>
-    <button mat-raised-button color="warn" >Reset</button>
+<button mat-raised-button color="primary" (click)="onFilter()">Filter</button>
+<button mat-raised-button color="warn" (click)="resetFilter()">Reset</button>
   </div>
 
   <!-- Column 3: Add Compounding Button -->
@@ -75,34 +74,20 @@
   <h4 class="fw-bold">Injection Moulding</h4>
 
 
-   <div class="row align-items-center">
-  <!-- Column 1: Date Picker -->
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="w-100">
+      <mat-form-field appearance="outline" class="search-field" *ngIf="hasInjectionData">
+        <mat-label>Search for Notes</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Search notes..." />
+      </mat-form-field>
+    </div>
 
-  <!-- Date Picker Column -->
-  <div class="col-md-4">
-    <mat-form-field appearance="outline" class="w-100">
-      <mat-label>Date</mat-label>
-      <input matInput [matDatepicker]="startPicker" formControlName="date" (dateChange)="onDateChange($event)" />
-      <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-      <mat-datepicker #startPicker></mat-datepicker>
-    </mat-form-field>
+    <div>
+      <button mat-raised-button class="me-5 add-material-btn w-100" (click)="navigateToAddInjectionMOlding()">
+        <i class="fas fa-plus me-2"></i>Add Injection
+      </button>
+    </div>
   </div>
-
-  <!-- Filter & Reset Buttons Column -->
-  <div class="col-md-4 d-flex gap-2">
-    <button mat-raised-button color="primary" (click)="applyFilternew()">Filter</button>
-    <button mat-raised-button color="warn" (click)="resetFilter()">Reset</button>
-  </div>
-
-
-  <!-- Column 3: Add Compounding Button -->
-  <div class="col-md-4 text-end">
-    <button mat-raised-button class="add-material-btn" (click)="navigateToAddInjectionMOlding()">
-      <i class="fas fa-plus me-2"></i>Add Injection
-    </button>
-  </div>
-</div>
-
   <div class="table-responsive" *ngIf="hasInjectionData ;else noInjectionData">
     <table mat-table [dataSource]="dataSourceInjection" matSort
       class="table table-bordered table-striped table-hover mat-elevation-z8" style="table-layout: fixed; width: 100%;">
