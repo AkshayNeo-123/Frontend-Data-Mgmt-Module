@@ -211,7 +211,7 @@ const invalidComponent = this.components.value.find((comp: any) => {
 });
 
 if (invalidComponent) {
-  this.toastr.error('Select Component Name in Components');
+  this.toastr.error('Select Component');
   return;
 }
 

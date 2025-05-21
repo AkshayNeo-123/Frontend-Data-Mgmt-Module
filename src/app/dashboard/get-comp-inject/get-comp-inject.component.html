@@ -81,23 +81,23 @@
   <div class="col-md-4">
     <mat-form-field appearance="outline" class="w-100">
        <mat-label>Date</mat-label>
-  <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="selectedDate" name="date">
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
+  <input matInput [matDatepicker]="pickerForInjection" placeholder="Choose a date" [(ngModel)]="searchDate" name="Injectiondate">
+  <mat-datepicker-toggle matSuffix [for]="pickerForInjection"></mat-datepicker-toggle>
+  <mat-datepicker #pickerForInjection></mat-datepicker>
 </mat-form-field>
   </div>
 
   <!-- Column 2: Filter & Reset Buttons -->
   <div class="col-md-4 d-flex gap-2">
-<button class="mr-3 filter-recipe me-4" (click)="onFilter()">Filter</button>
-<button class="mr-3 reset-contact-btn btn btn me-4" mat-raised-button color="warn" (click)="resetFilter()">Reset</button>
+<button class="mr-3 filter-recipe me-4" (click)="onFilterForSearchinjection()">Filter</button>
+<button class="mr-3 reset-contact-btn btn btn me-4" mat-raised-button color="warn" (click)="resetFilterforinjection()">Reset</button>
   </div>
 
-    <div>
-      <button mat-raised-button class="me-5 add-material-btn w-100" (click)="navigateToAddInjectionMOlding()">
-        <i class="fas fa-plus me-2"></i>Add Injection
-      </button>
-    </div>
+    <div class="col-md-4 text-end">
+    <button mat-raised-button class="add-material-btn" (click)="navigateToAddInjectionMOlding()">
+      <i class="fas fa-plus me-2"></i>Add InjectionMolding
+    </button>
+  </div>
   </div>
   <div class="table-responsive" *ngIf="hasInjectionData ;else noInjectionData">
     <table mat-table [dataSource]="dataSourceInjection" matSort
