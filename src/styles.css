@@ -45,6 +45,10 @@ h4 {
     border: 1px solid #ddd; 
   }
   
+  .mat-mdc-paginator-container {
+    margin-bottom: 15px !important;
+  }
+
   .mat-row:hover {
     background-color: #f1f1f1;
     transition: background-color 0.3s ease;
@@ -285,7 +289,7 @@ button.toast-close-button {
       border-radius: 4px;
       margin-bottom: 40px;
     
-      background-color: #4caf50; 
+      background-color: #4caf50 !important; 
       color: white;
       border: none;
       transition: background-color 0.3s ease;

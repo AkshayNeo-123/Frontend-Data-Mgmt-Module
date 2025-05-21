@@ -9,7 +9,7 @@ textarea[matInput] {
   }
   
   .half-width {
-    flex: 1 1 calc(50% - 8px); /* 50% minus half the gap */
+    flex: 1 1 calc(50% - 8px); 
   }
   
   .full-width {
@@ -29,7 +29,7 @@ textarea[matInput] {
     font-size: 13px;
     display: block;
     /* margin-bottom: 12px; */
-    padding-left: 3%;
+    /* padding-left: 3%; */
   }
   @media (max-width: 768px) {
     .half-width {

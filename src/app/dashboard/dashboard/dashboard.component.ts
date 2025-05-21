@@ -169,8 +169,8 @@ openRecipeDetailsDialog(recipeDetails?:RecipeAndProject) {
     console.log('Data passed to dialog:', recipeDetails);
       const dialogRef = this.dialog.open(RecipedetailsComponent, {
         width: '100%',  
-        maxWidth: '700px',
-        height:'520px',
+        maxWidth: '900px',
+        height:'550px',
         // maxHeight:'540px',
         disableClose: true,
         data: recipeDetails

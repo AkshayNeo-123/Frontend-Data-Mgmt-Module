@@ -1,40 +1,40 @@
 mat-form-field {
-    width: 100%;
-  }
-  
-  mat-dialog-content {
-    max-height: 65vh;
-    max-width: 200%;
-    overflow: auto;
-  }
+  width: 100%;
+}
 
-  .half-width {
-    flex: 1;
-    min-width: 125px; 
-  }
+mat-dialog-content {
+  max-height: 65vh;
+  max-width: 200%;
+  overflow: auto;
+}
 
-  mat-dialog-actions {
-    margin-top: 15px;
-  }
-  
-  .global-hint {
-    font-weight: bold;
-    color: #ab2a2a;
-    font-size: 13px;
-    display: block;
-    padding-left: 3%;
-  }
+.half-width {
+  flex: 1;
+  min-width: 125px;
+}
 
-  .row {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap; /* important for responsiveness */
-  }
+mat-dialog-actions {
+  margin-top: 15px;
+}
 
-.btnFix{
+.global-hint {
+  font-weight: bold;
+  color: #ab2a2a;
+  font-size: 13px;
+  display: block;
+  /* padding-left: 3%; */
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btnFix {
   position: sticky;
   bottom: 0;
-  background-color: white; /* prevents overlap with form */
+  background-color: white;
   z-index: 10;
   padding-top: 8px;
   padding-bottom: 8px;
