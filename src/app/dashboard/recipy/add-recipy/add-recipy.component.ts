@@ -126,17 +126,6 @@ export class AddRecipyComponent implements OnInit {
           this.toastr.error('Failed to load recipe', 'Error');
         },
       });
- 
-      // this.recipeForm.patchValue({
-      //   productName: r,
-      //   comments: r.comment,
-      //   projectId: r.projectId,
-      //   additiveId: r.additiveId,
-      //   mainPolymerId: r.mainPolymerId,
-       
-      // });
- 
-     
     }
   }
    
@@ -204,61 +193,104 @@ export class AddRecipyComponent implements OnInit {
  
   }
  
-  onSubmit(): void {
 
-    if (this.recipeForm.valid) {
-      const formValue = this.recipeForm.value;
-      // const currentUser = JSON.parse(localStorage.getItem('UserId') || '{}');
+onSubmit(): void {
+  if (this.recipeForm.valid) {
     const userId = localStorage.getItem('UserId');
- 
-      const payload = {
-        recipe: {
-          productName: this.recipeForm.value.productName,
-          comments: this.recipeForm.value.comments,
-          projectId: this.recipeForm.value.projectId,
-          additiveId: this.recipeForm.value.additiveId,
-          mainPolymerId: this.recipeForm.value.mainPolymerId,
-          ...(this.isEdit ? { modifiedBy: userId } : { createdBy: userId }),
+
+const invalidComponent = this.components.value.find((comp: any) => {
+  const isAnyFieldFilled =
+    comp.wtPercent !== null ||
+    comp.valPercent !== null ||
+    comp.density !== null ||
+    comp.typeId !== null ||
+    comp.mp ||
+    comp.mf;
+
+  return isAnyFieldFilled && (comp.componentId === null || comp.componentId === '');
+});
+
+if (invalidComponent) {
+  this.toastr.error('Select Component Name in Components');
+  return;
+}
+
+const filteredComponents = this.components.value.filter((comp: any) => {
+  return comp.componentId !== null || comp.wtPercent !== null || comp.valPercent !== null || comp.density !== null || comp.typeId !== null || comp.mp || comp.mf;
+});
+
+    const payload = {
+      recipe: {
+        productName: this.recipeForm.value.productName,
+        comments: this.recipeForm.value.comments,
+        projectId: this.recipeForm.value.projectId,
+        additiveId: this.recipeForm.value.additiveId,
+        mainPolymerId: this.recipeForm.value.mainPolymerId,
+        ...(this.isEdit ? { modifiedBy: userId } : { createdBy: userId }),
+      },
+      component: filteredComponents,
+    };
+
+    console.log('payload', payload);
+
+    if (this.isEdit && this.data.recipe?.receipeId) {
+      this.recipeService.updateRecipe(this.data.recipe.receipeId, payload).subscribe({
+        next: () => {
+          this.toastr.success('Updated successfully', 'Success');
+          this.dialogRef.close(true);
         },
-        component: this.components.value,
-      };
- 
-      if (this.isEdit && this.data.recipe?.receipeId) {
-        console.log(payload);
-       
-        this.recipeService.updateRecipe(this.data.recipe.receipeId, payload).subscribe({
-          next: () => {
-            console.log('Recipe Updated successfully');
-            this.toastr.success('Updated successfully', 'Success');
-            this.dialogRef.close(true); // ✅ Triggers reload in parent
-          },
-          error: (err) => {
-            console.error('Error updating recipe', err);
-            this.toastr.error('Failed to update recipe', 'Error');
-          },
-        });
-      } else {
-        console.log(payload);
-        this.recipeService.addRecipe(payload).subscribe({
-          next: () => {
-            console.log('Recipe added successfully');
-            this.toastr.success('Added successfully', 'Success');
-            this.dialogRef.close(true); // ✅ Triggers reload in parent
-          },
-          error: (err) => {
-            console.error('Error adding recipe', err);
-            this.toastr.error('Failed to add recipe', 'Error');
-          },
-        });
-      }
+        error: (err) => {
+          this.toastr.error('Failed to update recipe', 'Error');
+        },
+      });
     } else {
-      this.toastr.error('Please fill in all required fields', 'Form Error');
+      this.recipeService.addRecipe(payload).subscribe({
+        next: () => {
+          this.toastr.success('Added successfully', 'Success');
+          this.dialogRef.close(true);
+        },
+        error: (err) => {
+          this.toastr.error('Failed to add recipe', 'Error');
+        },
+      });
     }
+  } else {
+    this.toastr.error('Please fill in all required fields', 'Form Error');
   }
+}
+
  
   onCancel(): void {
     this.dialogRef.close(false); // Close without saving
   }
+
+  onNumberInput(event: Event, index: number, controlName: string, maxValue: number) {
+  const input = event.target as HTMLInputElement;
+  let value = input.value;
+
+  // Allow empty string to let user delete
+  if (value === '') return;
+
+  // Convert to number
+  const numValue = Number(value);
+
+  // If number is NaN or less than 0, reset to 0
+  if (isNaN(numValue) || numValue < 0) {
+    input.value = '0';
+    this.components.at(index).get(controlName)?.setValue(0, { emitEvent: false });
+    return;
+  }
+
+  // If greater than maxValue, set to maxValue
+  if (numValue > maxValue) {
+    input.value = maxValue.toString();
+    this.components.at(index).get(controlName)?.setValue(maxValue, { emitEvent: false });
+  } else {
+    // Update form control value normally
+    this.components.at(index).get(controlName)?.setValue(numValue, { emitEvent: false });
+  }
+}
+
 }
  
  

@@ -14,7 +14,8 @@ import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { MatIcon } from '@angular/material/icon';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 @Component({
   selector: 'app-get-comp-inject',
   standalone: true,
@@ -25,7 +26,9 @@ import { MatIcon } from '@angular/material/icon';
     RouterModule,
     MatTableModule,
     MatPaginator,
-    MatIcon
+    MatIcon,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   templateUrl: './get-comp-inject.component.html',
   styleUrls: ['./get-comp-inject.component.css']
@@ -237,5 +240,13 @@ this.router.navigate(['/recipe']);
     });
   }
 
+ formatDate(e: any) {
+    console.log("hiiiiiiii");
+    const d = new Date(e.target.value);
+    d.setDate(d.getDate() + 1);
+    const convertDate = d.toISOString().split('T')[0];
+    console.log(convertDate);
+    // this.compoundForm.get('date')?.setValue(convertDate, { onlySelf: true });
+  }
 
 }
