@@ -176,6 +176,7 @@ export class AddRecipyComponent implements OnInit {
   }
  
   addComponent(component: any = {}): void {
+    const userId = localStorage.getItem('UserId');
     const componentGroup = this.fb.group({
       componentId: [component.componentId || null],
       wtPercent: [
@@ -190,6 +191,7 @@ export class AddRecipyComponent implements OnInit {
       typeId: [component.typeId || null],
       mp: [component.mp || false],
       mf: [component.mf || false],
+      createdBy: [userId]
     });
  
     this.components.push(componentGroup);

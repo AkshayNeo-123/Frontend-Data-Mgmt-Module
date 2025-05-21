@@ -29,27 +29,3 @@ h4 {
     border: none !important;
     border-radius: 0px !important;
 }
-  
-  .mat-header-cell {
-    font-weight: bold;
-    background-color: #f8f9fa;
-    color: #343a40;
-    border: 1px solid #ddd; 
-  }
-  
-  .mat-cell, .mat-header-cell {
-    padding: 16px;
-    font-size: 14px;
-    border: 1px solid #ddd; 
-  }
-  
-  .mat-row:hover {
-    background-color: #f1f1f1;
-    transition: background-color 0.3s ease;
-  }
-  
-  .mat-row, .mat-header-row {
-    display: table-row;
-  }
-  
- 

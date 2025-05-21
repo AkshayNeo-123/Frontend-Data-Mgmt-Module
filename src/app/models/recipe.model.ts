@@ -54,6 +54,7 @@ export interface ComponentRow {
   type: string;
   mp: boolean;
   mf: boolean;
+  createdBy?: number | null;
 }
 
 
