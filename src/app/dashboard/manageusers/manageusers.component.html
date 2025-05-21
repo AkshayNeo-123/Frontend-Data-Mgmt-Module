@@ -2,15 +2,17 @@
   <h4 class="fw-bold mb-3">Users</h4>
 
 
-  <div class="d-flex justify-content-start align-items-center mb-3 flex-wrap">
-    <button class="mr-3 add-user-btn me-4" (click)="openAddUserDialog()">
-      <i class="fas fa-plus me-2"></i> Add New User
-    </button>
+  <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
 
     <mat-form-field appearance="outline" class="search-field">
       <mat-label>Search by Name</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Search users">
     </mat-form-field>
+
+    <button class="mr-3 add-user-btn me-4" (click)="openAddUserDialog()">
+      <i class="fas fa-plus me-2"></i> Add New User
+    </button>
+
   </div>
 
 

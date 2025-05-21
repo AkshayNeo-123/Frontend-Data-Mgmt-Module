@@ -8,13 +8,22 @@
       </a>
     </li>
 
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <a [routerLink]="['/recipe']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
         class="nav-link  w-100">
         <i class="fas fa-utensils me-3"></i>
         <span *ngIf="isOpen">Recipe</span>
       </a>
+    </li> -->
+
+    <li class="nav-item" [class.active-link]="activeMenu === 'recipe'">
+      <a [routerLink]="['/recipe']" class="nav-link w-100">
+        <i class="fas fa-utensils me-3"></i>
+        <span *ngIf="isOpen">Recipe</span>
+      </a>
     </li>
+
+
 
     <li class="nav-item">
       <a [routerLink]="['/rolemaster']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
