@@ -51,6 +51,7 @@ this.router.navigate(['/recipe']);
   dataSource = new MatTableDataSource<any>([]);
   displayedColumnsData: string[] = ['id', 'parameterSet', 'dryingTime', 'actions'];
 selectedDate: Date | null = null;
+searchDate:Date|null=null;
 
   dataSourceInjection = new MatTableDataSource<any>([])
 
