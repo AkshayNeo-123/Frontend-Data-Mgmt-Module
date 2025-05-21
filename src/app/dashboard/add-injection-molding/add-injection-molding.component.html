@@ -133,7 +133,7 @@
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Decompression Volume (cm3)</mat-label>
-          <input type="number" step="0.01" min="0" matInput formControlName="decompressionVolume" />
+          <input type="number" step="0.01" min="0" max="999.99"  matInput formControlName="decompressionVolume" />
         </mat-form-field>
       </div>
 
@@ -163,7 +163,7 @@
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Screw Speed (m/s)</mat-label>
-          <input type="number" min="0" matInput formControlName="screwSpeed" />
+          <input type="number" min="0"  max="999.99"  matInput formControlName="screwSpeed" />
         </mat-form-field>
       </div>
       <div class="col-3">
@@ -187,7 +187,7 @@
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Injection Pressure (bar)</mat-label>
-          <input type="number" matInput formControlName="injectionPressure" min="0" max="2500" />
+          <input type="number" matInput formControlName="injectionPressure" min="0" max="999" />
         </mat-form-field>
       </div>
     </div>
