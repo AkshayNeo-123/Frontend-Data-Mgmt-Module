@@ -16,6 +16,8 @@ import { ToastrService } from 'ngx-toastr';
 import { MatIcon } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-get-comp-inject',
   standalone: true,
@@ -28,7 +30,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatPaginator,
     MatIcon,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    FormsModule
   ],
   templateUrl: './get-comp-inject.component.html',
   styleUrls: ['./get-comp-inject.component.css']
@@ -41,6 +44,7 @@ this.router.navigate(['/recipe']);
   displayedColumns: string[] = ['compoundingId', 'date', 'notes', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
   displayedColumnsData: string[] = ['id', 'parameterSet', 'dryingTime', 'actions'];
+selectedDate: Date | null = null;
 
   dataSourceInjection = new MatTableDataSource<any>([])
 
@@ -248,5 +252,46 @@ this.router.navigate(['/recipe']);
     console.log(convertDate);
     // this.compoundForm.get('date')?.setValue(convertDate, { onlySelf: true });
   }
+
+onFilter(): void {
+  console.log("helll")
+  if (!this.selectedDate) {
+    this.toastr.warning('Please select a date to filter.');
+    return;
+  }
+
+  const formattedDate = this.formatDateForAPI(this.selectedDate);
+
+  this.compoundingService.getCompoundingDataByRecipeId(this.idOfRecipe, formattedDate).subscribe({
+    next: (data) => {
+      this.dataSource.data = data;
+      this.dataSource = new MatTableDataSource<any>(data);
+      setTimeout(() => {
+        this.dataSource.paginator = this.paginatorCompounding;
+        this.dataSource.sort = this.sort;
+        this.paginatorCompounding?.firstPage();
+      });
+    },
+    error: (err) => {
+      console.error('Filter fetch failed:', err);
+      this.toastr.error('Failed to fetch filtered data.');
+    }
+  });
+}
+
+resetFilter(): void {
+  this.selectedDate = null;
+  this.fetchCompoundingData(); 
+}
+
+
+formatDateForAPI(date: Date): string {
+  const year = date.getFullYear();
+  const month = ('0' + (date.getMonth() + 1)).slice(-2); 
+  const day = ('0' + date.getDate()).slice(-2);
+  return `${year}-${month}-${day}`;
+}
+
+
 
 }
