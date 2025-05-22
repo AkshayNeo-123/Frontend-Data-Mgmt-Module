@@ -24,9 +24,7 @@
   transition: opacity 0.3s ease;
 }
 
-/* .pdf-download-btn:hover::after {
-  opacity: 1;
-} */
+
 
 
 
@@ -58,9 +56,12 @@
 }
 
 
+
+
 .custom-dark-border th,
 .custom-dark-border td {
   border: 1px solid #343a40;
+   width: 150px;
 }
 
 .custom-dark-border thead th {
