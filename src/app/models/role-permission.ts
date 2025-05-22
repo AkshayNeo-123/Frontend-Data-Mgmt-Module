@@ -1,5 +1,8 @@
 export interface RolePermission {
-  module: string;
+  roleId: number;
+  menuId: number;
+  menuName: string;
+  // module: string;
   canView: boolean;
   canCreate: boolean;
   canEdit: boolean;

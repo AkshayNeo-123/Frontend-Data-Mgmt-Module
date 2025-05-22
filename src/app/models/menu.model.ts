@@ -4,4 +4,5 @@ export interface Menu {
     parentId: number;
     order: number;
     route: string;
+    childCount: number;
 }

@@ -38,11 +38,13 @@
         </ng-container> -->
   
         <!-- Actions -->
-        <ng-container matColumnDef="actions">
+        <!-- <ng-container matColumnDef="actions"> -->
+        <ng-container *ngIf="canEditRole || canDeleteRole" matColumnDef="actions">
+        <!-- <ng-container *ngIf="canEditRole || canDeleteRole" matColumnDef="actions"> -->
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let role">
-            <i class="fas fa-pencil-alt me-3 action-icon" (click)="openEditRoleDialog(role)"></i>
-            <i class="fas fa-trash-alt action-icon text-danger" (click)="deleteRole(role.roleId)"></i>
+            <i *ngIf="canEditRole" class="fas fa-pencil-alt me-3 action-icon" (click)="openEditRoleDialog(role)"></i>
+            <i *ngIf="canDeleteRole" class="fas fa-trash-alt action-icon text-danger" (click)="deleteRole(role.roleId)"></i>
           </td>
         </ng-container>
   
@@ -51,6 +53,6 @@
       </table>
     </div>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
   </div>
   
