@@ -28,8 +28,8 @@ export class PermissionServiceService {
     return this.permissions;
   }
 
-  hasPermission(module: string, permission: 'canView' | 'canCreate' | 'canEdit' | 'canDelete'): boolean {
-    const mod = this.getPermissions().find(p => p.module === module);
+  hasPermission(menuName: string, permission: 'canView' | 'canCreate' | 'canEdit' | 'canDelete'): boolean {
+    const mod = this.getPermissions().find(p => p.menuName === menuName);
     return mod ? mod[permission] : false;
   }
 }

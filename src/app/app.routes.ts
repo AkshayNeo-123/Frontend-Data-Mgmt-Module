@@ -41,7 +41,6 @@ export const routes: Routes = [
   { path: 'updatecompounding', component: UpdateCompoundingComponent },
   {path: 'rolemaster' , component:RolemasterComponent},
   {path:'addRecipe', component:AddRecipyComponent},
-
   { path: 'GetAllProject', component: ProjectComponent },
   { path: 'updaetInjection', component: UpdateInjectionMoldingComponent },
   { path: 'get-additivebyid/:id', component: GetAdditivebyidComponent },
