@@ -30,6 +30,8 @@ export interface AddInjectionMoulding {
     nozzleTemperature: string;
     mouldTemperature: string;
     createdBy:number;
+    notes:string;
+
 
   }
   export interface UpdateInjectionMoulding {
@@ -61,6 +63,7 @@ export interface AddInjectionMoulding {
     nozzleTemperature: string;
     mouldTemperature: string;
     modifiedBy:number;
+    notes:string;
 
   }
   
