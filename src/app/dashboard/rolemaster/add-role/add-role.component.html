@@ -32,7 +32,7 @@
       <table>
         <tbody *ngFor="let permission of modulePermissions" [formGroupName]="permission.id">
           <tr><td class="menuNameList"><strong>{{ permission.menuName }}</strong></td>
-          <td >
+          <td *ngIf="permission.childCount==0">
         <mat-checkbox formControlName="view" (change)="onAnyPermissionChange()">View</mat-checkbox>
           </td>
           <td *ngIf="permission.childCount==0">

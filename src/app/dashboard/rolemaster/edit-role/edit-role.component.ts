@@ -208,7 +208,7 @@ export class EditRoleComponent implements OnInit {
       ...this.roleForm.value,
       roleId: this.editData.roleId
     };
-
+    
     console.log('updatedrole',updatedRole);
   
      
