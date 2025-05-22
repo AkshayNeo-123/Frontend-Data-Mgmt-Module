@@ -52,7 +52,7 @@ export class UpdateInjectionMoldingComponent {
       repetition: [],
       additive: [''],
       reference:[false],
-  
+      notes:[''],
       pretreatmentNone: [false],
       pretreatmentDryTest: [false],
       dryingTemperature: [''],
@@ -132,7 +132,9 @@ this.recipeId = history.state.recipeId;
           temperatureZone:data.temperatureZone,
           meltTemperature:data.meltTemperature,
           nozzleTemperature:data.nozzleTemperature,
-          mouldTemperature:data.mouldTemperature
+          mouldTemperature:data.mouldTemperature,
+          notes:data.notes
+
 
         });
         this.repetitionCount = Number(this.injectionForm.get('repetition')?.value || 0);
