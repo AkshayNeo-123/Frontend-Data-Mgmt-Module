@@ -199,6 +199,10 @@ onAnyPermissionChange(): void {
   this.selectAllChecked = allChecked;
 }
 
+clickViewChange(): void {
+  
+}
+
 onViewChange(menuId: string): void {
   const permissionsGroup = (this.roleForm.get('permissions') as FormGroup).get(menuId) as FormGroup;
   const viewControl = permissionsGroup.get('view');
