@@ -34,6 +34,7 @@ import { GetAllAdditivesComponent } from '../get-all-additives/get-all-additives
 import { RecipedetailsComponent } from '../recipedetails/recipedetails.component';
 import { Router, RouterModule } from '@angular/router';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { AddCompoundingRequest } from '../../models/compounding.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -91,12 +92,6 @@ currentPage = 0;
 currentIndex=0;
 itemsPerPage=3;
 totalPages:number=0;
-  // recipeId?:number;
-  // rec: RecipeAndProject ={
-  //   //  recipeId:0,
-  //    projectNumber:'',
-  //    description:''
-  // }
 
   displayedColumns: string[] = ['recipeId','productName','projectNumber', 'description'];
   dataSource: MatTableDataSource<RecipeAndProject> = new MatTableDataSource<RecipeAndProject>();
@@ -151,34 +146,6 @@ totalPages:number=0;
     }
   }
 
-
-
-  // loadNextBatch(): void {
-  //   const nextBatch = this.recipyAndProject.slice(this.currentIndex, this.currentIndex + this.itemsPerPage);
-  //   this.recipyAndProject.push(...nextBatch);
-  //   this.currentIndex += this.itemsPerPage;
-  // }
-  
-  // onScroll(): void {
-  //   if (this.currentIndex < this.recipyAndProject.length) {
-  //     this.loadNextBatch();
-  //   }
-  // }
-
-openRecipeDetailsDialog(recipeDetails?:RecipeAndProject) {
-    console.log('Data passed to dialog:', recipeDetails);
-      const dialogRef = this.dialog.open(RecipedetailsComponent, {
-        width: '100%',  
-        maxWidth: '700px',
-        height:'520px',
-        // maxHeight:'540px',
-        disableClose: true,
-        data: recipeDetails
-      });
-    }
-  
-  
-
   applyCustomFilter(): void {
     this.recipeService.getRecipeAndProject(this.projectFilter).subscribe({
       next: (data) => {
@@ -208,11 +175,6 @@ openRecipeDetailsDialog(recipeDetails?:RecipeAndProject) {
     this.loadRecipes();
   }
 
-  // viewDetails(recipe: RecipeAndProject): void {
-  //   this.recipeId=recipe.recipeId;
-  //   this.loadRecipeDetails;
-  // }
-
   onToggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
@@ -224,4 +186,19 @@ openRecipeDetailsDialog(recipeDetails?:RecipeAndProject) {
   goToRecipeDetails(recipeId: number): void {
     this.router.navigate(['recipedetails', recipeId]);
   }
+
+  
+     gotoDetailsPage(recipeId:number){
+      console.log('clicked' ,recipeId)
+         if (recipeId != null) {
+    this.router.navigate(['/recipedetails'],{
+      state:{id: recipeId}
+    });
+  } else {
+    console.error('recipeId is undefined or null!');
+  }
+
+     }
+
+    
 }

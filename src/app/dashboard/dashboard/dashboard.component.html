@@ -52,7 +52,7 @@
                         </div>
                       </div>
                       <div class="d-flex justify-content-end" *ngIf="recipe.recipeId !== undefined"
-                        (click)="openRecipeDetailsDialog(recipe)">
+                        (click)="gotoDetailsPage(recipe.recipeId)">
                         <button class="btn btn-light details">View</button>
                       </div>
                     </div>
