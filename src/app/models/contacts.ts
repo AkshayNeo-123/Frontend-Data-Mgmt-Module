@@ -5,19 +5,32 @@ export interface Contact {
     addressLine1: string;
     addressLine2?: string;
     
-    city: string;
-    state: string;
+    cityId: number;
+    cities:Cities;
+    stateId: number;
+    states:States;
     zip: number;
     email: string;
     phone?: string;
     isDelete?:boolean;
      createdBy? :number;
- updatedBy? :number;
+ modifiedBy? :number;
 createdDate? :Date;
-updatedDate? :Date;
+modifiedDate? :Date;
 }
 
+export interface States{
+    stateId?:number;
+    stateName:string;
 
+}
+
+export interface Cities{
+    cityId?:number;
+    cityName:string;
+    stateId:number;
+    // states:States;
+}
 export enum ContactTyps{
     Manufacturer=1,
     Supplier,
@@ -27,13 +40,19 @@ export enum ContactTyps{
 export interface Additives{
     id?: number;
     additiveName: string;
-    createdBy: number;
-    createdDate: Date;
-    modifiedBy: number;
-    modifiedDate: Date ;
+    createdBy?: number;
+    createdDate?: Date;
+    modifiedBy?: number;
+    modifiedDate?: Date ;
     }
    
 export interface MainPolymer{
             id?:number;
             polymerName:string;
+            createdBy?: number;
+            createdDate?: Date;
+            modifiedBy?: number;
+            modifiedDate?: Date ;
         }
+
+       

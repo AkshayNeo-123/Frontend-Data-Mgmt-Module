@@ -1,18 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {
+  FormBuilder,  
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  FormsModule,
+  FormArray,
+} from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialogActions, MatDialogRef } from '@angular/material/dialog';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
+import { Inject } from '@angular/core';
+import { ProjectService } from '../../../services/project.service';
 import { RecipeService } from '../../../services/recipe.service';
 import { CommonService } from '../../../services/common.service';
-import { MatTableModule } from '@angular/material/table';
-import { ComponentService } from '../../../services/component.service'; // NEW import
-
+import { ComponentService } from '../../../services/component.service';
+import { RecipeComponentType } from '../../../models/recipe-component-type.model';
+import { Recipe } from '../../../models/recipe.model';
+import { ToastrService } from 'ngx-toastr';
+import { ValidatorFn, AbstractControl } from '@angular/forms';
+ 
+interface ComponentRow {
+  componentId: number | null;
+  wtPercentage: number | null;
+  volPercentage: number | null;
+  density: number | null;
+  type: string;
+  mp: boolean;
+  mf: boolean;
+}
+ 
 @Component({
   selector: 'app-add-recipy',
   standalone: true,
@@ -21,113 +45,252 @@ import { ComponentService } from '../../../services/component.service'; // NEW i
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
     MatCheckboxModule,
     MatIconModule,
-    MatDialogActions,
-    MatCheckboxModule,
-    FormsModule,
-    MatTableModule
-  ]
+    MatTableModule,
+  ],
 })
 export class AddRecipyComponent implements OnInit {
   recipeForm: FormGroup;
   additives: any[] = [];
   mainPolymers: any[] = [];
-  components: any[] = [];
-  availableComponents: any[] = []; 
-
+  projects: any[] = [];
+  availableComponents: any[] = [];
+  componentTypes: RecipeComponentType[] = [];
   displayedColumns: string[] = [
-    'componentName',
-    'wtPercentage',
-    'volPercentage',
+    'componentId',
+    'wtPercent',
+    'valPercent',
     'density',
-    'type',
+    'typeId',
     'mp',
     'mf',
-    'actions'
+    'actions',
   ];
-
+  isEdit = false;
+ 
   constructor(
     private fb: FormBuilder,
-    private recipeService: RecipeService,
     private dialogRef: MatDialogRef<AddRecipyComponent>,
+    private recipeService: RecipeService,
     private commonService: CommonService,
-    private componentService: ComponentService // NEW
+    private componentService: ComponentService,
+    @Inject(MAT_DIALOG_DATA) public data: { recipe: Recipe },
+    private projectService: ProjectService,
+    private toastr: ToastrService
   ) {
     this.recipeForm = this.fb.group({
-      recipeNumber: ['', Validators.required],
       productName: ['', Validators.required],
       comments: [''],
-      projectNumber: [null, Validators.required],
-      mainPolymerId: ['', Validators.required]
+      projectId: [null, Validators.required],
+      mainPolymerId: ['', Validators.required],
+      additiveId: ['', Validators.required],
+      components: this.fb.array([])
     });
+    
   }
 
+  
+ 
   ngOnInit(): void {
-    this.commonService.getAdditives().subscribe({
-      next: (res: any[]) => {
-        this.additives = res;
-      },
-      error: (err: any) => console.error('Failed to load additives:', err)
-    });
-
-    this.commonService.getMainPolymers().subscribe({
-      next: (res: any[]) => {
-        this.mainPolymers = res;
-      },
-      error: (err: any) => console.error('Failed to load main polymers:', err)
-    });
-
-  this.componentService.getAllComponents().subscribe({
-  next: (res: any[]) => {
-    this.availableComponents = res.map(item => item.component); // extract `component`
-  },
-  error: (err: any) => console.error('Failed to load recipe components:', err)
-});
-
-  }
-
-  addComponent(): void {
-    this.components.push({
-      componentName: '',
-      wtPercentage: null,
-      volPercentage: null,
-      density: null,
-      type: '',
-      mp: false,
-      mf: false
-    });
-  }
-
-  removeComponent(index: number): void {
-    this.components.splice(index, 1);
-  }
-
-  onSubmit(): void {
-    if (this.recipeForm.valid) {
-      const newRecipe = {
-        ...this.recipeForm.value,
-        components: this.components
-      };
-
-      this.recipeService.addRecipe(newRecipe).subscribe({
-        next: () => {
-          alert('Recipe added successfully!');
-          this.dialogRef.close(true);
-        },
-        error: (err: any) => {
-          console.error('Error adding recipe:', err);
-          this.dialogRef.close(false);
+    this.loadDropdownData();
+    
+    
+ 
+    if (this.data?.recipe) {
+      this.isEdit = true;
+      const r = this.data.recipe;
+      this.commonService.getRecipeDataForUpdate(r.receipeId).subscribe({
+        next: (res) =>{ console.log(res);
+          this.recipeForm.patchValue({
+        productName: res.recipe.productName,
+        comments: res.recipe.comments,
+        projectId: res.recipe.projectId,
+        additiveId: res.recipe.additiveId,
+        mainPolymerId: res.recipe.mainPolymerId,
+       
+      });
+      const composition = res.component ?? [];
+      if (Array.isArray(composition) && composition.length > 0) {
+        composition.forEach((component: any) => this.addComponent(component));
+      }
         }
+        ,
+        error: (err) => {
+          console.error('Error loading recipe by ID', err);
+          this.toastr.error('Failed to load recipe', 'Error');
+        },
       });
     }
   }
+   
+ 
+  // Custom validator for percentage range
+  percentageRangeValidator() {
+    return (control: any) => {
+      const value = control.value;
+      if (value < 0 || value > 100) {
+        return { invalidPercentage: true };
+      }
+      return null;
+    };
+  }
+ 
+  initForm(): void {
+    this.recipeForm = this.fb.group({
+      productName: ['', Validators.required],
+      comments: [''],
+      projectId: [null, Validators.required],
+      mainPolymerId: ['', Validators.required],
+      additiveId: ['', Validators.required],
+      components: this.fb.array([]),
+    });
+  }
+ 
+  loadDropdownData(): void {
+    this.projectService.getAllProjects().subscribe((res) => (this.projects = res));
+    this.commonService.getAdditives().subscribe((res) => (this.additives = res));
+    this.commonService.getMainPolymers().subscribe((res) => (this.mainPolymers = res));
+    this.componentService.getAllComponents().subscribe((res) => (this.availableComponents = res));
+    this.commonService.getRecipeComponentTypes().subscribe((res) => (this.componentTypes = res));
+  }
+ 
+  get components(): FormArray {
+    return this.recipeForm.get('components') as FormArray;
+  }
+ 
+  addComponent(component: any = {}): void {
+    const userId = localStorage.getItem('UserId');
+    const componentGroup = this.fb.group({
+      componentId: [component.componentId || null],
+      wtPercent: [
+        component.wtPercent || null,
+        [this.percentageRangeValidator()],
+      ],
+      valPercent: [
+  component.valPercent ?? null,
+  [this.percentageRangeValidator()],
+],
+      density: [component.density || null],
+      typeId: [component.typeId || null],
+      mp: [component.mp || false],
+      mf: [component.mf || false],
+      createdBy: [userId]
+    });
+ 
+    this.components.push(componentGroup);
 
-  onCancel(): void {
-    this.dialogRef.close();
+  }
+ 
+ 
+  deleteComponent(index: number): void {
+    this.components.removeAt(index);
+ 
+  }
+ 
+
+onSubmit(): void {
+  if (this.recipeForm.valid) {
+    const userId = localStorage.getItem('UserId');
+
+const invalidComponent = this.components.value.find((comp: any) => {
+  const isAnyFieldFilled =
+    comp.wtPercent !== null ||
+    comp.valPercent !== null ||
+    comp.density !== null ||
+    comp.typeId !== null ||
+    comp.mp ||
+    comp.mf;
+
+  return isAnyFieldFilled && (comp.componentId === null || comp.componentId === '');
+});
+
+if (invalidComponent) {
+  this.toastr.error('Select Component');
+  return;
+}
+
+const filteredComponents = this.components.value.filter((comp: any) => {
+  return comp.componentId !== null || comp.wtPercent !== null || comp.valPercent !== null || comp.density !== null || comp.typeId !== null || comp.mp || comp.mf;
+});
+
+    const payload = {
+      recipe: {
+        productName: this.recipeForm.value.productName,
+        comments: this.recipeForm.value.comments,
+        projectId: this.recipeForm.value.projectId,
+        additiveId: this.recipeForm.value.additiveId,
+        mainPolymerId: this.recipeForm.value.mainPolymerId,
+        ...(this.isEdit ? { modifiedBy: userId } : { createdBy: userId }),
+      },
+      component: filteredComponents,
+    };
+
+    console.log('payload', payload);
+
+    if (this.isEdit && this.data.recipe?.receipeId) {
+      this.recipeService.updateRecipe(this.data.recipe.receipeId, payload).subscribe({
+        next: () => {
+          this.toastr.success('Updated successfully', 'Success');
+          this.dialogRef.close(true);
+        },
+        error: (err) => {
+          this.toastr.error('Failed to update recipe', 'Error');
+        },
+      });
+    } else {
+      this.recipeService.addRecipe(payload).subscribe({
+        next: () => {
+          this.toastr.success('Added successfully', 'Success');
+          this.dialogRef.close(true);
+        },
+        error: (err) => {
+          this.toastr.error('Failed to add recipe', 'Error');
+        },
+      });
+    }
+  } else {
+    this.toastr.error('Please fill in all required fields', 'Form Error');
   }
 }
+
+ 
+  onCancel(): void {
+    this.dialogRef.close(false); // Close without saving
+  }
+
+  onNumberInput(event: Event, index: number, controlName: string, maxValue: number) {
+  const input = event.target as HTMLInputElement;
+  let value = input.value;
+
+  // Allow empty string to let user delete
+  if (value === '') return;
+
+  // Convert to number
+  const numValue = Number(value);
+
+  // If number is NaN or less than 0, reset to 0
+  if (isNaN(numValue) || numValue < 0) {
+    input.value = '0';
+    this.components.at(index).get(controlName)?.setValue(0, { emitEvent: false });
+    return;
+  }
+
+  // If greater than maxValue, set to maxValue
+  if (numValue > maxValue) {
+    input.value = maxValue.toString();
+    this.components.at(index).get(controlName)?.setValue(maxValue, { emitEvent: false });
+  } else {
+    // Update form control value normally
+    this.components.at(index).get(controlName)?.setValue(numValue, { emitEvent: false });
+  }
+}
+
+}
+ 
+ 

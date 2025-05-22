@@ -5,11 +5,6 @@ import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angula
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2'; // Import SweetAlert2
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
@@ -18,13 +13,8 @@ import { MatDialogRef } from '@angular/material/dialog';
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-    HttpClientModule,
-    MatSnackBarModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
+    HttpClientModule
   ],
-  // providers: [MatDialogRef],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -38,30 +28,27 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private snackBar: MatSnackBar
-    // private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef
   ) {}
 
-  // ngAfterViewInit(): void {
-  //   // Wait a moment to allow autofill to happen
-  //   setTimeout(() => {
-  //     this.loginForm.updateValueAndValidity();
-  //     this.cdRef.detectChanges(); // Make Angular aware of changes
-  //   }, 500);
-  // }
+  ngAfterViewInit(): void {
+    // Wait a moment to allow autofill to happen
+    setTimeout(() => {
+      this.loginForm.updateValueAndValidity();
+      this.cdRef.detectChanges(); // Make Angular aware of changes
+    }, 500);
+  }
   ngOnInit(): void {
+    localStorage.clear();
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
   }
+  
 
   login(): void {
-    if (this.loginForm.invalid)
-    {
-      this.loginForm.markAllAsTouched(); // force show error messages
-      return;
-    }
+    if (this.loginForm.invalid) return;
   
     this.isLoading = true;
     const { email, password } = this.loginForm.value; // ✨ Only email and password
@@ -70,7 +57,6 @@ export class LoginComponent implements OnInit {
       next: (response: any) => {
         this.isLoading = false;
         localStorage.setItem('UserId',response.userId);
-        localStorage.setItem('RoleId',response.roleId);
   
         this.authService.setLoggedInUser({
           name: response.email,
@@ -87,7 +73,7 @@ export class LoginComponent implements OnInit {
         //   confirmButtonText: 'OK'
         // });
 
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard'],{ replaceUrl: true });
       },
       
       error:(error)=>{

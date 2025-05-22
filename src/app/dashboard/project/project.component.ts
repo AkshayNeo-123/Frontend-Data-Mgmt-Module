@@ -17,6 +17,7 @@ import { UpdateProjectComponent } from '../update-project/update-project.compone
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { Location } from '@angular/common';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-project',
@@ -37,8 +38,7 @@ export class ProjectComponent implements OnInit {
   // area: string;
 
   // displayedColumns: string[] = ['area','projectName','projectNumber', 'projectType','Priority', 'status',  'startDate', 'endDate','actions'];
-  displayedColumns: string[] = ['projectName','projectNumber','status', 'actions'];
-
+  displayedColumns: string[] = ['projectNumber','projectName','status', 'actions'];
   dataSource = new MatTableDataSource<Project>([]); // Using your Project model
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -91,7 +91,6 @@ export class ProjectComponent implements OnInit {
       const dialogRef = this.dialog.open(AddprojectComponent, {
         width: '80%',  
         maxWidth: '800px',
-        // maxHeight:'65vh',
         disableClose: true,
       });
     }
@@ -112,12 +111,12 @@ export class ProjectComponent implements OnInit {
     // this.dataSource.filter = filterValue;
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
   
-  // Custom filterPredicate to filter only projectName
+
   this.dataSource.filterPredicate = (data, filter: string) => {
-    return data.projectName.toLowerCase().includes(filter); // Only filter projectName
+    return data.projectName.toLowerCase().includes(filter); 
   };
 
-  this.dataSource.filter = filterValue;  // Apply the filter value
+  this.dataSource.filter = filterValue;  
   }
 
 
@@ -129,10 +128,11 @@ export class ProjectComponent implements OnInit {
           message: 'Are you sure you want to delete this Project?'
         }
       });
+      const deletedBY=Number(localStorage.getItem('UserId'));
     
       dialogRef.afterClosed().subscribe(result => {
         if (result === true) {
-          this.projectService.deleteProject(id).subscribe({
+          this.projectService.deleteProject(id,deletedBY).subscribe({
             next: (res: any) => {
               this.dataSource.data = this.dataSource.data.filter(material => material.projectId !== id);
               this.toastr.success(' deleted successfully','success',{
@@ -152,9 +152,24 @@ export class ProjectComponent implements OnInit {
         }
       });
     }
-    onExport() {
-      this.projectService.exportData();
-    }
+onExport(): void {
+  const exportData = this.dataSource.data.map((project: any) => ({
+    'Project Number': project.projectNumber || '-',
+    'Project Name': project.projectName || '-',
+    'Status': project.status?.status || '-',
+    'Area': project.areas?.area || '-',
+    'Project Type': project.projectTypes?.projectTypeName || '-',
+    'Priority': project.priorities?.priority || '-',
+    'Start Date': project.startDate ? new Date(project.startDate).toLocaleDateString() : '-',
+    'End Date': project.endDate ? new Date(project.endDate).toLocaleDateString() : '-'
+  }));
+
+  const worksheet = XLSX.utils.json_to_sheet(exportData);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Projects');
+
+  XLSX.writeFile(workbook, 'Projects.xlsx');
+}
 
     goBack(): void {
       this.location.back();

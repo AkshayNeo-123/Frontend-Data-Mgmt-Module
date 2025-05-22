@@ -69,8 +69,10 @@ export class AddAdditiveComponent implements OnInit {
 
       const contactPayload = {
         ...this.additiveForm.value,
-        createdBy: addUser,
-        createdDate: new Date().toISOString(),
+        ...(this.isEditMode
+          ? { modifiedBy: addUser, modifiedDate: new Date().toISOString() }
+          : { createdBy: addUser, createdDate: new Date().toISOString(), modifiedDate: new Date().toISOString() }
+        )
       };
 
       console.log("added dat",contactPayload)

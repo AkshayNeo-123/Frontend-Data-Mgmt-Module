@@ -58,13 +58,15 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
 
     this.dataSource.sortingDataAccessor = (item, property) => {
-      if (property === 'contactType') {
-        return this.getContactTypeName(item.contactType).toLowerCase();
+      switch (property) {
+        case 'contactName':
+          return item.contactName?.toLowerCase() || '';
+          case 'contactType':
+            return ContactTyps[item.contactType]?.toLowerCase() || '';        default:
+          return (item as any)[property];
       }
-      return (item as any)[property];
     };
   }
-
   getContactTypeName(type: number): string {
     return ContactTyps[type];
   }
@@ -96,6 +98,7 @@ export class ContactsComponent implements OnInit, AfterViewInit {
       const dialogRef = this.dialog.open(AddcontactsComponent, {
         width: '80%',  
         maxWidth: '600px',
+                //  height:'65vh',
         disableClose: true,
         data: contact
       });
@@ -115,6 +118,7 @@ export class ContactsComponent implements OnInit, AfterViewInit {
       const dialogRef = this.dialog.open(AddcontactsComponent, {
         width: '80%',
         maxWidth: '600px',
+        
         disableClose: true,
         data: contact
       });
@@ -145,7 +149,8 @@ export class ContactsComponent implements OnInit, AfterViewInit {
           this.dataSource.data = this.dataSource.data.filter(material => material.contactId !== contactId);
     
           console.log('Deleting Contact with ID:', contactId);
-          this.contactService.deleteContact(contactId).subscribe(
+          const userId=Number(localStorage.getItem('UserId'))
+          this.contactService.deleteContact(contactId,userId).subscribe(
             (response) => {
               console.log('Contact deleted successfully:', response);
               this.toastr.success('deleted successfully');

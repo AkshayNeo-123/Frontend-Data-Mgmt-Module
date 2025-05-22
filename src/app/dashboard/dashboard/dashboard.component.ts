@@ -1,160 +1,227 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RecipeService } from '../../services/recipe.service';
+import { RecipeAndProject } from '../../models/recipe.model';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatDialog } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TopbarComponent } from '../topbar/topbar.component';
+import { FooterComponent } from '../../footer/footer.component';
 import { GetmaterialsComponent } from '../getmaterials/getmaterials.component';
 import { RecipyComponent } from '../recipy/recipy.component';
-import { FooterComponent } from '../../footer/footer.component';
 import { ProjectComponent } from '../project/project.component';
 import { MastertableComponent } from '../mastertable/mastertable.component';
-import { AllMainPolymersComponent } from '../MainPolymerData/all-main-polymers/all-main-polymers.component';
-import { RouterOutlet } from '@angular/router';
 import { ContactsComponent } from '../contacts/contacts.component';
 import { ManageusersComponent } from '../manageusers/manageusers.component';
-import { FormsModule } from '@angular/forms';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { RolemasterComponent } from '../rolemaster/rolemaster.component';
-import { GetAllAdditivesComponent } from '../get-all-additives/get-all-additives.component';
+import { AllMainPolymersComponent } from '../MainPolymerData/all-main-polymers/all-main-polymers.component';
 import { AddAdditiveComponent } from '../additiveData/addadditives/addadditives.component';
+import { AddInjectionMoldingComponent } from '../add-injection-molding/add-injection-molding.component';
+import { AddCompoundingComponent } from '../add-compounding/add-compounding.component';
+import { UpdateInjectionMoldingComponent } from '../update-injection-molding/update-injection-molding.component';
+import { UpdateCompoundingComponent } from '../update-compounding/update-compounding.component';
+import { GetAllAdditivesComponent } from '../get-all-additives/get-all-additives.component';
+import { RecipedetailsComponent } from '../recipedetails/recipedetails.component';
+import { Router, RouterModule } from '@angular/router';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
     CommonModule,
-    SidebarComponent,
-    TopbarComponent,
-    RecipyComponent,
-    GetmaterialsComponent,
+    FormsModule,
+    // SidebarComponent,
+    // TopbarComponent,
     FooterComponent,
+    GetmaterialsComponent,
+    RecipyComponent,
     ProjectComponent,
     MastertableComponent,
     ContactsComponent,
+    // AddInjectionMoldingComponent,
+   
     GetAllAdditivesComponent,
     AllMainPolymersComponent,
     ManageusersComponent,
     RolemasterComponent,
-    FormsModule,
+    AllMainPolymersComponent,
+    // AddAdditiveComponent,
+    GetAllAdditivesComponent,
+    // RecipedetailsComponent,
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
     MatButtonModule,
-    MatDatepickerModule,
+    MatCardModule,
+    MatGridListModule,
     MatMomentDateModule,
+    RouterModule,
+    AddCompoundingComponent,
+    UpdateInjectionMoldingComponent,
+    UpdateCompoundingComponent,
+    AddInjectionMoldingComponent
+    // ,InfiniteScrollModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   isSidebarOpen = true;
   selectedSection: string = 'dashboard';
-  currentPage: number = 1;
-  itemsPerPage: number = 3;
-  roleId: number = 0;
 
-  // Static product data
-  staticProducts: any[] = [
-    {
-      productName: 'Product A',
-      comments: 'Sample comment A',
-      projectId: 1001,
-      createdBy: 'Alice',
-      createdDate: new Date('2023-01-01'),
-      modifiedDate: new Date('2023-01-10')
-    },
-    {
-      productName: 'Product B',
-      comments: 'Sample comment B',
-      projectId: 1002,
-      createdBy: 'Bob',
-      createdDate: new Date('2023-01-02'),
-      modifiedDate: new Date('2023-01-11')
-    },
-    {
-      productName: 'Product C',
-      comments: 'Sample comment C',
-      projectId: 1003,
-      createdBy: 'Charlie',
-      createdDate: new Date('2023-01-03'),
-      modifiedDate: new Date('2023-01-12')
-    },
-    {
-      productName: 'Product D',
-      comments: 'Sample comment D',
-      projectId: 1004,
-      createdBy: 'David',
-      createdDate: new Date('2023-01-04'),
-      modifiedDate: new Date('2023-01-13')
-    },
-    {
-      productName: 'Product E',
-      comments: 'Sample comment E',
-      projectId: 1005,
-      createdBy: 'Eve',
-      createdDate: new Date('2023-01-05'),
-      modifiedDate: new Date('2023-01-14')
+  recipyAndProject: RecipeAndProject[] = [];
+  projectFilter: string = '';
+  count:number=0;
+  paginatedRecipes:RecipeAndProject[]=[];
+  pageSize = 6;
+currentPage = 0;
+currentIndex=0;
+itemsPerPage=3;
+totalPages:number=0;
+  // recipeId?:number;
+  // rec: RecipeAndProject ={
+  //   //  recipeId:0,
+  //    projectNumber:'',
+  //    description:''
+  // }
+
+  displayedColumns: string[] = ['recipeId','productName','projectNumber', 'description'];
+  dataSource: MatTableDataSource<RecipeAndProject> = new MatTableDataSource<RecipeAndProject>();
+
+  @ViewChild(MatSort) sort: MatSort | null = null;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor(
+    private recipeService: RecipeService,
+    private dialog: MatDialog, private router:Router
+  ) {}
+
+  ngOnInit(): void {
+    this.currentPage
+    =1;
+    this.loadRecipes();
+    
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  loadRecipes(recetPage:boolean=true): void {
+    this.recipeService.getRecipeAndProject().subscribe({
+      next: (data) => {
+        this.recipyAndProject = data;
+        this.count = data.length;
+        // this.loadNextBatch();
+        this.totalPages = Math.ceil(data.length / this.pageSize);
+        this.updatePaginatedRecipes();
+
+      },
+      error: (err) => console.error('Error fetching recipes', err)
+    });
+  }
+
+
+  updatePaginatedRecipes(): void {
+    const start = (this.currentPage-1) * this.pageSize;  // 0*3
+    const end = start + this.pageSize;    //3+3=6    
+    this.paginatedRecipes = this.recipyAndProject.slice(start, end);
+  }
+  
+  goToPage(page: number): void {
+    // this.updatePaginatedRecipes();
+
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePaginatedRecipes();
     }
-  ];
-
-  get totalItems(): number {
-    return this.staticProducts.length;
   }
 
-  get paginatedProducts() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    return this.staticProducts.slice(startIndex, startIndex + this.itemsPerPage);
+
+
+  // loadNextBatch(): void {
+  //   const nextBatch = this.recipyAndProject.slice(this.currentIndex, this.currentIndex + this.itemsPerPage);
+  //   this.recipyAndProject.push(...nextBatch);
+  //   this.currentIndex += this.itemsPerPage;
+  // }
+  
+  // onScroll(): void {
+  //   if (this.currentIndex < this.recipyAndProject.length) {
+  //     this.loadNextBatch();
+  //   }
+  // }
+
+openRecipeDetailsDialog(recipeDetails?:RecipeAndProject) {
+    console.log('Data passed to dialog:', recipeDetails);
+      const dialogRef = this.dialog.open(RecipedetailsComponent, {
+        width: '100%',  
+        maxWidth: '900px',
+        height:'550px',
+        // maxHeight:'540px',
+        disableClose: true,
+        data: recipeDetails
+      });
+    }
+  
+  
+
+  applyCustomFilter(): void {
+    this.recipeService.getRecipeAndProject(this.projectFilter).subscribe({
+      next: (data) => {
+        this.recipyAndProject = data;
+
+        console.log(this.recipyAndProject);
+        
+
+        this.count = data.length;
+        // this.currentPage = page;
+        this.totalPages = Math.ceil(data.length / this.pageSize);
+
+
+       this.updatePaginatedRecipes();
+        
+        
+
+      },
+      error: (err) => console.error('Error filtering recipes', err)
+    });
   }
 
-  get totalPages(): number {
-    return Math.ceil(this.totalItems / this.itemsPerPage);
+  resetFilter(): void {
+    this.projectFilter = '';
+    
+    //  this.currentPage
+    this.loadRecipes();
   }
 
-  get pageRange(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  }
+  // viewDetails(recipe: RecipeAndProject): void {
+  //   this.recipeId=recipe.recipeId;
+  //   this.loadRecipeDetails;
+  // }
 
-  ngOnInit() {
-    this.roleId = Number(localStorage.getItem('RoleId'));
-  }
-
-  onToggleSidebar() {
+  onToggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 
-  onSectionChange(section: string) {
+  onSectionChange(section: string): void {
     this.selectedSection = section;
   }
 
-  viewDetails(product: any) {
-    console.log('Viewing details for product:', product);
-    // Add modal or routing logic here later
+  goToRecipeDetails(recipeId: number): void {
+    this.router.navigate(['recipedetails', recipeId]);
   }
-
-  goToPage(page: number) {
-    this.currentPage = page;
-  }
-
-  goToPreviousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  }
-  
-  goToNextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
-  }
-  
 }
-

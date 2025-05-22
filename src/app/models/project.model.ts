@@ -30,7 +30,7 @@ export interface Project {
     areaId?: number;
     priorityId?: number;
     projectDescription: string;
-    startDate?: string; // use ISO string format (e.g., "2025-04-28T00:00:00Z")
+    startDate?: string; 
     endDate?: string;  // optional if not marked [Required] in backend
     createdBy: number;
   createdDate: string;
@@ -52,4 +52,29 @@ export interface Project {
 
 
   }
+
+
+export interface Component {
+  componentId: number;
+  wtPercent: number | null;
+  valPercent: number | null;
+  density: number | null;
+  mp: boolean;
+  mf: boolean;
+  typeId: number | null;
+}
+export interface Recipe {
+  productName: string;
+  comments: string;
+  projectId: number;
+  additiveId: number;
+  mainPolymerId: number;
+}
+
+
+export interface RecipeAndComponent {
+  recipe: Recipe;
+  component: Component[];
+}
+
   

@@ -29,7 +29,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    ConfirmDialogComponent,
     MatTooltipModule
 
   ],
@@ -40,7 +39,7 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
 
 
   displayedColumns: string[] = [
-  'AdditiveId', 'MainPolymerId', 'materialName','manufacturerId', 'quantity',  'storageLocationId',
+  'materialName', 'AdditiveId', 'MainPolymerId','manufacturerId', 'quantity',  'storageLocationId',
    'density','mvrMfrId',"testMethod",'tdsFilePath','msdsFilePath',"actions"
   ];
   dataSource = new MatTableDataSource<Material>([]);

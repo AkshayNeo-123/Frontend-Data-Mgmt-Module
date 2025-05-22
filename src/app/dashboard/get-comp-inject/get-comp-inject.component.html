@@ -1,0 +1,143 @@
+<div class="container for-margin">
+  <div class="back-button-container d-flex justify-content-between align-items-center "> 
+
+     <h4 class="fw-bold mb-3">Compounding</h4>
+
+    <button (click)="goBack()" class="custom-back-button mb-3">
+      <mat-icon>arrow_back</mat-icon>
+      <span>Back</span>
+    </button>
+  </div>
+ 
+
+ <div class="row align-items-center">
+  <div class="col-md-4">
+    <mat-form-field appearance="outline" class="w-100">
+       <mat-label>Date</mat-label>
+  <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="selectedDate" name="date">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+  </div>
+
+  <!-- Column 2: Filter & Reset Buttons -->
+  <div class="col-md-4 d-flex gap-2">
+<button class="mr-3 filter-recipe me-4" (click)="onFilter()">Filter</button>
+<button class="mr-3 reset-contact-btn btn btn me-4" mat-raised-button color="warn" (click)="resetFilter()">Reset</button>
+  </div>
+
+  <!-- Column 3: Add Compounding Button -->
+  <div class="col-md-4 text-end">
+    <button mat-raised-button class="add-material-btn" (click)="navigateToAddCompounding()">
+      <i class="fas fa-plus me-2"></i>Add Compounding
+    </button>
+  </div>
+</div>
+
+
+  <div class="table-responsive" *ngIf="hasCompoundingData; else noCompoundingData">
+    <table mat-table [dataSource]="dataSource" matSort
+      class="table table-bordered table-striped table-hover mat-elevation-z8" style="table-layout: fixed; width: 100%;">
+      <ng-container matColumnDef="compoundingId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+        <td mat-cell *matCellDef="let element">{{ element.compoundingId }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.date | date:'dd/MM/yyyy': '-' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="notes">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Notes</th>
+        <td mat-cell *matCellDef="let element">{{ element.notes ? element.notes : '-' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <i class="fas fa-pencil-alt me-3 action-icon text-primary"
+            (click)="navigateToUpdateCompounding(element.compoundingId)">
+          </i>
+          <i class="fas fa-trash-alt action-icon text-danger" (click)="deleteCompounding(element.compoundingId)"></i>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  <ng-template #noCompoundingData>
+    <h4 class="text-center text-muted mt-3">No data found!</h4>
+  </ng-template>
+  <mat-paginator *ngIf="hasCompoundingData" #paginatorCompounding [pageSizeOptions]="[5, 10, 25]"
+    showFirstLastButtons></mat-paginator>
+
+
+  <h4 class="fw-bold mb-3">Injection Moulding</h4>
+
+
+  <div class="row align-items-center">
+  <div class="col-md-4">
+    <mat-form-field appearance="outline" class="w-100">
+       <mat-label>Date</mat-label>
+  <input matInput [matDatepicker]="pickerForInjection" placeholder="Choose a date" [(ngModel)]="searchDate" name="Injectiondate">
+  <mat-datepicker-toggle matSuffix [for]="pickerForInjection"></mat-datepicker-toggle>
+  <mat-datepicker #pickerForInjection></mat-datepicker>
+</mat-form-field>
+  </div>
+
+  <!-- Column 2: Filter & Reset Buttons -->
+  <div class="col-md-4 d-flex gap-2">
+<button class="mr-3 filter-recipe me-4" (click)="onFilterForSearchinjection()">Filter</button>
+<button class="mr-3 reset-contact-btn btn btn me-4" mat-raised-button color="warn" (click)="resetFilterforinjection()">Reset</button>
+  </div>
+
+    <div class="col-md-4 text-end">
+    <button mat-raised-button class="add-material-btn" (click)="navigateToAddInjectionMOlding()">
+      <i class="fas fa-plus me-2"></i>Add InjectionMolding
+    </button>
+  </div>
+  </div>
+  <div class="table-responsive" *ngIf="hasInjectionData ;else noInjectionData">
+    <table mat-table [dataSource]="dataSourceInjection" matSort
+      class="table table-bordered table-striped table-hover mat-elevation-z8" style="table-layout: fixed; width: 100%;">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="parameterSet">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+        <td mat-cell *matCellDef="let elements">{{ elements.createdDate| date:'dd/MM/yyyy' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="dryingTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Notes</th>
+        <td mat-cell *matCellDef="let elements">{{ elements.dryingTime }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let elements">
+          <i class="fas fa-pencil-alt me-3 action-icon text-primary"
+            (click)="navigateToUpdateInjectionMolding(elements.id)"></i>
+          <i class="fas fa-trash-alt action-icon text-danger" (click)="deleteInjection(elements.id)"></i>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsData"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsData;"></tr>
+    </table>
+  </div>
+
+
+  <ng-template #noInjectionData>
+    <h4 class="text-center text-muted mt-3">No Data found!</h4>
+  </ng-template>
+
+  <mat-paginator #paginatorInjection [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons
+    *ngIf="hasInjectionData"></mat-paginator>
+
+
+</div>

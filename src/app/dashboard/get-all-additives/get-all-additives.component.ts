@@ -142,8 +142,9 @@ export class GetAllAdditivesComponent implements OnInit,AfterViewInit  {
       dialogRef.afterClosed().subscribe(result => {
         if (result === true) {
             this.dataSource.data = this.dataSource.data.filter(additive => additive.id !== additiveId);
-    
-          this.getAllAdditivesService.deleteAdditives(additiveId).subscribe(
+            const userId=Number(localStorage.getItem('UserId'))
+
+          this.getAllAdditivesService.deleteAdditives(additiveId,userId).subscribe(
             (response) => {
               console.log('Additive deleted successfully:', response);
               this.toaster.success(' deleted successfully');

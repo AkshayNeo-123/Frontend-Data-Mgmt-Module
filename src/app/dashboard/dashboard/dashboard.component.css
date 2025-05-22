@@ -1,54 +1,206 @@
+body {
+  margin: 0;
+}
+
+
 .dashboard-content {
-    background-color: #f8f9fa;
-    min-height: 100%;
-  }
-  
+  background-color: #f8f9fa;
+  min-height: 100%;
+}
 
-  .card {
-    transition: transform 0.3s ease;
-  }
-  
-  .card:hover {
-    transform: translateY(-10px);
-  }
-  
-  .card-body {
-    font-family: 'Arial', sans-serif;
-  }
-  
-  .pagination .page-item .page-link {
-    border-radius: 83%;
-    width: 55px;
-    height: 55px;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-  }
-  
 
-  .pagination {
-    gap: 8px;
-  }
-  
-  .page-link {
+.card {
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.card:hover::after {
+  margin-left: 10px;
+  transform: translateY(-10px);
+}
+
+.card-body {
+  font-family: 'Arial', sans-serif;
+}
+
+.pagination .page-item .page-link {
+  border-radius: 83%;
+  width: 55px;
+  height: 55px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+input:focus {
+  outline: none;
+  box-shadow: none;
+  border-color: black;
+}
+
+.pagination {
+  gap: 8px;
+}
+
+.page-link {
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.page-item.active .page-link {
+  background-color: rgb(95, 92, 92);
+  border-color: rgb(95, 92, 92);
+  color: white;
+}
+
+.page-link:hover {
+  background-color: rgb(95, 92, 92);
+  color: white;
+}
+
+.page-item.disabled .page-link {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* .recipe-grid {
+    padding: 16px;
+  } */
+
+.recipe-card {
+  border: 1px solid black;
+  border-top: 2px solid black;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  width: 300px;
+}
+
+.card-header {
+  background-color: rgb(95, 92, 92);
+  padding: 8px 12px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  font-size: 1 rem;
+}
+
+.descriptions {
+  font-size: 0.9rem;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: #444;
+  padding: 8px 12px;
+}
+
+.page-link {
+  font-size: 0.9rem;
+  text-size-adjust: none;
+}
+
+.pagination .page-item .page-link {
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  font-size: 0.875rem;
+  z-index: 0;
+}
+
+/* .count-box {
+    text-align: center;
+    left: 100%;
+    padding: 10px;
+    background-color:  #fff9c4;;
+    color: #0d47a1;
     border-radius: 10px;
-    transition: all 0.3s ease;
-  }
-  
-  .page-item.active .page-link {
-    background-color: #05ec8c;
-    border-color: #05ec8c;
-    color: white;
-  }
-  
-  .page-link:hover {
-    background-color: #05ec8c;
-    color: white;
-  }
-  
-  .page-item.disabled .page-link {
-    pointer-events: none;
-    opacity: 0.5;
-  }
-  
-  
+    width: 100px;
+    /* margin-bottom: 0px; 
+    margin-left: 80%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  } */
+
+.filter-recipe {
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin-bottom: 45px;
+  margin-left: 10px;
+  background-color: transparent;
+  color: #000;
+  border: 1px solid gray;
+  transition: background-color 0.3s ease;
+}
+
+.count-box {
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin-bottom: 45px;
+  margin-left: 350px;
+  /* background-color:  #fff9c4; */
+  color: black;
+  text-align: end;
+  border: 1px solid gray;
+  transition: background-color 0.3s ease;
+}
+
+.filter-recipe:hover {
+  /* background-color: #388e3c;  */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.reset-contact-btn {
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin-bottom: 45px;
+
+ 
+  color: #000;
+  border: 1px solid gray;
+  transition: background-color 0.3s ease;
+
+}
+
+.reset-contact-btn:hover {
+  /* background-color: #388e3c;  */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+
+
+.btn.mat-raised {
+  background-color: white;
+  color: #007bff;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  font-weight: 500;
+  border: none;
+  padding: 8px 16px;
+  position: sticky;
+  border-radius: 50px;
+  margin-right: 20px;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.details {
+  color: #007bff;
+  border-radius: 50px;
+  border-color: white;
+  margin-right: 20px;
+  background-color: white;
+}
+
+.btn.mat-raised:hover {
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+}

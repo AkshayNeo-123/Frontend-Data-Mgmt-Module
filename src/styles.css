@@ -17,8 +17,11 @@ h4 {
     padding: 8px 16px;
     border-radius: 4px;
     margin-bottom: 40px;
+    
   
-    background-color: #4caf50; 
+    /* color: #ffffff; */
+    background-color: #4caf50;
+
     color: white;
     border: none;
     transition: background-color 0.3s ease;
@@ -42,6 +45,10 @@ h4 {
     border: 1px solid #ddd; 
   }
   
+  .mat-mdc-paginator-container {
+    margin-bottom: 15px !important;
+  }
+
   .mat-row:hover {
     background-color: #f1f1f1;
     transition: background-color 0.3s ease;
@@ -282,7 +289,7 @@ button.toast-close-button {
       border-radius: 4px;
       margin-bottom: 40px;
     
-      background-color: #4caf50; 
+      background-color: #4caf50 !important; 
       color: white;
       border: none;
       transition: background-color 0.3s ease;
@@ -303,3 +310,52 @@ button.toast-close-button {
   display: none;
 }
 
+.cdk-overlay-container, .cdk-global-overlay-wrapper {
+    pointer-events: none;
+    top: 17px !important;
+    left: 0;
+    bottom: 10px;
+    height: 90%;
+    width: 100%;
+}
+
+.for-margin{
+margin-top: 60px;
+}
+
+
+/* common button reset & filter */
+
+  .filter-recipe{
+    font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin-bottom: 45px;
+   margin-left: 10px;
+  background-color: transparent; 
+  color:#000;
+  border: 1px solid gray;
+  transition: background-color 0.3s ease;
+}
+
+.filter-recipe:hover {
+  /* background-color: #388e3c;  */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+.reset-contact-btn{
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin-bottom: 45px;
+
+  /* background-color: #4caf50;  */
+  color: #000;
+  border: 1px solid gray;
+  transition: background-color 0.3s ease;
+
+}
+.reset-contact-btn:hover{
+/* background-color: #388e3c;  */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+  

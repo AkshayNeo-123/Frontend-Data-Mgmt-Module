@@ -7,20 +7,12 @@ import { Observable, catchError, of } from 'rxjs';
 })
 export class ComponentService {
   private baseUrl = 'https://localhost:7030/api/RecipeComponent';
+  private componentUrl = 'https://localhost:7030/api/Component';
+
 
   constructor(private http: HttpClient) {}
-
-  // getAllComponents(): Observable<any[]> {
-  //   return this.http.get<any[]>(this.baseUrl).pipe(
-  //     catchError(err => {
-  //       console.error('Error fetching components:', err);
-  //       return of([]);
-  //     })
-  //   );
-  // }
-
   
   getAllComponents(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}`);
+    return this.http.get<any[]>(this.componentUrl);
   }
 }
