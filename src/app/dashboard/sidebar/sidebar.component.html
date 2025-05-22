@@ -1,4 +1,4 @@
-<div [ngClass]="{ 'sidebar-collapsed': !isOpen, 'sidebar-expanded': isOpen }" class="sidebar">
+<!-- <div [ngClass]="{ 'sidebar-collapsed': !isOpen, 'sidebar-expanded': isOpen }" class="sidebar">
   <ul class="list-unstyled m-0 p-4">
     <li class="nav-item">
       <a [routerLink]="['/dashboard']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
@@ -8,13 +8,7 @@
       </a>
     </li>
 
-    <!-- <li class="nav-item">
-      <a [routerLink]="['/recipe']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
-        class="nav-link  w-100">
-        <i class="fas fa-utensils me-3"></i>
-        <span *ngIf="isOpen">Recipe</span>
-      </a>
-    </li> -->
+    
 
     <li class="nav-item" [class.active-link]="activeMenu === 'recipe'">
       <a [routerLink]="['/recipe']" class="nav-link w-100">
@@ -57,28 +51,7 @@
       </a>
     </li>
 
-    <!-- <li class="nav-item">
-      <a [routerLink]="['/injectionMolding']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
-        class="nav-link  w-100">
-        <i class="fas fa-project-diagram me-3"></i>
-        <span *ngIf="isOpen">Add-InjectionMolding</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a [routerLink]="['/updateinjectionMolding']" routerLinkActive="active-link"
-        [routerLinkActiveOptions]="{ exact: true }" class="nav-link  w-100">
-        <i class="fas fa-project-diagram me-3"></i>
-        <span *ngIf="isOpen">Update-InjectionMolding</span>
-      </a>
-    </li> -->
-
-    <!-- <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect">
-      <a [routerLink]="['/testing']" class="text-decoration-none text-dark d-flex align-items-center w-100">
-        <i class="fas fa-vial me-3"></i>
-        <span *ngIf="isOpen">Testing</span>
-      </a>
-    </li> -->
+    
 
     <li class="nav-item">
       <a [routerLink]="['/contacts']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
@@ -104,27 +77,28 @@
       </a>
     </li>
 
-    <!-- <li class="nav-item">
-      <a [routerLink]="['/compounding']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
-        class="nav-link  w-100">
-        <i class="fas fa-box-open me-3"></i>
-        <span *ngIf="isOpen">Compounding</span>
-      </a>
-    </li>
+   
+  </ul>
+</div> -->
 
-    <li class="nav-item">
-      <a [routerLink]="['/updatecompounding']" routerLinkActive="active-link"
+<div [ngClass]="{ 'sidebar-collapsed': !isOpen, 'sidebar-expanded': isOpen }" class="sidebar vh-100">
+  <ul class="list-unstyled m-0 p-4" >
+    
+
+       <!-- <li class="d-flex align-items-center justify-content-between fw-bold mb-3 p-2 hover-effect" *ngFor="let menu of allowedMenus">
+        <div class="d-flex align-items-center" (click)="emitSection(menu.route)">
+          <i class="fas fa-cubes me-3"></i> 
+          <span *ngIf="isOpen">{{menu.menuName}}</span>
+        </div>
+      </li> -->
+      <li class="nav-item" *ngFor="let menu of allowedMenus">
+      <a [routerLink]="[menu.route]" routerLinkActive="active-link"
         [routerLinkActiveOptions]="{ exact: true }" class="nav-link  w-100">
-        <i class="fas fa-box-open me-3"></i>
-        <span *ngIf="isOpen">Update Compounding</span>
+        <i class="fas fa-cubes me-3"></i>
+        
+        <span *ngIf="isOpen">{{menu.menuName}}</span>
       </a>
     </li>
-
-    <li class="d-flex align-items-center fw-bold mb-3 p-2 hover-effect">
-      <a [routerLink]="['/comp-inject']" class="text-decoration-none text-dark d-flex align-items-center w-100">
-        <i class="fas fa-box-open me-3"></i>
-        <span *ngIf="isOpen">CompoundingInjection</span>
-      </a>
-    </li> -->
+      
   </ul>
 </div>
