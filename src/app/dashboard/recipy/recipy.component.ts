@@ -16,6 +16,7 @@ import * as FileSaver from 'file-saver';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { PermissionServiceService } from '../../services/permission-service.service';
  
 @Component({
   selector: 'app-recipy',
@@ -48,9 +49,11 @@ export class RecipyComponent implements OnInit {
     'polymerName',
     // 'composition',
     // 'compounding',
-    'actions',
+    // 'actions',
   ];
- 
+    canAddRecipe = false;
+    canEditRecipe = false;
+    canDeleteRecipe = false;
   dataSource: MatTableDataSource<Recipe> = new MatTableDataSource<Recipe>();
  
   @ViewChild(MatSort) sort!: MatSort;
@@ -58,8 +61,16 @@ export class RecipyComponent implements OnInit {
  
   constructor(private recipeService: RecipeService,  private dialog: MatDialog,
     private router: Router,
-    private toastr:ToastrService ) {}
+    private toastr:ToastrService,
+    private permissionService: PermissionServiceService
+   ) {}
   ngOnInit(): void {
+    this.canAddRecipe = this.permissionService.hasPermission('Recipe', 'canCreate');
+    this.canEditRecipe = this.permissionService.hasPermission('Recipe', 'canEdit');
+    this.canDeleteRecipe = this.permissionService.hasPermission('Recipe', 'canDelete');
+    if (this.canEditRecipe || this.canDeleteRecipe) {
+    this.displayedColumns.push('actions');
+  }
     this.loadRecipes();
   }
 
