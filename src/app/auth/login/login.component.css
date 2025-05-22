@@ -2,7 +2,7 @@
   height: 100vh;
   /* background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%); */
   /* background-color: #bfccf4; */
-  background-image: url(/bg-4.jpg);
+  background-image: url(/new-bg-img2.png);
   background-position: center;
   background-attachment: fixed;
   position: absolute;
@@ -10,7 +10,7 @@
 }
 
 .login-box {
-  background-color: #fff;
+  background-color: #bdbdbd;
   max-width: 400px;
   width: 100%;
 }

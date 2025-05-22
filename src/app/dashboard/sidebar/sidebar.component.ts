@@ -26,7 +26,9 @@ export class SidebarComponent {
           url.includes('/recipe') ||
           url.includes('/comp-inject') ||
           url.includes('/compounding') ||
-          url.includes('/injectionMolding')
+          url.includes('/injectionMolding') ||
+          url.includes('/updatecompounding') ||
+          url.includes('/updaetInjection')
         ) {
           this.activeMenu = 'recipe';
         } else {
