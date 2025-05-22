@@ -9,7 +9,7 @@
   overflow-y: auto !important;
 
 
-  z-index: 999;
+  z-index: 1;
   /* -ms-overflow-style: none; */
   scrollbar-width: none;
   bottom: 0;
@@ -41,8 +41,8 @@ i {
 }
 
 .sidebar.sidebar-expanded {
-    max-height: 533px;
-    height: 608px;
+    max-height: 100%;
+    /* height: 608px; */
     width: 230px;
 }
 
