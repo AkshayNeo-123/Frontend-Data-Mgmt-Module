@@ -19,7 +19,7 @@
   <div id="pdf-content">
 
     <div *ngIf="rec" style=" padding: 1.5rem;">
-            <h5><b>Recipe Details</b></h5>
+            <h4><b>Recipe Details</b></h4>
 
       <!-- <p> <strong class="mb-4">Project Number</strong></p> -->
       
@@ -96,7 +96,7 @@
       <hr>
 
       <div class="table-responsive mt-4">
-        <h5><b>Injection Molding Details</b></h5>
+        <h5><b>Injection Moulding Details</b></h5>
         <hr>
         <table class="table table-bordered table-striped text-center custom-dark-border">
           <thead>
@@ -134,11 +134,11 @@
             </tr>
             <tr>
         <td><h6>Drying Temp (°C)</h6></td>
-        <td *ngFor="let item of injectionData">{{ item.dryingTemperature }}</td>
+        <td *ngFor="let item of injectionData">{{ item.dryingTemperature || '-'}}</td>
       </tr> 
             <tr>
         <td><h6>Drying Time</h6></td>
-        <td *ngFor="let item of injectionData">{{ item.dryingTime }}</td>
+        <td *ngFor="let item of injectionData">{{ item.dryingTime || '-'}}</td>
       </tr>
             <tr>
               <td>
@@ -154,7 +154,7 @@
             </tr>
             <tr>
         <td><h6>Plasticizing Volume</h6></td>
-        <td *ngFor="let item of injectionData">{{ item.plasticizingVolume }}</td>
+        <td *ngFor="let item of injectionData">{{ item.plasticizingVolume || '-'}}</td>
       </tr>
             <tr>
               <td>
@@ -164,7 +164,7 @@
             </tr>
             <tr>
         <td><h6>Melt Temp</h6></td>
-        <td *ngFor="let item of injectionData">{{ item.meltTemperature }}</td>
+        <td *ngFor="let item of injectionData">{{ item.meltTemperature || '-'}}</td>
       </tr>
             <tr>
               <td>
