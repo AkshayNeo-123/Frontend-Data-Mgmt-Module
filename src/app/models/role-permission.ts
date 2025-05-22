@@ -7,4 +7,7 @@ export interface RolePermission {
   canCreate: boolean;
   canEdit: boolean;
   canDelete: boolean;
+  parentId?: number;
+  children?:RolePermission[];
+
 }

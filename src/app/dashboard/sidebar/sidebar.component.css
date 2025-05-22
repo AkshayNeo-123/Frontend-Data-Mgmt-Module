@@ -40,6 +40,12 @@ i {
   font-size: 18px;
 }
 
+.sidebar.sidebar-expanded {
+    max-height: 533px;
+    height: 608px;
+    width: 230px;
+}
+
 .active-link {
   background-color: rgb(95, 92, 92) !important;
   color: #fff !important;

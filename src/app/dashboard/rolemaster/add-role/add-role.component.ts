@@ -148,6 +148,9 @@ export class AddRoleComponent {
     });
   }
 
+
+  
+
   toggleAllPermissions(event: MatCheckboxChange): void {
   const isChecked = event.checked;
   this.selectAllChecked = isChecked;
@@ -194,6 +197,10 @@ onAnyPermissionChange(): void {
   });
 
   this.selectAllChecked = allChecked;
+}
+
+clickViewChange(): void {
+  
 }
 
 onViewChange(menuId: string): void {
