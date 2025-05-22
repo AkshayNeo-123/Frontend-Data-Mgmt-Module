@@ -1,6 +1,6 @@
 <div class="for-margin px-3 py-3 ">
   <h2 mat-dialog-title>Injection Moulding</h2>
-  <mat-hint class="global-hint">All fields marked with an asterisk (*) are required</mat-hint>
+  <mat-hint class="global-hint mb-3">All fields marked with an asterisk (*) are required</mat-hint>
 
   <form [formGroup]="injectionForm" (ngSubmit)="onSubmit()" style="margin-bottom: 50px;">
 
@@ -126,7 +126,7 @@
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Plasticizing Volume (cm3)</mat-label>
-          <input type="number" step="0.01" min="0" matInput formControlName="plasticizingVolume" />
+          <input type="number" step="0.01" min="0" max="999.99" matInput formControlName="plasticizingVolume" />
         </mat-form-field>
       </div>
 

@@ -261,27 +261,24 @@
 <div class="col-4" style="margin-bottom: 40px;">
   <label for="screwConfig" class="form-label">Upload Screwconfig</label>
 
-  <input
-    type="file"
-    (change)="onFileSelected($event, 'upload_Screwconfig')"
-    style="border: 1px solid #ced4da; padding: 6px; border-radius: 4px; width: 100%;"
-  />
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <input
+      type="file"
+      (change)="onFileSelected($event, 'upload_Screwconfig')"
+      style="flex: 1; border: 1px solid #ced4da; padding: 6px; border-radius: 4px;"
+    />
 
-  <div *ngIf="compoundForm.get('upload_Screwconfig')?.value?.endsWith('.pdf')">
     <a
+      *ngIf="compoundForm.get('upload_Screwconfig')?.value?.endsWith('.pdf')"
       [href]="baseUrl + '/' + compoundForm.get('upload_Screwconfig')?.value"
       target="_blank"
+      title="View PDF"
     >
-      View Pdf
+      <i class="fas fa-eye" style="font-size: 1.2rem;"></i>
     </a>
   </div>
 </div>
 
-
-
- 
- 
- 
       <div class="mb-2">
         <label class="form-label">Temperature Profile</label>
         <div>
@@ -428,21 +425,13 @@
       <div class="col-auto">
         <mat-checkbox formControlName="meltPump">Melt Pump</mat-checkbox>
       </div>
-      <div class="d-flex flex-wrap gap-2 mt-2" style="margin-left: 30px">
-        <!-- Temperature inputs (temp1 through temp12) -->
-        <mat-form-field appearance="outline" style="width: 80px">
-          <input
-            matInput
-            type="number"
-            class="text-center"
-            placeholder="100"
-            formControlName="temp1"
-            min="-100"
-            max="100"
-          />
-        </mat-form-field>
-        <!-- Add remaining temperature fields (temp2 through temp12) -->
+        <div class="col-auto">
+        <mat-checkbox formControlName="underwaterPelletizer">Underwater Pelletizer</mat-checkbox>
       </div>
+      <div class="col-auto">
+        <mat-checkbox formControlName="nozzlePlate">Nozzle Plate</mat-checkbox>
+      </div>
+   
     </div>
  
     <hr class="my-3" />

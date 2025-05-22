@@ -1,26 +1,39 @@
 <div class="container for-margin">
-  <div class="back-button-container">
-  <button (click)="goBack()" class="custom-back-button">
-    <mat-icon>arrow_back</mat-icon>
-    <span>Back</span>
-  </button>
-</div>
-  <h4 class="fw-bold">Compounding</h4>
+  <div class="back-button-container d-flex justify-content-between align-items-center "> 
 
-  <div class="d-flex align-items-center justify-content-between">
-    <div class="w-100">
-      <mat-form-field appearance="outline" class="search-field" *ngIf="hasCompoundingData">
-        <mat-label>Search for Notes</mat-label>
-        <input matInput (keyup)="applyFilter($event)" minlength="1" placeholder="Search notes..." />
-      </mat-form-field>
-    </div>
+     <h4 class="fw-bold mb-3">Compounding</h4>
 
-    <div>
-      <button mat-raised-button class="me-5 add-material-btn w-100" (click)="navigateToAddCompounding()">
-        <i class="fas fa-plus me-2"></i>Add Compounding
-      </button>
-    </div>
+    <button (click)="goBack()" class="custom-back-button mb-3">
+      <mat-icon>arrow_back</mat-icon>
+      <span>Back</span>
+    </button>
   </div>
+ 
+
+ <div class="row align-items-center">
+  <div class="col-md-4">
+    <mat-form-field appearance="outline" class="w-100">
+       <mat-label>Date</mat-label>
+  <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="selectedDate" name="date">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+  </div>
+
+  <!-- Column 2: Filter & Reset Buttons -->
+  <div class="col-md-4 d-flex gap-2">
+<button class="mr-3 filter-recipe me-4" (click)="onFilter()">Filter</button>
+<button class="mr-3 reset-contact-btn btn btn me-4" mat-raised-button color="warn" (click)="resetFilter()">Reset</button>
+  </div>
+
+  <!-- Column 3: Add Compounding Button -->
+  <div class="col-md-4 text-end">
+    <button mat-raised-button class="add-material-btn" (click)="navigateToAddCompounding()">
+      <i class="fas fa-plus me-2"></i>Add Compounding
+    </button>
+  </div>
+</div>
+
 
   <div class="table-responsive" *ngIf="hasCompoundingData; else noCompoundingData">
     <table mat-table [dataSource]="dataSource" matSort
@@ -61,22 +74,30 @@
     showFirstLastButtons></mat-paginator>
 
 
-  <h4 class="fw-bold">Injection Moulding</h4>
+  <h4 class="fw-bold mb-3">Injection Moulding</h4>
 
 
-  <div class="d-flex align-items-center justify-content-between">
-    <div class="w-100">
-      <mat-form-field appearance="outline" class="search-field" *ngIf="hasInjectionData">
-        <mat-label>Search for Notes</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Search notes..." />
-      </mat-form-field>
-    </div>
+  <div class="row align-items-center">
+  <div class="col-md-4">
+    <mat-form-field appearance="outline" class="w-100">
+       <mat-label>Date</mat-label>
+  <input matInput [matDatepicker]="pickerForInjection" placeholder="Choose a date" [(ngModel)]="searchDate" name="Injectiondate">
+  <mat-datepicker-toggle matSuffix [for]="pickerForInjection"></mat-datepicker-toggle>
+  <mat-datepicker #pickerForInjection></mat-datepicker>
+</mat-form-field>
+  </div>
 
-    <div>
-      <button mat-raised-button class="me-5 add-material-btn w-100" (click)="navigateToAddInjectionMOlding()">
-        <i class="fas fa-plus me-2"></i>Add Injection
-      </button>
-    </div>
+  <!-- Column 2: Filter & Reset Buttons -->
+  <div class="col-md-4 d-flex gap-2">
+<button class="mr-3 filter-recipe me-4" (click)="onFilterForSearchinjection()">Filter</button>
+<button class="mr-3 reset-contact-btn btn btn me-4" mat-raised-button color="warn" (click)="resetFilterforinjection()">Reset</button>
+  </div>
+
+    <div class="col-md-4 text-end">
+    <button mat-raised-button class="add-material-btn" (click)="navigateToAddInjectionMOlding()">
+      <i class="fas fa-plus me-2"></i>Add InjectionMolding
+    </button>
+  </div>
   </div>
   <div class="table-responsive" *ngIf="hasInjectionData ;else noInjectionData">
     <table mat-table [dataSource]="dataSourceInjection" matSort

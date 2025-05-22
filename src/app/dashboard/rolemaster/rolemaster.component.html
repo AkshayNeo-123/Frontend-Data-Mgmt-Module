@@ -3,15 +3,17 @@
   
     <!-- Add + Search -->
     <!-- <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap"> -->
-    <div class="d-flex justify-content-start align-items-center mb-3 flex-wrap">
-      <button class="mr-3 add-btn me-4" (click)="openAddRoleDialog()">
-        <i class="fas fa-plus me-2"></i> Add Role
-      </button>
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+     
   
       <mat-form-field appearance="outline" class="search-field">
         <mat-label>Search</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Search roles">
       </mat-form-field>
+
+       <button class="mr-3 add-btn me-4" (click)="openAddRoleDialog()">
+        <i class="fas fa-plus me-2"></i> Add Role
+      </button>
     </div>
   
     <!-- Table -->

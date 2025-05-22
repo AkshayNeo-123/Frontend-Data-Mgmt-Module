@@ -111,17 +111,14 @@ goToAddPage(receipeId: number | undefined): void {
     });
   
   }
-  // addRecipe(){
-  //   this.router.navigate(['/addRecipe']);
-
-  // }
+ 
 
   editRecipe(recipe: Recipe): void {
     const dialogRef = this.dialog.open(AddRecipyComponent, {
       width: '90%',
       maxWidth: '1000px',
       disableClose: true,
-      data: { recipe }, // pass recipe for edit
+      data: { recipe }, 
     });
  
     dialogRef.afterClosed().subscribe((result) => {

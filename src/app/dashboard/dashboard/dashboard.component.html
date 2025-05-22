@@ -11,10 +11,10 @@
           <app-recipy *ngSwitchCase="'recipy'"></app-recipy>
 
           <div *ngSwitchCase="'dashboard'">
-            <h4 mat-dialog-title class="mb-2">Recipe Dashboard</h4>
- 
+            <h4 mat-dialog-title class="mb-4 mr-2">Recipe Dashboard</h4>
+
             <div class="container-fluid">
-              <div class="d-flex justify-content-start align-items-center mb-3">
+              <div class="d-flex justify-content-start align-items-center">
                 <mat-form-field appearance="outline" class="search-field">
                   <mat-label>Search</mat-label>
                   <input matInput [(ngModel)]="projectFilter" placeholder="Search" />
@@ -28,7 +28,7 @@
                 <div class="mr-3 me-4 count-box">Total Recipe {{ count }}</div>
               </div>
 
-              <div class="container">
+              <div class="">
                 <div class="row">
                   <div class="col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let recipe of paginatedRecipes">
                     <div class="card h-100 shadow-sm" style="height: 300px">

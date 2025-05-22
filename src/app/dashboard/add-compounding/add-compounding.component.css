@@ -2,21 +2,21 @@ mat-form-field.mat-form-field-appearance-outline:hover,
 mat-input-element:hover,
 input:focus,
 button:focus {
-  outline: none; 
-  box-shadow: none; 
+  outline: none;
+  box-shadow: none;
 }
 
 button:hover {
-  background-color: transparent; 
+  background-color: transparent;
 }
 
 mat-checkbox:hover {
-  cursor: default; 
+  cursor: default;
 }
 
 .btn-primary:hover {
-  background-color: #0d6efd; 
-  color: white; 
+  background-color: #0d6efd;
+  color: white;
 }
 
 .is-invalid {

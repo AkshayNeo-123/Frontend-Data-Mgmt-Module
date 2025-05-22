@@ -345,7 +345,7 @@ onFileSelected(event: Event, controlName: string): void {
         share || MF || SecondF || SF || A || B || C || D || E || F;
 
       if (anyCheckboxSelected && (!name || name.trim() === "")) {
-        this.toastr.error("Select component name");
+        this.toastr.error("Select component name in Dosage");
         return;
       }
 

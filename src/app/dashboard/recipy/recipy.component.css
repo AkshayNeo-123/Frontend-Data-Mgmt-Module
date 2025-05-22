@@ -1,5 +1,6 @@
- button.me-5.add-material-btn.w-100.mdc-button.mdc-button--raised.mat-mdc-raised-button.mat-unthemed.mat-mdc-button-base {
-    background: green !important;
+
+  button.me-5.add-material-btn.w-100.mdc-button.mdc-button--raised.mat-mdc-raised-button.mat-unthemed.mat-mdc-button-base {
+    background: #4caf50 !important;
     color: #fff !important;
     border: none !important;
     border-radius: 0px !important;
