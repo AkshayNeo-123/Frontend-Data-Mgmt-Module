@@ -148,6 +148,9 @@ export class AddRoleComponent {
     });
   }
 
+
+  
+
   toggleAllPermissions(event: MatCheckboxChange): void {
   const isChecked = event.checked;
   this.selectAllChecked = isChecked;

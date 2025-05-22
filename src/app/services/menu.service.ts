@@ -12,4 +12,7 @@ export class MenuService {
   getMenu(): Observable<any[]> {
     return this.http.get<any[]>('https://localhost:7030/api/Menu');
   }
+  getMenuForSideBar(): Observable<any[]> {
+    return this.http.get<any[]>('https://localhost:7030/api/Menu/ForSideBar');
+  }
 }

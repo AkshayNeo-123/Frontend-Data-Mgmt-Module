@@ -5,4 +5,5 @@ export interface Menu {
     order: number;
     route: string;
     childCount: number;
+    children:Menu[];
 }
