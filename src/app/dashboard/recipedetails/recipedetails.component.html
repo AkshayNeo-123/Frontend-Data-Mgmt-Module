@@ -1,19 +1,28 @@
 <div class="for-margin">
 
-  <button class=" btn btn-danger pdf-download-btn" (click)="downloadPDF()">
-    <i class="fas fa-file-pdf"></i></button>
- <div class="back-button-container">
-  <button (click)="goBack()" class="custom-back-button">
+
+ <div class="back-button-container d-flex justify-content-end align-items-center">
+  <button (click)="goBack()" class="custom-back-button mb-3 me-3">
     <mat-icon>arrow_back</mat-icon>
     <span>Back</span>
   </button>
+
+  <button class="btn btn-danger  mb-3"   (click)="downloadPDF()" matTooltip="Download to Pdf" >
+    <i class="fas fa-file-pdf"></i>
+  </button>
 </div>
 
+
+    
+  </div>
+
   <div id="pdf-content">
+
     <div *ngIf="rec" style=" padding: 1.5rem;">
+            <h5><b>Recipe Details</b></h5>
 
       <!-- <p> <strong class="mb-4">Project Number</strong></p> -->
-      <h5><b>Recipe Details</b></h5>
+      
       <hr>
       <h3 class="text-primary mb-4">{{ rec.projectNumber }}</h3>
 
@@ -123,14 +132,14 @@
               </td>
               <td *ngFor="let item of injectionData">{{ item.pretreatmentDryTest || '-' }}</td>
             </tr>
-            <!-- <tr>
+            <tr>
         <td><h6>Drying Temp (°C)</h6></td>
         <td *ngFor="let item of injectionData">{{ item.dryingTemperature }}</td>
-      </tr> -->
-            <!-- <tr>
+      </tr> 
+            <tr>
         <td><h6>Drying Time</h6></td>
         <td *ngFor="let item of injectionData">{{ item.dryingTime }}</td>
-      </tr> -->
+      </tr>
             <tr>
               <td>
                 <h6>Residual Moisture</h6>
@@ -143,20 +152,20 @@
               </td>
               <td *ngFor="let item of injectionData">{{ item.processingMoisture || '-' }}</td>
             </tr>
-            <!-- <tr>
+            <tr>
         <td><h6>Plasticizing Volume</h6></td>
         <td *ngFor="let item of injectionData">{{ item.plasticizingVolume }}</td>
-      </tr> -->
+      </tr>
             <tr>
               <td>
                 <h6>Injection Pressure</h6>
               </td>
               <td *ngFor="let item of injectionData">{{ item.injectionPressure || '-' }}</td>
             </tr>
-            <!-- <tr>
+            <tr>
         <td><h6>Melt Temp</h6></td>
         <td *ngFor="let item of injectionData">{{ item.meltTemperature }}</td>
-      </tr> -->
+      </tr>
             <tr>
               <td>
                 <h6>Nozzle Temp</h6>

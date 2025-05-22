@@ -17,11 +17,12 @@ import { AddCompoundingRequest, CompoundingDataDTO} from '../../models/compoundi
 import { AddInjectionMoulding, InjectionMolding } from '../../models/injection-molding';
 import { AddInjectionMoldingComponent } from '../add-injection-molding/add-injection-molding.component';
 import { MatIcon } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-recipedetails',
   standalone:true,
-  imports: [CommonModule,MatDialogActions,  MatButtonModule,MatIcon],
+  imports: [CommonModule,MatDialogActions,  MatButtonModule,MatIcon,MatTooltipModule],
   templateUrl: './recipedetails.component.html',
   styleUrl: './recipedetails.component.css'
 })
@@ -120,7 +121,7 @@ injectionData:AddInjectionMoulding[]|null=null;
     
       html2canvas(content,{ scale: 2,scrollY:0 }).then(canvas => {
         const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', [210, 400]);
+        const pdf = new jsPDF('p', 'mm', 'a4');
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
     

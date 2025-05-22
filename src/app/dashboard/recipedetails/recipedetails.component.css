@@ -1,8 +1,8 @@
 .pdf-download-btn {
-  position: absolute;
-  top: 80px;
-  right: 40px;
-  z-index: 1000;
+  position: relative;
+  /* top: 80px; */
+  /* left: 300px; */
+  /* z-index: 1000; */
   cursor: pointer;
 
 
@@ -24,10 +24,9 @@
   transition: opacity 0.3s ease;
 }
 
-.pdf-download-btn:hover::after {
+/* .pdf-download-btn:hover::after {
   opacity: 1;
-}
-
+} */
 
 
 
@@ -43,14 +42,12 @@
   color: rgb(5, 3, 3);
   cursor: pointer;
   transition: all 0.3s ease;
-  z-index: 1000;
 }
 
 .custom-back-button:hover {
   background: #4f5052;
   transform: translateX(-2px);
   color: white;
-  opacity: 1;
 }
 
 
