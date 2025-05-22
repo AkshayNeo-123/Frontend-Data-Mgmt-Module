@@ -48,6 +48,7 @@ constructor( private location: Location,private fb: FormBuilder,private injectio
     repetition: ['0'],
     additive: [''],
     reference:[false],
+    notes:[''],
 
     pretreatmentNone: [false],
     pretreatmentDryTest: [false],

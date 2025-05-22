@@ -9,7 +9,7 @@ h4 {
     
   mat-form-field {
     width: 25%;
-    margin-bottom: 20px;
+    /* margin-bottom: 10px; */
   }
   
   .add-material-btn {

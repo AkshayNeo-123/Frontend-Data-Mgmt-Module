@@ -12,5 +12,16 @@
 }
 
 .selectAllChkbox{
-  align-items: end;
+  float: right;
+}
+
+.verticalLine{
+  border-left: 1px solid;
+}
+
+.menuNameList{
+  background-color: rgb(167, 164, 164);
+  border: 5px solid white;
+  padding: 5px;
+  text-align: center;
 }
