@@ -10,9 +10,10 @@ import { UserService } from '../../services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddUserDialogComponent } from './add-user-dialog/add-user-dialog.component';
 import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { ToastrService } from 'ngx-toastr';
+import { PermissionServiceService } from '../../services/permission-service.service';
 
 @Component({
   selector: 'app-manageusers',
@@ -24,14 +25,18 @@ import { ToastrService } from 'ngx-toastr';
     MatPaginatorModule,
     MatSortModule,
     MatButtonModule,
-    
+    CommonModule,
+    ConfirmDialogComponent
   ],
   templateUrl: './manageusers.component.html',
   styleUrl: './manageusers.component.css'
 })
 export class ManageusersComponent implements OnInit {
   // displayedColumns: string[] = ['userId', 'firstName', 'lastName', 'email', 'roleId', 'status', 'actions'];
-  displayedColumns: string[] = ['userId', 'userName', 'status', 'roleId', 'actions'];
+  displayedColumns: string[] = ['userId', 'userName', 'status', 'roleId'];
+  canAddUser = false;
+  canEditUser = false;
+  canDeleteUser = false;
   dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -40,7 +45,8 @@ export class ManageusersComponent implements OnInit {
     private userService: UserService,
     private dialog: MatDialog,
     private location: Location,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private permissionService: PermissionServiceService
     // private router: Router
     ) {}
 
@@ -63,8 +69,18 @@ export class ManageusersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.canAddUser = this.permissionService.hasPermission('User Management', 'canCreate');
+    this.canEditUser = this.permissionService.hasPermission('User Management', 'canEdit');
+    this.canDeleteUser = this.permissionService.hasPermission('User Management', 'canDelete');
     this.fetchUsers();
+    if (this.canEditUser || this.canDeleteUser) {
+    this.displayedColumns.push('actions');
   }
+  }
+  // getbutton(){
+  //    const perms = this.permissionService.getPermissions();
+  //   console.log('Loaded permissions:', perms);
+  // }
 
   fetchUsers(): void {
     this.userService.getAllUsers().subscribe({

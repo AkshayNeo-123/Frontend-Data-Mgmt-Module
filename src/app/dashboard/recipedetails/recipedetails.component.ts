@@ -14,7 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-recipedetails',
   standalone:true,
-  imports: [CommonModule,MatDialogActions,  MatButtonModule,],
+  imports: [CommonModule, MatDialogActions,  MatButtonModule,],
   templateUrl: './recipedetails.component.html',
   styleUrl: './recipedetails.component.css'
 })

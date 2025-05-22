@@ -32,7 +32,7 @@ body {
  
 /* Sidebar setup */
 .app-sidebar {
-  width: 200px;
+  width: 230px;
   background-color: #f8f9fa;
   border-right: 1px solid #dee2e6;
   overflow-y: auto; 

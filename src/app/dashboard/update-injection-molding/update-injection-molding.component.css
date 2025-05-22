@@ -1,15 +1,15 @@
 textarea[matInput] {
-    min-height: 120px; /* You can adjust this value */
+    min-height: 120px; 
   }
   .row {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px; /* Adds spacing between fields */
-    margin-bottom: 16px; /* Space between rows */
+    gap: 16px; 
+    margin-bottom: 16px; 
   }
   
   .half-width {
-    flex: 1 1 calc(50% - 8px); /* 50% minus half the gap */
+    flex: 1 1 calc(50% - 8px); 
   }
   
   .full-width {
@@ -20,20 +20,15 @@ textarea[matInput] {
     background: inherit !important;
   }
   
-  /* ::ng-deep .mat-select-panel .mat-option:not(.mat-option-multiple):not([value]) .mat-pseudo-checkbox {
-    display: none !important;
-  } */
   .global-hint {
     font-weight: bold;
     color: #ab2a2a;
     font-size: 13px;
     display: block;
-    /* margin-bottom: 12px; */
-    padding-left: 3%;
   }
   @media (max-width: 768px) {
     .half-width {
-      flex: 1 1 100%; /* Stack fields on smaller screens */
+      flex: 1 1 100%; 
     }
   }
   mat-dialog-content{

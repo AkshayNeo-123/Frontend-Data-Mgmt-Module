@@ -1,36 +1,52 @@
 <div class="for-margin px-3 py-3 ">
   <h2 mat-dialog-title>Injection Moulding</h2>
-  <mat-hint class="global-hint">All fields marked with an asterisk (*) are required</mat-hint>
+  <mat-hint class="global-hint mb-3">All fields marked with an asterisk (*) are required</mat-hint>
 
   <form [formGroup]="injectionForm" (ngSubmit)="onSubmit()" style="margin-bottom: 50px;">
 
-    <div class="row align-items-center" style="height: 56px;">
-      <!-- Project ID (Multi-select) -->
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Project ID</mat-label>
-        <mat-select formControlName="projectId" multiple>
-          <mat-option *ngFor="let project of projects" [value]="project.projectNumber">
-            {{ project.projectNumber }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Recipe Number</mat-label>
-        <input matInput formControlName="recipeId" />
-      </mat-form-field>
+      <div class="row align-items-center" style="height: 56px;">
+  <!-- Project ID -->
+  <div class="col-md-3">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Project ID</mat-label>
+      <mat-select formControlName="projectId" multiple>
+        <mat-option *ngFor="let project of projects" [value]="project.projectNumber">
+          {{ project.projectNumber }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
-    </div>
-    <hr class="me-2" />
+  <!-- Recipe Number -->
+  <div class="col-md-3">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Recipe Number</mat-label>
+      <input matInput formControlName="recipeId" />
+    </mat-form-field>
+  </div>
 
-
-    <div class="row align-items-center" style="height: 75px;">
-
+  
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Parameter Set</mat-label>
           <input matInput formControlName="parameterSet" />
         </mat-form-field>
       </div>
+
+ 
+</div>
+    <hr class="me-2" />
+
+
+    <div class="row align-items-center" style="height: 75px;">
+
+       <!-- Note -->
+  <div class="col-md-3">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Note</mat-label>
+      <input matInput formControlName="notes" maxlength="229" />
+    </mat-form-field>
+  </div>
 
       <div class="col-3" style="margin-bottom: 50px;">
         <mat-label class="me-2">Repetition</mat-label>

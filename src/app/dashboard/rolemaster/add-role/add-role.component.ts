@@ -126,6 +126,7 @@ export class AddRoleComponent {
     this.menuService.getMenu().subscribe({
       next: (menus) => {
         this.modulePermissions = menus;
+        console.log('menus: ',menus)
         this.modulePermissions.forEach(permission => {
           const group = this.fb.group({
             view: [false],
@@ -147,6 +148,9 @@ export class AddRoleComponent {
     });
   }
 
+
+  
+
   toggleAllPermissions(event: MatCheckboxChange): void {
   const isChecked = event.checked;
   this.selectAllChecked = isChecked;
@@ -161,6 +165,20 @@ export class AddRoleComponent {
       delete: isChecked
     });
   });
+}
+
+   toggleMenuPermissions(menuId: string, event: MatCheckboxChange): void {
+  const isChecked = event.checked;
+  const permissionsGroup = this.roleForm.get('permissions') as FormGroup;
+
+  const menuGroup = permissionsGroup.get(menuId) as FormGroup;
+
+  if (menuGroup) {
+    Object.keys(menuGroup.controls).forEach(permission => {
+      menuGroup.get(permission)?.setValue(isChecked);
+    });
+  }
+  this.onAnyPermissionChange();
 }
 
 onAnyPermissionChange(): void {
@@ -179,6 +197,10 @@ onAnyPermissionChange(): void {
   });
 
   this.selectAllChecked = allChecked;
+}
+
+clickViewChange(): void {
+  
 }
 
 onViewChange(menuId: string): void {
@@ -266,6 +288,8 @@ onViewChange(menuId: string): void {
           );
         }
       });
+      
+
   }
   onCancel() {
     this.dialogRef.close();
