@@ -17,6 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmDialogComponent } from '../../CommonTs/confirm-dialog.component';
 import { AddAdditiveComponent } from '../../additiveData/addadditives/addadditives.component';
 import { AddmainpolymerComponent } from '../addmainpolymer/addmainpolymer.component';
+import { PermissionServiceService } from '../../../services/permission-service.service';
 
 
 @Component({
@@ -36,7 +37,7 @@ import { AddmainpolymerComponent } from '../addmainpolymer/addmainpolymer.compon
 export class AllMainPolymersComponent implements OnInit {
 
   // mainPolymers: MainPolymer[] = [];
-  displayedColumns: string[] = ['polymerName','actions'];  
+  displayedColumns: string[] = ['polymerName'];  
   dataSource=new MatTableDataSource<MainPolymer>([]); 
 
   @ViewChild(MatSort) sort!: MatSort;
@@ -45,11 +46,23 @@ export class AllMainPolymersComponent implements OnInit {
   constructor(private mainPolymerService: MainpolymerserviceService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private permissionService: PermissionServiceService
   ) {}
+
+  canAddMainPolymer = false;
+  canEditMainPolymer = false;
+  canDeleteMainPolymer = false;
+
 
   ngOnInit(): void {
     this.getAllMainPolymers();
+      this.canAddMainPolymer = this.permissionService.hasPermission('Main Polymer', 'canCreate');
+    this.canEditMainPolymer = this.permissionService.hasPermission('Main Polymer', 'canEdit');
+    this.canDeleteMainPolymer = this.permissionService.hasPermission('Main Polymer', 'canDelete');
+    if (this.canEditMainPolymer || this.canDeleteMainPolymer) {
+    this.displayedColumns.push('actions');
+  }
   }
 
   getAllMainPolymers() {

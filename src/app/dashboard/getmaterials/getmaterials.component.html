@@ -17,7 +17,7 @@
 
     </div>
     <div>
-      <button mat-raised-button class="me-5 add-material-btn w-100" (click)="openAddMaterialDialog()">
+      <button *ngIf="canAddMaterial" mat-raised-button class="me-5 add-material-btn w-100" (click)="openAddMaterialDialog()">
         <i class="fas fa-plus me-2"></i>Add Material
       </button>
     </div>
@@ -109,8 +109,8 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef style="width: 150px;"> Actions </th>
         <td mat-cell *matCellDef="let element" style="width: 150px;">
-          <i class="fas fa-pencil-alt me-3 action-icon" (click)="openAddMaterialDialog(element)"></i>
-          <i class="fas fa-trash-alt action-icon" (click)="deleteMaterial(element.materialId)"></i>
+          <i *ngIf="canEditMaterial" class="fas fa-pencil-alt me-3 action-icon" (click)="openAddMaterialDialog(element)"></i>
+          <i *ngIf="canDeleteMaterial" class="fas fa-trash-alt action-icon" (click)="deleteMaterial(element.materialId)"></i>
         </td>
       </ng-container>
 
