@@ -256,4 +256,19 @@ this.recipeId = history.state.recipeId;
   }
 }
 
+allowOnlyNumber(event: KeyboardEvent): void {
+  const char = event.key;
+
+ 
+  if (!/^[0-9.]$/.test(char)) {
+    event.preventDefault();
+  }
+
+  
+  const input = event.target as HTMLInputElement;
+  if (char === '.' && input.value.includes('.')) {
+    event.preventDefault();
+  }
+}
+
 }

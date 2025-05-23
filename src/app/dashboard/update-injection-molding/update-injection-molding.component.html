@@ -2,9 +2,9 @@
   <h2 mat-dialog-title>Injection Moulding</h2>
   <mat-hint class="global-hint mb-3">All fields marked with an asterisk (*) are required</mat-hint>
 
-  <form [formGroup]="injectionForm" (ngSubmit)="onSubmit()" style="margin-bottom: 50px;">
+  <form [formGroup]="injectionForm" (ngSubmit)="onSubmit()">
 
-      <div class="row align-items-center" style="height: 56px;">
+   <div class="row align-items-center" style="height: 56px;">
   <!-- Project ID -->
   <div class="col-md-3">
     <mat-form-field appearance="outline" class="w-100">
@@ -33,21 +33,21 @@
         </mat-form-field>
       </div>
 
- 
 </div>
+
     <hr class="me-2" />
 
 
     <div class="row align-items-center" style="height: 75px;">
 
-       <!-- Note -->
+  <!-- Note -->
   <div class="col-md-3">
     <mat-form-field appearance="outline" class="w-100">
       <mat-label>Note</mat-label>
-      <input matInput formControlName="notes" maxlength="229" />
+      <input matInput formControlName="notes" maxlength="249" />
     </mat-form-field>
   </div>
-
+  
       <div class="col-3" style="margin-bottom: 50px;">
         <mat-label class="me-2">Repetition</mat-label>
         <button mat-icon-button color="primary" aria-label="Decrease" type="button" (click)="decreaseRepetition()">
@@ -77,7 +77,7 @@
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Additive</mat-label>
-          <input matInput formControlName="additive" maxlength="100" type="text" (keypress)="blockNumbers($event)" />
+          <input matInput formControlName="additive" maxlength="99" type="text" (keypress)="blockNumbers($event)" />
         </mat-form-field>
       </div>
     </div>
@@ -99,14 +99,14 @@
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Drying Temperature (°C)</mat-label>
-          <input type="number" step="0.1" matInput formControlName="dryingTemperature" min="-100" max="300" />
+          <input type="number" step="0.1" matInput formControlName="dryingTemperature" min="-100" max="300" (keypress)="allowOnlyNumber($event)" />
         </mat-form-field>
       </div>
 
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Drying Time (h)</mat-label>
-          <input type="number" step="0.1" min="0" matInput formControlName="dryingTime" min="0" max="24" />
+          <input type="number" step="0.1" min="0" matInput formControlName="dryingTime" min="0" min="24" (keypress)="allowOnlyNumber($event)" />
         </mat-form-field>
       </div>
 
@@ -116,15 +116,13 @@
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Residual Moisture %</mat-label>
-          <input type="number" step="0.1" min="0" max="100" matInput formControlName="residualMoisture" min="0"
-            max="100" />
+          <input type="number" step="0.1"  matInput formControlName="residualMoisture" min="0" max="100" (keypress)="allowOnlyNumber($event)"/>
         </mat-form-field>
       </div>
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Processing Moisture </mat-label>
-          <input type="number" step="0.1" min="0" max="100" matInput formControlName="processingMoisture" min="0"
-            max="100" />
+          <input type="number" step="0.1" min="0" max="100" matInput formControlName="processingMoisture" (keypress)="allowOnlyNumber($event)" />
         </mat-form-field>
       </div>
 
@@ -142,21 +140,21 @@
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Plasticizing Volume (cm3)</mat-label>
-          <input type="number" step="0.01" min="0" max="999.99" matInput formControlName="plasticizingVolume" />
+          <input type="number" step="0.01" min="0" max="999.99" matInput formControlName="plasticizingVolume" (keypress)="allowOnlyNumber($event)" />
         </mat-form-field>
       </div>
 
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Decompression Volume (cm3)</mat-label>
-          <input type="number" step="0.01" min="0" matInput formControlName="decompressionVolume" />
+          <input type="number" step="0.01" min="0" max="999.99"  matInput formControlName="decompressionVolume" (keypress)="allowOnlyNumber($event)"/>
         </mat-form-field>
       </div>
 
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Holding Pressure (bar)</mat-label>
-          <input type="number" matInput formControlName="holdingPressure" min="0" max="200" />
+          <input type="number" matInput formControlName="holdingPressure" min="0" max="200" (keypress)="allowOnlyNumber($event)"/>
         </mat-form-field>
       </div>
 
@@ -167,7 +165,7 @@
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Switching Point (cm3)</mat-label>
-          <input type="number" matInput formControlName="switchingPoint" min="0" max="500" step="0.01" />
+          <input type="number" matInput formControlName="switchingPoint" min="0" max="500" step="0.01" (keypress)="allowOnlyNumber($event)" />
         </mat-form-field>
       </div>
     </div>
@@ -179,19 +177,19 @@
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Screw Speed (m/s)</mat-label>
-          <input type="number" min="0" matInput formControlName="screwSpeed" />
+          <input type="number" min="0"  max="999.99"  matInput formControlName="screwSpeed" (keypress)="allowOnlyNumber($event)"/>
         </mat-form-field>
       </div>
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>(mm/s)</mat-label>
-          <input matInput type="number" formControlName="speedMms">
+          <input matInput type="number" formControlName="speedMms" (keypress)="allowOnlyNumber($event)">
         </mat-form-field>
       </div>
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Injection Speed (cm3/s)</mat-label>
-          <input type="number" matInput formControlName="injectionSpeed" step="0.01" min="0" max="500" />
+          <input type="number" matInput formControlName="injectionSpeed" step="0.01" min="0" max="500" (keypress)="allowOnlyNumber($event)"/>
         </mat-form-field>
       </div>
 
@@ -203,7 +201,7 @@
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Injection Pressure (bar)</mat-label>
-          <input type="number" matInput formControlName="injectionPressure" min="0" max="2500" />
+          <input type="number" matInput formControlName="injectionPressure" min="0" max="999" (keypress)="allowOnlyNumber($event)"/>
         </mat-form-field>
       </div>
     </div>
@@ -216,20 +214,20 @@
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Temperature Zone (°C)</mat-label>
-          <input type="number" step="0.1" matInput formControlName="temperatureZone" min="-100" max="300" />
+          <input type="number" step="0.1" matInput formControlName="temperatureZone" min="-100" max="300" (keypress)="allowOnlyNumber($event)"/>
         </mat-form-field>
       </div>
 
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Melt Temperature (°C)</mat-label>
-          <input type="number" step="0.1" matInput formControlName="meltTemperature" min="-100" max="300" />
+          <input type="number" step="0.1" matInput formControlName="meltTemperature" min="-100" max="300" (keypress)="allowOnlyNumber($event)"/>
         </mat-form-field>
       </div>
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Nozzle Temperature (°C)</mat-label>
-          <input type="number" step="0.1" matInput formControlName="nozzleTemperature" min="-100" max="300" />
+          <input type="number" step="0.1" matInput formControlName="nozzleTemperature" min="-100" max="300" (keypress)="allowOnlyNumber($event)"/>
         </mat-form-field>
       </div>
 
@@ -239,14 +237,14 @@
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Nozzle Temperature (°C)</mat-label>
-          <input type="number" step="0.1" matInput formControlName="nozzleTemperature" min="-100" max="300" />
+          <input type="number" step="0.1" matInput formControlName="nozzleTemperature" min="-100" max="300" (keypress)="allowOnlyNumber($event)"/>
         </mat-form-field>
       </div>
 
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Mould Temperature (°C)</mat-label>
-          <input type="number" step="0.1" matInput formControlName="mouldTemperature" min="-100" max="300" />
+          <input type="number" step="0.1" matInput formControlName="mouldTemperature" min="-100" max="300" (keypress)="allowOnlyNumber($event)"/>
         </mat-form-field>
       </div>
     </div>
@@ -258,4 +256,4 @@
       <button mat-raised-button type="button" style="margin-bottom: 25px;" (click)="onCancel()">Cancel</button>
     </div>
 </form>
-
+<!-- <button mat-raised-button color="primary" routerLink="/updaetInjection">Update</button> -->

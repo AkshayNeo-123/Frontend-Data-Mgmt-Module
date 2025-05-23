@@ -16,6 +16,7 @@ import { InjectionMoldingService } from '../../services/injection-molding.servic
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common'
 
+
 @Component({
   selector: 'app-add-injection-molding',
   imports: [ReactiveFormsModule,
@@ -188,13 +189,21 @@ loadMaster(){
   this.filteredProjects = [...this.projects];
 
   this.injectionservice.getparemeterSet().subscribe({
-    next: (data) => (data++,console.log('Received:', data),this.injectionForm.get('parameterSet')?.setValue(data)),
-    error: (err) => console.error('Error fetching project types:', err)
-  });
-  console.log(this.parameterSetpreviousdata);
+  next: (data) => {
+    if (data == null) {
+      data = 0;
+    }
 
-  this.parameterSetpreviousdata++;
-  console.log(this.parameterSetpreviousdata);
+    data++;
+
+    console.log('Received:', data);
+    this.injectionForm.get('parameterSet')?.setValue(data);
+  },
+  error: (err) => console.error('Error fetching project types:', err)
+});
+  // console.log(this.parameterSetpreviousdata);
+  // this.parameterSetpreviousdata++;
+  // console.log(this.parameterSetpreviousdata);
   
   
 }
@@ -213,6 +222,21 @@ blockNumbers(event: KeyboardEvent) {
   const charCode = event.key;
   if (/\d/.test(charCode)) {
     event.preventDefault(); 
+  }
+}
+
+allowOnlyNumber(event: KeyboardEvent): void {
+  const char = event.key;
+
+ 
+  if (!/^[0-9.]$/.test(char)) {
+    event.preventDefault();
+  }
+
+  
+  const input = event.target as HTMLInputElement;
+  if (char === '.' && input.value.includes('.')) {
+    event.preventDefault();
   }
 }
 

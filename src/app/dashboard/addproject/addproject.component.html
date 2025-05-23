@@ -11,10 +11,11 @@
 
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Project Name</mat-label>
-        <input matInput formControlName="projectName" placeholder="Enter Project Name" />
+        <input matInput formControlName="projectName" maxlength="99" placeholder="Enter Project Name" />
         <mat-error *ngIf="projectForm.get('projectName')?.hasError('required')">
           Project name is required
         </mat-error>
+        
       </mat-form-field>
 
     <!-- <mat-form-field appearance="outline" class="half-width">
