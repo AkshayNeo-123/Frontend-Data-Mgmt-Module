@@ -7,10 +7,7 @@
   position: fixed;
   top: 55px;
   overflow-y: auto !important;
-
-
-  z-index: 1;
-  /* -ms-overflow-style: none; */
+  z-index: 999;
   scrollbar-width: none;
   bottom: 0;
   -ms-overflow-style: none;
@@ -33,6 +30,8 @@ sidebar::-webkit-scrollbar {
 .hover-effect:hover {
   background-color: rgb(95, 92, 92) !important;
   cursor: pointer;
+  color: #fff;
+  border-radius: 10px;
 }
 
 i {
@@ -41,9 +40,9 @@ i {
 }
 
 .sidebar.sidebar-expanded {
-    max-height: 100%;
-    /* height: 608px; */
-    width: 230px;
+  max-height: 100%;
+  /* height: 608px; */
+  width: 230px;
 }
 
 .active-link {
@@ -52,8 +51,9 @@ i {
   border-radius: 10px;
 }
 
-.active-link:hover{
+.active-link:hover {
   color: #fff !important;
+  border-radius: 10px !important;
 }
 
 .nav-item {
@@ -63,7 +63,7 @@ i {
 
 .active-link i,
 .active-link span {
-  color: white !important; 
+  color: white !important;
 }
 
 .nav-link {
@@ -76,6 +76,18 @@ i {
 }
 
 .nav-link:hover {
-  background-color: rgb(95, 92, 92);
+  /* background-color: rgb(95, 92, 92); */
   color: #fff !important;
+}
+
+.active-link {
+  background-color: rgb(95, 92, 92);
+  color: white !important;
+  border-radius: 10px;
+}
+
+.active-link:hover{
+   color: #fff !important;
+  border-radius: 10px !important;
+
 }

@@ -11,7 +11,9 @@
 
     </div>
     <div>
-      <button style=" font-size: 16px;
+      <button
+      *ngIf="canAddMainPolymer" 
+      style=" font-size: 16px;
     padding: 8px 16px;
     border-radius: 4px;
     margin-bottom: 40px;
@@ -41,9 +43,9 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let element">
-            <i class="fas fa-pencil-alt me-3 action-icon text-primary" matTooltip="Edit"
+            <i *ngIf="canEditMainPolymer" class="fas fa-pencil-alt me-3 action-icon text-primary" matTooltip="Edit"
               (click)="editMainPolymerData(element)"></i>
-            <i class="fas fa-trash-alt action-icon text-danger" matTooltip="Delete"
+            <i *ngIf="canDeleteMainPolymer" class="fas fa-trash-alt action-icon text-danger" matTooltip="Delete"
               (click)="deleteAdditivesData(element.id)"></i>
           </td>
         </ng-container>

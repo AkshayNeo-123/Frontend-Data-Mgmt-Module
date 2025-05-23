@@ -1,3 +1,12 @@
+h4 {
+    font-weight: 600;
+  }
+    
+  mat-form-field {
+    width: 25%;
+    margin-bottom: 17px;
+  }
+  
 
   button.me-5.add-material-btn.w-100.mdc-button.mdc-button--raised.mat-mdc-raised-button.mat-unthemed.mat-mdc-button-base {
     background: #4caf50 !important;

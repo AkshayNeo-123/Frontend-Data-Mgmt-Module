@@ -15,6 +15,7 @@ import { AddcontactsComponent } from '../contactsData/addcontacts/addcontacts.co
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
+import { PermissionServiceService } from '../../services/permission-service.service';
 
 @Component({
   selector: 'app-contacts',
@@ -35,9 +36,12 @@ import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
   styleUrls: ['./contacts.component.css']
 })
 export class ContactsComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['contactName', 'contactType', 'actions'];
+  displayedColumns: string[] = ['contactName', 'contactType'];
   dataSource = new MatTableDataSource<Contact>([]);
   allTypes = ContactTyps;
+  canAddContact = false;
+  canEditContact = false;
+  canDeleteContact = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -46,11 +50,19 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     private contactService: ContactsService,
     private dialog: MatDialog,
     private router: Router,
-    private toastr:ToastrService
+    private toastr:ToastrService,
+    private permissionService: PermissionServiceService
   ) {}
 
   ngOnInit(): void {
     this.fetchContacts();
+
+    this.canAddContact = this.permissionService.hasPermission('Contacts', 'canCreate');
+    this.canEditContact = this.permissionService.hasPermission('Contacts', 'canEdit');
+    this.canDeleteContact = this.permissionService.hasPermission('Contacts', 'canDelete');
+    if (this.canEditContact || this.canDeleteContact) {
+    this.displayedColumns.push('actions');
+  }
   }
 
   ngAfterViewInit(): void {
