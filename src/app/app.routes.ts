@@ -31,11 +31,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
-  { path: 'dashboard', component: DashboardComponent , canActivate: [authGuard,permissionGuard],
-    data: {
-      resource: 'Dashboard',
-      action: 'canView'
-    }
+  { path: 'dashboard', component: DashboardComponent , canActivate: [authGuard]
   },
   { path: 'recipe',
      component: RecipyComponent,
