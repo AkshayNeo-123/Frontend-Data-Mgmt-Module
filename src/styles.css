@@ -435,3 +435,19 @@ li.d-flex.align-items-center.hover-effect.p-2 {
 .mat-mdc-row {
   height: var(--mat-table-row-item-container-height, 40px) !important;
 }
+
+button.mdc-button.mdc-button--raised.mat-mdc-raised-button.mat-primary.mat-mdc-button-base {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  box-shadow: none;
+  color: black;
+  background-color: rgb(193, 193, 252);
+}
+
+button.mdc-button.mdc-button--raised.mat-mdc-raised-button.mat-unthemed.mat-mdc-button-base {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  box-shadow: none;
+  color: black;
+  background-color: rgb(193, 193, 252);
+}
