@@ -23,29 +23,86 @@ import { AddRecipyComponent } from './dashboard/recipy/add-recipy/add-recipy.com
 import { authGuard } from './auth.guard';
 import { GetCompInjectComponent } from './dashboard/get-comp-inject/get-comp-inject.component';
 import { RecipedetailsComponent } from './dashboard/recipedetails/recipedetails.component';
+import { PermissionServiceService } from './services/permission-service.service';
+import { permissionGuard } from './permission.guard';
+
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
-  { path: 'dashboard', component: DashboardComponent , canActivate: [authGuard]},
-  { path: 'recipe', component: RecipyComponent },
-  { path: 'getmaterials', component: GetmaterialsComponent },
-  { path: 'getproject', component: ProjectComponent },
+  { path: 'dashboard', component: DashboardComponent , canActivate: [authGuard,permissionGuard],
+    data: {
+      resource: 'Dashboard',
+      action: 'canView'
+    }
+  },
+  { path: 'recipe',
+     component: RecipyComponent,
+     canActivate: [permissionGuard],
+    data: {
+      resource: 'Recipe',
+      action: 'canView'
+    }
+     },
+  { path: 'getmaterials', component: GetmaterialsComponent ,
+    canActivate: [permissionGuard],
+    data: {
+      resource: 'Materials',
+      action: 'canView'
+    }
+  },
+  { path: 'getproject', component: ProjectComponent ,
+    canActivate: [permissionGuard],
+    data: {
+      resource: 'Project',
+      action: 'canView'
+    }
+  },
   { path: 'injectionMolding', component: AddInjectionMoldingComponent },
   { path: 'mastertable', component: MastertableComponent },
-  { path: 'contacts', component: ContactsComponent },
-  { path: 'get-all-additives', component: GetAllAdditivesComponent },
-  { path: 'all-main-polymers', component: AllMainPolymersComponent },
+  { path: 'contacts', component: ContactsComponent ,
+    canActivate: [permissionGuard],
+    data: {
+      resource: 'Contacts',
+      action: 'canView'
+    }
+  },
+  { path: 'get-all-additives', component: GetAllAdditivesComponent,canActivate: [permissionGuard],
+    data: {
+      resource: 'Additive',
+      action: 'canView'
+    } },
+  { path: 'all-main-polymers', component: AllMainPolymersComponent,
+    canActivate: [permissionGuard],
+    data: {
+      resource: 'Main Polymer',
+      action: 'canView'
+    }
+
+   },
   { path: 'compounding', component: AddCompoundingComponent },
   { path: 'updateinjectionMolding', component: UpdateInjectionMoldingComponent },
   { path: 'updatecompounding', component: UpdateCompoundingComponent },
-  {path: 'rolemaster' , component:RolemasterComponent},
+  {path: 'rolemaster' , component:RolemasterComponent,
+
+    canActivate: [permissionGuard],
+    data: {
+      resource: 'Role Management',
+      action: 'canView'
+    }
+  },
   {path:'addRecipe', component:AddRecipyComponent},
-  { path: 'GetAllProject', component: ProjectComponent },
+  // { path: 'GetAllProject', component: ProjectComponent },
   { path: 'updaetInjection', component: UpdateInjectionMoldingComponent },
   { path: 'get-additivebyid/:id', component: GetAdditivebyidComponent },
-  { path: 'manageusers', component: ManageusersComponent },
+  { path: 'manageusers', component: ManageusersComponent ,
+    canActivate: [permissionGuard],
+    data: {
+      resource: 'User Management',
+      action: 'canView'
+    }
+  },
   { path: 'comp-inject', component:GetCompInjectComponent},
    { path: 'recipedetails', component: RecipedetailsComponent },
 
@@ -53,3 +110,4 @@ export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }
 ];
+
