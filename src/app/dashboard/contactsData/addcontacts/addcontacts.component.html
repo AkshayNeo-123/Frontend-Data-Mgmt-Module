@@ -22,7 +22,7 @@
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Contact Name</mat-label>
-        <input matInput formControlName="contactName" placeholder="Enter contact name" (keypress)="allowOnlyLetters($event)" maxlength="100"/>
+        <input matInput formControlName="contactName" placeholder="Enter contact name" (keypress)="allowOnlyLetters($event)" maxlength="99"/>
       </mat-form-field>
     </div>
 
@@ -68,7 +68,7 @@
   <div *ngIf="isOtherCitySelected">
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>City Name</mat-label>
-      <input matInput formControlName="newCityName" placeholder="Enter new city name" (keypress)="allowOnlyLetters($event)" maxlength="100"/>
+      <input matInput formControlName="newCityName" placeholder="Enter new city name" (keypress)="allowOnlyLetters($event)" maxlength="99"/>
       <mat-error *ngIf="contactForm.get('newCityName')?.hasError('required')">
        
       </mat-error>
@@ -92,7 +92,7 @@
       </mat-form-field>
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Email</mat-label>
-        <input matInput type="email" formControlName="email" placeholder="Enter email" />
+        <input matInput type="email" formControlName="email" placeholder="Enter email" maxlength="99"/>
         <mat-error *ngIf="contactForm.get('email')?.hasError('email') && !contactForm.get('email')?.hasError('required')">
     Please enter a valid email.
   </mat-error>
