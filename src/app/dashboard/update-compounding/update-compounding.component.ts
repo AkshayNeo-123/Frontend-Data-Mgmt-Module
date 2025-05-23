@@ -15,6 +15,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { Location } from '@angular/common'
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @Component({
@@ -30,7 +31,7 @@ import { Location } from '@angular/common'
     MatRadioModule,
     MatDatepickerModule,
     MatNativeDateModule,
-
+MatTooltipModule
   ],
   templateUrl: './update-compounding.component.html',
   styleUrl: './update-compounding.component.css'
@@ -49,7 +50,7 @@ export class UpdateCompoundingComponent implements OnInit {
     return (this.compoundForm.get('components') as FormArray).controls;
   }
 
-  screwConfigUrl: string = ''; // This will store the full URL for the iframe
+  screwConfigUrl: string = ''; 
 
   ngOnInit(): void {
     this.compoundingId = history.state.compoundingId;

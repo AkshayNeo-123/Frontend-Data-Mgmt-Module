@@ -19,6 +19,7 @@ import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { PermissionServiceService } from '../../services/permission-service.service';
+import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-get-all-additives',
@@ -30,7 +31,7 @@ import { PermissionServiceService } from '../../services/permission-service.serv
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,MatTooltipModule
   ],
   templateUrl: './get-all-additives.component.html',
   styleUrls: ['./get-all-additives.component.css']})

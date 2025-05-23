@@ -112,19 +112,18 @@ export class SidebarComponent {
 
         this.permissionService.setPermissions(permissions);
 
-        // Filter to get the allowed menu IDs
+       
         const allowedMenuIds = permissions
           .filter((p: any) => p.canView)
           .map((p: any) => p.menuId);
         console.log('Allowed Menu IDs:', allowedMenuIds);
 
-        // Get all menus for the sidebar
+      
         this.menuService.getMenuForSideBar().subscribe({
           next: (menus) => {
             this.allMenus = menus;
             console.log('All Menus:', this.allMenus);
 
-            // Filter the allowed menus based on the permissions
             this.allowedMenus = this.filterAllowedMenus(
               this.allMenus,
               allowedMenuIds
@@ -154,7 +153,7 @@ export class SidebarComponent {
         // Check if the current menu can be viewed based on the permissions
         const canView = allowedMenuIds.includes(menu.id);
 
-        // Recursively filter children if they exist
+       
         if (menu.children && menu.children.length > 0) {
           menu.children = this.filterAllowedMenus(
             menu.children,
@@ -162,11 +161,9 @@ export class SidebarComponent {
           );
         }
 
-        // Return the menu if it can be viewed or it has viewable children
         return canView || (menu.children && menu.children.length > 0);
       })
       .map((menu) => {
-        // Return the menu with children (if any)
         return {
           ...menu,
           children: menu.children || [],
