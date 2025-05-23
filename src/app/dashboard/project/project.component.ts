@@ -18,6 +18,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { Location } from '@angular/common';
 import * as XLSX from 'xlsx';
+import { PermissionServiceService } from '../../services/permission-service.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-project',
@@ -31,23 +33,39 @@ import * as XLSX from 'xlsx';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    RouterModule
+    RouterModule,
+    MatTooltipModule
   ]
 })
 export class ProjectComponent implements OnInit {
   // area: string;
 
   // displayedColumns: string[] = ['area','projectName','projectNumber', 'projectType','Priority', 'status',  'startDate', 'endDate','actions'];
-  displayedColumns: string[] = ['projectNumber','projectName','status', 'actions'];
+  displayedColumns: string[] = ['projectNumber','projectName','status'];
+  canAddProject = false;
+  canEditProject = false;
+  canDeleteProject = false;
   dataSource = new MatTableDataSource<Project>([]); // Using your Project model
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private projectService: ProjectService,private dialog: MatDialog,private toastr: ToastrService,private location: Location) {}
+  constructor(
+    private projectService: ProjectService,
+    private dialog: MatDialog,
+    private toastr: ToastrService,
+    private location: Location,
+    private permissionService: PermissionServiceService
+  ) {}
 
 
   ngOnInit() {
+    this.canAddProject = this.permissionService.hasPermission('Project', 'canCreate');
+    this.canEditProject = this.permissionService.hasPermission('Project', 'canEdit');
+    this.canDeleteProject = this.permissionService.hasPermission('Project', 'canDelete');
+    if (this.canEditProject || this.canDeleteProject) {
+    this.displayedColumns.push('actions');
+  }
     this.loadProjects();
     this.projectService.refreshProjects$.subscribe(() => {
       this.loadProjects();

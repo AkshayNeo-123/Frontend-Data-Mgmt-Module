@@ -16,6 +16,7 @@ import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
 import * as XLSX from 'xlsx';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { PermissionServiceService } from '../../services/permission-service.service';
 
 
 @Component({
@@ -36,12 +37,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class GetmaterialsComponent implements AfterViewInit, OnInit {
   downloadBaseUrl: string = 'https://localhost:7030/api/File/FileDownload?url=';
-
-
   displayedColumns: string[] = [
   'materialName', 'AdditiveId', 'MainPolymerId','manufacturerId', 'quantity',  'storageLocationId',
-   'density','mvrMfrId',"testMethod",'tdsFilePath','msdsFilePath',"actions"
+   'density','mvrMfrId',"testMethod",'tdsFilePath','msdsFilePath'
   ];
+  canAddMaterial = false;
+  canEditMaterial = false;
+  canDeleteMaterial = false;
   dataSource = new MatTableDataSource<Material>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -52,12 +54,18 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
     private materialService: MaterialService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private permissionService: PermissionServiceService
   ) { }
 
   ngOnInit(): void {
+    this.canAddMaterial = this.permissionService.hasPermission('Materials', 'canCreate');
+    this.canEditMaterial = this.permissionService.hasPermission('Materials', 'canEdit');
+    this.canDeleteMaterial = this.permissionService.hasPermission('Materials', 'canDelete');
+    if (this.canEditMaterial || this.canDeleteMaterial) {
+    this.displayedColumns.push('actions');
+  }
     this.loadMaterials();
-  
   }
 
   ngAfterViewInit() {

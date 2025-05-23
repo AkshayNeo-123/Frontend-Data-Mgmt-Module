@@ -1,122 +1,66 @@
-<!-- <div [ngClass]="{ 'sidebar-collapsed': !isOpen, 'sidebar-expanded': isOpen }" class="sidebar">
+<!-- <div [ngClass]="{ 'sidebar-collapsed': !isOpen, 'sidebar-expanded': isOpen }" class="sidebar vh-100">
   <ul class="list-unstyled m-0 p-4">
-    <li class="nav-item">
-      <a [routerLink]="['/dashboard']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
-        class="nav-link  w-100">
-        <i class="fas fa-tachometer-alt me-3"></i>
-        <span *ngIf="isOpen">Dashboard</span>
-      </a>
-    </li>
-
+    <li *ngFor="let menu of allowedMenus" class="fw-bold mb-2">
     
+      <div
+        class="d-flex align-items-center justify-content-between hover-effect p-2"
+        [ngClass]="{ 'active-link': isActive(menu) }"
+        (click)="menu.children?.length ? toggleExpand(menu.id) : navigation(menu.route)"
+      >
+        <div class="d-flex align-items-center">
+          <i class="fas fa-cubes me-3"></i>
+          <span *ngIf="isOpen">{{ menu.menuName }}</span>
+        </div>
+        <div *ngIf="menu.children?.length && isOpen">
+          <i
+            class="fas"
+            [ngClass]="{
+              'fa-chevron-down': expandedMenus.has(menu.id),
+              'fa-chevron-right': !expandedMenus.has(menu.id)
+            }"
+          ></i>
+        </div>
+      </div>
 
-    <li class="nav-item" [class.active-link]="activeMenu === 'recipe'">
-      <a [routerLink]="['/recipe']" class="nav-link w-100">
-        <i class="fas fa-utensils me-3"></i>
-        <span *ngIf="isOpen">Recipe</span>
-      </a>
-    </li>
-
-
-
-    <li class="nav-item">
-      <a [routerLink]="['/rolemaster']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
-        class="nav-link  w-100">
-        <i class="fas fa-users-cog me-3"></i>
-        <span *ngIf="isOpen">Role Master</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a [routerLink]="['/manageusers']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
-        class="nav-link  w-100">
-        <i class="fas fa-user-cog me-3"></i>
-        <span *ngIf="isOpen">Manage User</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a [routerLink]="['/getmaterials']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
-        class="nav-link  w-100">
-        <i class="fas fa-box-open me-3"></i>
-        <span *ngIf="isOpen">Materials</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a [routerLink]="['/getproject']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
-        class="nav-link  w-100">
-        <i class="fas fa-project-diagram me-3"></i>
-        <span *ngIf="isOpen">Projects</span>
-      </a>
-    </li>
-
-    
-
-    <li class="nav-item">
-      <a [routerLink]="['/contacts']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
-        class="nav-link  w-100">
-        <i class="fas fa-address-book me-3"></i>
-        <span *ngIf="isOpen">Contacts</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a [routerLink]="['/get-all-additives']" routerLinkActive="active-link"
-        [routerLinkActiveOptions]="{ exact: true }" class="nav-link  w-100">
-        <i class="fas fa-flask me-3"></i>
-        <span *ngIf="isOpen">Additives</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a [routerLink]="['/all-main-polymers']" routerLinkActive="active-link"
-        [routerLinkActiveOptions]="{ exact: true }" class="nav-link  w-100">
-        <i class="fas fa-cubes me-3"></i>
-        <span *ngIf="isOpen">Main Polymer</span>
-      </a>
-    </li>
-
-   
-  </ul>
-</div> -->
-
-<div [ngClass]="{ 'sidebar-collapsed': !isOpen, 'sidebar-expanded': isOpen }" class="sidebar">
-  <ul class="list-unstyled m-0 p-4" >
-    
-
-       
-      <li class="nav-item" *ngFor="let menu of allowedMenus">
-      <a [routerLink]="[menu.route]" routerLinkActive="active-link"
-        [routerLinkActiveOptions]="{ exact: true }" class="nav-link  w-100">
-        <i class="fas fa-cubes me-3"></i>
-        
-        <span *ngIf="isOpen">{{menu.menuName}}</span>
-      </a>
-    </li>
       
+      <ul *ngIf="menu.children?.length && expandedMenus.has(menu.id)" class="list-unstyled ps-4">
+        <li
+          *ngFor="let child of menu.children"
+          class="d-flex align-items-center hover-effect p-2"
+          [ngClass]="{ 'active-link': isActive(child) }"
+          (click)="navigation(child.route)"
+        >
+          <i class="fas fa-circle-notch me-3 small-icon"></i>
+          <span *ngIf="isOpen">{{ child.menuName }}</span>
+        </li>
+      </ul>
+    </li>
   </ul>
 </div> -->
 
 <div [ngClass]="{ 'sidebar-collapsed': !isOpen, 'sidebar-expanded': isOpen }" class="sidebar vh-100">
   <ul class="list-unstyled m-0 p-4">
     <li *ngFor="let menu of allowedMenus" class="fw-bold mb-2">
+      <!-- PARENT MENU ITEM -->
       <div class="d-flex align-items-center justify-content-between hover-effect p-2"
+        [ngClass]="{ 'active-link': isActive(menu) || (activeMenu === menu.menuName) }"
         (click)="menu.children?.length ? toggleExpand(menu.id) : navigation(menu.route)">
         <div class="d-flex align-items-center">
           <i class="fas fa-cubes me-3"></i>
           <span *ngIf="isOpen">{{ menu.menuName }}</span>
         </div>
         <div *ngIf="menu.children?.length && isOpen">
-          <i class="fas"
-            [ngClass]="{ 'fa-chevron-down': expandedMenus.has(menu.id), 'fa-chevron-right': !expandedMenus.has(menu.id) }"></i>
+          <i class="fas" [ngClass]="{
+              'fa-chevron-down': expandedMenus.has(menu.id),
+              'fa-chevron-right': !expandedMenus.has(menu.id)
+            }"></i>
         </div>
       </div>
 
-      <!-- Child Menus -->
+      <!-- CHILD MENUS -->
       <ul *ngIf="menu.children?.length && expandedMenus.has(menu.id)" class="list-unstyled ps-4">
         <li *ngFor="let child of menu.children" class="d-flex align-items-center hover-effect p-2"
-          (click)="navigation(child.route)">
+          [ngClass]="{ 'active-link': isActive(child) }" (click)="navigation(child.route)">
           <i class="fas fa-circle-notch me-3 small-icon"></i>
           <span *ngIf="isOpen">{{ child.menuName }}</span>
         </li>

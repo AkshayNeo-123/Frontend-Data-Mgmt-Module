@@ -18,6 +18,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
+import { PermissionServiceService } from '../../services/permission-service.service';
 
 @Component({
   selector: 'app-get-all-additives',
@@ -35,8 +36,7 @@ import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
   styleUrls: ['./get-all-additives.component.css']})
 export class GetAllAdditivesComponent implements OnInit,AfterViewInit  {
   displayedColumns: string[] = [
-    'additiveName',
-    'actions'
+    'additiveName'
   ];
   dataSource = new MatTableDataSource<Additives>([]);
 
@@ -47,12 +47,21 @@ export class GetAllAdditivesComponent implements OnInit,AfterViewInit  {
     private getAllAdditivesService: AdditiveservicesService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private permissionService: PermissionServiceService
     // private router: Router
   ) {}
-
+  canAddAdditive = false;
+  canEditAdditive = false;
+  canDeleteAdditive = false;
   ngOnInit(): void {
     this.getAllAdditivesData();
+      this.canAddAdditive = this.permissionService.hasPermission('Additive', 'canCreate');
+    this.canEditAdditive = this.permissionService.hasPermission('Additive', 'canEdit');
+    this.canDeleteAdditive = this.permissionService.hasPermission('Additive', 'canDelete');
+    if (this.canEditAdditive || this.canDeleteAdditive) {
+    this.displayedColumns.push('actions');
+  }
   
   }
 

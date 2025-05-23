@@ -8,7 +8,7 @@
       </mat-form-field>
     </div>
     <div>
-      <button mat-raised-button class="me-5 add-material-btn w-100" style="background-color: #4caf50 !important;"
+      <button *ngIf="canAddRecipe" mat-raised-button class="me-5 add-material-btn w-100" style="background-color: #4caf50 !important;"
         (click)="openAddDialog()">
         <i class="fas fa-plus me-2"></i> Add New Recipe
       </button>

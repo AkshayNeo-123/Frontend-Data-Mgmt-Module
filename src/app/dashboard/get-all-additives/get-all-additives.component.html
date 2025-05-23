@@ -11,6 +11,7 @@
 </div>
 <div>
     <button
+    *ngIf="canAddAdditive"
       class="add-additive-btn me-5 w-100"
       (click)="openAddAdditiveDialog()">
       <i class="fas fa-plus me-2"></i> Add Additive
@@ -35,8 +36,8 @@
              >Actions</th>
           <td mat-cell *matCellDef="let element" 
              >
-            <i class="fas fa-pencil-alt me-3 action-icon text-primary" (click)="editAdditiveData(element)"></i>
-            <i class="fas fa-trash-alt action-icon text-danger" (click)="deleteAdditivesData(element.id)"></i>
+            <i *ngIf="canEditAdditive" class="fas fa-pencil-alt me-3 action-icon text-primary" (click)="editAdditiveData(element)"></i>
+            <i *ngIf="canDeleteAdditive" class="fas fa-trash-alt action-icon text-danger" (click)="deleteAdditivesData(element.id)"></i>
           </td>
         </ng-container>
 

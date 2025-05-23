@@ -17,7 +17,7 @@
 
     </div>
     <div>
-      <button mat-raised-button class="me-5 add-material-btn w-100" (click)="openAddMaterialDialog()">
+      <button *ngIf="canAddMaterial" mat-raised-button class="me-5 add-material-btn w-100" (click)="openAddMaterialDialog()">
         <i class="fas fa-plus me-2"></i>Add Material
       </button>
     </div>
