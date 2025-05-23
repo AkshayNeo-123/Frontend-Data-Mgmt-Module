@@ -330,7 +330,7 @@ margin-top: 60px;
     font-size: 16px;
   padding: 8px 16px;
   border-radius: 6px;
-  margin-bottom: 45px;
+  margin-bottom: 25px !important;
    margin-left: 10px;
   background-color: transparent; 
   color:#000;
@@ -346,7 +346,7 @@ margin-top: 60px;
   font-size: 16px;
   padding: 8px 16px;
   border-radius: 6px;
-  margin-bottom: 45px;
+  margin-bottom: 25px !important;
 
   /* background-color: #4caf50;  */
   color: #000;

@@ -41,7 +41,7 @@
 <div [ngClass]="{ 'sidebar-collapsed': !isOpen, 'sidebar-expanded': isOpen }" class="sidebar vh-100">
   <ul class="list-unstyled m-0 p-4">
     <li *ngFor="let menu of allowedMenus" class="fw-bold mb-2">
-      <!-- PARENT MENU ITEM -->
+     
       <div class="d-flex align-items-center justify-content-between hover-effect p-2"
         [ngClass]="{ 'active-link': isActive(menu) || (activeMenu === menu.menuName) }"
         (click)="menu.children?.length ? toggleExpand(menu.id) : navigation(menu.route)">
@@ -57,7 +57,7 @@
         </div>
       </div>
 
-      <!-- CHILD MENUS -->
+  
       <ul *ngIf="menu.children?.length && expandedMenus.has(menu.id)" class="list-unstyled ps-4">
         <li *ngFor="let child of menu.children" class="d-flex align-items-center hover-effect p-2"
           [ngClass]="{ 'active-link': isActive(child) }" (click)="navigation(child.route)">
