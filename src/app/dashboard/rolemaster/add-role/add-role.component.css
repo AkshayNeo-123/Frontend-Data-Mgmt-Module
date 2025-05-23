@@ -20,8 +20,31 @@
 }
 
 .menuNameList{
-  background-color: rgb(167, 164, 164);
+  /* background-color: rgb(167, 164, 164); */
   border: 5px solid white;
-  padding: 5px;
+  width: 25%;
+  /* padding: 5px; */
+  /* text-align: center; */
+}
+
+table thead tr {
+  border-bottom: 2px solid #ccc; /* or any color you prefer */
+}
+
+
+table{
+  /* border: 2px solid black; */
+}
+
+table th, table td {
+  padding: 8px;
+  vertical-align: middle;
+}
+
+.verticalLine {
+  text-align: center;
+}
+
+th{
   text-align: center;
 }

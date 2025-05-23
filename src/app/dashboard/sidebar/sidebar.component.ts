@@ -116,7 +116,7 @@ export class SidebarComponent {
         const allowedMenuIds = permissions
           .filter((p: any) => p.canView)
           .map((p: any) => p.menuId);
-        console.log('Allowed Menu IDs:', allowedMenuIds);
+        // console.log('Allowed Menu IDs:', allowedMenuIds);
 
       
         this.menuService.getMenuForSideBar().subscribe({
