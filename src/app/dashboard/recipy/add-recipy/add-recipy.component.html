@@ -58,7 +58,7 @@
     <div formArrayName="components" class="mt-4">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <label class="fw-bold fs-5">Components</label>
-        <button type="button" class="btn btn-outline-primary btn-sm" (click)="addComponent()">
+        <button type="button" class="btn btn-component btn-sm" (click)="addComponent()">
           Add Component
         </button>
       </div>
@@ -121,7 +121,7 @@
               </td>
               <!-- Delete button -->
               <td>
-                <button type="button" class="btn btn-outline-danger"matTooltip="Delete" (click)="deleteComponent(i)">
+                <button type="button" class="btn btn" matTooltip="Delete" (click)="deleteComponent(i)">
                   <i class="fas fa-trash-alt action-icon"></i>
                 </button>
               </td>

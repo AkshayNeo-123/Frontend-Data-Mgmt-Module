@@ -408,3 +408,30 @@ ul.list-unstyled.ps-4 {
   /* background-color: #388e3c;  */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
+
+/* table UI changes */
+
+
+
+tr.mat-mdc-header-row.mdc-data-table__header-row.cdk-header-row {
+  vertical-align: middle !important;
+}
+
+.mat-mdc-header-cell {
+  text-align: center !important;
+}
+
+li.d-flex.align-items-center.hover-effect.p-2 {
+  margin-bottom: 6px;
+}
+
+.mat-mdc-header-row {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  height: var(--mat-table-header-container-height, 40px) !important;
+
+}
+
+.mat-mdc-row {
+  height: var(--mat-table-row-item-container-height, 40px) !important;
+}
