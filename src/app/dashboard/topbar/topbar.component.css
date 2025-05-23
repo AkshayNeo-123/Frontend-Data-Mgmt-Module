@@ -3,7 +3,7 @@
   width: 100%;
   position: fixed;
   background-color: rgb(95, 92, 92);
-   /* background: linear-gradient(135deg, #7addf6 0%, #8e9de2 100%); */
+  /* background: linear-gradient(135deg, #7addf6 0%, #8e9de2 100%); */
 }
 
 button.topbar.btn.btn-outline-light {
@@ -42,4 +42,30 @@ button.topbar.btn.btn-outline-light {
 
 .dropdown-item-text {
   font-size: 14px;
+}
+
+.btn-logout {
+  position: relative;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+}
+
+.logout-text {
+  position: absolute;
+  white-space: nowrap;
+  top: 60%;
+  transform: translateY(-50%);
+  background-color: red;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  font-size: 0.85rem;
+}
+
+.btn-logout:hover .logout-text {
+  opacity: 1;
 }
