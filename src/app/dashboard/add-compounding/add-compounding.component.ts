@@ -386,6 +386,23 @@ export class AddCompoundingComponent implements OnInit {
     this.location.back();
   }
 
+blockInvalidInput(event: KeyboardEvent) {
+  const input = event.target as HTMLInputElement;
+  const key = event.key;
+  const value = input.value;
+  const cursorPos = input.selectionStart ?? 0;
+  if (/^\d$/.test(key) || ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(key)) {
+    return;
+  }
+  if (key === '-') {
+    const alreadyHasMinus = value.includes('-');
+    const typingAtStart = cursorPos === 0;
 
+    if (!alreadyHasMinus && typingAtStart) {
+      return;
+    }
+  }
+  event.preventDefault();
+}
 
 }
