@@ -50,7 +50,7 @@ export class UpdateCompoundingComponent implements OnInit {
     return (this.compoundForm.get('components') as FormArray).controls;
   }
 
-  screwConfigUrl: string = ''; // This will store the full URL for the iframe
+  screwConfigUrl: string = ''; 
 
   ngOnInit(): void {
     this.compoundingId = history.state.compoundingId;
