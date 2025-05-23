@@ -25,3 +25,7 @@
 th {
   font-weight: normal !important;
 }
+
+button:hover {
+  background-color: transparent;
+}

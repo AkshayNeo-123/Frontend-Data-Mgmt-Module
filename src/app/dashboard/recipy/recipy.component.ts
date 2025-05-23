@@ -16,6 +16,7 @@ import * as FileSaver from 'file-saver';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+ import { MatTooltipModule } from '@angular/material/tooltip';
  
 @Component({
   selector: 'app-recipy',
@@ -32,8 +33,7 @@ import { ToastrService } from 'ngx-toastr';
     MatDialogModule,
     MatIconModule,
     MatButtonModule,
-    // RouterModule
-  ],
+MatTooltipModule  ],
 })
 export class RecipyComponent implements OnInit {
   private readonly EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';

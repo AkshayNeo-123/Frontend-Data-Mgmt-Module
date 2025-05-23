@@ -20,6 +20,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-get-comp-inject',
@@ -35,6 +36,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
     MatDatepickerModule,
     MatNativeDateModule,
     FormsModule,
+    MatTooltipModule
   ],
 
   templateUrl: './get-comp-inject.component.html',
