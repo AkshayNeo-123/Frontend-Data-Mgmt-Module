@@ -7,8 +7,6 @@
   position: fixed;
   top: 55px;
   overflow-y: auto !important;
-
-
   z-index: 1;
   /* -ms-overflow-style: none; */
   scrollbar-width: none;
