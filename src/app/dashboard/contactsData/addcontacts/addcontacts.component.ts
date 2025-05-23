@@ -63,7 +63,7 @@ export class AddcontactsComponent implements OnInit {
       contactId: [this.data?.contactId || null],
       contactName: [this.data?.contactName || '', [
         Validators.required,
-        Validators.minLength(2),
+        Validators.minLength(2),Validators.maxLength(100),
         Validators.pattern(/^[a-zA-Z\s]+$/)
       ]],
       contactType: [this.data?.contactType || 1, Validators.required],
@@ -113,13 +113,30 @@ export class AddcontactsComponent implements OnInit {
   }
 
   onCityChange(): void {
-    const cityId = this.contactForm.get('cityId')?.value;
-    this.isOtherCitySelected = cityId === 'Other';
-  
-    if (!this.isOtherCitySelected) {
-      this.contactForm.patchValue({ newCityName: '' });
-    }
+  const cityIdControl = this.contactForm.get('cityId');
+  const newCityNameControl = this.contactForm.get('newCityName');
+
+  this.isOtherCitySelected = cityIdControl?.value === 'Other';
+
+  if (this.isOtherCitySelected) {
+    cityIdControl?.clearValidators();
+    cityIdControl?.updateValueAndValidity();
+
+    newCityNameControl?.setValidators([
+      Validators.required,
+      Validators.pattern(/^[a-zA-Z\s]+$/)
+    ]);
+    newCityNameControl?.updateValueAndValidity();
+  } else {
+    cityIdControl?.setValidators([Validators.required]);
+    cityIdControl?.updateValueAndValidity();
+
+    newCityNameControl?.clearValidators();
+    newCityNameControl?.setValue('');
+    newCityNameControl?.updateValueAndValidity();
   }
+}
+
 
   onSubmit(): void {
     this.contactForm.markAllAsTouched();

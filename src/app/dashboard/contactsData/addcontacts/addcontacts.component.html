@@ -22,7 +22,7 @@
     <div class="row">
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Contact Name</mat-label>
-        <input matInput formControlName="contactName" placeholder="Enter contact name" (keypress)="allowOnlyLetters($event)" maxlength="49"/>
+        <input matInput formControlName="contactName" placeholder="Enter contact name" (keypress)="allowOnlyLetters($event)" maxlength="100"/>
       </mat-form-field>
     </div>
 
@@ -42,29 +42,7 @@
     </div>
 
     <div class="row" >
-      <!-- <mat-form-field appearance="outline">
-        <mat-label>State</mat-label>
-        <mat-select formControlName="state" (selectionChange)="onStateChange($event.value)">
-          <mat-option value="">--- Select ---</mat-option>
-
-          <mat-option *ngFor="let state of states" [value]="state.value">
-            {{ state.viewValue }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
       
-      <mat-form-field appearance="outline">
-        <mat-label>City</mat-label>
-        <mat-select formControlName="city" [disabled]="!filteredCities.length">
-          <mat-option value="">--- Select ---</mat-option>
-
-          <mat-option *ngFor="let city of filteredCities" [value]="city">
-            {{ city }}
-          </mat-option>
-          <mat-option value="other">Other</mat-option>
-       
-        </mat-select>
-      </mat-form-field>       -->
       <mat-form-field appearance="outline">
     <mat-label>State</mat-label>
     <mat-select formControlName="stateId">
@@ -90,9 +68,9 @@
   <div *ngIf="isOtherCitySelected">
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>City Name</mat-label>
-      <input matInput formControlName="newCityName" placeholder="Enter new city name" (keypress)="allowOnlyLetters($event)"/>
+      <input matInput formControlName="newCityName" placeholder="Enter new city name" (keypress)="allowOnlyLetters($event)" maxlength="100"/>
       <mat-error *ngIf="contactForm.get('newCityName')?.hasError('required')">
-        City Name is required when 'Other' is selected.
+       
       </mat-error>
     </mat-form-field>
   </div>
@@ -115,6 +93,9 @@
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Email</mat-label>
         <input matInput type="email" formControlName="email" placeholder="Enter email" />
+        <mat-error *ngIf="contactForm.get('email')?.hasError('email') && !contactForm.get('email')?.hasError('required')">
+    Please enter a valid email.
+  </mat-error>
       </mat-form-field>
 
       

@@ -2,13 +2,13 @@
 
 
  <div class="back-button-container d-flex justify-content-end align-items-center">
-  <button (click)="goBack()" class="custom-back-button mb-3 me-3">
+
+  <button class="btn btn-danger  mb-3"   (click)="downloadPDF()" matTooltip="Download pdf" >
+    <i class="fas fa-file-pdf"></i>
+  </button>
+   <button (click)="goBack()" class="custom-back-button mb-3 me-3">
     <mat-icon>arrow_back</mat-icon>
     <span>Back</span>
-  </button>
-
-  <button class="btn btn-danger  mb-3"   (click)="downloadPDF()" matTooltip="Download to Pdf" >
-    <i class="fas fa-file-pdf"></i>
   </button>
 </div>
 
@@ -121,12 +121,20 @@
               </td>
               <td *ngFor="let item of injectionData">{{ item.repetition || '-' }}</td>
             </tr>
+             <tr>
+              <td>
+                <h6>Notes</h6>
+              </td>
+              <td *ngFor="let item of injectionData">{{ item.notes || '-' }}</td>
+            </tr>
             <tr>
+              
               <td>
                 <h6>Additive</h6>
               </td>
               <td *ngFor="let item of injectionData">{{ item.additive || '-' }}</td>
             </tr>
+
             <tr>
               <td>
                 <h6>Pretreatment Dry Test</h6>
