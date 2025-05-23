@@ -19,6 +19,7 @@ import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { Location } from '@angular/common';
 import * as XLSX from 'xlsx';
 import { PermissionServiceService } from '../../services/permission-service.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-project',
@@ -32,7 +33,8 @@ import { PermissionServiceService } from '../../services/permission-service.serv
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    RouterModule
+    RouterModule,
+    MatTooltipModule
   ]
 })
 export class ProjectComponent implements OnInit {
