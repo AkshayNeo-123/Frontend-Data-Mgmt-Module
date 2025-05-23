@@ -141,8 +141,8 @@ input:focus {
   font-size: 16px;
   padding: 8px 16px;
   border-radius: 6px;
-  margin-bottom: 45px;
-  margin-left: 350px;
+  margin-bottom: 25px;
+  /* margin-left: 350px; */
   /* background-color:  #fff9c4; */
   color: black;
   text-align: end;
