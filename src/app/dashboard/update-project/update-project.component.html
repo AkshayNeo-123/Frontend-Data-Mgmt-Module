@@ -9,6 +9,14 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Project Name</mat-label>
+        <input matInput formControlName="projectName" />
+        <mat-error *ngIf="projectForm.get('projectName')?.errors?.['required']">
+          Project name is required
+        </mat-error>
+      </mat-form-field>
+
+      <!-- <mat-form-field appearance="outline" class="half-width">
         <mat-label>Project Status</mat-label>
         <mat-select formControlName="status" placeholder="--Select--">
           <mat-option value="null">--Select--</mat-option>
@@ -19,7 +27,7 @@
         <mat-error *ngIf="projectForm.get('status')?.errors?.['required']">
           Status is required
         </mat-error>
-      </mat-form-field>
+      </mat-form-field> -->
     </div>
     
     <div class="row">
@@ -44,7 +52,7 @@
       </mat-form-field>
     </div>
      
-    <div class="row">
+    <!-- <div class="row">
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Project Name</mat-label>
         <input matInput formControlName="projectName" />
@@ -52,7 +60,7 @@
           Project name is required
         </mat-error>
       </mat-form-field>
-    </div>
+    </div> -->
     
     <div class="row">
       <mat-form-field appearance="outline" class="full-width">
@@ -117,6 +125,19 @@
             {{ priority.priority }}
           </mat-option>
         </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Project Status</mat-label>
+        <mat-select formControlName="status" placeholder="--Select--">
+          <mat-option value="null">--Select--</mat-option>
+          <mat-option *ngFor="let s of status" [value]="s.id">
+            {{ s.status }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="projectForm.get('status')?.errors?.['required']">
+          Status is required
+        </mat-error>
       </mat-form-field>
     </div>
   </div>

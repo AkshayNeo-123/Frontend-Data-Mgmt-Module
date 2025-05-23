@@ -6,7 +6,7 @@
     <div class="row">
       <mat-form-field class="half-width" appearance="outline">
         <mat-label>Material Name</mat-label>
-        <input matInput formControlName="materialName" />
+        <input matInput formControlName="materialName" maxlength="99"/>
 
         <mat-error *ngIf="materialForm.get('materialName')?.hasError('nameNotUnique')">
           Material name already exist.

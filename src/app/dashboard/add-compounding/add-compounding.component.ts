@@ -13,6 +13,7 @@ import { MaterialService } from '../../services/material.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { Location } from '@angular/common'
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-add-compounding',
@@ -26,7 +27,8 @@ import { Location } from '@angular/common'
     CommonModule,
     MatRadioModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTooltipModule
   ],
   templateUrl: './add-compounding.component.html',
   styleUrls: ['./add-compounding.component.css']
