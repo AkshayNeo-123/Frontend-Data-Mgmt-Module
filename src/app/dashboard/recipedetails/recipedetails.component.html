@@ -1,58 +1,186 @@
-<button class=" btn btn-danger pdf-download-btn" (click)="downloadPDF()">
-    <i class="fas fa-file-pdf"></i></button>
+<div class="for-margin">
 
-<div id="pdf-content">
-<div *ngIf="rec" style=" padding: 1.5rem;">
-   
-   <!-- <p> <strong class="mb-4">Project Number</strong></p> -->
-     <h5><b>Recipe Details</b></h5>
-     <hr>
-    <h3 class="text-primary mb-4">{{ rec.projectNumber }}</h3>
-  
-    <p>
-        <p><strong>Recipe Name :</strong></p>
-     
-      <p class="text-muted">{{ rec.productName }}</p>   
-  
-    <p>
-        <p><strong>Description :</strong></p>
-     
-      <p class="text-muted">{{ rec.description }}</p>   
-  
-    <p>
-      <!-- <strong>Recipe ID: </strong> -->
-      <!-- <span class="text-muted">{{ rec.recipeId }}</span> -->
-    </p>
-  
-    <!-- <div class="mt-4">
-      <a routerLink="/dashboard">
-        <button class="btn btn-secondary" (click)="onCancel()">Back to Dashboard</button>
-      </a>
-    </div> -->
-  
-    <!-- Hardcoded Properties Section -->
-     <hr>
-    <div class="row mt-5">
-      <div class="col-md-4">
-        <h6> <strong>Temperature Properties</strong></h6>
-        <p>Melting Temp: <strong>250 °C</strong></p>
-        <p>Deflection Temp: <strong>150 °C</strong></p>
+
+ <div class="back-button-container d-flex justify-content-end align-items-center">
+  <button (click)="goBack()" class="custom-back-button mb-3 me-3">
+    <mat-icon>arrow_back</mat-icon>
+    <span>Back</span>
+  </button>
+
+  <button class="btn btn-danger  mb-3"   (click)="downloadPDF()" matTooltip="Download to Pdf" >
+    <i class="fas fa-file-pdf"></i>
+  </button>
+</div>
+
+
+    
+  </div>
+
+  <div id="pdf-content">
+
+    <div *ngIf="rec" style=" padding: 1.5rem;">
+            <h4><b>Recipe Details</b></h4>
+
+      <!-- <p> <strong class="mb-4">Project Number</strong></p> -->
+      
+      <hr>
+      <h3 class="text-primary mb-4">{{ rec.projectNumber }}</h3>
+
+      <p>
+      <p><strong>Recipe Name : </strong>{{ rec.productName }}</p>
+
+      <p class="text-muted"></p>
+
+      <p>
+      <p><strong>Description : </strong>{{ rec.description }}</p>
+
+      <p class="text-muted"></p>
+
+      <hr>
+      <h5><b>Compounding Details</b></h5>
+      <hr>
+
+
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center custom-dark-border">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th *ngFor="let item of compoundingData; let i = index">
+                Compounding {{ i + 1 }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h6>Parameter Set</h6>
+              </td>
+              <td *ngFor="let item of compoundingData">{{ item.parameterSet|| '-' }}</td>
+            </tr>
+            <tr>
+              <td>
+                <h6>Notes</h6>
+              </td>
+              <td *ngFor="let item of compoundingData">{{ item.notes || '-' }}</td>
+            </tr>
+            <tr>
+              <td>
+                <h6>Temperature (°C)</h6>
+              </td>
+              <td *ngFor="let item of compoundingData">{{ item.temperature || '-' }}</td>
+            </tr>
+            <tr>
+              <td>
+                <h6>Repetition</h6>
+              </td>
+              <td *ngFor="let item of compoundingData">{{ item.repetation|| '-' }}</td>
+            </tr>
+            <tr>
+              <td>
+                <h6>Pretreatment Drying</h6>
+              </td>
+              <td *ngFor="let item of compoundingData">{{ item.pretreatmentDrying || '-' }}</td>
+            </tr>
+            <tr>
+              <td>
+                <h6>Residual M</h6>
+              </td>
+              <td *ngFor="let item of compoundingData">{{ item.residualM || '-' }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="col-md-4">
-        <h6><strong> Properties</strong></h6>
-        <p>Tensile Modulus: <strong>700 MPa</strong></p>
-        <p>Charpy Impact Strength: <strong>105 kJ/m²</strong></p>
-      </div>
-      <div class="col-md-4">
-        <h6><strong>Other Info</strong></h6>
-        <p>Shore D Hardness: <strong>33</strong></p>
-        <p>Stress at Yield: <strong>700 MPa</strong></p>
+
+      <hr>
+
+        <h5><b>Injection Moulding Details</b></h5>
+        <hr>
+              <div class="table-responsive">
+
+        <table class="table table-bordered table-striped text-center custom-dark-border">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th *ngFor="let item of injectionData; let i = index">
+                Injection {{ i + 1 }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h6>Parameter Set</h6>
+              </td>
+              <td *ngFor="let item of injectionData">{{ item.parameterSet|| '-' }}</td>
+            </tr>
+            <tr>
+              <td>
+                <h6>Repetition</h6>
+              </td>
+              <td *ngFor="let item of injectionData">{{ item.repetition || '-' }}</td>
+            </tr>
+            <tr>
+              <td>
+                <h6>Additive</h6>
+              </td>
+              <td *ngFor="let item of injectionData">{{ item.additive || '-' }}</td>
+            </tr>
+            <tr>
+              <td>
+                <h6>Pretreatment Dry Test</h6>
+              </td>
+              <td *ngFor="let item of injectionData">{{ item.pretreatmentDryTest || '-' }}</td>
+            </tr>
+            <tr>
+        <td><h6>Drying Temp (°C)</h6></td>
+        <td *ngFor="let item of injectionData">{{ item.dryingTemperature || '-'}}</td>
+      </tr> 
+            <tr>
+        <td><h6>Drying Time</h6></td>
+        <td *ngFor="let item of injectionData">{{ item.dryingTime || '-'}}</td>
+      </tr>
+            <tr>
+              <td>
+                <h6>Residual Moisture</h6>
+              </td>
+              <td *ngFor="let item of injectionData">{{ item.residualMoisture || '-' }}</td>
+            </tr>
+            <tr>
+              <td>
+                <h6>Processing Moisture</h6>
+              </td>
+              <td *ngFor="let item of injectionData">{{ item.processingMoisture || '-' }}</td>
+            </tr>
+            <tr>
+        <td><h6>Plasticizing Volume</h6></td>
+        <td *ngFor="let item of injectionData">{{ item.plasticizingVolume || '-'}}</td>
+      </tr>
+            <tr>
+              <td>
+                <h6>Injection Pressure</h6>
+              </td>
+              <td *ngFor="let item of injectionData">{{ item.injectionPressure || '-' }}</td>
+            </tr>
+            <tr>
+        <td><h6>Melt Temp</h6></td>
+        <td *ngFor="let item of injectionData">{{ item.meltTemperature || '-'}}</td>
+      </tr>
+            <tr>
+              <td>
+                <h6>Nozzle Temp</h6>
+              </td>
+              <td *ngFor="let item of injectionData">{{ item.nozzleTemperature || '-' }}</td>
+            </tr>
+            <tr>
+              <td>
+                <h6>Mould Temp</h6>
+              </td>
+              <td *ngFor="let item of injectionData">{{ item.mouldTemperature || '-' }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  
-   
-  </div>
-</div>
-<div class="modal-footer mt-4 ">
-    <button mat-raised-button type="button"  (click)="onCancel()" class="btn mat-raised">Close</button>
   </div>
