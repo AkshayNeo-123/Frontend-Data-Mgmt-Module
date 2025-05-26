@@ -3,7 +3,8 @@
 }
 
 .btnFix{
-    position: sticky;
+  position: sticky;
+  margin-right: -27px;
   bottom: 0;
   background-color: white; 
   z-index: 10;
@@ -42,4 +43,35 @@ table th, table td {
 
 th, tr{
   border: 1px solid black;
+}
+
+.container {
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Prevent outer scroll */
+}
+
+.content-scrollable {
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 8px; /* Prevent clipping content from hidden scrollbar */
+}
+
+/* Hide scrollbar but keep scrolling working */
+
+/* Chrome, Safari */
+.content-scrollable::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* Firefox */
+.content-scrollable {
+  scrollbar-width: none;
+}
+
+/* IE/Edge */
+.content-scrollable {
+  -ms-overflow-style: none;
 }
