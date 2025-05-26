@@ -38,6 +38,8 @@ export class AddMaterialComponent implements OnInit {
   storageLocations: any[] = [];
   materials: Material[] = [];
 
+  baseUrl = 'https://localhost:7030'; 
+
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<AddMaterialComponent>,
@@ -224,4 +226,5 @@ export class AddMaterialComponent implements OnInit {
   onCancel() {
     this.dialogRef.close(false);
   }
+  
 }

@@ -41,4 +41,12 @@ textarea[matInput] {
     max-width: 200%;
     overflow: auto;
   }
-  
+
+  ::ng-deep .mat-form-field-outline {
+  border-color: rgba(0, 0, 0, 0.6); /* Normal dark border */
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: black;
+}
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';

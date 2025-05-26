@@ -18,6 +18,7 @@ import { ConfirmDialogComponent } from '../../CommonTs/confirm-dialog.component'
 import { AddAdditiveComponent } from '../../additiveData/addadditives/addadditives.component';
 import { AddmainpolymerComponent } from '../addmainpolymer/addmainpolymer.component';
 import { PermissionServiceService } from '../../../services/permission-service.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @Component({
@@ -30,7 +31,7 @@ import { PermissionServiceService } from '../../../services/permission-service.s
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,MatTooltipModule
   ],  templateUrl: './all-main-polymers.component.html',
   styleUrls: ['./all-main-polymers.component.css']
 })

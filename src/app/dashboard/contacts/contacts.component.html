@@ -5,7 +5,7 @@
   <div class="w-100">
      <mat-form-field appearance="outline" class="search-field">
       <mat-label>Search by contact name</mat-label>
-      <input  matInput (keyup)="applyFilter($event)" placeholder="Search contacts">
+      <input  matInput (keyup)="applyFilter($event)">
     </mat-form-field>
 </div>
 <div >
@@ -37,8 +37,8 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef style="width: 25%;">Actions</th>
         <td mat-cell *matCellDef="let element">
-          <i *ngIf="canEditContact" class="fas fa-pencil-alt me-3 action-icon text-primary" (click)="editContact(element)"></i>
-          <i *ngIf="canDeleteContact" class="fas fa-trash-alt action-icon text-danger" (click)="deleteContactsDetails(element.contactId)"></i>
+          <i *ngIf="canEditContact" class="fas fa-pencil-alt me-3 action-icon text-primary" (click)="editContact(element)" matTooltip="Edit"></i>
+          <i *ngIf="canDeleteContact" class="fas fa-trash-alt action-icon text-danger" (click)="deleteContactsDetails(element.contactId)" matTooltip="Delete"></i>
         </td>
       </ng-container>
   

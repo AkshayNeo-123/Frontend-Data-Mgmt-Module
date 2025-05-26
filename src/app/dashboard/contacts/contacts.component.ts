@@ -16,6 +16,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { PermissionServiceService } from '../../services/permission-service.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-contacts',
@@ -30,7 +31,7 @@ import { PermissionServiceService } from '../../services/permission-service.serv
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
-    RouterModule
+    RouterModule,MatTooltipModule
   ],
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.css']

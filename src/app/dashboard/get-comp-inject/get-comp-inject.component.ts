@@ -20,6 +20,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-get-comp-inject',
@@ -35,41 +36,20 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
     MatDatepickerModule,
     MatNativeDateModule,
     FormsModule,
+    MatTooltipModule
   ],
-  // providers: [
-  //   { 
-  //     provide: DateAdapter, 
-  //     useClass: MomentDateAdapter, 
-  //     deps: [MAT_DATE_LOCALE] 
-  //   },
-  //   {
-  //     provide: MAT_DATE_FORMATS,
-  //     useValue: {
-  //       parse: {
-  //         dateInput: 'DD/MM/YYYY', // Changed from DD-MM-YYYY to MM/DD/YYYY
-  //       },
-  //       display: {
-  //         dateInput: 'DD/MM/YYYY', // Changed from DD-MM-YYYY to MM/DD/YYYY
-  //         monthYearLabel: 'MMMM YYYY',
-  //         dateA11yLabel: 'LL',
-  //         monthYearA11yLabel: 'MMMM YYYY',
-  //       },
-  //     },
-  //   },
-  // ],
+
   templateUrl: './get-comp-inject.component.html',
   styleUrls: ['./get-comp-inject.component.css'],
 })
 export class GetCompInjectComponent implements OnInit {
-// pickerForInjection: MatDatepickerPanel<MatDatepickerControl<any>,any,any>;
   goBack() {
     this.router.navigate(['/recipe']);
   }
   idOfRecipe!: number;
-  displayedColumns: string[] = ['compoundingId', 'date', 'notes', 'actions'];
+  displayedColumns: string[] = ['date', 'notes', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
   displayedColumnsData: string[] = [
-    'id',
     'parameterSet',
     'dryingTime',
     'actions',

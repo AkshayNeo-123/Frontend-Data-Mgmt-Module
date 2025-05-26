@@ -26,6 +26,7 @@ import { RecipeComponentType } from '../../../models/recipe-component-type.model
 import { Recipe } from '../../../models/recipe.model';
 import { ToastrService } from 'ngx-toastr';
 import { ValidatorFn, AbstractControl } from '@angular/forms';
+import { MatTooltipModule } from '@angular/material/tooltip';
  
 interface ComponentRow {
   componentId: number | null;
@@ -53,6 +54,7 @@ interface ComponentRow {
     MatCheckboxModule,
     MatIconModule,
     MatTableModule,
+    MatTooltipModule
   ],
 })
 export class AddRecipyComponent implements OnInit {

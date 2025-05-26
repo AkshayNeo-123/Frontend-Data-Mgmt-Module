@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { PermissionServiceService } from '../../services/permission-service.service';
 import { CommonModule } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-rolemaster',
@@ -27,7 +28,8 @@ import { CommonModule } from '@angular/common';
     MatPaginatorModule,
     MatSortModule,
     MatButtonModule,
-    CommonModule
+    CommonModule,
+    MatTooltipModule
   ],
   templateUrl: './rolemaster.component.html',
   styleUrl: './rolemaster.component.css'

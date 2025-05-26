@@ -13,6 +13,7 @@ import { MaterialService } from '../../services/material.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { Location } from '@angular/common'
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-add-compounding',
@@ -26,7 +27,8 @@ import { Location } from '@angular/common'
     CommonModule,
     MatRadioModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTooltipModule
   ],
   templateUrl: './add-compounding.component.html',
   styleUrls: ['./add-compounding.component.css']
@@ -384,6 +386,23 @@ export class AddCompoundingComponent implements OnInit {
     this.location.back();
   }
 
+blockInvalidInput(event: KeyboardEvent) {
+  const input = event.target as HTMLInputElement;
+  const key = event.key;
+  const value = input.value;
+  const cursorPos = input.selectionStart ?? 0;
+  if (/^\d$/.test(key) || ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(key)) {
+    return;
+  }
+  if (key === '-') {
+    const alreadyHasMinus = value.includes('-');
+    const typingAtStart = cursorPos === 0;
 
+    if (!alreadyHasMinus && typingAtStart) {
+      return;
+    }
+  }
+  event.preventDefault();
+}
 
 }

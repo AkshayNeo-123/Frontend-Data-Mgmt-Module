@@ -16,6 +16,7 @@ import { InjectionMoldingService } from '../../services/injection-molding.servic
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common'
 
+
 @Component({
   selector: 'app-add-injection-molding',
   imports: [ReactiveFormsModule,
@@ -188,13 +189,21 @@ loadMaster(){
   this.filteredProjects = [...this.projects];
 
   this.injectionservice.getparemeterSet().subscribe({
-    next: (data) => (data++,console.log('Received:', data),this.injectionForm.get('parameterSet')?.setValue(data)),
-    error: (err) => console.error('Error fetching project types:', err)
-  });
-  console.log(this.parameterSetpreviousdata);
+  next: (data) => {
+    if (data == null) {
+      data = 0;
+    }
 
-  this.parameterSetpreviousdata++;
-  console.log(this.parameterSetpreviousdata);
+    data++;
+
+    console.log('Received:', data);
+    this.injectionForm.get('parameterSet')?.setValue(data);
+  },
+  error: (err) => console.error('Error fetching project types:', err)
+});
+  // console.log(this.parameterSetpreviousdata);
+  // this.parameterSetpreviousdata++;
+  // console.log(this.parameterSetpreviousdata);
   
   
 }
@@ -215,6 +224,60 @@ blockNumbers(event: KeyboardEvent) {
     event.preventDefault(); 
   }
 }
+
+// allowOnlyNumber(event: KeyboardEvent): void {
+//   const char = event.key;
+//   const input = event.target as HTMLInputElement;
+
+//   // Allow: digits, dot, minus
+//   if (!/^[0-9.-]$/.test(char)) {
+//     event.preventDefault();
+//     return;
+//   }
+
+//   // Only one dot allowed
+//   if (char === '.' && input.value.includes('.')) {
+//     event.preventDefault();
+//     return;
+//   }
+
+//   // Only one minus at the beginning allowed
+//   if (char === '-') {
+//     if (input.selectionStart !== 0 || input.value.includes('-')) {
+//       event.preventDefault();
+//       return;
+//     }
+//   }
+// }
+
+allowOnlyNumber(event: KeyboardEvent): void {
+  const invalidChars = ['e', 'E', '+'];
+  const input = event.target as HTMLInputElement;
+  const currentValue = input.value;
+  const key = event.key;
+
+  // Block e, E, and +
+  if (invalidChars.includes(key)) {
+    event.preventDefault();
+    return;
+  }
+
+  // Allow minus sign only at the beginning and only once
+  if (key === '-') {
+    if (currentValue.length > 0 || currentValue.includes('-')) {
+      event.preventDefault();
+    }
+    return;
+  }
+
+  // Allow only digits
+  if (!/^[0-9.-]$/.test(key)) {
+    event.preventDefault();
+  }
+}
+
+
+
 
 
 }

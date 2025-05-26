@@ -256,4 +256,31 @@ this.recipeId = history.state.recipeId;
   }
 }
 
+allowOnlyNumber(event: KeyboardEvent): void {
+  const invalidChars = ['e', 'E', '+'];
+  const input = event.target as HTMLInputElement;
+  const currentValue = input.value;
+  const key = event.key;
+
+  // Block e, E, and +
+  if (invalidChars.includes(key)) {
+    event.preventDefault();
+    return;
+  }
+
+  // Allow minus sign only at the beginning and only once
+  if (key === '-') {
+    if (currentValue.length > 0 || currentValue.includes('-')) {
+      event.preventDefault();
+    }
+    return;
+  }
+
+  // Allow only digits (not allowing . or - here anymore)
+  if (!/^[0-9]$/.test(key)) {
+    event.preventDefault();
+  }
+}
+
+
 }
