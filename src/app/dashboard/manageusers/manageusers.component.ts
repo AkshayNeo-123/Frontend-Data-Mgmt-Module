@@ -14,6 +14,7 @@ import { CommonModule, Location } from '@angular/common';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { PermissionServiceService } from '../../services/permission-service.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-manageusers',
@@ -26,7 +27,8 @@ import { PermissionServiceService } from '../../services/permission-service.serv
     MatSortModule,
     MatButtonModule,
     CommonModule,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    MatTooltipModule
   ],
   templateUrl: './manageusers.component.html',
   styleUrl: './manageusers.component.css'
