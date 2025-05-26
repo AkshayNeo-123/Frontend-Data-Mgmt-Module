@@ -50,3 +50,12 @@ textarea[matInput] {
   color: black;
 }
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+.btnFix {
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+  z-index: 10;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}

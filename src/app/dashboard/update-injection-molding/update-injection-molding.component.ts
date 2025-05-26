@@ -15,7 +15,7 @@ import { ProjectService } from '../../services/project.service';
 import { AddInjectionMoulding, UpdateInjectionMoulding } from '../../models/injection-molding';
 import { InjectionMoldingService } from '../../services/injection-molding.service';
 import { ToastrService } from 'ngx-toastr';
-// import { Location } from '@angular/common'
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-update-injection-molding',
@@ -44,7 +44,7 @@ export class UpdateInjectionMoldingComponent {
   filteredProjects: any[] = [];
   parameterSetpreviousdata!:number;
   
-  constructor(private fb: FormBuilder,private injectionservice:InjectionMoldingService,private toastr: ToastrService,private projectservice:ProjectService, private location: Location, private route:Router) {
+  constructor(private snackBar: MatSnackBar,private fb: FormBuilder,private injectionservice:InjectionMoldingService,private toastr: ToastrService,private projectservice:ProjectService, private location: Location, private route:Router) {
     this.injectionForm = this.fb.group({
       projectId: ['',Validators.required],
       parameterSet: [{value:'', disabled: true}],
@@ -75,6 +75,35 @@ export class UpdateInjectionMoldingComponent {
       nozzleTemperature: [''],
       mouldTemperature: ['']
     });
+//     this.injectionForm = this.fb.group({
+//   projectId: [[], Validators.required],
+//   recipeId: [{value:'', disabled: true}],
+//   parameterSet: [{value:'', disabled: true}],
+//   notes: [''],
+//   additive: ['', [Validators.maxLength(99)]],
+//   repetitionCount: [0, [Validators.min(1)]],
+//   reference: [false],
+//   pretreatmentNone: [false],
+//   pretreatmentDryTest: [false],
+//   dryingTemperature: [null, [Validators.min(-100), Validators.max(300)]],
+//   dryingTime: [null, [Validators.min(0), Validators.max(24)]],
+//   residualMoisture: [null, [Validators.min(0), Validators.max(100)]],
+//   processingMoisture: [null, [Validators.min(0), Validators.max(100)]],
+//   notMeasured: [false],
+//   plasticizingVolume: [null, [Validators.min(0), Validators.max(999.99)]],
+//   decompressionVolume: [null, [Validators.min(0), Validators.max(999.99)]],
+//   holdingPressure: [null, [Validators.min(0), Validators.max(200)]],
+//   switchingPoint: [null, [Validators.min(0), Validators.max(500)]],
+//   screwSpeed: [null, [Validators.min(0), Validators.max(999.99)]],
+//   speedMms: [{ value: 0, disabled: true }],
+//   injectionSpeed: [null, [Validators.min(0), Validators.max(500)]],
+//   injectionPressure: [null, [Validators.min(0), Validators.max(999)]],
+//   temperatureZone: [null, [Validators.min(-100), Validators.max(300)]],
+//   meltTemperature: [null, [Validators.min(-100), Validators.max(300)]],
+//   nozzleTemperature: [null, [Validators.min(-100), Validators.max(300)]],
+//   mouldTemperature: [null, [Validators.min(-100), Validators.max(300)]],
+// });
+
     this.route.events.subscribe((event) => {
     if (event instanceof NavigationEnd) {
       window.scrollTo(0, 0);
@@ -163,6 +192,10 @@ this.recipeId = history.state.recipeId;
   
   
   onSubmit() {
+    if (this.injectionForm.invalid) {
+    this.showValidationErrors();
+    return;
+  }
     const userJson = localStorage.getItem('user');
     const user = userJson ? JSON.parse(userJson) : null;
   
@@ -256,31 +289,125 @@ this.recipeId = history.state.recipeId;
   }
 }
 
-allowOnlyNumber(event: KeyboardEvent): void {
-  const invalidChars = ['e', 'E', '+'];
-  const input = event.target as HTMLInputElement;
-  const currentValue = input.value;
-  const key = event.key;
 
-  // Block e, E, and +
-  if (invalidChars.includes(key)) {
-    event.preventDefault();
-    return;
-  }
 
-  // Allow minus sign only at the beginning and only once
-  if (key === '-') {
-    if (currentValue.length > 0 || currentValue.includes('-')) {
-      event.preventDefault();
+
+showValidationErrors() {
+  const errors: string[] = [];
+
+  Object.keys(this.injectionForm.controls).forEach(controlName => {
+    const control = this.injectionForm.get(controlName);
+    if (control && control.invalid) {
+      control.markAsTouched(); // to trigger errors in UI too
+      const controlErrors = control.errors;
+      if (controlErrors) {
+        Object.keys(controlErrors).forEach(errorKey => {
+          errors.push(this.getErrorMessage(controlName, errorKey));
+        });
+      }
     }
-    return;
-  }
+  });
 
-  // Allow only digits (not allowing . or - here anymore)
-  if (!/^[0-9]$/.test(key)) {
-    event.preventDefault();
+  if (errors.length > 0) {
+    const message = errors.join('\n');
+    this.toastr.error(message,'Error',{
+  timeOut:5000
+         });
   }
 }
+
+
+
+getErrorMessage(controlName: string, errorKey: string): string {
+  const labels: { [key: string]: string } = {
+    projectId: 'Project ID',
+    parameterSet: 'Parameter Set',
+    recipeId: 'Recipe Number',
+    repetition: 'Repetition',
+    additive: 'Additive',
+    reference: 'Reference',
+    notes: 'Notes',
+    pretreatmentNone: 'Pretreatment None',
+    pretreatmentDryTest: 'Pretreatment Dry Test',
+    dryingTemperature: 'Drying Temperature',
+    dryingTime: 'Drying Time',
+    residualMoisture: 'Residual Moisture',
+    notMeasured: 'Not Measured',
+    processingMoisture: 'Processing Moisture',
+    plasticizingVolume: 'Plasticizing Volume',
+    decompressionVolume: 'Decompression Volume',
+    holdingPressure: 'Holding Pressure',
+    switchingPoint: 'Switching Point',
+    screwSpeed: 'Screw Speed',
+    speedMms: 'Speed (mm/s)',
+    injectionSpeed: 'Injection Speed',
+    injectionPressure: 'Injection Pressure',
+    temperatureZone: 'Temperature Zone',
+    meltTemperature: 'Melt Temperature',
+    nozzleTemperature: 'Nozzle Temperature',
+    mouldTemperature: 'Mould Temperature'
+  };
+
+  const label = labels[controlName] || controlName;
+
+  switch (errorKey) {
+    case 'required': return `${label} is required.`;
+    case 'maxlength': return `${label} exceeds maximum length.`;
+    case 'min': return `${label} is below minimum allowed value.`;
+    case 'max': return `${label} exceeds maximum allowed value.`;
+    default: return `${label} is invalid.`;
+  }
+}
+
+//   showValidationErrors() {
+//     for (const controlName in this.injectionForm.controls) {
+//       const control = this.injectionForm.get(controlName);
+//       if (control && control.invalid) {
+//         control.markAsTouched(); // Mark to trigger validation messages
+//         const errorKeys = Object.keys(control.errors || {});
+//         if (errorKeys.length > 0) {
+//           const errorType = errorKeys[0];
+//           const message = this.getErrorMessage(controlName, errorType);
+//           this.toastr.error(message,'Error',{
+//   timeOut:5000
+//          });
+//         // this.snackBar.open(message, 'Close', {
+//         //   duration: 3000,
+//         //   panelClass: ['snack-bar-error']
+//         // });
+//         break; // Show only one error at a time
+//             }
+//     }
+//   }
+// }
+
+
+// getErrorMessage(controlName: string, errorType: string): string {
+//   const fieldNames: { [key: string]: string } = {
+//     projectId: 'Project ID',
+//     recipeId: 'Recipe Number',
+//     additive: 'Additive',
+//     dryingTemperature: 'Drying Temperature',
+//     // Add all your fields as needed
+//   };
+
+//   const fieldLabel = fieldNames[controlName] || controlName;
+
+//   switch (errorType) {
+//     case 'required':
+//       return `${fieldLabel} is required.`;
+//     case 'maxlength':
+//       return `${fieldLabel} exceeds maximum length.`;
+//     case 'min':
+//       return `${fieldLabel} is below the allowed minimum.`;
+//     case 'max':
+//       return `${fieldLabel} exceeds the allowed maximum.`;
+//     default:
+//       return `${fieldLabel} is invalid.`;
+//   }
+// }
+
+
 
 
 }
