@@ -1,5 +1,5 @@
 <div class="container">
-<h1 mat-dialog-title>Edit Role</h1>
+<h4>Edit Role</h4>
 
 <form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
   <mat-form-field class="w-100">
@@ -13,24 +13,24 @@
   <div formGroupName="permissions">
     <!-- <label class="font-weight-bold">Permissions:</label> 
     <mat-checkbox class="selectAllChkbox" (change)="toggleAllPermissions($event)">Select All</mat-checkbox><br><hr> -->
-    <table mat-table class="w-100">
-      <thead>
+    <table mat-table class="table table-bordered align-middle text-center">
+      <thead class="table-light">
   <tr>
-    <th><strong>Menu Name</strong></th>
+    <th><strong>Menu</strong></th>
     <th colspan="4"><strong>Permissions</strong></th>
     <!-- <th></th> for spacing -->
     <th><strong>
-    <mat-checkbox class="selectAllChkbox" (change)="toggleAllPermissions($event)">Select All</mat-checkbox>
+    <mat-checkbox class="selectAllChkbox" (change)="toggleAllPermissions($event)"><b>Select All</b></mat-checkbox>
     </strong></th>
   </tr>
 </thead>
       <tbody *ngFor="let permission of modulePermissions" [formGroupName]="permission.id">
         <tr>
-          <td class="menuNameList"><strong>{{ permission.menuName }}</strong></td>
+          <td><strong>{{ permission.menuName }}</strong></td>
           <td *ngIf="permission.childCount==0"><mat-checkbox formControlName="view">View</mat-checkbox></td>
           <td *ngIf="permission.childCount==0"><mat-checkbox formControlName="create">Create</mat-checkbox></td>
           <td *ngIf="permission.childCount==0"><mat-checkbox formControlName="update">Update</mat-checkbox></td>
-          <td *ngIf="permission.childCount==0"><mat-checkbox formControlName="delete">Delete      &nbsp;</mat-checkbox></td>
+          <td *ngIf="permission.childCount==0"><mat-checkbox formControlName="delete">Delete</mat-checkbox></td>
           <!-- <td>&nbsp;&nbsp;&nbsp;</td> -->
           <td *ngIf="permission.childCount==0" class="verticalLine"><mat-checkbox (change)="toggleMenuPermissions(permission.id.toString(), $event)">Select All</mat-checkbox></td>
         </tr>

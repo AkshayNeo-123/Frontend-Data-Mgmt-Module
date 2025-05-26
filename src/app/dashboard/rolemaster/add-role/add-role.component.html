@@ -1,5 +1,5 @@
 <div class="container">
-  <h1 mat-dialog-title>Add Role</h1>
+  <h4>Add Role</h4>
 
 <form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
   <mat-form-field class="w-100">
@@ -13,10 +13,11 @@
     <div formGroupName="permissions">
       <!-- <label class="font-weight-bold">Permissions:</label> -->
       <!-- <mat-checkbox class="selectAllChkbox" [checked]="selectAllChecked" (change)="toggleAllPermissions($event)">Select All</mat-checkbox><br><hr> -->
-      <table mat-table class="w-100">
-        <thead>
+      <!-- <table mat-table class="w-100"> -->
+      <table mat-table class="table table-bordered align-middle text-center">
+        <thead class="table-light">
   <tr>
-    <th><strong>Menu Name</strong></th>
+    <th><strong>Menu</strong></th>
     <th colspan="4"><strong>Permissions</strong></th>
     <!-- <th></th> for spacing -->
     <th><strong>
@@ -25,7 +26,7 @@
   </tr>
 </thead>
         <tbody *ngFor="let permission of modulePermissions" [formGroupName]="permission.id">
-          <tr><td class="menuNameList"><strong>{{ permission.menuName }}</strong></td>
+          <tr><td><strong>{{ permission.menuName }}</strong></td>
           <td *ngIf="permission.childCount==0">
         <mat-checkbox formControlName="view" (change)="onAnyPermissionChange()">View</mat-checkbox>
           </td>
