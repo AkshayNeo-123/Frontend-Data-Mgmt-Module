@@ -116,6 +116,10 @@ decreaseRepetition() {
 
 
 onSubmit() {
+  if (this.injectionForm.invalid) {
+    this.showValidationErrors();
+    return;
+  }
   const userJson = localStorage.getItem('user');
   const user = userJson ? JSON.parse(userJson) : null;
 
@@ -275,6 +279,76 @@ allowOnlyNumber(event: KeyboardEvent): void {
     event.preventDefault();
   }
 }
+
+
+
+showValidationErrors() {
+  const errors: string[] = [];
+
+  Object.keys(this.injectionForm.controls).forEach(controlName => {
+    const control = this.injectionForm.get(controlName);
+    if (control && control.invalid) {
+      control.markAsTouched(); // to trigger errors in UI too
+      const controlErrors = control.errors;
+      if (controlErrors) {
+        Object.keys(controlErrors).forEach(errorKey => {
+          errors.push(this.getErrorMessage(controlName, errorKey));
+        });
+      }
+    }
+  });
+
+  if (errors.length > 0) {
+    const message = errors.join('\n');
+    this.toastr.error(message,'Error',{
+  timeOut:5000
+         });
+  }
+}
+
+
+
+getErrorMessage(controlName: string, errorKey: string): string {
+  const labels: { [key: string]: string } = {
+    projectId: 'Project ID',
+    parameterSet: 'Parameter Set',
+    recipeId: 'Recipe Number',
+    repetition: 'Repetition',
+    additive: 'Additive',
+    reference: 'Reference',
+    notes: 'Notes',
+    pretreatmentNone: 'Pretreatment None',
+    pretreatmentDryTest: 'Pretreatment Dry Test',
+    dryingTemperature: 'Drying Temperature',
+    dryingTime: 'Drying Time',
+    residualMoisture: 'Residual Moisture',
+    notMeasured: 'Not Measured',
+    processingMoisture: 'Processing Moisture',
+    plasticizingVolume: 'Plasticizing Volume',
+    decompressionVolume: 'Decompression Volume',
+    holdingPressure: 'Holding Pressure',
+    switchingPoint: 'Switching Point',
+    screwSpeed: 'Screw Speed',
+    speedMms: 'Speed (mm/s)',
+    injectionSpeed: 'Injection Speed',
+    injectionPressure: 'Injection Pressure',
+    temperatureZone: 'Temperature Zone',
+    meltTemperature: 'Melt Temperature',
+    nozzleTemperature: 'Nozzle Temperature',
+    mouldTemperature: 'Mould Temperature'
+  };
+
+  const label = labels[controlName] || controlName;
+
+  switch (errorKey) {
+    case 'required': return `${label} is required.`;
+    case 'maxlength': return `${label} exceeds maximum length.`;
+    case 'min': return `${label} is below minimum allowed value.`;
+    case 'max': return `${label} exceeds maximum allowed value.`;
+    default: return `${label} is invalid.`;
+  }
+}
+
 
 
 

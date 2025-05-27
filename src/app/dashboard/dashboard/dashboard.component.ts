@@ -35,6 +35,7 @@ import { RecipedetailsComponent } from '../recipedetails/recipedetails.component
 import { Router, RouterModule } from '@angular/router';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { AddCompoundingRequest } from '../../models/compounding.model';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-dashboard',
@@ -73,7 +74,8 @@ import { AddCompoundingRequest } from '../../models/compounding.model';
     AddCompoundingComponent,
     UpdateInjectionMoldingComponent,
     UpdateCompoundingComponent,
-    AddInjectionMoldingComponent
+    AddInjectionMoldingComponent,
+    MatTooltipModule
     // ,InfiniteScrollModule
   ],
   templateUrl: './dashboard.component.html',

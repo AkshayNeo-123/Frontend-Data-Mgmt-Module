@@ -417,9 +417,9 @@ tr.mat-mdc-header-row.mdc-data-table__header-row.cdk-header-row {
   vertical-align: middle !important;
 }
 
-.mat-mdc-header-cell {
+/* .mat-mdc-header-cell {
   text-align: center !important;
-}
+} */
 
 li.d-flex.align-items-center.hover-effect.p-2 {
   margin-bottom: 6px;
@@ -445,6 +445,22 @@ button.mdc-button.mdc-button--raised.mat-mdc-raised-button.mat-primary.mat-mdc-b
 }
 
 button.mdc-button.mdc-button--raised.mat-mdc-raised-button.mat-unthemed.mat-mdc-button-base {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  box-shadow: none;
+  color: black;
+  background-color: rgb(193, 193, 252);
+}
+
+button.mdc-button.mdc-button--raised.mat-mdc-raised-button.mat-warn.mat-mdc-button-base {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  box-shadow: none;
+  color: black;
+  background-color: rgb(193, 193, 252);
+}
+
+button.mdc-button.mdc-button--outlined.mat-mdc-outlined-button.mat-warn.mat-mdc-button-base {
   border: 1px solid transparent;
   border-radius: 12px;
   box-shadow: none;

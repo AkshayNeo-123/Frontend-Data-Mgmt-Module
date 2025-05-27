@@ -1,5 +1,5 @@
 /* app.component.css */
- 
+
 /* Base setup */
 body {
   margin: 0;
@@ -9,37 +9,38 @@ body {
   flex-direction: column;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
- 
+
 /* Container for entire app */
 .app-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
- 
+
 /* Header section */
 .app-header {
   flex-shrink: 0;
 }
- 
+
 /* Main body: contains sidebar and content */
 .app-body {
   display: flex;
   flex: 1;
-  height: calc(100vh - 120px); /* Adjust if header/footer height changes */
+  height: calc(100vh - 120px);
+  /* Adjust if header/footer height changes */
   overflow: hidden;
 }
- 
+
 /* Sidebar setup */
 .app-sidebar {
   width: 230px;
   background-color: #f8f9fa;
   border-right: 1px solid #dee2e6;
-  overflow-y: auto; 
-  height: calc(100vh - 0px); 
+  overflow-y: auto;
+  height: calc(100vh - 0px);
   position: relative;
 }
- 
+
 /* Main content area */
 .app-content {
   flex: 1;
@@ -53,10 +54,12 @@ body {
   /* top: 61px; */
   /* margin-top: 60px; */
 }
-.auth-bg{
+
+.auth-bg {
   background-color: var(--light-bg);
   padding: 0%;
 }
+
 /* Footer styling */
 .app-footer {
   position: relative;
@@ -67,13 +70,56 @@ body {
   text-align: center;
 }
 
- 
+
 /* Sidebar toggle mode */
 .no-sidebar .app-sidebar {
   display: none;
 }
+
 .no-sidebar .app-content {
   width: 100%;
   position: relative;
   top: 0;
+}
+
+
+
+
+
+/* Sidebar fully expanded */
+.app-body {
+  display: flex;
+  transition: all 0.3s ease;
+}
+
+.app-sidebar {
+  width: 230px;
+  transition: width 0.3s ease;
+}
+
+/* Content adjusts to sidebar width */
+.app-content {
+  flex-grow: 1;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+/* Collapsed Sidebar */
+.collapsed-sidebar .app-sidebar {
+  width: 60px;
+}
+
+.collapsed-sidebar .app-content {
+  margin-left: 60px;
+}
+
+/* Responsive: auto collapse on small screens */
+@media (max-width: 768px) {
+  .app-sidebar {
+    width: 60px !important;
+  }
+
+  .app-content {
+    margin-left: 60px !important;
+  }
 }

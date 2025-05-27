@@ -1,4 +1,4 @@
-
+<!-- 
 <div class="app-container">
   <app-topbar *ngIf="showSidebar" class="app-header"></app-topbar>
  
@@ -6,11 +6,26 @@
     <app-sidebar *ngIf="showSidebar" class="app-sidebar"></app-sidebar>
  
     <main class="app-content"  [ngClass]="{ 'auth-bg': isCurrentRoute(['/login','/']) }">
-      <!-- <app-back-button *ngIf="showBackButton"></app-back-button> -->
+     
       <router-outlet></router-outlet>
     </main>
   </div>
  
   <app-footer *ngIf="showHeaderAndFooter" class="app-footer"></app-footer>
 </div>
- 
+  -->
+
+
+<div class="app-container">
+  <app-topbar *ngIf="showSidebar" class="app-header" (toggleSidebar)="onToggleSidebar()"></app-topbar>
+
+  <div class="app-body" [ngClass]="{ 'collapsed-sidebar': !isSidebarOpen }">
+   <app-sidebar *ngIf="showSidebar" class="app-sidebar" [isOpen]="isSidebarOpen"></app-sidebar>
+
+    <main class="app-content" [ngClass]="{ 'auth-bg': isCurrentRoute(['/login','/']) }">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <app-footer *ngIf="showHeaderAndFooter" class="app-footer"></app-footer>
+</div>
