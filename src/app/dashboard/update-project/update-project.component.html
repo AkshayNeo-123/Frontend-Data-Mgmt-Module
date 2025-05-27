@@ -130,7 +130,7 @@
       <mat-form-field appearance="outline" class="half-width">
         <mat-label>Project Status</mat-label>
         <mat-select formControlName="status" placeholder="--Select--">
-          <mat-option value="null">--Select--</mat-option>
+          <mat-option value="">--Select--</mat-option>
           <mat-option *ngFor="let s of status" [value]="s.id">
             {{ s.status }}
           </mat-option>
@@ -138,6 +138,7 @@
         <mat-error *ngIf="projectForm.get('status')?.errors?.['required']">
           Status is required
         </mat-error>
+        
       </mat-form-field>
     </div>
   </div>

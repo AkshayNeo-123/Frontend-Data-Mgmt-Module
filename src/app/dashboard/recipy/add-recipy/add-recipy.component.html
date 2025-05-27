@@ -9,7 +9,7 @@
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Recipe Name</mat-label>
             <input matInput formControlName="productName" required />
-            <mat-error *ngIf="recipeForm.get('productName')?.hasError('required')">Product Name is required</mat-error>
+            <!-- <mat-error *ngIf="recipeForm.get('productName')?.hasError('required')">Recipe Name is required</mat-error> -->
           </mat-form-field>
         </div>
 
@@ -21,7 +21,7 @@
                 {{ project.projectNumber }}
               </mat-option>
             </mat-select>
-            <mat-error *ngIf="recipeForm.get('projectId')?.hasError('required')">Project Number is required</mat-error>
+            <!-- <mat-error *ngIf="recipeForm.get('projectId')?.hasError('required')">Project Number is required</mat-error> -->
           </mat-form-field>
         </div>
 
@@ -136,7 +136,7 @@
 
 
     <div class="mt-4 d-flex justify-content-end gap-2">
-      <button mat-raised-button type="submit" color="primary">{{isEdit ? 'Update' :'Save'}}</button>
+      <button mat-raised-button type="submit" color="primary" [disabled]="recipeForm.invalid">{{isEdit ? 'Update' :'Save'}}</button>
       <button mat-raised-button type="button" color="warn" (click)="onCancel()">
         Cancel
       </button>
