@@ -4,7 +4,6 @@ import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { ProjectComponent } from './dashboard/project/project.component';
 import { AddcontactsComponent } from './dashboard/contactsData/addcontacts/addcontacts.component';
 import { AllMainPolymersComponent } from './dashboard/MainPolymerData/all-main-polymers/all-main-polymers.component';
-import { GetAdditivebyidComponent } from './dashboard/additiveData/get-additivebyid/get-additivebyid.component';
 import { ManageusersComponent } from './dashboard/manageusers/manageusers.component';
 import { UpdateInjectionMoldingComponent } from './dashboard/update-injection-molding/update-injection-molding.component';
 
@@ -91,7 +90,6 @@ export const routes: Routes = [
   {path:'addRecipe', component:AddRecipyComponent},
   // { path: 'GetAllProject', component: ProjectComponent },
   { path: 'updaetInjection', component: UpdateInjectionMoldingComponent },
-  { path: 'get-additivebyid/:id', component: GetAdditivebyidComponent },
   { path: 'manageusers', component: ManageusersComponent ,
     canActivate: [permissionGuard],
     data: {
