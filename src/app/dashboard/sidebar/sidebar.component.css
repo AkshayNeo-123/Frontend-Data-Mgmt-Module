@@ -86,8 +86,31 @@ i {
   border-radius: 10px;
 }
 
-.active-link:hover{
-   color: #fff !important;
+.active-link:hover {
+  color: #fff !important;
   border-radius: 10px !important;
 
+}
+
+.sidebar {
+  transition: width 0.3s ease;
+  overflow: hidden;
+  background-color: #f8f9fa;
+  /* Optional */
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  /* top: 0; */
+  z-index: 1000;
+}
+
+.sidebar-expanded {
+  width: 230px;
+  /* Adjust as needed */
+}
+
+.sidebar-collapsed {
+  width: 85px;
+  display: flex;
+  justify-content: center;
 }
