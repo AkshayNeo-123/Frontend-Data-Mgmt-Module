@@ -251,9 +251,9 @@
 
 
 
-    <div mat-dialog-actions align="end" class="btnFix">
-      <button mat-raised-button color="primary"  type="submit" [disabled]="!injectionForm.invalid" >Save</button>
-      <button mat-raised-button type="button"  (click)="onCancel()">Cancel</button>
+    <div mat-dialog-actions align="end">
+      <button mat-raised-button color="primary" style="margin-bottom: 25px; margin-right: 10px; " type="submit" (disable)="!injectionForm.invalid" >Save</button>
+      <button mat-raised-button type="button" style="margin-bottom: 25px;" (click)="onCancel()">Cancel</button>
     </div>
 </form>
 <!-- <button mat-raised-button color="primary" routerLink="/updaetInjection">Update</button> -->
