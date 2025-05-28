@@ -24,6 +24,8 @@ import { GetCompInjectComponent } from './dashboard/get-comp-inject/get-comp-inj
 import { RecipedetailsComponent } from './dashboard/recipedetails/recipedetails.component';
 import { PermissionServiceService } from './services/permission-service.service';
 import { permissionGuard } from './permission.guard';
+import { GetTestComponent } from './dashboard/get-test/get-test.component';
+import { AddTestComponent } from './dashboard/add-test/add-test.component';
 
 
 export const routes: Routes = [
@@ -100,6 +102,14 @@ export const routes: Routes = [
   { path: 'comp-inject', component:GetCompInjectComponent},
    { path: 'recipedetails', component: RecipedetailsComponent },
 
+  {path: 'gettest',component:GetTestComponent,
+    canActivate: [permissionGuard],
+    data: {
+      resource: 'Testing',
+      action: 'canView'
+    }
+  },
+  {path:'addtest',component:AddTestComponent},
 
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }

@@ -73,7 +73,7 @@ export class AddCompoundingComponent implements OnInit {
       //  compoundingId:[{value:this.compoundingSetpreviousdata,disabled: true}],
       recipeNumber: [{ value: this.recipeId, disabled: true }],
       parameterSet: [{ value: this.parameterSetpreviousdata, disabled: true }],
-      date: [null],
+        date: [new Date()],
       note: [''],
       temperature: [],
       duration: [],
@@ -156,7 +156,7 @@ export class AddCompoundingComponent implements OnInit {
 
   addComponent() {
     const componentGroup = this.fb.group({
-      name: [""],
+      name: [""], 
       share: [0],
       MF: [false],
       SecondF: [false],
@@ -404,5 +404,21 @@ blockInvalidInput(event: KeyboardEvent) {
   }
   event.preventDefault();
 }
+
+onNumberInput(event: Event, index: number, controlName: string, maxValue: number) {
+  const input = event.target as HTMLInputElement;
+  if (input.value === '') return;
+
+  let numValue = Number(input.value);
+  if (isNaN(numValue)) return;
+
+  numValue = Math.min(Math.max(numValue, 0), maxValue); 
+  input.value = numValue.toString();
+
+  const control = this.components?.at(index)?.get(controlName);
+  control?.setValue(numValue, { emitEvent: false });
+}
+
+
 
 }

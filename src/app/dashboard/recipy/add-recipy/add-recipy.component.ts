@@ -266,30 +266,30 @@ const filteredComponents = this.components.value.filter((comp: any) => {
     this.dialogRef.close(false); // Close without saving
   }
 
-  onNumberInput(event: Event, index: number, controlName: string, maxValue: number) {
+onNumberInput(event: Event, index: number, controlName: string, maxValue: number) {
   const input = event.target as HTMLInputElement;
   let value = input.value;
 
-  // Allow empty string to let user delete
+  // Allow empty string (user is deleting)
   if (value === '') return;
 
   // Convert to number
-  const numValue = Number(value);
+  let numValue = Number(value);
 
-  // If number is NaN or less than 0, reset to 0
+  // Clamp the value within 0 to maxValue
   if (isNaN(numValue) || numValue < 0) {
-    input.value = '0';
-    this.components.at(index).get(controlName)?.setValue(0, { emitEvent: false });
-    return;
+    numValue = 0;
+  } else if (numValue > maxValue) {
+    numValue = maxValue;
   }
 
-  // If greater than maxValue, set to maxValue
-  if (numValue > maxValue) {
-    input.value = maxValue.toString();
-    this.components.at(index).get(controlName)?.setValue(maxValue, { emitEvent: false });
-  } else {
-    // Update form control value normally
-    this.components.at(index).get(controlName)?.setValue(numValue, { emitEvent: false });
+  // Update both the input and the form control
+  input.value = numValue.toString();
+
+  const group = this.components?.at(index);
+  const control = group?.get(controlName);
+  if (control) {
+    control.setValue(numValue, { emitEvent: false });
   }
 }
 
