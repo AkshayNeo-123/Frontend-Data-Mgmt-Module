@@ -378,7 +378,7 @@ onFileSelected(event: Event, controlName: string): void {
       compoundingDataDTO: {
         receipeId: formValue.recipeNumber,
         parameterSet: formValue.parameterSet,
-        date: new Date(formValue.date).toISOString().split('T')[0],
+        date: formValue.date ? new Date(formValue.date).toISOString().split('T')[0] : null,
         notes: formValue.note,
         repetation: this.repetitionCount,
         pretreatment: formValue.pretreatment,
@@ -458,8 +458,7 @@ onFileSelected(event: Event, controlName: string): void {
       }
     });
   }
-  /* format date */
-  formatDate(e: any) {
+ formatDate(e: any) {
     console.log("hiiiiiiii");
     const d = new Date(e.target.value);
     d.setDate(d.getDate() + 1);
@@ -467,8 +466,44 @@ onFileSelected(event: Event, controlName: string): void {
     console.log(convertDate);
     this.compoundForm.get('date')?.setValue(convertDate, { onlySelf: true });
   }
+
   getSanitizedFileUrl(filePath?: string): SafeResourceUrl | null {
     const fullUrl = filePath ? `${this.baseUrl}/${filePath}` : "";
     return fullUrl ? this.sanitizer.bypassSecurityTrustResourceUrl(fullUrl) : null;
   }
+
+  onNumberInput(event: Event, index: number, controlName: string, maxValue: number) {
+  const input = event.target as HTMLInputElement;
+  if (input.value === '') return;
+
+  let numValue = Number(input.value);
+  if (isNaN(numValue)) return;
+
+  numValue = Math.min(Math.max(numValue, 0), maxValue); 
+  input.value = numValue.toString();
+
+  const control = this.components?.at(index)?.get(controlName);
+  control?.setValue(numValue, { emitEvent: false });
+}
+
+blockInvalidInput(event: KeyboardEvent) {
+  const input = event.target as HTMLInputElement;
+  const key = event.key;
+  const value = input.value;
+  const cursorPos = input.selectionStart ?? 0;
+  if (/^\d$/.test(key) || ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(key)) {
+    return;
+  }
+  if (key === '-') {
+    const alreadyHasMinus = value.includes('-');
+    const typingAtStart = cursorPos === 0;
+
+    if (!alreadyHasMinus && typingAtStart) {
+      return;
+    }
+  }
+  event.preventDefault();
+}
+
+
 }
