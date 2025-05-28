@@ -1,0 +1,26 @@
+<div class="container for-margin ">
+  <h4 class="fw-bold">Test List</h4>
+
+   <div class="d-flex align-items-center justify-content-between">
+    <div class="w-100">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search by Name</mat-label>
+        <input matInput  minlength="1">
+      </mat-form-field>
+
+    </div>
+    <div class="ms-auto">
+      <button mat-raised-button color="primary" class="me-5 mb-4"
+        style="border: none; background-color: white;" matTooltip="Export to Excel">
+        <i class="fas fa-file-excel me-2" style="font-size: 28px; margin-bottom: 15px;"></i>
+      </button>
+
+    </div>
+    <div>
+      <button *ngIf="canAddMaterial" mat-raised-button class="me-5 add-material-btn w-100" >
+        <i class="fas fa-plus me-2"></i>Add Test
+      </button>
+    </div>
+  </div>
+
+</div>
