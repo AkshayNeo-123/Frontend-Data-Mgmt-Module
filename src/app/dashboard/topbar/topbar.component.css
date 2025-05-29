@@ -51,7 +51,11 @@ button.topbar.btn.btn-outline-light {
   color: #fff;
 }
 
-.logout-text {
+.recClr:hover{
+  color: red;
+}
+
+/* .logout-text {
   position: absolute;
   white-space: nowrap;
   top: 60%;
@@ -64,7 +68,7 @@ button.topbar.btn.btn-outline-light {
   pointer-events: none;
   transition: opacity 0.2s ease;
   font-size: 0.85rem;
-}
+} */
 
 .btn-logout:hover .logout-text {
   opacity: 1;

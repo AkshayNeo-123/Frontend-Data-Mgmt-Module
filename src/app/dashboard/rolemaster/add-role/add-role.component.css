@@ -3,7 +3,8 @@
 }
 
 .btnFix{
-    position: sticky;
+  position: sticky;
+  margin-right: -27px;
   bottom: 0;
   background-color: white; /* prevents overlap with form */
   z-index: 10;
@@ -19,21 +20,24 @@
   border-left: 1px solid;
 }
 
-.menuNameList{
+/* .menuNameList{ */
   /* background-color: rgb(167, 164, 164); */
-  border: 5px solid white;
-  width: 25%;
+  /* border: 5px solid white;
+  width: 25%; */
   /* padding: 5px; */
   /* text-align: center; */
+/* } */
+
+th, tr{
+  border: 1px solid black;
 }
 
-table thead tr {
-  border-bottom: 2px solid #ccc; /* or any color you prefer */
+table thead th {
+  border-bottom: 1px solid black; /* or any color you prefer */
 }
 
-
-table{
-  /* border: 2px solid black; */
+div.container::-webkit-scrollbar-thumb{
+  border-radius: 16px;
 }
 
 table th, table td {
@@ -47,4 +51,35 @@ table th, table td {
 
 th{
   text-align: center;
+}
+
+.container {
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Prevent outer scroll */
+}
+
+.content-scrollable {
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 8px; /* Prevent clipping content from hidden scrollbar */
+}
+
+/* Hide scrollbar but keep scrolling working */
+
+/* Chrome, Safari */
+.content-scrollable::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* Firefox */
+.content-scrollable {
+  scrollbar-width: none;
+}
+
+/* IE/Edge */
+.content-scrollable {
+  -ms-overflow-style: none;
 }
