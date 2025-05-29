@@ -69,3 +69,6 @@ button.topbar.btn.btn-outline-light {
 .btn-logout:hover .logout-text {
   opacity: 1;
 }
+.logout-btn:hover{
+color: red;
+}
