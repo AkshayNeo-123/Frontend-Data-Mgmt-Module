@@ -89,7 +89,7 @@ export class AddRecipyComponent implements OnInit {
     this.recipeForm = this.fb.group({
       productName: ['', Validators.required],
       comments: [''],
-      projectId: [null, Validators.required],
+      projectId: ['', Validators.required],
       mainPolymerId: ['', Validators.required],
       additiveId: ['', Validators.required],
       components: this.fb.array([])
