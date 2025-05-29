@@ -34,4 +34,8 @@ export class UserService {
     return this.http.get<any[]>('https://localhost:7030/api/Role');
   }
 
+  changePassword(userId:number,payload: { oldPassword: string, newPassword: string }){
+return this.http.put(`${this.baseUrl}/${userId}/changepassword`,payload)  
+  }
+
 }

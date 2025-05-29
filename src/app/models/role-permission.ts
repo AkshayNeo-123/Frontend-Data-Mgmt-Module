@@ -11,3 +11,10 @@ export interface RolePermission {
   children?:RolePermission[];
 
 }
+
+export interface ChangePasswordDto{
+   userId:number;
+   oldPassword:string;
+   newPassword:string;
+   confirmPasswordHash:string
+}

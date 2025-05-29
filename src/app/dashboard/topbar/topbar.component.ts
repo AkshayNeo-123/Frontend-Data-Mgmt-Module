@@ -1,10 +1,21 @@
 
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service'; 
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ChangePasswordComponent } from '../../auth/change-password/change-password.component';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-topbar',
+  standalone:true,
+  imports:[ CommonModule,
+  
+    MatIconModule,
+    MatDialogModule,MatTooltipModule,
+    RouterModule],
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.css']
 })
@@ -13,7 +24,7 @@ export class TopbarComponent implements OnInit {
   userName: string = 'User'; 
   isDropdownOpen: boolean = false;  
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router,private dialog:MatDialog) {}
 
   ngOnInit(): void {
     const user = this.authService.getLoggedInUser();
@@ -37,5 +48,24 @@ export class TopbarComponent implements OnInit {
   logout(): void {
     this.authService.performLogout();  
     this.router.navigate(['/login']);  
+  }
+
+   showDropdown=false;
+      editPasswordDia(){
+          this.showDropdown = false;
+
+        // console.log("the password data is",user);
+
+          const user = this.authService.getLoggedInUser();
+        console.log("the password data is",user);
+
+        const dialogRef=this.dialog.open(ChangePasswordComponent,{
+          
+   width: '80%',
+        maxWidth: '600px',
+        
+        disableClose: true,  
+          data: { userId: user?.userid }      
+      }   ); 
   }
 }

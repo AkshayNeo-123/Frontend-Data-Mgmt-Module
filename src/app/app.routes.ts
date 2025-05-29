@@ -24,6 +24,7 @@ import { GetCompInjectComponent } from './dashboard/get-comp-inject/get-comp-inj
 import { RecipedetailsComponent } from './dashboard/recipedetails/recipedetails.component';
 import { PermissionServiceService } from './services/permission-service.service';
 import { permissionGuard } from './permission.guard';
+import { ChangePasswordComponent } from './auth/change-password/change-password.component';
 
 
 export const routes: Routes = [
@@ -97,6 +98,7 @@ export const routes: Routes = [
       action: 'canView'
     }
   },
+  {path:'change-password',component:ChangePasswordComponent},
   { path: 'comp-inject', component:GetCompInjectComponent},
    { path: 'recipedetails', component: RecipedetailsComponent },
 
