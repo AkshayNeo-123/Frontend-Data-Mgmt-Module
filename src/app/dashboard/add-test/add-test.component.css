@@ -1,0 +1,32 @@
+/* Remove background and border from stepper headers */
+::ng-deep .mat-horizontal-stepper-header {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Remove active tab color (label circle & text) */
+::ng-deep .mat-step-header.mat-active .mat-step-icon {
+    background-color: transparent !important;
+    color: inherit !important;
+    border: 1px solid #ccc;
+    /* optional: add outline */
+}
+
+/* Optional: reset hover or focus states */
+::ng-deep .mat-step-header:hover,
+::ng-deep .mat-step-header.cdk-program-focused {
+    background-color: transparent !important;
+}
+
+/* Optional: customize completed state */
+::ng-deep .mat-step-header.mat-completed .mat-step-icon {
+    background-color: transparent !important;
+    color: inherit !important;
+}
+
+/* .button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+} */

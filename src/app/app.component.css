@@ -17,17 +17,17 @@ body {
   min-height: 100vh;
 }
 
-/* Header section */
+
 .app-header {
   flex-shrink: 0;
 }
 
-/* Main body: contains sidebar and content */
+
 .app-body {
   display: flex;
   flex: 1;
   height: calc(100vh - 120px);
-  /* Adjust if header/footer height changes */
+
   overflow: hidden;
 }
 
@@ -97,14 +97,13 @@ body {
   transition: width 0.3s ease;
 }
 
-/* Content adjusts to sidebar width */
 .app-content {
   flex-grow: 1;
-  padding: 20px;
+  /* padding: 20px; */
   transition: margin-left 0.3s ease;
 }
 
-/* Collapsed Sidebar */
+
 .collapsed-sidebar .app-sidebar {
   width: 60px;
 }
@@ -113,7 +112,7 @@ body {
   margin-left: 60px;
 }
 
-/* Responsive: auto collapse on small screens */
+
 @media (max-width: 768px) {
   .app-sidebar {
     width: 60px !important;

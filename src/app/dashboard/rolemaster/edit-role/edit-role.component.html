@@ -1,6 +1,6 @@
 <div class="container">
-<h1 mat-dialog-title>Edit Role</h1>
-
+<h4>Edit Role</h4>
+<div class="content-scrollable">
 <form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
   <mat-form-field class="w-100">
     <mat-label>Role Name</mat-label>
@@ -11,55 +11,37 @@
   </mat-form-field>
 
   <div formGroupName="permissions">
-    <label class="font-weight-bold">Permissions:</label> 
-    <mat-checkbox class="selectAllChkbox" (change)="toggleAllPermissions($event)">Select All</mat-checkbox><br><hr>
-    <table>
+    <!-- <label class="font-weight-bold">Permissions:</label> 
+    <mat-checkbox class="selectAllChkbox" (change)="toggleAllPermissions($event)">Select All</mat-checkbox><br><hr> -->
+    <table mat-table class="table table-bordered align-middle text-center">
+      <thead class="table-light">
+  <tr>
+    <th><strong>Menu</strong></th>
+    <th colspan="4"><strong>Permissions</strong></th>
+    <!-- <th></th> for spacing -->
+    <th><strong>
+    <mat-checkbox class="selectAllChkbox" (change)="toggleAllPermissions($event)"><b>Select All</b></mat-checkbox>
+    </strong></th>
+  </tr>
+</thead>
       <tbody *ngFor="let permission of modulePermissions" [formGroupName]="permission.id">
         <tr>
-          <td class="menuNameList"><strong>{{ permission.menuName }}</strong></td>
+          <td><strong>{{ permission.menuName }}</strong></td>
           <td *ngIf="permission.childCount==0"><mat-checkbox formControlName="view">View</mat-checkbox></td>
           <td *ngIf="permission.childCount==0"><mat-checkbox formControlName="create">Create</mat-checkbox></td>
           <td *ngIf="permission.childCount==0"><mat-checkbox formControlName="update">Update</mat-checkbox></td>
           <td *ngIf="permission.childCount==0"><mat-checkbox formControlName="delete">Delete</mat-checkbox></td>
-          <td>&nbsp;&nbsp;&nbsp;</td>
+          <!-- <td>&nbsp;&nbsp;&nbsp;</td> -->
           <td *ngIf="permission.childCount==0" class="verticalLine"><mat-checkbox (change)="toggleMenuPermissions(permission.id.toString(), $event)">Select All</mat-checkbox></td>
         </tr>
       </tbody>
     </table>
-
-    <!-- <div *ngFor="let permission of modulePermissions" [formGroupName]="permission.id" class="mt-2">
-      <strong>{{ permission.menuName }}</strong>
-      
-      <mat-checkbox formControlName="view">View</mat-checkbox>
-      <mat-checkbox formControlName="create">Create</mat-checkbox>
-      <mat-checkbox formControlName="update">Update</mat-checkbox>
-      <mat-checkbox formControlName="delete">Delete</mat-checkbox>
-      <mat-checkbox (change)="toggleMenuPermissions(permission.id.toString(), $event)">Select All</mat-checkbox>
-    </div> -->
   </div>
-
-  <!-- <mat-form-field class="w-100">
-    <mat-label>Description</mat-label>
-    <textarea matInput formControlName="description"></textarea>
-  </mat-form-field> -->
-
-  <!-- <div class="mt-3" formGroupName="permissions">
-    <label class="font-weight-bold">Permissions:</label>
-    <div *ngFor="let permission of modulePermissions">
-      <mat-checkbox [formControlName]="permission.key">
-        {{ permission.label }}
-      </mat-checkbox>
-    </div>
-  </div> -->
-
-  <!-- <div class="mt-4" style="text-align: right;">
-    <button mat-flat-button color="primary" type="submit" [disabled]="roleForm.invalid">Save</button>
-    <button mat-button mat-dialog-close>Cancel</button>
-  </div> -->
 
   <mat-dialog-actions align="end" class="btnFix">
       <button mat-raised-button color="primary" type="submit">Update</button>
       <button mat-raised-button type="button" (click)="onCancel()">Cancel</button>
     </mat-dialog-actions>
 </form>
+</div>
 </div>

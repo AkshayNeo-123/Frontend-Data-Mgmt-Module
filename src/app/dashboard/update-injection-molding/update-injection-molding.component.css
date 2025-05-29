@@ -1,12 +1,7 @@
 textarea[matInput] {
     min-height: 120px; 
   }
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px; 
-    margin-bottom: 16px; 
-  }
+
   
   .half-width {
     flex: 1 1 calc(50% - 8px); 
@@ -45,5 +40,6 @@ textarea[matInput] {
   padding-top: 8px;
   padding-bottom: 8px;
 }
+
   
   

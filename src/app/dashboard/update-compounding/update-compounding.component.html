@@ -1,20 +1,16 @@
 <div class="for-margin px-3 py-3">
-  <h4 mat-dialog-title class="mb-4">Update Compounding</h4>
-  <form
-    [formGroup]="compoundForm"
-    (ngSubmit)="onSubmit()"
-    class="container"
-    style="margin-bottom: 50px"
-  >
-    <!-- Recipe Number and Parameter Set -->
-    <div class="row align-items-center" style="height: 56px">
+  <h4 mat-dialog-title class="mb-2">Update Compounding</h4>
+  <hr class="my-3" />
+
+  <form [formGroup]="compoundForm" (ngSubmit)="onSubmit()" class="container" style="margin-bottom: 50px;">
+    <div class="row align-items-center" style="height: 56px;">
       <div class="col-3">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Recipe Number</mat-label>
           <input matInput formControlName="recipeNumber" />
         </mat-form-field>
       </div>
- 
+
       <div class="col-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Parameter Set</mat-label>
@@ -22,48 +18,34 @@
         </mat-form-field>
       </div>
     </div>
- 
+
     <hr class="my-3" />
- 
+
     <div class="row align-items-center" style="height: 56px;">
- 
+
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Date</mat-label>
-          <input
-            matInput
-            [matDatepicker]="startPicker"
-            formControlName="date"
-            (dateChange)="formatDate($event)"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="startPicker"
-          ></mat-datepicker-toggle>
+          <input matInput [matDatepicker]="startPicker" formControlName="date" (dateChange)="formatDate($event)" />
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
           <mat-datepicker #startPicker></mat-datepicker>
         </mat-form-field>
       </div>
- 
- 
+
+
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Note</mat-label>
-          <input matInput formControlName="note" maxlength="229" />
+          <input matInput formControlName="note" maxlength="249" />
         </mat-form-field>
       </div>
- 
+
       <div class="col-4" style="margin-bottom: 50px;">
         <mat-label class="me-2">Repetation</mat-label>
-        <button
-          mat-icon-button
-          color="primary"
-          aria-label="Decrease"
-          type="button"
-          (click)="decreaseRepetition()"
-        >
+        <button mat-icon-button color="primary" aria-label="Decrease" type="button" (click)="decreaseRepetition()">
           <span>-</span>
         </button>
- 
+
         <span style="
           border: 1px solid #ccc;
           padding: 4px 12px;
@@ -74,78 +56,73 @@
         ">
           {{ repetitionCount }}
         </span>
- 
+
         <button mat-icon-button color="primary" aria-label="Increase" type="button" (click)="increaseRepetition()">
           <span>+</span>
         </button>
       </div>
- 
+
     </div>
- 
+
     <hr class="my-3" />
- 
+
     <div class="row align-items-center mt-3">
-      <div class="col-4" style="margin-bottom: 30px">
+      <div class="col-4" style="margin-bottom: 30px;">
         <label class="form-label d-block mb-1">Pre-Treatment</label>
- 
+
         <div class="d-flex gap-3 align-items-center">
           <mat-checkbox formControlName="pretreatmentNone">None</mat-checkbox>
-          <mat-checkbox formControlName="pretreatmentDrying"
-            >Drying</mat-checkbox
-          >
+          <mat-checkbox formControlName="pretreatmentDrying">Drying</mat-checkbox>
         </div>
       </div>
- 
- 
+
+
       <div class="col-4">
-        <mat-form-field appearance="outline" class="w-100" style="width: 90px">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Temperature (°C)</mat-label>
-          <input
-            type="number"
-            matInput
-            formControlName="temperature"
-            min="-100"
-            max="300"
-          />
+          <input type="number" matInput formControlName="temperature" min="-100" max="300"
+            (keydown)="blockInvalidInput($event)" />
         </mat-form-field>
+        <mat-error
+          *ngIf="compoundForm.get('temperature')?.hasError('min') || compoundForm.get('temperature')?.hasError('max')">
+          Please select proper Temperature (°C) (between -100 and 300)
+        </mat-error>
+
       </div>
- 
+
       <div class="col-4">
-        <mat-form-field appearance="outline" class="w-100" style="width: 90px">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Duration (h)</mat-label>
-          <input
-            type="number"
-            matInput
-            formControlName="duration"
-            min="0"
-            max="24"
-          />
+          <input type="number" matInput formControlName="duration" min="0" max="24"
+            (keydown)="blockInvalidInput($event)" />
         </mat-form-field>
+        <mat-error
+          *ngIf="compoundForm.get('duration')?.hasError('min') || compoundForm.get('duration')?.hasError('max')">
+          Please select proper Duration (h) (between 0 and 24)
+        </mat-error>
       </div>
- 
+
       <div class="col-4" style="margin-bottom: 40px;">
         <mat-checkbox formControlName="notMeasured">Not Measured</mat-checkbox>
       </div>
- 
+
       <div class="col-4">
-        <mat-form-field appearance="outline" class="w-100" style="width: 90px">
+        <mat-form-field appearance="outline" class="w-100" style="width: 90px;">
           <mat-label>Residual M. %</mat-label>
-          <input
-            type="number"
-            matInput
-            formControlName="residualMoisture"
-            min="0"
-            max="100"
-          />
+          <input type="number" matInput formControlName="residualMoisture" min="0" max="100"
+            (keydown)="blockInvalidInput($event)" />
         </mat-form-field>
+        <mat-error
+          *ngIf="compoundForm.get('residualMoisture')?.hasError('min') || compoundForm.get('residualMoisture')?.hasError('max')">
+          Please select proper Residual M. % (between 0 and 100)
+        </mat-error>
       </div>
- 
- 
+
     </div>
- 
+
     <hr class="my-3" />
- 
- 
+
+
     <h5>Dosage</h5>
     <div class="card p-3">
       <table class="table table-bordered table-sm text-center align-middle">
@@ -170,24 +147,17 @@
             <td>
               <select class="form-select" formControlName="name">
                 <option value="" disabled selected>-- Select --</option>
-                <option
-                  *ngFor="let option of componentOptions"
-                  [value]="option.id"
-                >
+                <option *ngFor="let option of componentOptions" [value]="option.id">
                   {{ option.componentName }}
                 </option>
               </select>
- 
+
             </td>
- 
+
             <td>
-              <input
-                type="number"
-                class="form-control"
-                formControlName="share"
-                min="0"
-                max="100"
-              />
+              <input type="number" class="form-control" formControlName="share" min="0" max="100"
+                (input)="onNumberInput($event, i, 'share', 100)" />
+
             </td>
             <td><mat-checkbox type="checkbox" formControlName="MF" /></td>
             <td><mat-checkbox type="checkbox" formControlName="SecondF" /></td>
@@ -198,66 +168,51 @@
             <td><mat-checkbox type="checkbox" formControlName="D" /></td>
             <td><mat-checkbox type="checkbox" formControlName="E" /></td>
             <td><mat-checkbox type="checkbox" formControlName="F" /></td>
- 
+
             <td>
-              <button
-                type="button"
-                class="btn btn-outline-danger"
-                (click)="removeComponent(i)"
-              >
+              <button type="button" class="btn btn-outline-danger" (click)="removeComponent(i)">
                 <i class="fas fa-trash-alt action-icon" matTooltip="Delete"></i>
               </button>
             </td>
           </tr>
         </tbody>
       </table>
- 
+
       <div class="d-flex justify-content-between">
-        <div>
-          <strong>Total [%]: {{ getTotalShare() }}</strong>
-        </div>
-        <button
-          type="button"
-          class="btn btn-primary btn-sm"
-          (click)="addComponent()"
-        >
-          Add new component
-        </button>
+        <div><strong>Total [%]: {{ getTotalShare() }}</strong></div>
+        <button type="button" class="btn btn-primary btn-sm" (click)="addComponent()">Add new component</button>
       </div>
     </div>
- 
- 
+
+
     <hr class="my-3" />
- 
+
     <div class="row align-items-center mt-3">
- 
+
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Speed Side Feeder 1 (RPM)</mat-label>
-          <input
-            type="number"
-            matInput
-            formControlName="speedFeeder1"
-            min="0"
-            max="300"
-          />
+          <input type="number" matInput formControlName="speedFeeder1" min="0" max="300"
+            (keydown)="blockInvalidInput($event)" />
         </mat-form-field>
+        <mat-error
+          *ngIf="compoundForm.get('speedFeeder1')?.hasError('min') || compoundForm.get('speedFeeder1')?.hasError('max')">
+          Please select proper Speed Side Feeder 1 (RPM) (between 0 and 300)
+        </mat-error>
       </div>
- 
+
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Speed Side Feeder 2 (RPM)</mat-label>
-          <input
-            type="number"
-            matInput
-            formControlName="speedFeeder2"
-            min="0"
-            max="300"
-          />
+          <input type="number" matInput formControlName="speedFeeder2" min="0" max="300"
+            (keydown)="blockInvalidInput($event)" />
         </mat-form-field>
+        <mat-error
+          *ngIf="compoundForm.get('speedFeeder2')?.hasError('min') || compoundForm.get('speedFeeder2')?.hasError('max')">
+          Please select proper Speed Side Feeder 2 (RPM) (between 0 and 300)
+        </mat-error>
       </div>
- 
- 
+
 <div class="col-4" style="margin-bottom: 40px;">
   <label for="screwConfig" class="form-label">Upload Screwconfig</label>
 
@@ -285,70 +240,117 @@
           <img src="/image.png" alt="Screw Configuration" class="img-fluid" style="height: 100px; width: 100%;" />
         </div>
       </div>
- 
+
       <div class="d-flex flex-wrap gap-2 mt-2" style="margin-left: 30px;">
         <mat-form-field appearance="outline" style="width: 80px;">
           <input matInput type="number" class="text-center" placeholder="100" formControlName="temp1" min="-100"
-            max="100" />
+            max="100" (keydown)="blockInvalidInput($event)" />
+          <mat-error
+            *ngIf="compoundForm.get('temp1')?.hasError('min') || compoundForm.get('temp1')?.hasError('max')">-100 to
+            100</mat-error>
         </mat-form-field>
+
         <mat-form-field appearance="outline" style="width: 80px;">
           <input matInput type="number" class="text-center" placeholder="200" formControlName="temp2" min="-100"
-            max="200" />
+            max="200" (keydown)="blockInvalidInput($event)" />
+          <mat-error
+            *ngIf="compoundForm.get('temp2')?.hasError('min') || compoundForm.get('temp2')?.hasError('max')">-100 to
+            200</mat-error>
         </mat-form-field>
+
         <mat-form-field appearance="outline" style="width: 80px;">
           <input matInput type="number" class="text-center" placeholder="200" formControlName="temp3" min="-100"
-            max="200" />
+            max="200" (keydown)="blockInvalidInput($event)" />
+          <mat-error
+            *ngIf="compoundForm.get('temp3')?.hasError('min') || compoundForm.get('temp3')?.hasError('max')">-100 to
+            200</mat-error>
         </mat-form-field>
+
         <mat-form-field appearance="outline" style="width: 80px;">
           <input matInput type="number" class="text-center" placeholder="200" formControlName="temp4" min="-100"
-            max="200" />
+            max="200" (keydown)="blockInvalidInput($event)" />
+          <mat-error
+            *ngIf="compoundForm.get('temp4')?.hasError('min') || compoundForm.get('temp4')?.hasError('max')">-100 to
+            200</mat-error>
         </mat-form-field>
+
         <mat-form-field appearance="outline" style="width: 80px;">
           <input matInput type="number" class="text-center" placeholder="200" formControlName="temp5" min="-100"
-            max="200" />
+            max="200" (keydown)="blockInvalidInput($event)" />
+          <mat-error
+            *ngIf="compoundForm.get('temp5')?.hasError('min') || compoundForm.get('temp5')?.hasError('max')">-100 to
+            200</mat-error>
         </mat-form-field>
+
         <mat-form-field appearance="outline" style="width: 80px;">
           <input matInput type="number" class="text-center" placeholder="100" formControlName="temp6" min="-100"
-            max="100" />
+            max="100" (keydown)="blockInvalidInput($event)" />
+          <mat-error
+            *ngIf="compoundForm.get('temp6')?.hasError('min') || compoundForm.get('temp6')?.hasError('max')">-100 to
+            100</mat-error>
         </mat-form-field>
+
         <mat-form-field appearance="outline" style="width: 80px;">
           <input matInput type="number" class="text-center" placeholder="200" formControlName="temp7" min="-100"
-            max="200" />
+            max="200" (keydown)="blockInvalidInput($event)" />
+          <mat-error
+            *ngIf="compoundForm.get('temp7')?.hasError('min') || compoundForm.get('temp7')?.hasError('max')">-100 to
+            200</mat-error>
         </mat-form-field>
+
         <mat-form-field appearance="outline" style="width: 80px;">
           <input matInput type="number" class="text-center" placeholder="200" formControlName="temp8" min="-100"
-            max="200" />
+            max="200" (keydown)="blockInvalidInput($event)" />
+          <mat-error
+            *ngIf="compoundForm.get('temp8')?.hasError('min') || compoundForm.get('temp8')?.hasError('max')">-100 to
+            200</mat-error>
         </mat-form-field>
+
         <mat-form-field appearance="outline" style="width: 80px;">
           <input matInput type="number" class="text-center" placeholder="230" formControlName="temp9" min="-100"
-            max="230" />
+            max="230" (keydown)="blockInvalidInput($event)" />
+          <mat-error
+            *ngIf="compoundForm.get('temp9')?.hasError('min') || compoundForm.get('temp9')?.hasError('max')">-100 to
+            230</mat-error>
         </mat-form-field>
+
         <mat-form-field appearance="outline" style="width: 80px;">
           <input matInput type="number" class="text-center" placeholder="230" formControlName="temp10" min="-100"
-            max="230" />
+            max="230" (keydown)="blockInvalidInput($event)" />
+          <mat-error
+            *ngIf="compoundForm.get('temp10')?.hasError('min') || compoundForm.get('temp10')?.hasError('max')">-100 to
+            230</mat-error>
         </mat-form-field>
+
         <mat-form-field appearance="outline" style="width: 80px;">
           <input matInput type="number" class="text-center" placeholder="230" formControlName="temp11" min="-100"
-            max="230" />
+            max="230" (keydown)="blockInvalidInput($event)" />
+          <mat-error
+            *ngIf="compoundForm.get('temp11')?.hasError('min') || compoundForm.get('temp11')?.hasError('max')">-100 to
+            230</mat-error>
         </mat-form-field>
+
         <mat-form-field appearance="outline" style="width: 80px;">
           <input matInput type="number" class="text-center" placeholder="230" formControlName="temp12" min="-100"
-            max="230" />
+            max="230" (keydown)="blockInvalidInput($event)" />
+          <mat-error
+            *ngIf="compoundForm.get('temp12')?.hasError('min') || compoundForm.get('temp12')?.hasError('max')">-100 to
+            230</mat-error>
         </mat-form-field>
       </div>
- 
- 
+
+
     </div>
- 
+
     <hr class="my-3" />
- 
+
     <div class="row">
       <div class="col-3">
         <label class="form-label d-block">Screw Config</label>
         <mat-checkbox formControlName="screwStandard" class="me-2">Standard</mat-checkbox>
         <mat-checkbox formControlName="screwModified">Modified</mat-checkbox>
       </div>
- 
+
       <div class="col-5">
         <label class="form-label d-block">Degassing</label>
         <mat-checkbox formControlName="degassingStandard" class="me-2">Standard</mat-checkbox>
@@ -356,135 +358,161 @@
         <mat-checkbox formControlName="degassingNone" class="me-2">None</mat-checkbox>
         <mat-checkbox formControlName="degassingFET">FET</mat-checkbox>
       </div>
- 
+
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Screw Speed (rpm)</mat-label>
-          <input type="number" matInput formControlName="screwSpeed" min="0" max="1500" />
+          <input type="number" matInput formControlName="screwSpeed" min="0" max="1500"
+            (keydown)="blockInvalidInput($event)" />
         </mat-form-field>
+        <mat-error
+          *ngIf="compoundForm.get('screwSpeed')?.hasError('min') || compoundForm.get('screwSpeed')?.hasError('max')">
+          Please select proper Screw Speed (rpm) (between 0 and 1500)
+        </mat-error>
       </div>
- 
+
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Torque (%)</mat-label>
-          <input type="number" matInput formControlName="torque" min="0" max="100" />
+          <input type="number" matInput formControlName="torque" min="0" max="100"
+            (keydown)="blockInvalidInput($event)" />
         </mat-form-field>
+        <mat-error *ngIf="compoundForm.get('torque')?.hasError('min') || compoundForm.get('torque')?.hasError('max')">
+          Please select proper Torque (%) (between 0 and 100)
+        </mat-error>
       </div>
- 
+
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Pressure (bar)</mat-label>
-          <input type="number" matInput formControlName="pressure" min="0" max="200" />
+          <input type="number" matInput formControlName="pressure" min="0" max="200"
+            (keydown)="blockInvalidInput($event)" />
         </mat-form-field>
+        <mat-error
+          *ngIf="compoundForm.get('pressure')?.hasError('min') || compoundForm.get('pressure')?.hasError('max')">
+          Please select proper Pressure (bar) (between 0 and 200)
+        </mat-error>
       </div>
- 
+
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Total Output (Kg/h)</mat-label>
-          <input type="number" matInput formControlName="totalOutput" min="0" />
+          <input type="number" matInput formControlName="totalOutput" min="0" (keydown)="blockInvalidInput($event)" />
         </mat-form-field>
+        <mat-error
+          *ngIf="compoundForm.get('totalOutput')?.hasError('min') || compoundForm.get('totalOutput')?.hasError('max')">
+          Please select proper Total Output (Kg/h) (min 0)
+        </mat-error>
       </div>
- 
+
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Granulator (rpm)</mat-label>
-          <input type="number" matInput formControlName="granulator" min="0" max="5000" />
+          <input type="number" matInput formControlName="granulator" min="0" max="5000"
+            (keydown)="blockInvalidInput($event)" />
         </mat-form-field>
+        <mat-error
+          *ngIf="compoundForm.get('granulator')?.hasError('min') || compoundForm.get('granulator')?.hasError('max')">
+          Please select proper Granulator (rpm) (between 0 and 5000)
+        </mat-error>
       </div>
- 
+
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Bulk Density (g/l)</mat-label>
-          <input type="number" matInput formControlName="bulkDensity" min="0" max="2000" />
+          <input type="number" matInput formControlName="bulkDensity" min="0" max="2000"
+            (keydown)="blockInvalidInput($event)" />
         </mat-form-field>
+        <mat-error
+          *ngIf="compoundForm.get('bulkDensity')?.hasError('min') || compoundForm.get('bulkDensity')?.hasError('max')">
+          Please select proper Bulk Density (g/l) (between 0 and 2000)
+        </mat-error>
       </div>
- 
+
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Cooling Section (cm)</mat-label>
-          <input type="number" matInput formControlName="coolingSection" min="0" max="500" />
+          <input type="number" matInput formControlName="coolingSection" min="0" max="500"
+            (keydown)="blockInvalidInput($event)" />
         </mat-form-field>
+        <mat-error
+          *ngIf="compoundForm.get('coolingSection')?.hasError('min') || compoundForm.get('coolingSection')?.hasError('max')">
+          Please select proper Cooling Section (cm) (between 0 and 500)
+        </mat-error>
       </div>
- 
+
       <div class="col-4">
         <label class="form-label">Temperature Water Bath</label>
         <div class="d-flex gap-2">
           <mat-form-field appearance="outline" style="width: 100px;">
-            <input type="number" matInput class="form-control" formControlName="tempBath1" min="-100" max="300" />
+            <input type="number" matInput class="form-control" formControlName="tempBath1" min="-100" max="300"
+              (keydown)="blockInvalidInput($event)" />
+            <mat-error
+              *ngIf="compoundForm.get('tempBath1')?.hasError('min') || compoundForm.get('tempBath1')?.hasError('max')">
+              -100 to 300
+            </mat-error>
           </mat-form-field>
           <mat-form-field appearance="outline" style="width: 100px;">
-            <input type="number" matInput class="form-control" formControlName="tempBath2" min="-100" max="300" />
+            <input type="number" matInput class="form-control" formControlName="tempBath2" min="-100" max="300"
+              (keydown)="blockInvalidInput($event)" />
+            <mat-error
+              *ngIf="compoundForm.get('tempBath2')?.hasError('min') || compoundForm.get('tempBath2')?.hasError('max')">
+              -100 to 300
+            </mat-error>
           </mat-form-field>
           <mat-form-field appearance="outline" style="width: 100px;">
-            <input type="number" matInput class="form-control" formControlName="tempBath3" min="-100" max="300" />
+            <input type="number" matInput class="form-control" formControlName="tempBath3" min="-100" max="300"
+              (keydown)="blockInvalidInput($event)" />
+            <mat-error
+              *ngIf="compoundForm.get('tempBath3')?.hasError('min') || compoundForm.get('tempBath3')?.hasError('max')">
+              -100 to 300
+            </mat-error>
           </mat-form-field>
           <div class="d-flex align-items-center">C</div>
         </div>
       </div>
- 
+
       <div class="col-auto">
         <mat-checkbox formControlName="meltPump">Melt Pump</mat-checkbox>
       </div>
-        <div class="col-auto">
+      <div class="col-auto">
         <mat-checkbox formControlName="underwaterPelletizer">Underwater Pelletizer</mat-checkbox>
       </div>
       <div class="col-auto">
         <mat-checkbox formControlName="nozzlePlate">Nozzle Plate</mat-checkbox>
       </div>
-   
     </div>
- 
+
+    <!-- <div mat-dialog-actions align="end" style="margin-top: 30px;">
+  <button mat-raised-button color="primary" type="submit" style="margin-right: 10px;">Save</button>
+  <button mat-raised-button type="button" (click)="OnCancel()">Cancel</button>
+</div> -->
     <hr class="my-3" />
- 
+
     <div class="row align-items-center" style="height: 56px;">
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Note</mat-label>
-          <input
-            matInput
-            formControlName="productionNote"
-            placeholder="This is ready for production."
-            maxlength="229"
-          />
+          <input matInput formControlName="productionNote" placeholder="This is ready for production."
+            maxlength="249" />
         </mat-form-field>
       </div>
-      <div class="col-2">
+      <div class="col-2" style="margin-bottom: 35px;">
         <mat-checkbox formControlName="premix">Premix</mat-checkbox>
       </div>
- 
+
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Premix Note</mat-label>
-          <input
-            matInput
-            formControlName="PremixNote"
-            placeholder="Note"
-            maxlength="229"
-          />
+          <mat-label>Premix</mat-label>
+          <input matInput formControlName="PremixNote" placeholder="Note" maxlength="249" />
         </mat-form-field>
       </div>
     </div>
- 
-    <!-- <div mat-dialog-actions align="end" style="margin-top: 30px;">
+
+    <div mat-dialog-actions align="end" style="margin-top: 30px;">
       <button mat-raised-button color="primary" type="submit" style="margin-right: 10px;">Update</button>
-      <button mat-raised-button type="button">Cancel</button>
- 
+      <button mat-raised-button type="button" (click)="onCancel()">Cancel</button>
     </div>
-    <div class="col-2" style="margin-bottom: 35px;">
-      <mat-checkbox formControlName="premix">Premix</mat-checkbox>
-    </div>
- 
-    <div class="col-6">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Premix</mat-label>
-        <input matInput formControlName="PremixNote" placeholder="Note" maxlength="229" />
-      </mat-form-field>
-    </div> -->
- 
- 
-  <div mat-dialog-actions align="end" style="margin-top: 30px;">
-    <button mat-raised-button color="primary" type="submit" style="margin-right: 10px;">Update</button>
-    <button mat-raised-button type="button" (click)="onCancel()">Cancel</button>
- 
-  </div>
-</form>
+
+  </form>
+</div>

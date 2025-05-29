@@ -51,7 +51,11 @@ button.topbar.btn.btn-outline-light {
   color: #fff;
 }
 
-.logout-text {
+.recClr:hover{
+  color: red;
+}
+
+/* .logout-text {
   position: absolute;
   white-space: nowrap;
   top: 60%;
@@ -64,18 +68,11 @@ button.topbar.btn.btn-outline-light {
   pointer-events: none;
   transition: opacity 0.2s ease;
   font-size: 0.85rem;
-}
+} */
 
 .btn-logout:hover .logout-text {
   opacity: 1;
 }
-
-button.btn.btn-outline-light.rounded {
-    padding: 6px 10px;
-    height: 30px;
-    width: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50% !important;
+.logout-btn:hover{
+color: red;
 }

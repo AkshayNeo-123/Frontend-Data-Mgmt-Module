@@ -24,61 +24,34 @@ import { GetCompInjectComponent } from './dashboard/get-comp-inject/get-comp-inj
 import { RecipedetailsComponent } from './dashboard/recipedetails/recipedetails.component';
 import { PermissionServiceService } from './services/permission-service.service';
 import { permissionGuard } from './permission.guard';
-import { ChangePasswordComponent } from './auth/change-password/change-password.component';
 
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
-  { path: 'dashboard', component: DashboardComponent , canActivate: [authGuard]
-  },
-  { path: 'recipe',
-     component: RecipyComponent,
-     canActivate: [permissionGuard],
-    data: {
-      resource: 'Recipe',
-      action: 'canView'
-    }
-     },
-  { path: 'getmaterials', component: GetmaterialsComponent ,
-    canActivate: [permissionGuard],
-    data: {
-      resource: 'Materials',
-      action: 'canView'
-    }
-  },
-  { path: 'getproject', component: ProjectComponent ,
-    canActivate: [permissionGuard],
-    data: {
-      resource: 'Project',
-      action: 'canView'
-    }
-  },
-  { path: 'injectionMolding', component: AddInjectionMoldingComponent },
-  { path: 'mastertable', component: MastertableComponent },
-  { path: 'contacts', component: ContactsComponent ,
-    canActivate: [permissionGuard],
-    data: {
-      resource: 'Contacts',
-      action: 'canView'
-    }
-  },
-  { path: 'get-all-additives', component: GetAllAdditivesComponent,canActivate: [permissionGuard],
-    data: {
-      resource: 'Additive',
-      action: 'canView'
-    } },
-  { path: 'all-main-polymers', component: AllMainPolymersComponent,
-    canActivate: [permissionGuard],
-    data: {
-      resource: 'Main Polymer',
-      action: 'canView'
-    }
+  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
 
-   },
-  { path: 'compounding', component: AddCompoundingComponent },
+  { path: 'recipe', component: RecipyComponent, canActivate: [permissionGuard], data: { resource: 'Recipe', action: 'canView' }},
+  { path: 'addRecipe', component: AddRecipyComponent },
+
+  { path: 'getmaterials', component: GetmaterialsComponent, canActivate: [permissionGuard], data: { resource: 'Materials', action: 'canView' }},
+  { path: 'getproject', component: ProjectComponent, canActivate: [permissionGuard], data: { resource: 'Project', action: 'canView' }},
+
+  { path: 'injectionMolding', component: AddInjectionMoldingComponent },
   { path: 'updateinjectionMolding', component: UpdateInjectionMoldingComponent },
+  { path: 'updaetInjection', component: UpdateInjectionMoldingComponent }, // Suggest fixing typo in path name
+
+  { path: 'mastertable', component: MastertableComponent },
+
+  { path: 'contacts', component: ContactsComponent, canActivate: [permissionGuard], data: { resource: 'Contacts', action: 'canView' }},
+  { path: 'addcontacts', component: AddcontactsComponent },
+
+  { path: 'get-all-additives', component: GetAllAdditivesComponent, canActivate: [permissionGuard], data: { resource: 'Additive', action: 'canView' }},
+
+  { path: 'all-main-polymers', component: AllMainPolymersComponent, canActivate: [permissionGuard], data: { resource: 'Main Polymer', action: 'canView' }},
+
+  { path: 'compounding', component: AddCompoundingComponent },
   { path: 'updatecompounding', component: UpdateCompoundingComponent },
   {path: 'rolemaster' , component:RolemasterComponent,
 
@@ -98,12 +71,12 @@ export const routes: Routes = [
       action: 'canView'
     }
   },
-  {path:'change-password',component:ChangePasswordComponent},
   { path: 'comp-inject', component:GetCompInjectComponent},
    { path: 'recipedetails', component: RecipedetailsComponent },
 
+  { path: 'gettest', component: GetTestComponent, canActivate: [permissionGuard], data: { resource: 'Testing', action: 'canView' }},
+  { path: 'add-test', component: AddTestComponent},
 
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }
 ];
-
