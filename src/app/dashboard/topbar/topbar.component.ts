@@ -2,18 +2,22 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service'; 
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
-  styleUrls: ['./topbar.component.css']
+  styleUrls: ['./topbar.component.css'],
+  imports: [
+    MatTooltipModule
+  ]
 })
 export class TopbarComponent implements OnInit {
   @Output() toggleSidebar = new EventEmitter<void>();  
   userName: string = 'User'; 
   isDropdownOpen: boolean = false;  
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router ,) {}
 
   ngOnInit(): void {
     const user = this.authService.getLoggedInUser();
