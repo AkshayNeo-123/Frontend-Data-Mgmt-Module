@@ -12,3 +12,7 @@ export interface Test {
   generalProperties: boolean;
   mechanicalProperty: boolean;
 }
+export interface RecipeDataforTest{
+    receipeId:number;
+    productName:string;
+}
