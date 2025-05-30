@@ -39,7 +39,7 @@ export class AddTestComponent {
 
 
   constructor(private _formBuilder: FormBuilder,
-      private testService: TestService
+    private testService: TestService
 
   ) {
     // Common fields shown outside stepper
@@ -50,73 +50,72 @@ export class AddTestComponent {
     });
 
     this.mechanicalForm = this._formBuilder.group({
-      tensileModulus_DAM: [''],
-      tensileModulus_Conditioned: [''],
-      tensileModulus_Conditioned_Mm_Min: [''],
-      stressAtYield_DAM: [''],
-      stressAtYield_Conditioned: [''],
-      stressAtYield_Conditioned_Mm_Min: [''],
-      strainAtYield_DAM: [''],
-      strainAtYield_Conditioned: [''],
-      strainAtYield_Conditioned_Mm_Min: [''],
-      strainAtBreak_DAM: [''],
-      strainAtBreak_Conditioned: [''],
-      strainAtBreak_Conditioned_Mm_Min: [''],
-      flexuralModulus_DAM: [''],
-      flexuralModulus_Conditioned: [''],
-      flexuralModulus_Conditioned_Mm_Min: [''],
-      charpyNotchedImpact23: [''],
-      charpyNotchedImpactMinus30: [''],
-      flexuralStrength_DAM: [''],
-      flexuralStrength_Conditioned: [''],
-      flexuralStrength_Conditioned_Mm_Min: [''],
-      flexuralStrainBreak_DAM: [''],
-      flexuralStrainBreak_Conditioned: [''],
-      charpyImpact_DAM: [''],
-      charpyImpact_Conditioned: [''],
-      izodNotchedImpact_DAM: [''],
-      izodNotchedImpact_Conditioned: [''],
-      shoreDHardness_DAM: [''],
-      shoreDHardness_Conditioned: ['']
-
+      tensileModulus_DAM: [null],
+      tensileModulus_Conditioned: [null],
+      tensileModulus_Conditioned_Mm_Min: [null],
+      stressAtYield_DAM: [null],
+      stressAtYield_Conditioned: [null],
+      stressAtYield_Conditioned_Mm_Min: [null],
+      strainAtYield_DAM: [null],
+      strainAtYield_Conditioned: [null],
+      strainAtYield_Conditioned_Mm_Min: [null],
+      strainAtBreak_DAM: [null],
+      strainAtBreak_Conditioned: [null],
+      strainAtBreak_Conditioned_Mm_Min: [null],
+      flexuralModulus_DAM: [null],
+      flexuralModulus_Conditioned: [null],
+      flexuralModulus_Conditioned_Mm_Min: [null],
+      charpyNotchedImpact23: [null],
+      charpyNotchedImpactMinus30: [null],
+      flexuralStrength_DAM: [null],
+      flexuralStrength_Conditioned: [null],
+      flexuralStrength_Conditioned_Mm_Min: [null],
+      flexuralStrainBreak_DAM: [null],
+      flexuralStrainBreak_Conditioned: [null],
+      charpyImpact_DAM: [null],
+      charpyImpact_Conditioned: [null],
+      izodNotchedImpact_DAM: [null],
+      izodNotchedImpact_Conditioned: [null],
+      shoreDHardness_DAM: [null],
+      shoreDHardness_Conditioned: [null]
     });
 
+
     this.temperatureForm = this._formBuilder.group({
-      heatDeflectionTemp: [''],
-      deflectionTempUnderLoad: [''],
-      meltingTemp: [''],
-      linearExpansionParallel: [''],
-      linearExpansionTransverse: [''],
+      tempHdtA: [null],
+      tempHdtB: [null],
+      meltingTemp: [null],
+      coefficientsParallel: [null],
+      coefficientsTransverse: [null],
 
     });
 
     this.flammabilityForm = this._formBuilder.group({
-      burningRateWallThickness: [''],
-      gwfi: [''],
-      gwft: [''],
-      burningRateThickness1: [''],
-      burningRateThickness2: [''],
+      burningRateWallThickness: [null],
+      gwfi: [null],
+      gwft: [null],
+      burningRateThickness1: [null],
+      burningRateThickness2: [null],
     })
 
     this.generalForm = this._formBuilder.group({
-      density: [''],
-      humidityAbsorption: [''],
-      moldingShrinkageFlow: [''],
-      moldingShrinkageTransverse: [''],
-      mfr: [''],
-      mvr: [''],
-    })
+      density: [null],
+      humidityAbsorption: [null],
+      moldingShrinkageFlow: [null],
+      moldingShrinkageTransverse: [null],
+      mfr: [null],
+      mvr: [null],
+    });
 
     this.electricalForm = this._formBuilder.group({
-      volumeResistivity1: [''],
-      volumeResistivity2: [''],
-      surfaceResistivity: [''],
-      comparativeTracking: [''],
+      volumeResistivity1: [null],
+      volumeResistivity2: [null],
+      surfaceResistivity: [null],
+      comparativeTracking: [null],
+    });
 
-    })
     this.propertiesForm = this._formBuilder.group({
       sustainable: [false],
-      impactModified: [false],
       flameRetardant: [false],
       heatStabilized130: [false],
       heatStabilized160: [false],
@@ -144,29 +143,30 @@ export class AddTestComponent {
   }
 
 
-onSubmit() {
-  const requestBody = {
-    ...this.sharedForm.value,
-    mechanicalProperty: this.mechanicalForm.value,
-    temperatureProperty: this.temperatureForm.value,
-    flammabilityProperty: this.flammabilityForm.value,
-    generalProperty: this.generalForm.value,
-    electricalProperty: this.electricalForm.value,
-    properties: this.propertiesForm.value
-  };
+  onSubmit() {
+    const requestBody = {
+      // ...this.sharedForm.value,
+      test: this.sharedForm.value,
+      mechanicalProperty: this.mechanicalForm.value,
+      temperatureProperty: this.temperatureForm.value,
+      flammabilityProperty: this.flammabilityForm.value,
+      generalProperty: this.generalForm.value,
+      electricalProperty: this.electricalForm.value,
+      properties: this.propertiesForm.value
+    };
 
-  console.log('Request Body:', requestBody);
+    console.log('Request Body:', requestBody);
 
-  // Optional: Submit to API
-  this.testService.addTest(requestBody).subscribe(
-    response => {
-      console.log('Form submitted successfully:', response);
-    },
-    error => {
-      console.error('Error submitting form:', error);
-    }
-  );
-}
+    // Optional: Submit to API
+    this.testService.addTest(requestBody).subscribe(
+      response => {
+        console.log('Form submitted successfully:', response);
+      },
+      error => {
+        console.error('Error submitting form:', error);
+      }
+    );
+  }
 
 
   onCancel() {
