@@ -30,3 +30,9 @@
   justify-content: flex-end;
   gap: 8px;
 } */
+
+input.form-control,
+input.form-control-sm {
+  border: 1px solid #444; 
+}
+
