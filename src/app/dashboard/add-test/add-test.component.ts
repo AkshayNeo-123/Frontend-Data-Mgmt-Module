@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TestService } from '../../services/test.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-test',
@@ -39,8 +40,8 @@ export class AddTestComponent {
 
 
   constructor(private _formBuilder: FormBuilder,
-    private testService: TestService
-
+    private testService: TestService,
+ private router: Router 
   ) {
     // Common fields shown outside stepper
     this.sharedForm = this._formBuilder.group({
@@ -138,10 +139,10 @@ export class AddTestComponent {
       recycledContent: [false],
       additiveManufacturing: [false]
     });
-
-
   }
-
+  
+  onResetTemperature() {
+}
 
   onSubmit() {
     const requestBody = {
@@ -176,5 +177,10 @@ export class AddTestComponent {
     this.flammabilityForm.reset();
     this.generalForm.reset();
     this.propertiesForm.reset();
+
+      this.router.navigate(['/gettest']); 
+
   }
+
+  
 }
