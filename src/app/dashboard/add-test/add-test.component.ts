@@ -4,6 +4,7 @@ import {
   FormGroup,
   Validators,
   ReactiveFormsModule,
+  FormControl,
 } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,6 +14,10 @@ import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TestService } from '../../services/test.service';
 import { Router } from '@angular/router';
+import { RecipeDataforTest } from '../../models/test';
+import { MatOption } from '@angular/material/core';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-add-test',
@@ -24,7 +29,9 @@ import { Router } from '@angular/router';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatOption,
+    MatSelectModule,
   ],
   templateUrl: './add-test.component.html',
   styleUrls: ['./add-test.component.css'],
@@ -37,7 +44,8 @@ export class AddTestComponent {
   generalForm: FormGroup;
   electricalForm: FormGroup;
   propertiesForm: FormGroup;
-
+  recipeData: RecipeDataforTest[] = [];
+  
 
   constructor(private _formBuilder: FormBuilder,
     private testService: TestService,
@@ -46,7 +54,7 @@ export class AddTestComponent {
     // Common fields shown outside stepper
     this.sharedForm = this._formBuilder.group({
       productName: [''],
-      recipeNumber: [''],
+      recipeNumber: [{ value: '', disabled: true }],
       comment: [''],
     });
 
@@ -141,8 +149,13 @@ export class AddTestComponent {
     });
   }
   
-  onResetTemperature() {
+
+  ngOnInit(): void {
+    this.loadRecipeData();
+  
 }
+
+
 
   onSubmit() {
     const requestBody = {
@@ -168,7 +181,27 @@ export class AddTestComponent {
       }
     );
   }
+  loadRecipeData(){
+    this.testService.getRecipeDataForTest().subscribe({
+      next:(data:RecipeDataforTest[])=>{
+        this.recipeData=data;
+        console.log(this.recipeData);
+        
+      },
+        error: (err) => {
+        console.error('Error fetching recipe data:', err);
+      }
+    })
+  }
 
+onRecipeSelect(event: any) {
+  const selectedRecipe = this.recipeData.find(r => r.receipeId === event.value);
+  if (selectedRecipe) {
+    this.sharedForm.patchValue({
+      recipeNumber: selectedRecipe.receipeId
+    });
+  }
+}
 
   onCancel() {
     this.sharedForm.reset();
