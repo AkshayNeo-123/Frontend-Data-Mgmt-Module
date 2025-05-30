@@ -9,3 +9,8 @@ button:focus {
 button:hover {
   background-color: transparent;
 }
+
+.desgin {
+ background: white;
+ border: white;
+}

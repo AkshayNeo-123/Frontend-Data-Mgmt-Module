@@ -19,6 +19,7 @@ mat-checkbox:hover {
   color: white;
 }
 
-.is-invalid {
-  border-color: red !important;
+.desgin {
+ background: white;
+ border: white;
 }
