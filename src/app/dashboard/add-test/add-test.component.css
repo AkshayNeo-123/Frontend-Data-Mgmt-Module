@@ -12,6 +12,11 @@
     border: 1px solid #ccc;
     /* optional: add outline */
 }
+@media (max-width: 768px) {
+    .half-width {
+      flex: 1 1 100%; /* Stack fields on smaller screens */
+    }
+  }
 
 /* Optional: reset hover or focus states */
 ::ng-deep .mat-step-header:hover,
@@ -35,4 +40,3 @@ input.form-control,
 input.form-control-sm {
   border: 1px solid #444; 
 }
-
