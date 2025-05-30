@@ -1,37 +1,58 @@
-mat-checkbox {
-    cursor: pointer;
-    z-index: 10;
-    position: relative;
+
+.custom-checkbox {
+  display: inline-block;
+  position: relative;
+  padding-left: 28px; /* space for box */
+  cursor: default;
+  user-select: none;
 }
 
-mat-checkbox * {
-    pointer-events: auto !important;
+/* Hide native checkbox */
+.custom-checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: default;
+  height: 0;
+  width: 0;
 }
 
-
-.mat-checkbox:hover .mat-checkbox-frame {
-    background-color: transparent !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
+/* Create custom checkbox box */
+.custom-checkbox span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  border: 2px solid #ccc;
+  background-color: transparent;
+  border-radius: 4px;
 }
 
-.mat-checkbox:hover {
-    background-color: transparent !important;
-    border-radius: 0 !important;
+/* Checked state */
+.custom-checkbox input[type="checkbox"]:checked + span {
+  background-color: green;
+  border-color: green;
 }
 
-.custom-dialog-container .mat-dialog-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  max-height: 100vh;
-  overflow: hidden;
-  padding: 0;
-  border-radius: 8px;
+/* The checkmark */
+.custom-checkbox span::after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
 }
 
-.custom-dialog-container .mat-dialog-content {
-  overflow-y: auto;
-  padding: 24px;
+/* Show checkmark when checked */
+.custom-checkbox input[type="checkbox"]:checked + span::after {
+  display: block;
+  
+}
+label{
+  margin-left: 30px;
 }

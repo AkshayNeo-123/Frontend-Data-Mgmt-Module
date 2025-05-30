@@ -14,6 +14,10 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterModule, Router } from '@angular/router'; // ✅ added RouterModule + Router
 
 import { AddTestComponent } from '../add-test/add-test.component';
+import { TestService } from '../../services/test.service';
+import { Test } from '../../models/test';
+import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-get-test',
@@ -37,9 +41,10 @@ import { AddTestComponent } from '../add-test/add-test.component';
   styleUrls: ['./get-test.component.css'],
 })
 export class GetTestComponent implements OnInit {
-  constructor(private dialog: MatDialog, private router: Router) {} // ✅ injected Router
-
-  canAddMaterial = true;
+  constructor(private toastr: ToastrService, private router: Router,private testService:TestService,private dialog:MatDialog) {} // ✅ injected Router
+    
+  testList: Test[] = [];
+  
 
   displayedColumns: string[] = [
     'productName',
@@ -55,17 +60,6 @@ export class GetTestComponent implements OnInit {
   ];
 
   dataSource = new MatTableDataSource([
-    {
-      productName: 'PRO0132',
-      recipeNumber: '001',
-      mainPolymer: 'PP-H',
-      mechanical: false,
-      general: false,
-      temperature: false,
-      flammability: false,
-      electrical: false,
-      properties: false,
-    },
   ]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -74,6 +68,7 @@ export class GetTestComponent implements OnInit {
   ngOnInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.getdata();
   }
 
   applyFilter(event: Event) {
@@ -82,6 +77,21 @@ export class GetTestComponent implements OnInit {
       .toLowerCase();
     this.dataSource.filter = filterValue;
   }
+  getdata(){
+    this.testService.getAllTest().subscribe({
+      next:(data:Test[])=>{
+        this.testList=data;
+        console.log(this.testList);
+        
+
+      },
+      error: (err) => {
+      console.error('Error fetching test data:', err);
+    }
+    })
+
+  }
+
 
 
   
@@ -93,12 +103,47 @@ export class GetTestComponent implements OnInit {
     console.log('Edit:', row);
   }
 
-  deleteTest(name: string) {
-    console.log('Delete:', name);
-  }
+  // deleteTest(name: string) {
+  //   console.log('Delete:', name);
+  // }
 
-  toggleCheckbox(row: any, property: string) {
-    row[property] = !row[property];
-    console.log(`Updated ${property} for ${row.productName}:`, row[property]);
-  }
+ deleteTest(id: any) {
+  console.log('testId='+id);
+  
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    width: '350px',
+    data: {
+      title: 'Confirm Deletion',
+      message: 'Are you sure you want to delete this Project?'
+    }
+  });
+  
+  const deletedBY = Number(localStorage.getItem('UserId'));
+  
+  dialogRef.afterClosed().subscribe(result => {
+    if (result === true) {
+      this.testService.deleteTest(id, deletedBY).subscribe({
+        next: (data: any) => {
+          this.toastr.success('Deleted successfully', 'Success', {
+            timeOut: 5000
+          });
+          // You might want to refresh the list here or remove the deleted item from data source
+        },
+        error: (err: any) => {
+          console.error('Error:', err);
+          this.toastr.error('Something went wrong!', 'Error', {
+            timeOut: 5000
+          });
+        }
+      });
+    } else {
+      this.toastr.info('Deletion cancelled','',{
+        timeOut: 5000
+      });
+    }
+  });
+}
+
+
+  
 }
