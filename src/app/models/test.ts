@@ -1,14 +1,13 @@
 export interface Test {
-
-    id: number;
+  testId: number;
   recipeNumber: number;
   comment?: string;
   isPublish: boolean;
   recipeName: string;
   mainPolymerName: string;
-  flammabilityProperties: boolean ;
+  flammabilityProperties: boolean;
   property: boolean;
-  temperatureProperties: boolean ;
+  temperatureProperties: boolean;
   electricalProperties: boolean;
   generalProperties: boolean;
   mechanicalProperty: boolean;

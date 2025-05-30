@@ -127,6 +127,10 @@ export class GetTestComponent implements OnInit {
           this.toastr.success('Deleted successfully', 'Success', {
             timeOut: 5000
           });
+          this.getdata();
+          if (this.paginator) {
+            this.paginator.firstPage();
+          }
           // You might want to refresh the list here or remove the deleted item from data source
         },
         error: (err: any) => {
