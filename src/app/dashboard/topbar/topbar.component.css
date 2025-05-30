@@ -6,6 +6,9 @@
   /* background: linear-gradient(135deg, #7addf6 0%, #8e9de2 100%); */
 }
 
+.dropdown-menu.show {
+  display: block !important;
+}
 button.topbar.btn.btn-outline-light {
   border-radius: 50px !important;
   width: 40px;

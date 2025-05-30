@@ -18,9 +18,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     RouterModule],
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.css'],
-  imports: [
-    MatTooltipModule
-  ]
+  
+  
 })
 export class TopbarComponent implements OnInit {
   @Output() toggleSidebar = new EventEmitter<void>();  

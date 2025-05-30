@@ -77,3 +77,19 @@
     margin-top: 18px;
     gap: 20px;
 }
+
+
+.property-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  gap: 1rem;
+  align-items: start;
+
+  p {
+    margin: 0.3rem 0;
+  }
+
+  .full-width {
+    grid-column: span 4;
+  }
+}

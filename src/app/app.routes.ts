@@ -24,6 +24,8 @@ import { GetCompInjectComponent } from './dashboard/get-comp-inject/get-comp-inj
 import { RecipedetailsComponent } from './dashboard/recipedetails/recipedetails.component';
 import { PermissionServiceService } from './services/permission-service.service';
 import { permissionGuard } from './permission.guard';
+import { AddTestComponent } from './dashboard/add-test/add-test.component';
+import { GetTestComponent } from './dashboard/get-test/get-test.component';
 
 
 export const routes: Routes = [

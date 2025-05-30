@@ -1,18 +1,18 @@
 // compounding-data.model.ts
 export interface CompoundingDataDTO {
-  compoundingId:number;
-    receipeId: number;
-    parameterSet: number;
-    date: Date;
-    notes: string;
-    repetation: number;
-    pretreatment: number;
-    temperature: number;
-    duration: string;
-    residualM: number;
-    notMeasured: boolean;
-    pretreatmentNone: boolean;
-    pretreatmentDrying: boolean;
+  compoundingId?:number;
+    receipeId?: number;
+    parameterSet?: number;
+    date?: Date;
+    notes?: string;
+    repetation?: number;
+    pretreatment?: number;
+    temperature?: number;
+    duration?: string;
+    residualM?: number;
+    notMeasured?: boolean;
+    pretreatmentNone?: boolean;
+    pretreatmentDrying?: boolean;
     
   }
   

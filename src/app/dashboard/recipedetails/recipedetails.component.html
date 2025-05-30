@@ -36,6 +36,7 @@
 
       <p class="text-muted"></p>
 
+      <div *ngIf="hasCompoundingData">
       <hr>
       <h5><b>Compounding Details</b></h5>
       <hr>
@@ -91,15 +92,16 @@
             </tr>
           </tbody>
         </table>
-      </div>
+      </div></div>
 
+      <div *ngIf="hasInjectionData">
       <hr>
 
         <h5><b>Injection Moulding Details</b></h5>
         <hr>
               <div class="table-responsive">
 
-        <table class="table table-bordered table-striped text-center custom-dark-border">
+        <table *ngIf="injectionData" class="table table-bordered table-striped text-center custom-dark-border">
           <thead>
             <tr>
               <th>Field</th>
@@ -189,6 +191,132 @@
             </tr>
           </tbody>
         </table>
+      </div></div>
+
+      
+
+    <div *ngIf="testData"class="container">
+  <!-- <h2>Recipe Details - #{{ testData.recipeNumber }}</h2> -->
+   <hr  *ngIf="hasAnyProperty(testData)">
+     <h4 *ngIf="hasAnyProperty(testData)"><b> Testing Properties</b></h4>
+<hr *ngIf="hasAnyProperty(testData)">
+  <div class="row ">
+    
+  <div *ngIf="testData.mechanicalPropertyDto" class=" property-grid" >
+    
+    <h3 class="full-width"><b>Mechanical Properties</b></h3>
+    <p>Tensile Modulus (DAM): {{ testData.mechanicalPropertyDto.tensileModulus_DAM }}</p>
+    <p>Tensile Modulus (Conditioned): {{ testData.mechanicalPropertyDto.tensileModulus_Conditioned }}</p>
+    <p>Tensile Modulus (Conditioned Mm Min): {{ testData.mechanicalPropertyDto.tensileModulus_Conditioned_Mm_Min }}</p>
+
+    <p>Stress at Yield (DAM): {{ testData.mechanicalPropertyDto.stressAtYield_DAM }}</p>
+    <p>Stress at Yield (Conditioned): {{ testData.mechanicalPropertyDto.stressAtYield_Conditioned }}</p>
+    <p>Stress at Yield (Conditioned Mm Min): {{ testData.mechanicalPropertyDto.stressAtYield_Conditioned_Mm_Min }}</p>
+
+    <p>Strain at Yield (DAM): {{ testData.mechanicalPropertyDto.strainAtYield_DAM }}</p>
+    <p>Strain at Yield (Conditioned): {{ testData.mechanicalPropertyDto.strainAtYield_Conditioned }}</p>
+    <p>Strain at Yield (Conditioned Mm Min): {{ testData.mechanicalPropertyDto.strainAtYield_Conditioned_Mm_Min }}</p>
+
+    <p>Strain at Break (DAM): {{ testData.mechanicalPropertyDto.strainAtBreak_DAM }}</p>
+    <p>Strain at Break (Conditioned): {{ testData.mechanicalPropertyDto.strainAtBreak_Conditioned }}</p>
+    <p>Strain at Break (Conditioned Mm Min): {{ testData.mechanicalPropertyDto.strainAtBreak_Conditioned_Mm_Min }}</p>
+
+    <p>Flexural Modulus (DAM): {{ testData.mechanicalPropertyDto.flexuralModulus_DAM }}</p>
+    <p>Flexural Modulus (Conditioned): {{ testData.mechanicalPropertyDto.flexuralModulus_Conditioned }}</p>
+    <p>Flexural Modulus (Conditioned Mm Min): {{ testData.mechanicalPropertyDto.flexuralModulus_Conditioned_Mm_Min }}</p>
+
+    <p>Flexural Strength (DAM): {{ testData.mechanicalPropertyDto.flexuralStrength_DAM }}</p>
+    <p>Flexural Strength (Conditioned): {{ testData.mechanicalPropertyDto.flexuralStrength_Conditioned }}</p>
+    <p>Flexural Strength (Conditioned Mm Min): {{ testData.mechanicalPropertyDto.flexuralStrength_Conditioned_Mm_Min }}</p>
+
+    <p>Flexural Strain at Break (DAM): {{ testData.mechanicalPropertyDto.flexuralStrainBreak_DAM }}</p>
+    <p>Flexural Strain at Break (Conditioned): {{ testData.mechanicalPropertyDto.flexuralStrainBreak_Conditioned }}</p>
+
+    <p>Charpy Impact (DAM): {{ testData.mechanicalPropertyDto.charpyImpact_DAM }}</p>
+    <p>Charpy Impact (Conditioned): {{ testData.mechanicalPropertyDto.charpyImpact_Conditioned }}</p>
+    <p>Charpy Notched Impact at 23°C: {{ testData.mechanicalPropertyDto.charpyNotchedImpact23 }}</p>
+    <p>Charpy Notched Impact at -30°C: {{ testData.mechanicalPropertyDto.charpyNotchedImpactMinus30 }}</p>
+
+    <p>Izod Notched Impact (DAM): {{ testData.mechanicalPropertyDto.izodNotchedImpact_DAM }}</p>
+    <p>Izod Notched Impact (Conditioned): {{ testData.mechanicalPropertyDto.izodNotchedImpact_Conditioned }}</p>
+
+    <p>Shore D Hardness (DAM): {{ testData.mechanicalPropertyDto.shoreDHardness_DAM }}</p>
+    <p>Shore D Hardness (Conditioned): {{ testData.mechanicalPropertyDto.shoreDHardness_Conditioned }}</p>
+</div>
+  
+  <!-- Electrical Properties -->
+  <div *ngIf="testData.electricalPropertyDto" class="col-md-6">
+  
+    <h5><b>Electrical Properties</b></h5>
+    <p>Volume Resistivity 1: {{ testData.electricalPropertyDto.volumeResistivity1 }}</p>
+    <p>Volume Resistivity 2: {{ testData.electricalPropertyDto.volumeResistivity2 }}</p>
+    <p>Surface Resistivity: {{ testData.electricalPropertyDto.surfaceResistivity }}</p>
+    <p>Comparative Tracking: {{ testData.electricalPropertyDto.comparativeTracking }}</p>
+</div>
+
+  <!-- General Properties -->
+  <div *ngIf="testData.generalPropertyDto" class="col-md-6">
+    <h5><b>General Properties</b></h5>
+    <p>Density: {{ testData.generalPropertyDto.density }}</p>
+    <p>Humidity Absorption: {{ testData.generalPropertyDto.humidityAbsorption }}</p>
+    <p>Molding Shrinkage Flow: {{ testData.generalPropertyDto.moldingShrinkageFlow }}</p>
+    <p>Molding Shrinkage Transverse: {{ testData.generalPropertyDto.moldingShrinkageTransverse }}</p>
+    <p>MFR: {{ testData.generalPropertyDto.mfr }}</p>
+    <p>MVR: {{ testData.generalPropertyDto.mvr }}</p>
+  
+</div>
+  
+  <div *ngIf="testData.temperaturePropertyDto" class="col-md-6 mb-3">
+     
+    <h5><b>Temperature Properties</b></h5>
+    <p>HDT A: {{ testData.temperaturePropertyDto.tempHdtA }}</p>
+    <p>HDT B: {{ testData.temperaturePropertyDto.tempHdtB }}</p>
+    <p>Melting Temp: {{ testData.temperaturePropertyDto.meltingTemp }}</p>
+    <p>Coefficients Parallel: {{ testData.temperaturePropertyDto.coefficientsParallel }}</p>
+    <p>Coefficients Transverse: {{ testData.temperaturePropertyDto.coefficientsTransverse }}</p>
+  </div>
+  
+  <div *ngIf="testData.flammabilityPropertyDto" class="col-md-6">
+    
+    <h5><b>Flammability Properties</b></h5>
+    <p>Burning Rate Wall Thickness: {{ testData.flammabilityPropertyDto.burningRateWallThickness }}</p>
+    <p>GWFI: {{ testData.flammabilityPropertyDto.gwfi }}</p>
+    <p>GWFT: {{ testData.flammabilityPropertyDto.gwft }}</p>
+    <p>Burning Rate Thickness 1: {{ testData.flammabilityPropertyDto.burningRateThickness1 }}</p>
+    <p>Burning Rate Thickness 2: {{ testData.flammabilityPropertyDto.burningRateThickness2 }}</p>
+  
+</div>
+  <!-- Special Properties -->
+<!-- Special Properties -->
+<div *ngIf="testData?.propertiesDto" class="property-grid">
+  <h3 class="full-width">Special Properties</h3>
+  <p>Sustainable: {{ testData?.propertiesDto?.sustainable ? 'Yes' : 'No' }}</p>
+  <p>Flame Retardant: {{ testData?.propertiesDto?.flameRetardant ? 'Yes' : 'No' }}</p>
+  <p>Heat Stabilized 130: {{ testData?.propertiesDto?.heatStabilized130 ? 'Yes' : 'No' }}</p>
+  <p>Heat Stabilized 160: {{ testData?.propertiesDto?.heatStabilized160 ? 'Yes' : 'No' }}</p>
+  <p>Heat Stabilized 230: {{ testData?.propertiesDto?.heatStabilized230 ? 'Yes' : 'No' }}</p>
+  <p>Hydrolysis Stabilized: {{ testData?.propertiesDto?.hydrolysisStabilized ? 'Yes' : 'No' }}</p>
+  <p>Laser Transparent: {{ testData?.propertiesDto?.laserTransparent ? 'Yes' : 'No' }}</p>
+  <p>Laser Markable: {{ testData?.propertiesDto?.laserMarkable ? 'Yes' : 'No' }}</p>
+  <p>Low Warpage: {{ testData?.propertiesDto?.lowWarpage ? 'Yes' : 'No' }}</p>
+  <p>Reduced Density: {{ testData?.propertiesDto?.reducedDensity ? 'Yes' : 'No' }}</p>
+  <p>Reduced Moisture: {{ testData?.propertiesDto?.reducedMoisture ? 'Yes' : 'No' }}</p>
+  <p>Electrically Neutral: {{ testData?.propertiesDto?.electricallyNeutral ? 'Yes' : 'No' }}</p>
+  <p>UV Stabilized: {{ testData?.propertiesDto?.uvStabilized ? 'Yes' : 'No' }}</p>
+  <p>Surface Modified: {{ testData?.propertiesDto?.surfaceModified ? 'Yes' : 'No' }}</p>
+  <p>Adhesion Modified: {{ testData?.propertiesDto?.adhesionModified ? 'Yes' : 'No' }}</p>
+  <p>Tribological Modified: {{ testData?.propertiesDto?.tribologicalModified ? 'Yes' : 'No' }}</p>
+  <p>Easy Flow: {{ testData?.propertiesDto?.easyFlow ? 'Yes' : 'No' }}</p>
+  <p>Nucleated: {{ testData?.propertiesDto?.nucleated ? 'Yes' : 'No' }}</p>
+  <p>Process Improved: {{ testData?.propertiesDto?.processImproved ? 'Yes' : 'No' }}</p>
+  <p>Fluid Injection: {{ testData?.propertiesDto?.fluidInjection ? 'Yes' : 'No' }}</p>
+  <p>Recycled Content: {{ testData?.propertiesDto?.recycledContent ? 'Yes' : 'No' }}</p>
+  <p>Additive Manufacturing: {{ testData?.propertiesDto?.additiveManufacturing ? 'Yes' : 'No' }}</p>
+</div>
+
+
+</div>
+</div>
+
       </div>
-    </div>
   </div>

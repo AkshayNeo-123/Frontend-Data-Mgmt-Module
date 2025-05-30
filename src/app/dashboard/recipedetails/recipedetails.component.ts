@@ -1,5 +1,5 @@
-import { Component, Inject, NgModule, ViewChild } from '@angular/core';
-import { RecipeAndProject } from '../../models/recipe.model';
+import { Component, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
+import { CommonTest, RecipeAndProject } from '../../models/recipe.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -26,7 +26,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   templateUrl: './recipedetails.component.html',
   styleUrl: './recipedetails.component.css'
 })
-export class RecipedetailsComponent {
+export class RecipedetailsComponent implements OnInit{
 
 
   goBack() {
@@ -40,8 +40,12 @@ recipeId!:number;
     //  projectNumber:'',
     //  description:''
   }
+   testData: CommonTest = {
+    recipeNumber: 0
+    
+  };
 
-compoundingData:  CompoundingDataDTO[] | null = null;
+compoundingData?:  CompoundingDataDTO[] | null = null;
 injectionData:AddInjectionMoulding[]|null=null;
   displayedColumns: string[] = ['recipeId','projectNumber', 'description'];
   dataSource: MatTableDataSource<RecipeAndProject> = new MatTableDataSource<RecipeAndProject>();
@@ -69,6 +73,7 @@ injectionData:AddInjectionMoulding[]|null=null;
     this.loadRecipeDetails(this.recipeId);
     this.loadCompoundingData(this.recipeId);
     this.loadInjectionData(this.recipeId);
+    this.loadTestByRecipe(this.recipeId);
   }
   }
   
@@ -100,6 +105,7 @@ injectionData:AddInjectionMoulding[]|null=null;
     }
 
     loadInjectionData(recipeId:number):void{
+
       this.injectionMouldingService.GetInjectionByRecipeId(recipeId).subscribe({
         next:(data)=>{
           this.injectionData=data;
@@ -111,25 +117,76 @@ injectionData:AddInjectionMoulding[]|null=null;
       })
     }
 
-    downloadPDF(): void {
-      const content = document.getElementById('pdf-content');
-    
-      if (!content) {
-        console.error('PDF content container not found!');
-        return;
-      }
-    
-      html2canvas(content,{ scale: 2,scrollY:0 }).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-    
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save('recipe-data.pdf');
-      });
+    loadTestByRecipe(recipeId:number):void{
+        console.log('Calling getTestByRecipe with ID:', recipeId); 
+
+      this.recipeService.getTestByRecipe(recipeId).subscribe({
+      next:(data)=>{
+        this.testData=data;
+        console.log("test data is:",this.testData);
+      },
+      error:(err)=>console.error('Error fetching recipe details', err)
+      })
+
     }
 
+   downloadPDF(): void {
+  const content = document.getElementById('pdf-content');
 
+  if (!content) {
+    console.error('PDF content container not found!');
+    return;
+  }
+
+  html2canvas(content, { scale: 2, scrollY: 0 }).then(canvas => {
+    const imgData = canvas.toDataURL('image/png');
+
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+
+    const imgWidth = pdfWidth;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    // Add first page
+    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    heightLeft -= pdfHeight;
+
+    // Add more pages if needed
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pdfHeight;
+    }
+
+    pdf.save('recipe-data.pdf');
+  });
+}
+
+
+
+
+    hasAnyProperty(data: any): boolean {
+  if (!data) return false;
+
+  return !!(
+    data.mechanicalPropertyDto ||
+    data.electricalPropertyDto ||
+    data.generalPropertyDto ||
+    data.temperaturePropertyDto ||
+    data.flammabilityPropertyDto||
+    data.propertiesDto
+  );
+}
+get hasCompoundingData(): boolean {
+  return Array.isArray(this.compoundingData) && this.compoundingData.length > 0;
+}
+get hasInjectionData():boolean{
+  return Array.isArray(this.injectionData)&& this.injectionData?.length>0;
+}
 }
 
