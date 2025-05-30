@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { TestService } from '../../services/test.service';
 
 @Component({
   selector: 'app-add-test',
@@ -32,12 +33,15 @@ export class AddTestComponent {
   mechanicalForm: FormGroup;
   temperatureForm: FormGroup;
   flammabilityForm: FormGroup;
-  generalForm:FormGroup;
-electricalForm:FormGroup;
- propertiesForm:FormGroup;
+  generalForm: FormGroup;
+  electricalForm: FormGroup;
+  propertiesForm: FormGroup;
 
- 
-  constructor(private _formBuilder: FormBuilder) {
+
+  constructor(private _formBuilder: FormBuilder,
+      private testService: TestService
+
+  ) {
     // Common fields shown outside stepper
     this.sharedForm = this._formBuilder.group({
       productName: [''],
@@ -61,19 +65,19 @@ electricalForm:FormGroup;
       flexuralModulus_DAM: [''],
       flexuralModulus_Conditioned: [''],
       flexuralModulus_Conditioned_Mm_Min: [''],
-      charpyNotchedImpact23:[''],
-      charpyNotchedImpactMinus30:[''],
-      flexuralStrength_DAM:[''],
-      flexuralStrength_Conditioned:[''],
-      flexuralStrength_Conditioned_Mm_Min:[''],
-    flexuralStrainBreak_DAM:[''],
-flexuralStrainBreak_Conditioned:[''],
-charpyImpact_DAM:[''],
-charpyImpact_Conditioned:[''],
-izodNotchedImpact_DAM:[''],
-izodNotchedImpact_Conditioned:[''],
-shoreDHardness_DAM:[''],
-shoreDHardness_Conditioned:['']
+      charpyNotchedImpact23: [''],
+      charpyNotchedImpactMinus30: [''],
+      flexuralStrength_DAM: [''],
+      flexuralStrength_Conditioned: [''],
+      flexuralStrength_Conditioned_Mm_Min: [''],
+      flexuralStrainBreak_DAM: [''],
+      flexuralStrainBreak_Conditioned: [''],
+      charpyImpact_DAM: [''],
+      charpyImpact_Conditioned: [''],
+      izodNotchedImpact_DAM: [''],
+      izodNotchedImpact_Conditioned: [''],
+      shoreDHardness_DAM: [''],
+      shoreDHardness_Conditioned: ['']
 
     });
 
@@ -83,7 +87,7 @@ shoreDHardness_Conditioned:['']
       meltingTemp: [''],
       linearExpansionParallel: [''],
       linearExpansionTransverse: [''],
-      
+
     });
 
     this.flammabilityForm = this._formBuilder.group({
@@ -100,56 +104,70 @@ shoreDHardness_Conditioned:['']
       moldingShrinkageFlow: [''],
       moldingShrinkageTransverse: [''],
       mfr: [''],
-      mvr:[''],
+      mvr: [''],
     })
 
-     this. electricalForm= this._formBuilder.group({
+    this.electricalForm = this._formBuilder.group({
       volumeResistivity1: [''],
       volumeResistivity2: [''],
       surfaceResistivity: [''],
       comparativeTracking: [''],
-    
+
     })
- this.propertiesForm = this._formBuilder.group({
-  sustainable: [false],
-   impactModified: [false],
-    flameRetardant: [false],
-    heatStabilized130: [false],
-    heatStabilized160: [false],
-    heatStabilized230: [false],
-    hydrolysisStabilized: [false],
-    laserTransparent: [false],
-    laserMarkable: [false],
-    lowWarpage: [false],
-    reducedDensity: [false],
-    reducedMoisture: [false],
-    electricallyNeutral: [false],
-    uvStabilized: [false],
-    surfaceModified: [false],
-    adhesionModified: [false],
-    tribologicalModified: [false],
-    easyFlow: [false],
-    nucleated: [false],
-    processImproved: [false],
-    fluidInjection: [false],
-    recycledContent: [false],
-    additiveManufacturing: [false]
-});
+    this.propertiesForm = this._formBuilder.group({
+      sustainable: [false],
+      impactModified: [false],
+      flameRetardant: [false],
+      heatStabilized130: [false],
+      heatStabilized160: [false],
+      heatStabilized230: [false],
+      hydrolysisStabilized: [false],
+      laserTransparent: [false],
+      laserMarkable: [false],
+      lowWarpage: [false],
+      reducedDensity: [false],
+      reducedMoisture: [false],
+      electricallyNeutral: [false],
+      uvStabilized: [false],
+      surfaceModified: [false],
+      adhesionModified: [false],
+      tribologicalModified: [false],
+      easyFlow: [false],
+      nucleated: [false],
+      processImproved: [false],
+      fluidInjection: [false],
+      recycledContent: [false],
+      additiveManufacturing: [false]
+    });
 
-    
+
   }
 
-  onSubmit() {
-    const combined = {
-      ...this.sharedForm.value,
-      ...this.mechanicalForm.value,
-      ...this.temperatureForm.value,
-      ...this.flammabilityForm.value,
-      ...this.generalForm.value,
-      ...this.propertiesForm.value
-    };
-    console.log('All form values:', combined);
-  }
+
+onSubmit() {
+  const requestBody = {
+    ...this.sharedForm.value,
+    mechanicalProperty: this.mechanicalForm.value,
+    temperatureProperty: this.temperatureForm.value,
+    flammabilityProperty: this.flammabilityForm.value,
+    generalProperty: this.generalForm.value,
+    electricalProperty: this.electricalForm.value,
+    properties: this.propertiesForm.value
+  };
+
+  console.log('Request Body:', requestBody);
+
+  // Optional: Submit to API
+  this.testService.addTest(requestBody).subscribe(
+    response => {
+      console.log('Form submitted successfully:', response);
+    },
+    error => {
+      console.error('Error submitting form:', error);
+    }
+  );
+}
+
 
   onCancel() {
     this.sharedForm.reset();
