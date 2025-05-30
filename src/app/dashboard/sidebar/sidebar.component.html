@@ -39,7 +39,7 @@
 
         <!-- Icon + Menu Text -->
         <div class="d-flex align-items-center">
-          <i class="fas fa-cubes me-3"></i>
+          <i [ngClass]="menu.icon"></i>
           <span *ngIf="isOpen">{{ menu.menuName }}</span>
         </div>
 
@@ -57,7 +57,7 @@
       <ul *ngIf="menu.children?.length && expandedMenus.has(menu.id)" class="list-unstyled ps-4">
         <li *ngFor="let child of menu.children" class="d-flex align-items-center hover-effect p-2"
           [ngClass]="{ 'active-link': isActive(child) }" (click)="navigation(child.route)">
-          <i class="fas fa-circle-notch me-3 small-icon"></i>
+          <i [ngClass]="child.icon"></i>
           <span *ngIf="isOpen">{{ child.menuName }}</span>
         </li>
       </ul>
