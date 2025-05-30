@@ -1,80 +1,452 @@
 <div class="for-margin">
-  <mat-horizontal-stepper linear>
-    <!-- Step 1: Mechanical Properties -->
-    <mat-step [stepControl]="mechanicalForm">
-      <form [formGroup]="mechanicalForm">
-        <ng-template matStepLabel>Mechanical Properties</ng-template>
+  <h4 class="fw-bold">Recipe Test</h4>
 
+  <form [formGroup]="sharedForm">
+    <div class="row mb-3">
+      <div class="col-md-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Product Name</mat-label>
           <input matInput formControlName="productName" />
         </mat-form-field>
+      </div>
 
+      <div class="col-md-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Recipe Number</mat-label>
           <input matInput formControlName="recipeNumber" />
         </mat-form-field>
+      </div>
 
+      <div class="col-md-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Comment</mat-label>
           <input matInput formControlName="comment" />
         </mat-form-field>
+      </div>
+    </div>
 
-        <!-- Add other mechanical fields similarly -->
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Tensile Modulus</mat-label>
-          <input matInput formControlName="tensileModulus" />
-        </mat-form-field>
 
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Stress at Yield</mat-label>
-          <input matInput formControlName="stressAtYield" />
-        </mat-form-field>
+    <!-- Stepper -->
+    <mat-horizontal-stepper linear style="background-color: white;">
 
-        <!-- Add the rest of the Mechanical fields as needed -->
+      <!-- Step 1: Mechanical Properties -->
+      <mat-step [stepControl]="mechanicalForm">
+        <form [formGroup]="mechanicalForm" class="mt-3">
+          <ng-template matStepLabel>Mechanical Properties</ng-template>
+          <table class="table  text-center align-middle">
+            <thead>
+              <tr>
+                <th style="width: 30%;"></th>
+                <th>DAM</th>
+                <th>Conditioned</th>
+                <th>mm/min</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-start">Tensile modulus (1 mm/min | ISO 527-2)</td>
+                <td><input type="number" formControlName="tensileModulus_DAM" class="form-control form-control-sm" />
+                </td>
+                <td><input type="number" formControlName="tensileModulus_Conditioned"
+                    class="form-control form-control-sm" /></td>
+                <td><input type="number" formControlName="tensileModulus_Conditioned_Mm_Min"
+                    class="form-control form-control-sm" /></td>
+              </tr>
+              <tr>
+                <td class="text-start">Stress at yield(50 mm/min | ISO 527-2)</td>
+                <td><input type="number" formControlName="stressAtYield_DAM" class="form-control form-control-sm" />
+                </td>
+                <td><input type="number" formControlName="stressAtYield_Conditioned"
+                    class="form-control form-control-sm" /></td>
+                <td><input type="number" formControlName="stressAtYield_Conditioned_Mm_Min"
+                    class="form-control form-control-sm" /></td>
+              </tr>
+              <tr>
+                <td class="text-start">Flexural modulus(2 mm/min | ISO 178)</td>
+                <td><input type="number" formControlName="flexuralModulus_DAM" class="form-control form-control-sm" />
+                </td>
+                <td><input type="number" formControlName="flexuralModulus_Conditioned"
+                    class="form-control form-control-sm" /></td>
+                <td><input type="number" formControlName="flexuralModulus_Conditioned_Mm_Min"
+                    class="form-control form-control-sm" /></td>
+              </tr>
+              <tr>
+                <td class="text-start">Flexural strength(2 mm/min | ISO 178)</td>
+                <td><input type="number" formControlName="flexuralStrength_DAM" class="form-control form-control-sm" />
+                </td>
+                <td><input type="number" formControlName="flexuralStrength_Conditioned"
+                    class="form-control form-control-sm" /></td>
+                <td><input type="number" formControlName="flexuralStrength_Conditioned_Mm_Min"
+                    class="form-control form-control-sm" /></td>
+              </tr>
+              <tr>
+                <td class="text-start">Strain at yield(50 mm/min | ISO 527-2) </td>
+                <td><input type="number" formControlName="strainAtYield_DAM" class="form-control form-control-sm" />
+                </td>
+                <td><input type="number" formControlName="strainAtYield_Conditioned"
+                    class="form-control form-control-sm" /></td>
+                <td><input type="number" formControlName="strainAtYield_Conditioned_Mm_Min"
+                    class="form-control form-control-sm" /></td>
+              </tr>
+              <tr>
+                <td class="text-start">Strain at break(50 mm/min | ISO 527-2)</td>
+                <td><input type="number" formControlName="strainAtBreak_DAM" class="form-control form-control-sm" />
+                </td>
+                <td><input type="number" formControlName="strainAtBreak_Conditioned"
+                    class="form-control form-control-sm" /></td>
+                <td><input type="number" formControlName="strainAtBreak_Conditioned_Mm_Min"
+                    class="form-control form-control-sm" /></td>
+              </tr>
 
-        <div class="button-group">
-          <button mat-button color="warn" (click)="onCancel()">Cancel</button>
-          <button mat-button matStepperNext>Next</button>
-        </div>
-      </form>
-    </mat-step>
+              <tr>
+                <td class="text-start">Charpy Notched Impact Strength (23°C)</td>
+                <td> <input type="number" formControlName="charpyNotchedImpact23"
+                    class="form-control form-control-sm" />
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
 
-    <!-- Step 2: Temperature Properties -->
-    <mat-step [stepControl]="temperatureForm">
-      <form [formGroup]="temperatureForm">
-        <ng-template matStepLabel>Temperature Properties</ng-template>
+              <tr>
+                <td class="text-start">Charpy Notched Impact Strength (-30°C)</td>
+                <td><input type="number" formControlName="charpyNotchedImpactMinus30"
+                    class="form-control form-control-sm" />
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="text-start"> Charpy impact strength(23°C | ISO 179-1/1eU) </td>
+                <td><input type="number" formControlName="charpyImpact_DAM" class="form-control form-control-sm" />
+                </td>
+                <td><input type="number" formControlName="charpyImpact_Conditioned"
+                    class="form-control form-control-sm" /></td>
+                <td></td>
+              </tr>
 
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Heat Deflection Temperature</mat-label>
-          <input matInput formControlName="heatDeflectionTemp" />
-        </mat-form-field>
+              <tr>
+                <td class="text-start">Izod-notched impact strength(23°C | ISO 180/1A)</td>
+                <td><input type="number" formControlName="izodNotchedImpact_DAM" class="form-control form-control-sm" />
+                </td>
+                <td><input type="number" formControlName="izodNotchedImpact_Conditioned"
+                    class="form-control form-control-sm" /></td>
+                <td></td>
+              </tr>
 
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Temperature of Deflection Under Load</mat-label>
-          <input matInput formControlName="deflectionTempUnderLoad" />
-        </mat-form-field>
+              <tr>
+                <td class="text-start">Shore D Hardness(23°C | DIN 53 505) </td>
+                <td><input type="number" formControlName="shoreDHardness_DAM" class="form-control form-control-sm" />
+                </td>
+                <td><input type="number" formControlName="shoreDHardness_Conditioned"
+                    class="form-control form-control-sm" /></td>
+                <td></td>
+              </tr>
 
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Melting Temperature</mat-label>
-          <input matInput formControlName="meltingTemp" />
-        </mat-form-field>
 
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Thermal Expansion (Parallel)</mat-label>
-          <input matInput formControlName="linearExpansionParallel" />
-        </mat-form-field>
 
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Thermal Expansion (Transverse)</mat-label>
-          <input matInput formControlName="linearExpansionTransverse" />
-        </mat-form-field>
+            </tbody>
+          </table>
 
-        <div class="button-group">
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button color="primary" (click)="onSubmit()">Save & Next</button>
-        </div>
-      </form>
-    </mat-step>
-  </mat-horizontal-stepper>
+
+          <div class="button-group">
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+
+
+      </mat-step>
+
+      <!-- Step 2: Temperature Properties -->
+      <mat-step [stepControl]="temperatureForm">
+        <form [formGroup]="temperatureForm" style="margin-top: 10px;">
+          <ng-template matStepLabel>Temperature Properties</ng-template>
+
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Heat Deflection Temperature</mat-label>
+                <input matInput formControlName="heatDeflectionTemp" />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Temperature of Deflection Under Load</mat-label>
+                <input matInput formControlName="deflectionTempUnderLoad" />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Melting Temperature</mat-label>
+                <input matInput formControlName="meltingTemp" />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Thermal Expansion (Parallel)</mat-label>
+                <input matInput formControlName="linearExpansionParallel" />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Thermal Expansion (Transverse)</mat-label>
+                <input matInput formControlName="linearExpansionTransverse" />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+
+      </mat-step>
+
+      <!-- Step 3: Temperature Properties -->
+      <mat-step [stepControl]="flammabilityForm">
+        <form [formGroup]="flammabilityForm" style="margin-top: 10px;">
+          <ng-template matStepLabel>Flammability Properties</ng-template>
+
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Burning Rate</mat-label>
+                <input matInput formControlName="burningRateWallThickness" />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>GWFI</mat-label>
+                <input matInput formControlName="gwfi" />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>GWFT</mat-label>
+                <input matInput formControlName="gwft" />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Burning Rate (Thickness 1)</mat-label>
+                <input matInput formControlName="burningRateThickness1" />
+              </mat-form-field>
+            </div>
+
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Burning Rate (Thickness 2)</mat-label>
+                <input matInput formControlName="burningRateThickness2" />
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <div class="button-group">
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+
+      </mat-step>
+
+
+
+      <!-- Step 4: General Properties -->
+      <mat-step [stepControl]="generalForm">
+        <form [formGroup]="generalForm" style="margin-top: 10px;">
+          <ng-template matStepLabel>General Properties</ng-template>
+
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Density</mat-label>
+                <input matInput formControlName="density" />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Humidity absorption</mat-label>
+                <input matInput formControlName="humidityAbsorption" />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Modal Shrinkage Flow</mat-label>
+                <input matInput formControlName="moldingShrinkageFlow" />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Modal Shrinkage Transverse</mat-label>
+                <input matInput formControlName="moldingShrinkageTransverse" />
+              </mat-form-field>
+            </div>
+
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>MFR</mat-label>
+                <input matInput formControlName="mfr" />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>MVR</mat-label>
+                <input matInput formControlName="mvr" />
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <div class="button-group">
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+
+      </mat-step>
+
+      <!-- Step 5: Electrical Properties -->
+      <mat-step [stepControl]="electricalForm">
+        <form [formGroup]="electricalForm" style="margin-top: 10px;">
+          <ng-template matStepLabel>Electrical Properties</ng-template>
+
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Volume Resistivity 1</mat-label>
+                <input matInput formControlName="volumeResistivity1" />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Volume Resistivity 1</mat-label>
+                <input matInput formControlName="volumeResistivity2" />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Surface Resistivity</mat-label>
+                <input matInput formControlName="surfaceResistivity" />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Comparative tracking index</mat-label>
+                <input matInput formControlName="comparativeTracking" />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+
+      </mat-step>
+
+      <!-- Step 6: Properties -->
+      <mat-step [stepControl]="propertiesForm">
+        <form [formGroup]="propertiesForm">
+          <ng-template matStepLabel>Properties</ng-template>
+
+          <div class="row mb-3">
+            <div class="col-md-3" *ngIf="propertiesForm">
+              <mat-checkbox formControlName="sustainable">Sustainable</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="impactModified">Impact Modified</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="flameRetardant">Flame retardant</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="heatStabilized130">Heat stabilized 130</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="heatStabilized160">Heat stabilized 160</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="heatStabilized230">Heat stabilized 230</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="hydrolysisStabilized">Hydrolysis/Chemical Stabilized</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="laserTransparent">Laser Transparent</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="laserMarkable">Laser Markable</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="lowWarpage">Low warpage</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="reducedDensity">Reduced Density</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="reducedMoisture">Reduced Moisture</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="electricallyNeutral">Electrically neutral</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="uvStabilized">UV-stabilized</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="adhesionModified">Adhesion Modified</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="tribologicalModified">Tribological Modified</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="easyFlow">Easy Flow</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="nucleated">Nucleated</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="processImproved">Process Improved</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="fluidInjection">Fluid Injection (GIT/WIT/FIT)</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="recycledContent">Recycled Content</mat-checkbox>
+            </div>
+            <div class="col-md-3">
+              <mat-checkbox formControlName="additiveManufacturing">3D Printing/Additive Manufacturing</mat-checkbox>
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button mat-button matStepperPrevious>Back</button>
+            <button matStepperNext (click)="onSubmit()">Submit</button>
+          </div>
+        </form>
+
+      </mat-step>
+
+
+
+    </mat-horizontal-stepper>
+  </form>
 </div>

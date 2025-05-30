@@ -23,19 +23,14 @@
 
     <div class="row align-items-center" style="height: 56px;">
 
-     <div class="col-4">
-  <mat-form-field appearance="outline" class="w-100">
-    <mat-label>Date</mat-label>
-    <input
-      matInput
-      [matDatepicker]="startPicker"
-      formControlName="date"
-      (dateChange)="formatDate($event)"
-    />
-    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-    <mat-datepicker #startPicker></mat-datepicker>
-  </mat-form-field>
-</div>
+      <div class="col-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Date</mat-label>
+          <input matInput [matDatepicker]="startPicker" formControlName="date" (dateChange)="formatDate($event)" />
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+        </mat-form-field>
+      </div>
 
 
 
@@ -176,7 +171,7 @@
             <td><mat-checkbox type="checkbox" formControlName="F" /></td>
 
             <td>
-              <button type="button" class="btn btn-outline-danger" (click)="removeComponent(i)">
+              <button type="button" class="desgin" (click)="removeComponent(i)">
                 <i class="fas fa-trash-alt action-icon" matTooltip="Delete"></i>
               </button>
             </td>
@@ -186,7 +181,10 @@
 
       <div class="d-flex justify-content-between">
         <div><strong>Total [%]: {{ getTotalShare() }}</strong></div>
-        <button type="button" class="btn btn-primary btn-sm" (click)="addComponent()">Add new component</button>
+        <button type="button" class="btn btn-primary btn-sm" style="background-color: #4caf50  !important;"
+          (click)="addComponent()">
+          <i class="fas fa-plus me-2"></i> Add new component
+        </button>
       </div>
     </div>
 
