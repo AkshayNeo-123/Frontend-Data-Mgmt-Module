@@ -5,7 +5,7 @@
     <div class="row mb-3">
       <div class="col-md-4">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Product Name</mat-label>
+          <mat-label>Recipe Name</mat-label>
           <input matInput formControlName="productName" />
         </mat-form-field>
       </div>
@@ -13,7 +13,7 @@
       <div class="col-md-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Recipe Number</mat-label>
-          <input matInput formControlName="recipeNumber" />
+          <input matInput type="number"  formControlName="recipeNumber" />
         </mat-form-field>
       </div>
 
@@ -115,6 +115,18 @@
                 <td></td>
                 <td></td>
               </tr>
+
+               <tr>
+                <td class="text-start">Flexural strain at break(2 mm/min | ISO 178)</td>
+                <td><input type="number" formControlName="flexuralStrainBreak_DAM"
+                    class="form-control form-control-sm" />
+                </td>
+                <td><input type="number" formControlName="flexuralStrainBreak_Conditioned"
+                    class="form-control form-control-sm" /></td>
+                <td></td>
+              </tr>
+
+              
               <tr>
                 <td class="text-start"> Charpy impact strength(23°C | ISO 179-1/1eU) </td>
                 <td><input type="number" formControlName="charpyImpact_DAM" class="form-control form-control-sm" />
@@ -158,210 +170,204 @@
       </mat-step>
 
       <!-- Step 2: Temperature Properties -->
-      <mat-step [stepControl]="temperatureForm">
-        <form [formGroup]="temperatureForm" style="margin-top: 10px;">
-          <ng-template matStepLabel>Temperature Properties</ng-template>
+<mat-step [stepControl]="temperatureForm">
+  <form [formGroup]="temperatureForm" style="margin-top: 10px;">
+    <ng-template matStepLabel>Temperature Properties</ng-template>
 
-          <div class="row mb-3">
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Heat Deflection Temperature</mat-label>
-                <input matInput formControlName="heatDeflectionTemp" />
-              </mat-form-field>
-            </div>
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Heat Deflection Temperature</mat-label>
+          <input matInput type="number" formControlName="tempHdtA" />
+        </mat-form-field>
+      </div>
 
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Temperature of Deflection Under Load</mat-label>
-                <input matInput formControlName="deflectionTempUnderLoad" />
-              </mat-form-field>
-            </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Temperature of Deflection Under Load</mat-label>
+          <input matInput type="number" formControlName="tempHdtB" />
+        </mat-form-field>
+      </div>
 
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Melting Temperature</mat-label>
-                <input matInput formControlName="meltingTemp" />
-              </mat-form-field>
-            </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Melting Temperature</mat-label>
+          <input matInput type="number" formControlName="meltingTemp" />
+        </mat-form-field>
+      </div>
 
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Thermal Expansion (Parallel)</mat-label>
-                <input matInput formControlName="linearExpansionParallel" />
-              </mat-form-field>
-            </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Thermal Expansion (Parallel)</mat-label>
+          <input matInput type="number" formControlName="coefficientsParallel" />
+        </mat-form-field>
+      </div>
 
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Thermal Expansion (Transverse)</mat-label>
-                <input matInput formControlName="linearExpansionTransverse" />
-              </mat-form-field>
-            </div>
-          </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Thermal Expansion (Transverse)</mat-label>
+          <input matInput type="number" formControlName="coefficientsTransverse" />
+        </mat-form-field>
+      </div>
+    </div>
 
-          <div class="button-group">
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
-          </div>
-        </form>
+    <div class="button-group">
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </form>
+</mat-step>
 
-      </mat-step>
+<!-- Step 3: Flammability Properties -->
+<mat-step [stepControl]="flammabilityForm">
+  <form [formGroup]="flammabilityForm" style="margin-top: 10px;">
+    <ng-template matStepLabel>Flammability Properties</ng-template>
 
-      <!-- Step 3: Temperature Properties -->
-      <mat-step [stepControl]="flammabilityForm">
-        <form [formGroup]="flammabilityForm" style="margin-top: 10px;">
-          <ng-template matStepLabel>Flammability Properties</ng-template>
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Burning Rate</mat-label>
+          <input matInput type="number" formControlName="burningRateWallThickness" />
+        </mat-form-field>
+      </div>
 
-          <div class="row mb-3">
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Burning Rate</mat-label>
-                <input matInput formControlName="burningRateWallThickness" />
-              </mat-form-field>
-            </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>GWFI</mat-label>
+          <input matInput type="number" formControlName="gwfi" />
+        </mat-form-field>
+      </div>
 
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>GWFI</mat-label>
-                <input matInput formControlName="gwfi" />
-              </mat-form-field>
-            </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>GWFT</mat-label>
+          <input matInput type="number" formControlName="gwft" />
+        </mat-form-field>
+      </div>
 
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>GWFT</mat-label>
-                <input matInput formControlName="gwft" />
-              </mat-form-field>
-            </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Burning Rate (Thickness 1)</mat-label>
+          <input matInput type="number" formControlName="burningRateThickness1" />
+        </mat-form-field>
+      </div>
 
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Burning Rate (Thickness 1)</mat-label>
-                <input matInput formControlName="burningRateThickness1" />
-              </mat-form-field>
-            </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Burning Rate (Thickness 2)</mat-label>
+          <input matInput type="number" formControlName="burningRateThickness2" />
+        </mat-form-field>
+      </div>
+    </div>
 
-
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Burning Rate (Thickness 2)</mat-label>
-                <input matInput formControlName="burningRateThickness2" />
-              </mat-form-field>
-            </div>
-
-          </div>
-
-          <div class="button-group">
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
-          </div>
-        </form>
-
-      </mat-step>
+    <div class="button-group">
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </form>
+</mat-step>
 
 
 
-      <!-- Step 4: General Properties -->
-      <mat-step [stepControl]="generalForm">
-        <form [formGroup]="generalForm" style="margin-top: 10px;">
-          <ng-template matStepLabel>General Properties</ng-template>
 
-          <div class="row mb-3">
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Density</mat-label>
-                <input matInput formControlName="density" />
-              </mat-form-field>
-            </div>
+    <!-- Step 4: General Properties -->
+<mat-step [stepControl]="generalForm">
+  <form [formGroup]="generalForm" style="margin-top: 10px;">
+    <ng-template matStepLabel>General Properties</ng-template>
 
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Humidity absorption</mat-label>
-                <input matInput formControlName="humidityAbsorption" />
-              </mat-form-field>
-            </div>
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Density</mat-label>
+          <input matInput type="number" formControlName="density" />
+        </mat-form-field>
+      </div>
 
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Modal Shrinkage Flow</mat-label>
-                <input matInput formControlName="moldingShrinkageFlow" />
-              </mat-form-field>
-            </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Humidity absorption</mat-label>
+          <input matInput type="number" formControlName="humidityAbsorption" />
+        </mat-form-field>
+      </div>
 
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Modal Shrinkage Transverse</mat-label>
-                <input matInput formControlName="moldingShrinkageTransverse" />
-              </mat-form-field>
-            </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Modal Shrinkage Flow</mat-label>
+          <input matInput type="number" formControlName="moldingShrinkageFlow" />
+        </mat-form-field>
+      </div>
 
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Modal Shrinkage Transverse</mat-label>
+          <input matInput type="number" formControlName="moldingShrinkageTransverse" />
+        </mat-form-field>
+      </div>
 
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>MFR</mat-label>
-                <input matInput formControlName="mfr" />
-              </mat-form-field>
-            </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>MFR</mat-label>
+          <input matInput type="number" formControlName="mfr" />
+        </mat-form-field>
+      </div>
 
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>MVR</mat-label>
-                <input matInput formControlName="mvr" />
-              </mat-form-field>
-            </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>MVR</mat-label>
+          <input matInput type="number" formControlName="mvr" />
+        </mat-form-field>
+      </div>
+    </div>
 
-          </div>
+    <div class="button-group">
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </form>
+</mat-step>
 
-          <div class="button-group">
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
-          </div>
-        </form>
+<!-- Step 5: Electrical Properties -->
+<mat-step [stepControl]="electricalForm">
+  <form [formGroup]="electricalForm" style="margin-top: 10px;">
+    <ng-template matStepLabel>Electrical Properties</ng-template>
 
-      </mat-step>
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Volume Resistivity 1</mat-label>
+          <input matInput type="number" formControlName="volumeResistivity1" />
+        </mat-form-field>
+      </div>
 
-      <!-- Step 5: Electrical Properties -->
-      <mat-step [stepControl]="electricalForm">
-        <form [formGroup]="electricalForm" style="margin-top: 10px;">
-          <ng-template matStepLabel>Electrical Properties</ng-template>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Volume Resistivity 2</mat-label>
+          <input matInput type="number" formControlName="volumeResistivity2" />
+        </mat-form-field>
+      </div>
 
-          <div class="row mb-3">
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Volume Resistivity 1</mat-label>
-                <input matInput formControlName="volumeResistivity1" />
-              </mat-form-field>
-            </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Surface Resistivity</mat-label>
+          <input matInput type="number" formControlName="surfaceResistivity" />
+        </mat-form-field>
+      </div>
 
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Volume Resistivity 1</mat-label>
-                <input matInput formControlName="volumeResistivity2" />
-              </mat-form-field>
-            </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Comparative tracking index</mat-label>
+          <input matInput type="number" formControlName="comparativeTracking" />
+        </mat-form-field>
+      </div>
+    </div>
 
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Surface Resistivity</mat-label>
-                <input matInput formControlName="surfaceResistivity" />
-              </mat-form-field>
-            </div>
+    <div class="button-group">
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </form>
+</mat-step>
 
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Comparative tracking index</mat-label>
-                <input matInput formControlName="comparativeTracking" />
-              </mat-form-field>
-            </div>
-          </div>
-
-          <div class="button-group">
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
-          </div>
-        </form>
-
-      </mat-step>
 
       <!-- Step 6: Properties -->
       <mat-step [stepControl]="propertiesForm">
@@ -373,7 +379,7 @@
               <mat-checkbox formControlName="sustainable">Sustainable</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="impactModified">Impact Modified</mat-checkbox>
+              <mat-checkbox formControlName="surfaceModified">Impact Modified</mat-checkbox>
             </div>
             <div class="col-md-3">
               <mat-checkbox formControlName="flameRetardant">Flame retardant</mat-checkbox>
