@@ -20,5 +20,8 @@ deleteTest(testid:number,deletedBY:number): Observable<any> {
   }
 
 
+ addTest(data: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/AddTest`, data);
+  }
 
 }
