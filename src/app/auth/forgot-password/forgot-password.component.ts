@@ -16,8 +16,9 @@ import { RouterModule } from '@angular/router';
 })
 export class ForgotPasswordComponent {
     forgotForm!: FormGroup;
-  otpSent = false;
-  otpVerified = false;
+    isSendingOtp: boolean = false;
+    otpSent = false;
+    otpVerified = false;
 
   constructor(private fb: FormBuilder, private authService: AuthService) {
     this.forgotForm = this.fb.group({
@@ -38,14 +39,19 @@ export class ForgotPasswordComponent {
   }
   sendOtp() {
     const email = this.forgotForm.value.email;
-    console.log("email="+email);
+    // console.log("email="+email);
+    this.isSendingOtp = true;
     this.authService.sendOtp(email).subscribe({
       next: () => {
         console.log("2");
         this.otpSent = true;
+        this.isSendingOtp = false;
         Swal.fire('OTP Sent', 'Please check your email', 'info');
       },
-      error: () => Swal.fire('Error', 'Failed to send OTP', 'error')
+      error: () => {
+        this.isSendingOtp = false;
+        Swal.fire('Error', 'Failed to send OTP', 'error')
+      }
     });
   }
 
