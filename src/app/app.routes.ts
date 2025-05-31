@@ -26,6 +26,7 @@ import { PermissionServiceService } from './services/permission-service.service'
 import { permissionGuard } from './permission.guard';
 import { GetTestComponent } from './dashboard/get-test/get-test.component';
 import { AddTestComponent } from './dashboard/add-test/add-test.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 
 
 // export const routes: Routes = [
@@ -153,7 +154,12 @@ export const routes: Routes = [
 
   { path: 'gettest', component: GetTestComponent, canActivate: [permissionGuard], data: { resource: 'Testing', action: 'canView' }},
   { path: 'add-test', component: AddTestComponent},
-
+  { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' }
+  { path: '**', redirectTo: 'login' },
+  
+//   {
+//   path: 'forgot-password',
+//   loadComponent: () => import('./auth/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent)
+// }
 ];
