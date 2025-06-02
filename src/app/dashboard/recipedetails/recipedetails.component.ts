@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+
 import { MatButtonModule } from '@angular/material/button';
 import { AddCompoundingComponent } from '../add-compounding/add-compounding.component';
 import { AddCompoundingService } from '../../services/add-compounding.service';
@@ -130,42 +131,32 @@ injectionData:AddInjectionMoulding[]|null=null;
 
     }
 
-   downloadPDF(): void {
-  const content = document.getElementById('pdf-content');
+downloadPDF(): void {
+  import('html2pdf.js').then(module => {
+    const html2pdf = module.default;  
 
-  if (!content) {
-    console.error('PDF content container not found!');
-    return;
-  }
-
-  html2canvas(content, { scale: 2, scrollY: 0 }).then(canvas => {
-    const imgData = canvas.toDataURL('image/png');
-
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
-
-    const imgWidth = pdfWidth;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    let heightLeft = imgHeight;
-    let position = 0;
-
-    // Add first page
-    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-    heightLeft -= pdfHeight;
-
-    // Add more pages if needed
-    while (heightLeft > 0) {
-      position = heightLeft - imgHeight;
-      pdf.addPage();
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pdfHeight;
+    const element = document.getElementById('pdf-content');
+    if (!element) {
+      console.error('PDF content container not found!');
+      return;
     }
 
-    pdf.save('recipe-data.pdf');
+    const options = {
+       margin:10,
+      
+      filename: 'recipeDetails.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: ['avoid-all','css', 'legacy'] },
+      avoid: ['.no-break'] 
+    };
+
+    html2pdf().set(options).from(element).save();
   });
 }
+
+
 
 
 
