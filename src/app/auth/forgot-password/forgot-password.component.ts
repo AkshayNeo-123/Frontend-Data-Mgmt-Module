@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 
 @Component({
@@ -17,10 +17,10 @@ import { RouterModule } from '@angular/router';
 export class ForgotPasswordComponent {
     forgotForm!: FormGroup;
     isSendingOtp: boolean = false;
-    otpSent = false;
+    otpSent:boolean = false;
     otpVerified = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, @Inject(Router) private router: Router) {
     this.forgotForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       otp: [''],
@@ -43,8 +43,9 @@ export class ForgotPasswordComponent {
     this.isSendingOtp = true;
     this.authService.sendOtp(email).subscribe({
       next: () => {
-        console.log("2");
+        // console.log("2");
         this.otpSent = true;
+        // console.log("OTPSENT: "+this.otpSent)
         this.isSendingOtp = false;
         Swal.fire('OTP Sent', 'Please check your email', 'info');
       },
@@ -53,6 +54,7 @@ export class ForgotPasswordComponent {
         Swal.fire('Error', 'Failed to send OTP', 'error')
       }
     });
+    // this.forgotForm.get('email')?.disable();
   }
 
   verifyOtp() {
@@ -75,7 +77,12 @@ export class ForgotPasswordComponent {
     }
 
     this.authService.resetPassword(email, newPassword).subscribe({
-      next: () => Swal.fire('Success', 'Password reset successfully', 'success'),
+      next: () => {
+        Swal.fire('Success', 'Password reset successfully, You may now login with your new password', 'success').then(()=>{
+          this.router.navigate(['/login']);
+        })
+
+      },
       error: () => Swal.fire('Error', 'Failed to reset password', 'error')
     });
   }
