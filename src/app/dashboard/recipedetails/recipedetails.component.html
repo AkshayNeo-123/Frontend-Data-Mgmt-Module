@@ -195,232 +195,232 @@
 
       
 
-    <div *ngIf="testData"class="container">
-  <!-- <h2>Recipe Details - #{{ testData.recipeNumber }}</h2> -->
+    <div *ngIf="testData"class="container custom-scope">
+
    <hr  *ngIf="hasAnyProperty(testData)">
      <h4 *ngIf="hasAnyProperty(testData)"><b> Testing Properties</b></h4>
 <hr *ngIf="hasAnyProperty(testData)">
   <div class="row">
     
- <div *ngIf="testData.mechanicalPropertyDto" class="table-responsive mt-3">
-  <h5><b>Mechanical Properties</b></h5>
-  <table class="table   ">
-    <thead >
+     <div class="col-md-6">
+  
+<!-- Electrical Properties Table -->
+<div *ngIf="testData.electricalPropertyDto" class="mb-3">
+  <h5><b>Electrical Properties</b></h5>
+  <table class="table no-borders" style="width: 100%;">
+    <thead>
       <tr>
-        <th>Property</th>
-        <th>DAM</th>
-        <th>Conditioned</th>
-        <th>Conditioned Mm Min</th>
+        <th class="bcolor">Volume Resistivity 1</th>
+        <th class="bcolor">Volume Resistivity 2</th>
+        <th class="bcolor">Surface Resistivity</th>
+        <th class="bcolor">Comparative Tracking</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>Tensile Modulus</td>
-        <td>{{ testData.mechanicalPropertyDto.tensileModulus_DAM || '-'  }} MPa</td>
-        <td>{{ testData.mechanicalPropertyDto.tensileModulus_Conditioned || '-' }} MPa</td>
-        <td>{{ testData.mechanicalPropertyDto.tensileModulus_Conditioned_Mm_Min || '-' }} mm/min</td>
-      </tr>
-      <tr>
-        <td>Stress at Yield</td>
-        <td>{{ testData.mechanicalPropertyDto.stressAtYield_DAM || '-' }} MPa</td>
-        <td>{{ testData.mechanicalPropertyDto.stressAtYield_Conditioned || '-' }} MPa</td>
-        <td>{{ testData.mechanicalPropertyDto.stressAtYield_Conditioned_Mm_Min || '-' }} mm/min</td>
-      </tr>
-      <tr>
-        <td>Strain at Yield</td>
-        <td>{{ testData.mechanicalPropertyDto.strainAtYield_DAM || '-' }} MPa</td>
-        <td>{{ testData.mechanicalPropertyDto.strainAtYield_Conditioned || '-' }} MPa</td>
-        <td>{{ testData.mechanicalPropertyDto.strainAtYield_Conditioned_Mm_Min || '-' }} mm/min</td>
-      </tr>
-      <tr>
-        <td>Strain at Break</td>
-        <td>{{ testData.mechanicalPropertyDto.strainAtBreak_DAM || '-' }} MPa</td>
-        <td>{{ testData.mechanicalPropertyDto.strainAtBreak_Conditioned || '-' }} MPa</td>
-        <td>{{ testData.mechanicalPropertyDto.strainAtBreak_Conditioned_Mm_Min || '-' }} mm/min</td>
-      </tr>
-      <tr>
-        <td>Flexural Modulus</td>
-        <td>{{ testData.mechanicalPropertyDto.flexuralModulus_DAM || '-' }} MPa</td>
-        <td>{{ testData.mechanicalPropertyDto.flexuralModulus_Conditioned || '-' }} MPa</td>
-        <td>{{ testData.mechanicalPropertyDto.flexuralModulus_Conditioned_Mm_Min || '-' }} mm/min</td>
-      </tr>
-      <tr>
-        <td>Flexural Strength</td>
-        <td>{{ testData.mechanicalPropertyDto.flexuralStrength_DAM || '-' }} MPa</td>
-        <td>{{ testData.mechanicalPropertyDto.flexuralStrength_Conditioned || '-' }} MPa</td>
-        <td>{{ testData.mechanicalPropertyDto.flexuralStrength_Conditioned_Mm_Min || '-' }} mm/min</td>
-      </tr>
-      <tr>
-        <td>Flexural Strain at Break</td>
-        <td>{{ testData.mechanicalPropertyDto.flexuralStrainBreak_DAM || '-' }} MPa</td>
-        <td>{{ testData.mechanicalPropertyDto.flexuralStrainBreak_Conditioned || '-' }} MPa</td>
-        <td>—</td>
-      </tr>
-      <tr>
-        <td>Charpy Impact</td>
-        <td>{{ testData.mechanicalPropertyDto.charpyImpact_DAM || '-' }} MPa</td>
-        <td>{{ testData.mechanicalPropertyDto.charpyImpact_Conditioned || '-' }} MPa</td>
-        <td>—</td>
-      </tr>
-      <tr>
-        <td>Charpy Notched Impact</td>
-        <td> {{ testData.mechanicalPropertyDto.charpyNotchedImpact23 || '-' }} KJ/m2</td>
-        <td>{{ testData.mechanicalPropertyDto.charpyNotchedImpactMinus30 || '-' }} KJ/m2</td>
-        <td>—</td>
-      </tr>
-      <tr>
-        <td>Izod Notched Impact</td>
-        <td>{{ testData.mechanicalPropertyDto.izodNotchedImpact_DAM || '-' }} KJ/m2</td>
-        <td>{{ testData.mechanicalPropertyDto.izodNotchedImpact_Conditioned || '-' }} KJ/m2</td>
-        <td>—</td>
-      </tr>
-      <tr>
-        <td>Shore D Hardness</td>
-        <td>{{ testData.mechanicalPropertyDto.shoreDHardness_DAM || '-' }}</td>
-        <td>{{ testData.mechanicalPropertyDto.shoreDHardness_Conditioned || '-' }}</td>
-        <td>—</td>
+        <td>{{ testData.electricalPropertyDto.volumeResistivity1 ? (testData.electricalPropertyDto.volumeResistivity1 + ' cm') : '-' }}</td>
+        <td>{{ testData.electricalPropertyDto.volumeResistivity2 ? (testData.electricalPropertyDto.volumeResistivity2 + ' cm') : '-' }}</td>
+        <td>{{ testData.electricalPropertyDto.surfaceResistivity ? (testData.electricalPropertyDto.surfaceResistivity + ' cm') : '-' }}</td>
+        <td>{{ testData.electricalPropertyDto.comparativeTracking ? (testData.electricalPropertyDto.comparativeTracking + ' V') : '-' }}</td>
       </tr>
     </tbody>
   </table>
+  <hr>
 </div>
 
-  
-  <!-- Electrical Properties -->
-  <div *ngIf="testData.electricalPropertyDto" class="col-md-6">
-  
-    <h5><b>Electrical Properties</b></h5>
-    <p>Volume Resistivity 1: {{ testData.electricalPropertyDto.volumeResistivity1 || '-' }}</p>
-    <p>Volume Resistivity 2: {{ testData.electricalPropertyDto.volumeResistivity2 || '-' }}</p>
-    <p>Surface Resistivity: {{ testData.electricalPropertyDto.surfaceResistivity || '-' }}</p>
-    <p>Comparative Tracking: {{ testData.electricalPropertyDto.comparativeTracking || '-' }}</p>
-  </div>
+<!-- General Properties Table -->
+<div *ngIf="testData.generalPropertyDto" class="mb-3">
+  <h5><b>General Properties</b></h5>
+  <table class="table no-borders" style="width: 100%;">
+    <thead>
+      <tr>
+        <th class="bcolor">Density</th>
+        <th class="bcolor">HumidityA</th>
+        <th class="bcolor">Molding SF</th>
+        <th class="bcolor">Molding ST</th>
+        <th class="bcolor">MFR</th>
+        <th class="bcolor">MVR</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ testData.generalPropertyDto.density ? (testData.generalPropertyDto.density + ' g/cm³') : '-' }}</td>
+        <td>{{ testData.generalPropertyDto.humidityAbsorption ? (testData.generalPropertyDto.humidityAbsorption + ' %') : '-' }}</td>
+        <td>{{ testData.generalPropertyDto.moldingShrinkageFlow ? (testData.generalPropertyDto.moldingShrinkageFlow + ' %') : '-' }}</td>
+        <td>{{ testData.generalPropertyDto.moldingShrinkageTransverse ? (testData.generalPropertyDto.moldingShrinkageTransverse + ' %') : '-' }}</td>
+        <td>{{ testData.generalPropertyDto.mfr || '-' }}</td>
+        <td>{{ testData.generalPropertyDto.mvr || '-' }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <hr>
+</div>
 
-  <!-- General Properties -->
-  <div *ngIf="testData.generalPropertyDto" class="col-md-6">
-    <h5><b>General Properties</b></h5>
-    <p>Density: {{ testData.generalPropertyDto.density || '-' }} g/cm3</p>
-    <p>Humidity Absorption: {{ testData.generalPropertyDto.humidityAbsorption || '-' }} %</p>
-    <p>Molding Shrinkage Flow: {{ testData.generalPropertyDto.moldingShrinkageFlow || '-' }} %</p>
-    <p>Molding Shrinkage Transverse: {{ testData.generalPropertyDto.moldingShrinkageTransverse || '-' }} %</p>
-    <p>MFR: {{ testData.generalPropertyDto.mfr || '-' }}</p>
-    <p>MVR: {{ testData.generalPropertyDto.mvr || '-' }}</p>
-  
-  </div>
-  
-  <div *ngIf="testData.temperaturePropertyDto" class="col-md-6 mb-3">
-     
-    <h5><b>Temperature Properties</b></h5>
-    <p>HDT A: {{ testData.temperaturePropertyDto.tempHdtA || '-' }}°C</p>
-    <p>HDT B: {{ testData.temperaturePropertyDto.tempHdtB || '-' }}°C</p>
-    <p>Melting Temp: {{ testData.temperaturePropertyDto.meltingTemp || '-' }}°C</p>
-    <p>Coefficients Parallel: {{ testData.temperaturePropertyDto.coefficientsParallel || '-' }}°C</p>
-    <p>Coefficients Transverse: {{ testData.temperaturePropertyDto.coefficientsTransverse || '-' }}°C</p>
-  </div>
-  
-  <div *ngIf="testData.flammabilityPropertyDto" class="col-md-6">
-    
-    <h5><b>Flammability Properties</b></h5>
-    <p>Burning Rate Wall Thickness: {{ testData.flammabilityPropertyDto.burningRateWallThickness || '-' }} °C </p>
-    <p>GWFI: {{ testData.flammabilityPropertyDto.gwfi || '-' }} °C</p>
-    <p>GWFT: {{ testData.flammabilityPropertyDto.gwft || '-' }} °C</p>
-    <p>Burning Rate Thickness 1: {{ testData.flammabilityPropertyDto.burningRateThickness1 || '-' }} °C</p>
-    <p>Burning Rate Thickness 2: {{ testData.flammabilityPropertyDto.burningRateThickness2 || '-' }} °C</p>
-  
 
-  </div>
 
-<div *ngIf="testData.propertiesDto">
+  
+<div *ngIf="testData.temperaturePropertyDto" class="mb-3">
+  <h5><b>Temperature Properties</b></h5>
+
+  <table class="table no-borders" style="width: 100%;">
+    <thead>
+      <tr>
+        <th class="bcolor">HDT A</th>
+        <th class="bcolor">HDT B</th>
+        <th class="bcolor">Melting Temp</th>
+        <th class="bcolor">Coef Parallel</th>
+        <th class="bcolor">Coef Transverse</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ testData.temperaturePropertyDto.tempHdtA ? (testData.temperaturePropertyDto.tempHdtA + ' °C') : '-' }}</td>
+        <td>{{ testData.temperaturePropertyDto.tempHdtB ? (testData.temperaturePropertyDto.tempHdtB + ' °C') : '-' }}</td>
+        <td>{{ testData.temperaturePropertyDto.meltingTemp ? (testData.temperaturePropertyDto.meltingTemp + ' °C') : '-' }}</td>
+        <td>{{ testData.temperaturePropertyDto.coefficientsParallel ? (testData.temperaturePropertyDto.coefficientsParallel + ' °C') : '-' }}</td>
+        <td>{{ testData.temperaturePropertyDto.coefficientsTransverse ? (testData.temperaturePropertyDto.coefficientsTransverse + ' °C') : '-' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr>
+</div>
+
+
+
+
+  
+<div *ngIf="testData.flammabilityPropertyDto" class="mb-3">
+  <h5><b>Flammability Properties</b></h5>
+
+  <table class="table no-borders" style="width: 100%;">
+    <thead>
+      <tr>
+        <th class="bcolor">Burning Rate Wall Thickness</th>
+        <th class="bcolor">GWFI</th>
+        <th class="bcolor">GWFT</th>
+        <th class="bcolor">Burning Rate Thickness 1</th>
+        <th class="bcolor">Burning Rate Thickness 2</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ testData.flammabilityPropertyDto.burningRateWallThickness ? (testData.flammabilityPropertyDto.burningRateWallThickness + ' °C') : '-' }}</td>
+        <td>{{ testData.flammabilityPropertyDto.gwfi ? (testData.flammabilityPropertyDto.gwfi + ' °C') : '-' }}</td>
+        <td>{{ testData.flammabilityPropertyDto.gwft ? (testData.flammabilityPropertyDto.gwft + ' °C') : '-' }}</td>
+        <td>{{ testData.flammabilityPropertyDto.burningRateThickness1 ? (testData.flammabilityPropertyDto.burningRateThickness1 + ' °C') : '-' }}</td>
+        <td>{{ testData.flammabilityPropertyDto.burningRateThickness2 ? (testData.flammabilityPropertyDto.burningRateThickness2 + ' °C') : '-' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr>
+</div>
+
+
+
+
+
+<div *ngIf="testData.propertiesDto" class="mb-3">
   <h5><b>Other Properties</b></h5>
-  <div class="properties-grid">
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.sustainable" disabled />
-      <label>Sustainable</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.flameRetardant" disabled />
-      <label>Flame Retardant</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.heatStabilized130" disabled />
-      <label>Heat Stabilized 130</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.heatStabilized160" disabled />
-      <label>Heat Stabilized 160</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.heatStabilized230" disabled />
-      <label>Heat Stabilized 230</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.hydrolysisStabilized" disabled />
-      <label>Hydrolysis Stabilized</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.laserTransparent" disabled />
-      <label>Laser Transparent</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.laserMarkable" disabled />
-      <label>Laser Markable</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.lowWarpage" disabled />
-      <label>Low Warpage</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.reducedDensity" disabled />
-      <label>Reduced Density</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.reducedMoisture" disabled />
-      <label>Reduced Moisture</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.electricallyNeutral" disabled />
-      <label>Electrically Neutral</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.uvStabilized" disabled />
-      <label>UV Stabilized</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.surfaceModified" disabled />
-      <label>Surface Modified</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.adhesionModified" disabled />
-      <label>Adhesion Modified</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.tribologicalModified" disabled />
-      <label>Tribological Modified</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.easyFlow" disabled />
-      <label>Easy Flow</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.nucleated" disabled />
-      <label>Nucleated</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.processImproved" disabled />
-      <label>Process Improved</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.fluidInjection" disabled />
-      <label>Fluid Injection</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.recycledContent" disabled />
-      <label>Recycled Content</label>
-    </div>
-    <div class="property-item">
-      <input type="checkbox" class="custom-checkbox" [checked]="testData.propertiesDto.additiveManufacturing" disabled />
-      <label>Additive Manufacturing</label>
-    </div>
-  </div>
+  <table class="table no-borders" style="width: 100%;">
+    <thead>
+      <tr>
+        <th class="bcolor">Sustainable</th>
+        <th class="bcolor">Flame Retardant</th>
+        <th class="bcolor">Heat Stabilized 130</th>
+        <th class="bcolor">Heat Stabilized 160</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.sustainable ? 'checked' : 'unchecked'">{{ testData.propertiesDto.sustainable ? '✔' : '✗' }}</span></td>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.flameRetardant ? 'checked' : 'unchecked'">{{ testData.propertiesDto.flameRetardant ? '✔' : '✗' }}</span></td>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.heatStabilized130 ? 'checked' : 'unchecked'">{{ testData.propertiesDto.heatStabilized130 ? '✔' : '✗' }}</span></td>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.heatStabilized160 ? 'checked' : 'unchecked'">{{ testData.propertiesDto.heatStabilized160 ? '✔' : '✗' }}</span></td>
+      </tr>
+    </tbody>
+
+    <thead>
+      <tr>
+        <th class="bcolor">Heat Stabilized 230</th>
+        <th class="bcolor">Hydrolysis Stabilized</th>
+        <th class="bcolor">Laser Transparent</th>
+        <th class="bcolor">Laser Markable</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.heatStabilized230 ? 'checked' : 'unchecked'">{{ testData.propertiesDto.heatStabilized230 ? '✔' : '✗' }}</span></td>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.hydrolysisStabilized ? 'checked' : 'unchecked'">{{ testData.propertiesDto.hydrolysisStabilized ? '✔' : '✗' }}</span></td>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.laserTransparent ? 'checked' : 'unchecked'">{{ testData.propertiesDto.laserTransparent ? '✔' : '✗' }}</span></td>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.laserMarkable ? 'checked' : 'unchecked'">{{ testData.propertiesDto.laserMarkable ? '✔' : '✗' }}</span></td>
+      </tr>
+    </tbody>
+
+    <thead>
+      <tr>
+        <th class="bcolor">Low Warpage</th>
+        <th class="bcolor">Reduced Density</th>
+        <th class="bcolor">Reduced Moisture</th>
+        <th class="bcolor">Electrically Neutral</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.lowWarpage ? 'checked' : 'unchecked'">{{ testData.propertiesDto.lowWarpage ? '✔' : '✗' }}</span></td>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.reducedDensity ? 'checked' : 'unchecked'">{{ testData.propertiesDto.reducedDensity ? '✔' : '✗' }}</span></td>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.reducedMoisture ? 'checked' : 'unchecked'">{{ testData.propertiesDto.reducedMoisture ? '✔' : '✗' }}</span></td>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.electricallyNeutral ? 'checked' : 'unchecked'">{{ testData.propertiesDto.electricallyNeutral ? '✔' : '✗' }}</span></td>
+      </tr>
+    </tbody>
+
+    <thead>
+      <tr>
+        <th class="bcolor">UV Stabilized</th>
+        <th class="bcolor">Adhesion Modified</th>
+        <th class="bcolor">Tribological Modified</th>
+        <th class="bcolor">Easy Flow</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.uvStabilized ? 'checked' : 'unchecked'">{{ testData.propertiesDto.uvStabilized ? '✔' : '✗' }}</span></td>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.adhesionModified ? 'checked' : 'unchecked'">{{ testData.propertiesDto.adhesionModified ? '✔' : '✗' }}</span></td>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.tribologicalModified ? 'checked' : 'unchecked'">{{ testData.propertiesDto.tribologicalModified ? '✔' : '✗' }}</span></td>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.easyFlow ? 'checked' : 'unchecked'">{{ testData.propertiesDto.easyFlow ? '✔' : '✗' }}</span></td>
+      </tr>
+    </tbody>
+
+    <thead>
+      <tr>
+        <th class="bcolor">Nucleated</th>
+        <th class="bcolor">Process Improved</th>
+        <th class="bcolor">Fluid Injection</th>
+        <th class="bcolor">Recycled Content</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.nucleated ? 'checked' : 'unchecked'">{{ testData.propertiesDto.nucleated ? '✔' : '✗' }}</span></td>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.processImproved ? 'checked' : 'unchecked'">{{ testData.propertiesDto.processImproved ? '✔' : '✗' }}</span></td>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.fluidInjection ? 'checked' : 'unchecked'">{{ testData.propertiesDto.fluidInjection ? '✔' : '✗' }}</span></td>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.recycledContent ? 'checked' : 'unchecked'">{{ testData.propertiesDto.recycledContent ? '✔' : '✗' }}</span></td>
+      </tr>
+    </tbody>
+
+    <thead>
+      <tr>
+        <th class="bcolor">Additive Manufacturing</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="pdf-checkbox" [ngClass]="testData.propertiesDto.additiveManufacturing ? 'checked' : 'unchecked'">{{ testData.propertiesDto.additiveManufacturing ? '✔' : '✗' }}</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <hr />
 </div>
 
 
@@ -428,6 +428,100 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+</div>
+<div *ngIf="testData.mechanicalPropertyDto" class="table-responsive mt-3 col-md-6 page-break">
+  <h5><b>Mechanical Properties</b></h5>
+  <table class="table no-borders ">
+    <thead>
+      <tr>
+        <th></th>
+        <th>d.a.m</th>
+        <th>Conditioned</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th class="bcolor"> Tensile Modulus <br><p class="mcolor">{{ testData.mechanicalPropertyDto.tensileModulus_Conditioned_Mm_Min ? testData.mechanicalPropertyDto.tensileModulus_Conditioned_Mm_Min + ' mm/min | ISO 527-2' : '-' }}</p></th>
+
+        <td>{{ testData.mechanicalPropertyDto.tensileModulus_DAM ? testData.mechanicalPropertyDto.tensileModulus_DAM + ' MPa' : '-' }}</td>
+        <td>{{ testData.mechanicalPropertyDto.tensileModulus_Conditioned ? testData.mechanicalPropertyDto.tensileModulus_Conditioned + ' MPa' : '-' }}</td>
+      </tr>
+      <tr>
+        <th class="bcolor">Stress at Yield <br><p class="mcolor">{{ testData.mechanicalPropertyDto.stressAtYield_Conditioned_Mm_Min ? testData.mechanicalPropertyDto.stressAtYield_Conditioned_Mm_Min + ' mm/min | ISO 527-2' : '-' }}</p></th>
+
+        <td>{{ testData.mechanicalPropertyDto.stressAtYield_DAM ? testData.mechanicalPropertyDto.stressAtYield_DAM + ' MPa' : '-' }}</td>
+        <td>{{ testData.mechanicalPropertyDto.stressAtYield_Conditioned ? testData.mechanicalPropertyDto.stressAtYield_Conditioned + ' MPa' : '-' }}</td>
+      </tr>
+      <tr>
+        <th class="bcolor">Strain at Yield <br><p class="mcolor">{{ testData.mechanicalPropertyDto.strainAtYield_Conditioned_Mm_Min ? testData.mechanicalPropertyDto.strainAtYield_Conditioned_Mm_Min + ' mm/min | ISO 527-2' : '-' }}</p></th>
+
+        <td>{{ testData.mechanicalPropertyDto.strainAtYield_DAM ? testData.mechanicalPropertyDto.strainAtYield_DAM + ' MPa' : '-' }}</td>
+        <td>{{ testData.mechanicalPropertyDto.strainAtYield_Conditioned ? testData.mechanicalPropertyDto.strainAtYield_Conditioned + ' MPa' : '-' }}</td>
+      </tr>
+      <tr>
+        <th class="bcolor">Strain at Break <br> <p class="mcolor">{{ testData.mechanicalPropertyDto.strainAtBreak_Conditioned_Mm_Min ? testData.mechanicalPropertyDto.strainAtBreak_Conditioned_Mm_Min + ' mm/min | ISO 527-2' : '-' }}</p></th>
+
+        <td>{{ testData.mechanicalPropertyDto.strainAtBreak_DAM ? testData.mechanicalPropertyDto.strainAtBreak_DAM + ' MPa' : '-' }}</td>
+        <td>{{ testData.mechanicalPropertyDto.strainAtBreak_Conditioned ? testData.mechanicalPropertyDto.strainAtBreak_Conditioned + ' MPa' : '-' }}</td>
+      </tr>
+      <tr>
+        <th class="bcolor">Flexural Modulus    <br>  <p class="mcolor">{{ testData.mechanicalPropertyDto.flexuralModulus_Conditioned_Mm_Min ? testData.mechanicalPropertyDto.flexuralModulus_Conditioned_Mm_Min + ' mm/min | ISO 527-2' : '-' }}</p></th>
+
+        <td>{{ testData.mechanicalPropertyDto.flexuralModulus_DAM ? testData.mechanicalPropertyDto.flexuralModulus_DAM + ' MPa' : '-' }}</td>
+        <td>{{ testData.mechanicalPropertyDto.flexuralModulus_Conditioned ? testData.mechanicalPropertyDto.flexuralModulus_Conditioned + ' MPa' : '-' }}</td>
+      </tr>
+      <tr>
+        <th class="bcolor">Flexural Strength <br><p class="mcolor">{{ testData.mechanicalPropertyDto.flexuralStrength_Conditioned_Mm_Min ? testData.mechanicalPropertyDto.flexuralStrength_Conditioned_Mm_Min + ' mm/min | ISO 527-2' : '-' }}</p></th>
+
+        <td>{{ testData.mechanicalPropertyDto.flexuralStrength_DAM ? testData.mechanicalPropertyDto.flexuralStrength_DAM + ' MPa' : '-' }}</td>
+        <td>{{ testData.mechanicalPropertyDto.flexuralStrength_Conditioned ? testData.mechanicalPropertyDto.flexuralStrength_Conditioned + ' MPa' : '-' }}</td>
+      </tr>
+      <tr>
+        <th class="bcolor">Flexural Strain at Break <br><p class="mcolor"> mm/min | ISO 527-2</p></th>
+        <td>{{ testData.mechanicalPropertyDto.flexuralStrainBreak_DAM ? testData.mechanicalPropertyDto.flexuralStrainBreak_DAM + ' MPa' : '-' }}</td>
+        <td>{{ testData.mechanicalPropertyDto.flexuralStrainBreak_Conditioned ? testData.mechanicalPropertyDto.flexuralStrainBreak_Conditioned + ' MPa' : '-' }}</td>
+        
+      </tr>
+      <tr>
+        <th class="bcolor">Charpy Impact <br> <p class="mcolor"> mm/min | ISO 527-2</p></th>
+        <td>{{ testData.mechanicalPropertyDto.charpyImpact_DAM ? testData.mechanicalPropertyDto.charpyImpact_DAM + ' MPa' : '-' }}</td>
+        <td>{{ testData.mechanicalPropertyDto.charpyImpact_Conditioned ? testData.mechanicalPropertyDto.charpyImpact_Conditioned + ' MPa' : '-' }}</td>
+        
+      </tr>
+      <tr>
+        <th class="bcolor">Charpy Notched Impact <br><p class="mcolor"> mm/min | ISO 527-2</p></th>
+        <td>{{ testData.mechanicalPropertyDto.charpyNotchedImpact23 ? testData.mechanicalPropertyDto.charpyNotchedImpact23 + ' KJ/m²' : '-' }}</td>
+        <td>{{ testData.mechanicalPropertyDto.charpyNotchedImpactMinus30 ? testData.mechanicalPropertyDto.charpyNotchedImpactMinus30 + ' KJ/m²' : '-' }}</td>
+        
+      </tr>
+      <tr>
+        <th class="bcolor">Izod Notched Impact <br><p class="mcolor"> mm/min | ISO 527-2</p></th>
+        <td>{{ testData.mechanicalPropertyDto.izodNotchedImpact_DAM ? testData.mechanicalPropertyDto.izodNotchedImpact_DAM + ' KJ/m²' : '-' }}</td>
+        <td>{{ testData.mechanicalPropertyDto.izodNotchedImpact_Conditioned ? testData.mechanicalPropertyDto.izodNotchedImpact_Conditioned + ' KJ/m²' : '-' }}</td>
+        
+      </tr>
+      <tr>
+        <th class="bcolor">Shore D Hardness</th>
+        <td>{{ testData.mechanicalPropertyDto.shoreDHardness_DAM  || '-' }}</td>
+        <td>{{ testData.mechanicalPropertyDto.shoreDHardness_Conditioned || '-' }}</td>
+        
+      </tr>
+    </tbody>
+  </table>
+  <hr>
+</div>
+
+ 
 
 </div>
 </div>

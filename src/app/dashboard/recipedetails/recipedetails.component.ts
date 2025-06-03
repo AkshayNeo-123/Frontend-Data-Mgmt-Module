@@ -19,11 +19,12 @@ import { AddInjectionMoulding, InjectionMolding } from '../../models/injection-m
 import { AddInjectionMoldingComponent } from '../add-injection-molding/add-injection-molding.component';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-recipedetails',
   standalone:true,
-  imports: [CommonModule,MatDialogActions,  MatButtonModule,MatIcon,MatTooltipModule],
+  imports: [CommonModule,MatDialogActions,  MatButtonModule,MatIcon,MatTooltipModule,MatCheckboxModule],
   templateUrl: './recipedetails.component.html',
   styleUrl: './recipedetails.component.css'
 })
@@ -146,7 +147,7 @@ downloadPDF(): void {
       
       filename: 'recipeDetails.pdf',
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
+      html2canvas: { scale: 3 },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       pagebreak: { mode: ['avoid-all','css', 'legacy'] },
       avoid: ['.no-break'] 
