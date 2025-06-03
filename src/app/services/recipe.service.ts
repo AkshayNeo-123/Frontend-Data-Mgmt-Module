@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
-import { Recipe, RecipeAndProject } from '../models/recipe.model';
+import { CommonTest, Recipe, RecipeAndProject } from '../models/recipe.model';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +50,10 @@ export class RecipeService {
     return  this.http.get<RecipeAndProject>(`${this.baseUrl}/GetRecipeAndProjectById?id=${id}`);
   }
 
+
+  getTestByRecipe(id:number):Observable<CommonTest>{
+    return this.http.get<CommonTest>(`${this.baseUrl}/GetTestByRecipe?id=${id}`)
+  }
 
 
 updateRecipe(id: number, updatePayload: any): Observable<any> {

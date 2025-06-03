@@ -5,36 +5,46 @@
     <div class="w-100">
       <mat-form-field appearance="outline">
         <mat-label>Search</mat-label>
-        <input matInput (input)="applyFilter($event)">
+        <input matInput (input)="applyFilter($event)" />
       </mat-form-field>
     </div>
 
     <div class="ms-auto">
-      <button mat-raised-button color="primary" class="me-2 mb-4" style="border: none; background-color: white;"
-        matTooltip="Export to Excel">
-        <i class="fas fa-file-excel me-2" style="font-size: 28px; margin-bottom: 15px;"></i>
+      <button
+        mat-raised-button
+        color="primary"
+        class="me-2 mb-4"
+        style="border: none; background-color: white"
+        matTooltip="Export to Excel"
+      >
+        <i
+          class="fas fa-file-excel me-2"
+          style="font-size: 28px; margin-bottom: 15px"
+        ></i>
       </button>
     </div>
 
-    <!-- <div>
-      <button *ngIf="canAddMaterial" mat-raised-button class="me-5 add-material-btn w-100" [routerLink]="['/add-test']">
-        <i class="fas fa-plus me-2"></i>Add New Test
-      </button>
-    </div> -->
-
     <div>
-      <button *ngIf="canAddMaterial" mat-raised-button class="me-5 add-material-btn w-100" (click)="goToAddPage()">
+      <button
+        
+        mat-raised-button
+        class="me-5 add-material-btn w-100"
+        (click)="goToAddPage()"
+      >
         <i class="fas fa-plus me-2"></i>Add New Test
       </button>
     </div>
   </div>
 
-  <table mat-table [dataSource]="dataSource" matSort
-    class="styled-table table table-bordered table-striped table-hover mat-elevation-z8">
-
+  <table
+    mat-table
+    [dataSource]="testList"
+    matSort
+    class="styled-table table table-bordered table-striped table-hover mat-elevation-z8"
+  >
     <ng-container matColumnDef="productName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Name</th>
-      <td mat-cell *matCellDef="let element">{{ element.productName }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.recipeName }}</td>
     </ng-container>
 
     <ng-container matColumnDef="recipeNumber">
@@ -44,66 +54,108 @@
 
     <ng-container matColumnDef="mainPolymer">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Main Polymer</th>
-      <td mat-cell *matCellDef="let element">{{ element.mainPolymer }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.mainPolymerName }}</td>
     </ng-container>
-
 
     <ng-container matColumnDef="mechanical">
       <th mat-header-cell *matHeaderCellDef>Mechanical Properties</th>
       <td mat-cell *matCellDef="let element">
-        <mat-checkbox [(ngModel)]="element.mechanical" (change)="toggleCheckbox(element, 'mechanical')"></mat-checkbox>
+        <label class="custom-checkbox">
+          <input
+            type="checkbox"
+            disabled
+            [checked]="element.mechanicalProperty"
+          />
+          <span></span>
+        </label>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="general">
       <th mat-header-cell *matHeaderCellDef>General Properties</th>
       <td mat-cell *matCellDef="let element">
-        <mat-checkbox [(ngModel)]="element.general" (change)="toggleCheckbox(element, 'general')"></mat-checkbox>
+        <label class="custom-checkbox">
+          <input
+            type="checkbox"
+            disabled
+            [checked]="element.generalProperties"
+          />
+          <span></span>
+        </label>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="temperature">
       <th mat-header-cell *matHeaderCellDef>Temperature Properties</th>
       <td mat-cell *matCellDef="let element">
-        <mat-checkbox [(ngModel)]="element.temperature"
-          (change)="toggleCheckbox(element, 'temperature')"></mat-checkbox>
+        <label class="custom-checkbox">
+          <input
+            type="checkbox"
+            disabled
+            [checked]="element.temperatureProperties"
+          />
+          <span></span>
+        </label>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="flammability">
       <th mat-header-cell *matHeaderCellDef>Flammability Properties</th>
       <td mat-cell *matCellDef="let element">
-        <mat-checkbox [(ngModel)]="element.flammability"
-          (change)="toggleCheckbox(element, 'flammability')"></mat-checkbox>
+        <label class="custom-checkbox">
+          <input
+            type="checkbox"
+            disabled
+            [checked]="element.flammabilityProperties"
+          />
+          <span></span>
+        </label>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="electrical">
       <th mat-header-cell *matHeaderCellDef>Electrical Properties</th>
       <td mat-cell *matCellDef="let element">
-        <mat-checkbox [(ngModel)]="element.electrical" (change)="toggleCheckbox(element, 'electrical')"></mat-checkbox>
+        <label class="custom-checkbox">
+      <input type="checkbox" disabled [checked]="element.electricalProperties" />
+      <span></span>
+    </label>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="properties">
       <th mat-header-cell *matHeaderCellDef>Properties</th>
       <td mat-cell *matCellDef="let element">
-        <mat-checkbox [(ngModel)]="element.properties" (change)="toggleCheckbox(element, 'properties')"></mat-checkbox>
+        <label class="custom-checkbox">
+      <input type="checkbox" disabled [checked]="element.property" />
+      <span></span>
+    </label>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef>Options</th>
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let element">
         <i class="fas fa-eye me-2" matTooltip="View"></i>
-        <i class="fas fa-pencil-alt me-2" (click)="editTest(element)" matTooltip="Edit"></i>
-        <i class="fas fa-trash-alt" (click)="deleteTest(element.productName)" matTooltip="Delete"></i>
+        <i
+          class="fas fa-pencil-alt me-2"
+          (click)="editTest(element)"
+          matTooltip="Edit"
+        ></i>
+        <i
+          class="fas fa-trash-alt"
+          (click)="deleteTest(element.id)"
+          matTooltip="Delete"
+        ></i>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 25]"
+    showFirstLastButtons
+  ></mat-paginator>
 </div>

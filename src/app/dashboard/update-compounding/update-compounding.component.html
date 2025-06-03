@@ -170,7 +170,7 @@
             <td><mat-checkbox type="checkbox" formControlName="F" /></td>
 
             <td>
-              <button type="button" class="btn btn-outline-danger" (click)="removeComponent(i)">
+              <button type="button" class="desgin" (click)="removeComponent(i)">
                 <i class="fas fa-trash-alt action-icon" matTooltip="Delete"></i>
               </button>
             </td>
@@ -180,8 +180,12 @@
 
       <div class="d-flex justify-content-between">
         <div><strong>Total [%]: {{ getTotalShare() }}</strong></div>
-        <button type="button" class="btn btn-primary btn-sm" (click)="addComponent()">Add new component</button>
-      </div>
+ <button type="button" class="btn btn-primary btn-sm" style="background-color: #4caf50  !important;"
+         (click)="addComponent()">
+        <i class="fas fa-plus me-2"></i> Add new component
+      </button>      </div>
+
+       
     </div>
 
 
