@@ -18,6 +18,11 @@ import { RecipeDataforTest } from '../../models/test';
 import { MatOption } from '@angular/material/core';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { MatIcon } from '@angular/material/icon';
+import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component'; 
+import { MatDialog } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-test',
@@ -32,6 +37,9 @@ import { ReplaySubject, Subject, takeUntil } from 'rxjs';
     MatCheckboxModule,
     MatOption,
     MatSelectModule,
+    MatIcon,
+    ConfirmDialogComponent,
+    MatDialogModule
   ],
   templateUrl: './add-test.component.html',
   styleUrls: ['./add-test.component.css'],
@@ -49,13 +57,18 @@ export class AddTestComponent {
 
   constructor(private _formBuilder: FormBuilder,
     private testService: TestService,
- private router: Router 
+ private router: Router,
+     private toastr: ToastrService,
+       private dialog: MatDialog
+
+  
   ) {
     // Common fields shown outside stepper
     this.sharedForm = this._formBuilder.group({
-      productName: [''],
+        productName: ['', Validators.required],
       recipeNumber: [{ value: '', disabled: true }],
       comment: [''],
+      isPublish:[false]
     });
 
     this.mechanicalForm = this._formBuilder.group({
@@ -155,12 +168,80 @@ export class AddTestComponent {
   
 }
 
+ goBack() {
+    this.router.navigate(['/gettest']);
+  }
 
+resetAllForms() {
+  this.sharedForm.reset();
+  this.mechanicalForm.reset();
+  this.temperatureForm.reset();
+  this.flammabilityForm.reset();
+  this.generalForm.reset();
+  this.electricalForm.reset();
+  this.propertiesForm.reset();
+}
+
+
+
+  // onSubmit() {
+  //   console.log('cllicked')
+  //   if (this.sharedForm.invalid) {
+  //   // Check specifically if productName is not selected
+  //   if (this.sharedForm.get('productName')?.hasError('required')) {
+  //     this.toastr.error('Please select a Recipe Name.', 'Validation Error');
+  //   } 
+  //   return;
+  // }
+  //   const requestBody = {
+  //     // ...this.sharedForm.value,
+  //    test: this.sharedForm.getRawValue(),
+  //     mechanicalProperty: this.mechanicalForm.value,
+  //     temperatureProperty: this.temperatureForm.value,
+  //     flammabilityProperty: this.flammabilityForm.value,
+  //     generalProperty: this.generalForm.value,
+  //     electricalProperty: this.electricalForm.value,
+  //     properties: this.propertiesForm.value
+  //   };
+
+  //   console.log('Request Body:', requestBody);
+
+  //   // Optional: Submit to API
+  //   this.testService.addTest(requestBody).subscribe(
+  //     response => {
+  //       console.log('Form submitted successfully:', response);
+  //           this.toastr.success('submitted successfully');
+  //            this.resetAllForms(); 
+  //            this.router.navigate(['/gettest']);
+
+  //     },
+  //     error => {
+  //       console.error('Error submitting form:', error);
+  //     }
+  //   );
+  // }
 
   onSubmit() {
+  if (this.sharedForm.invalid) {
+    if (this.sharedForm.get('productName')?.hasError('required')) {
+      this.toastr.error('Please select a Recipe Name.', 'Validation Error');
+    }
+    return;
+  }
+
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    width: '400px',
+    data: {
+      title: 'Confirmation',
+      message: 'Do you want to add data in technical sheet?'
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+this.sharedForm.patchValue({ isPublish: result ? true : false });
+
     const requestBody = {
-      // ...this.sharedForm.value,
-      test: this.sharedForm.value,
+      test: this.sharedForm.getRawValue(),
       mechanicalProperty: this.mechanicalForm.value,
       temperatureProperty: this.temperatureForm.value,
       flammabilityProperty: this.flammabilityForm.value,
@@ -171,16 +252,19 @@ export class AddTestComponent {
 
     console.log('Request Body:', requestBody);
 
-    // Optional: Submit to API
     this.testService.addTest(requestBody).subscribe(
       response => {
-        console.log('Form submitted successfully:', response);
+        this.toastr.success('Submitted successfully');
+        this.resetAllForms();
+        this.router.navigate(['/gettest']);
       },
       error => {
         console.error('Error submitting form:', error);
       }
     );
-  }
+  });
+}
+
   loadRecipeData(){
     this.testService.getRecipeDataForTest().subscribe({
       next:(data:RecipeDataforTest[])=>{
@@ -203,17 +287,11 @@ onRecipeSelect(event: any) {
   }
 }
 
+
+
   onCancel() {
-    this.sharedForm.reset();
-    this.mechanicalForm.reset();
-    this.temperatureForm.reset();
-    this.flammabilityForm.reset();
-    this.generalForm.reset();
-    this.propertiesForm.reset();
-
-      this.router.navigate(['/gettest']); 
-
+    this.resetAllForms();
+   this.router.navigate(['/gettest']); 
   }
 
-  
 }

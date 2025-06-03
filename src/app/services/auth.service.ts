@@ -14,9 +14,10 @@ export interface LoggedInUser {
 })
 export class AuthService {
   private apiUrl = 'https://localhost:7030/api/Account';
+  private passwordApiUrl = 'https://localhost:7030/api/Password';
   // https://localhost:7030/api/Account/login
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // 🔥 Correct login function
   login(email: string, password: string): Observable<any> {
@@ -38,5 +39,18 @@ export class AuthService {
   }
   isLoggedIn(): boolean {
     return !!localStorage.getItem('UserId');  // Or your actual auth check
+  }
+
+  sendOtp(email: string): Observable<any> {
+    console.log("auth service method called");
+    return this.http.post(`${this.passwordApiUrl}/send-otp`, { email });
+  }
+
+  verifyOtp(email: string, otp: string): Observable<any> {
+    return this.http.post(`${this.passwordApiUrl}/verify-otp`, { email, otp });
+  }
+
+  resetPassword(email: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.passwordApiUrl}/reset-password`, { email, newPassword });
   }
 }

@@ -35,3 +35,27 @@ input.form-control,
 input.form-control-sm {
   border: 1px solid #444; 
 }
+
+.custom-back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background: #dbdbdd;
+  color: rgb(5, 3, 3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.custom-back-button:hover {
+  background: #4f5052;
+  transform: translateX(-2px);
+  color: white;
+}
+
+.fixed-width-input {
+  width: 150px; /* Adjust the width as needed */
+  max-width: 100%;
+}

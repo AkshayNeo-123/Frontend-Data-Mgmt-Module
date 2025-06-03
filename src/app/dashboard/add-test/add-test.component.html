@@ -1,48 +1,30 @@
 <div class="for-margin">
-  <h4 class="fw-bold">Recipe Test</h4>
+  <div class="back-button-container d-flex justify-content-between align-items-center">
+    <h4 class="fw-bold mb-3">Recipe Test</h4>
+
+    <div class="d-flex gap-2">
+      <button mat-raised-button color="primary">Add to Technical Data Sheet</button>
+
+      <button (click)="goBack()" class="custom-back-button mb-3">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back</span>
+      </button>
+    </div>
+  </div>
 
   <form [formGroup]="sharedForm">
+
     <div class="row mb-3">
       <div class="col-md-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Recipe Name</mat-label>
-          <mat-select
-            formControlName="productName"
-            (selectionChange)="onRecipeSelect($event)"
-          >
-            <mat-option
-              *ngFor="let recipe of recipeData"
-              [value]="recipe.receipeId"
-            >
+          <mat-select formControlName="productName" (selectionChange)="onRecipeSelect($event)">
+            <mat-option *ngFor="let recipe of recipeData" [value]="recipe.receipeId">
               {{ recipe.productName }}
             </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
-
-      <!-- <div class="col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Recipe Name</mat-label>
-          <input
-            matInput
-            placeholder="Search..."
-            (keyup)="filterRecipes($event)"
-            class="search-input"
-          />
-          <mat-select
-            formControlName="productName"
-            (selectionChange)="onRecipeSelect($event)"
-          >
-            <mat-option
-              *ngFor="let recipe of filteredRecipes"
-              [value]="recipe.receipeId"
-            >
-              {{ recipe.productName }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div> -->
-     
 
       <div class="col-md-4">
         <mat-form-field appearance="outline" class="w-100">
@@ -58,286 +40,301 @@
         </mat-form-field>
       </div>
     </div>
-
     <!-- Stepper -->
-    <mat-horizontal-stepper linear style="background-color: white">
+    <mat-horizontal-stepper linear style="background-color: white;">
+
       <!-- Step 1: Mechanical Properties -->
       <mat-step [stepControl]="mechanicalForm">
         <form [formGroup]="mechanicalForm" class="mt-3">
           <ng-template matStepLabel>Mechanical Properties</ng-template>
-          <table class="table text-center align-middle">
+          <table class="table  text-center align-middle">
             <thead>
               <tr>
-                <th style="width: 30%"></th>
-                <th>DAM</th>
-                <th>Conditioned</th>
-                <th>mm/min</th>
+                <th style="width: 30%;"></th>
+                <th class="fixed-width-input">DAM</th>
+                <th class="fixed-width-input">Conditioned</th>
+                <th class="fixed-width-input">mm/min</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="text-start">
-                  Tensile modulus (1 mm/min | ISO 527-2)
+                <td class="text-start">Tensile modulus (1 mm/min | ISO 527-2)</td>
+                <td><input type="number" formControlName="tensileModulus_DAM" class="form-control form-control-sm "
+                    min="100" max="1000" />
+                  <mat-error
+                    *ngIf="mechanicalForm.get('tensileModulus_DAM')?.hasError('min') || mechanicalForm.get('tensileModulus_DAM')?.hasError('max')">
+                    Value must be between 100 and 10000
+                  </mat-error>
                 </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="tensileModulus_DAM"
-                    class="form-control form-control-sm"
-                  />
+                <td><input type="number" formControlName="tensileModulus_Conditioned"
+                    class="form-control form-control-sm" min="100" max="1000" />
+                  <mat-error
+                    *ngIf="mechanicalForm.get('tensileModulus_Conditioned')?.hasError('min') || mechanicalForm.get('tensileModulus_Conditioned')?.hasError('max')">
+                    Value must be between 100 and 10000
+                  </mat-error>
                 </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="tensileModulus_Conditioned"
-                    class="form-control form-control-sm"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="tensileModulus_Conditioned_Mm_Min"
-                    class="form-control form-control-sm"
-                  />
+                <td><input type="number" formControlName="tensileModulus_Conditioned_Mm_Min"
+                    class="form-control form-control-sm" min="1" />
+                  <mat-error *ngIf="mechanicalForm.get('tensileModulus_Conditioned_Mm_Min')?.hasError('min')">
+                    Minimum value is 1
+                  </mat-error>
                 </td>
               </tr>
               <tr>
-                <td class="text-start">
-                  Stress at yield(50 mm/min | ISO 527-2)
+                <td class="text-start">Stress at yield(50 mm/min | ISO 527-2)</td>
+
+                <td>
+                  <input type="number" formControlName="stressAtYield_DAM" class="form-control form-control-sm" min="10"
+                    max="100">
+                  <mat-error
+                    *ngIf="mechanicalForm.get('stressAtYield_DAM')?.hasError('min') || mechanicalForm.get('stressAtYield_DAM')?.hasError('max')">
+                    Value must be between 10 and 100
+                  </mat-error>
                 </td>
                 <td>
-                  <input
-                    type="number"
-                    formControlName="stressAtYield_DAM"
-                    class="form-control form-control-sm"
-                  />
+                  <input type="number" formControlName="stressAtYield_Conditioned" class="form-control form-control-sm"
+                    min="10" max="100">
+                  <mat-error
+                    *ngIf="mechanicalForm.get('stressAtYield_Conditioned')?.hasError('min') || mechanicalForm.get('stressAtYield_Conditioned')?.hasError('max')">
+                    Value must be between 10 and 100
+                  </mat-error>
                 </td>
                 <td>
-                  <input
-                    type="number"
-                    formControlName="stressAtYield_Conditioned"
-                    class="form-control form-control-sm"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="stressAtYield_Conditioned_Mm_Min"
-                    class="form-control form-control-sm"
-                  />
+                  <input type="number" formControlName="stressAtYield_Conditioned_Mm_Min"
+                    class="form-control form-control-sm" min="50">
+                  <mat-error *ngIf="mechanicalForm.get('stressAtYield_Conditioned_Mm_Min')?.hasError('min')">
+                    Minimum value is 50
+                  </mat-error>
                 </td>
               </tr>
+
               <tr>
                 <td class="text-start">Flexural modulus(2 mm/min | ISO 178)</td>
+
                 <td>
-                  <input
-                    type="number"
-                    formControlName="flexuralModulus_DAM"
-                    class="form-control form-control-sm"
-                  />
+                  <input type="number" formControlName="flexuralModulus_DAM" class="form-control form-control-sm"
+                    min="10" max="100">
+                  <mat-error
+                    *ngIf="mechanicalForm.get('flexuralModulus_DAM')?.hasError('min') || mechanicalForm.get('flexuralModulus_DAM')?.hasError('max')">
+                    Value must be between 10 and 100
+                  </mat-error>
                 </td>
+
                 <td>
-                  <input
-                    type="number"
-                    formControlName="flexuralModulus_Conditioned"
-                    class="form-control form-control-sm"
-                  />
+                  <input type="number" formControlName="flexuralModulus_Conditioned"
+                    class="form-control form-control-sm" min="10" max="100">
+                  <mat-error
+                    *ngIf="mechanicalForm.get('flexuralModulus_Conditioned')?.hasError('min') || mechanicalForm.get('flexuralModulus_Conditioned')?.hasError('max')">
+                    Value must be between 10 and 100
+                  </mat-error>
                 </td>
+
                 <td>
-                  <input
-                    type="number"
-                    formControlName="flexuralModulus_Conditioned_Mm_Min"
-                    class="form-control form-control-sm"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td class="text-start">
-                  Flexural strength(2 mm/min | ISO 178)
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="flexuralStrength_DAM"
-                    class="form-control form-control-sm"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="flexuralStrength_Conditioned"
-                    class="form-control form-control-sm"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="flexuralStrength_Conditioned_Mm_Min"
-                    class="form-control form-control-sm"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td class="text-start">
-                  Strain at yield(50 mm/min | ISO 527-2)
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="strainAtYield_DAM"
-                    class="form-control form-control-sm"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="strainAtYield_Conditioned"
-                    class="form-control form-control-sm"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="strainAtYield_Conditioned_Mm_Min"
-                    class="form-control form-control-sm"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td class="text-start">
-                  Strain at break(50 mm/min | ISO 527-2)
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="strainAtBreak_DAM"
-                    class="form-control form-control-sm"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="strainAtBreak_Conditioned"
-                    class="form-control form-control-sm"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="strainAtBreak_Conditioned_Mm_Min"
-                    class="form-control form-control-sm"
-                  />
+                  <input type="number" formControlName="flexuralModulus_Conditioned_Mm_Min"
+                    class="form-control form-control-sm" min="2">
+                  <mat-error *ngIf="mechanicalForm.get('flexuralModulus_Conditioned_Mm_Min')?.hasError('min')">
+                    Minimum value is 2
+                  </mat-error>
                 </td>
               </tr>
 
               <tr>
-                <td class="text-start">
-                  Charpy Notched Impact Strength (23°C)
-                </td>
+                <td class="text-start">Flexural strength(2 mm/min | ISO 178)</td>
+
                 <td>
-                  <input
-                    type="number"
-                    formControlName="charpyNotchedImpact23"
-                    class="form-control form-control-sm"
-                  />
+                  <input type="number" formControlName="flexuralStrength_DAM" class="form-control form-control-sm"
+                    min="10" max="100">
+                  <mat-error
+                    *ngIf="mechanicalForm.get('flexuralStrength_DAM')?.hasError('min') || mechanicalForm.get('flexuralStrength_DAM')?.hasError('max')">
+                    Value must be between 10 and 100
+                  </mat-error>
+                </td>
+
+                <td>
+                  <input type="number" formControlName="flexuralStrength_Conditioned"
+                    class="form-control form-control-sm" min="10" max="100">
+                  <mat-error
+                    *ngIf="mechanicalForm.get('flexuralStrength_Conditioned')?.hasError('min') || mechanicalForm.get('flexuralStrength_Conditioned')?.hasError('max')">
+                    Value must be between 10 and 100
+                  </mat-error>
+                </td>
+
+                <td>
+                  <input type="number" formControlName="flexuralStrength_Conditioned_Mm_Min"
+                    class="form-control form-control-sm" min="2">
+                  <mat-error *ngIf="mechanicalForm.get('flexuralStrength_Conditioned_Mm_Min')?.hasError('min')">
+                    Minimum value is 2
+                  </mat-error>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-start">Strain at yield (50 mm/min | ISO 527-2)</td>
+
+                <td>
+                  <input type="number" formControlName="strainAtYield_DAM" class="form-control form-control-sm" min="10"
+                    max="100" />
+                  <mat-error
+                    *ngIf="mechanicalForm.get('strainAtYield_DAM')?.hasError('min') || mechanicalForm.get('strainAtYield_DAM')?.hasError('max')">
+                    Value must be between 10 and 100
+                  </mat-error>
+                </td>
+
+                <td>
+                  <input type="number" formControlName="strainAtYield_Conditioned" class="form-control form-control-sm"
+                    min="10" max="100" />
+                  <mat-error
+                    *ngIf="mechanicalForm.get('strainAtYield_Conditioned')?.hasError('min') || mechanicalForm.get('strainAtYield_Conditioned')?.hasError('max')">
+                    Value must be between 10 and 100
+                  </mat-error>
+                </td>
+
+                <td>
+                  <input type="number" formControlName="strainAtYield_Conditioned_Mm_Min"
+                    class="form-control form-control-sm" min="50" />
+                  <mat-error *ngIf="mechanicalForm.get('strainAtYield_Conditioned_Mm_Min')?.hasError('min')">
+                    Minimum value is 50
+                  </mat-error>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-start">Strain at break (50 mm/min | ISO 527-2)</td>
+
+                <td>
+                  <input type="number" formControlName="strainAtBreak_DAM" class="form-control form-control-sm" min="10"
+                    max="100" />
+                  <mat-error
+                    *ngIf="mechanicalForm.get('strainAtBreak_DAM')?.hasError('min') || mechanicalForm.get('strainAtBreak_DAM')?.hasError('max')">
+                    Value must be between 10 and 100
+                  </mat-error>
+                </td>
+
+                <td>
+                  <input type="number" formControlName="strainAtBreak_Conditioned" class="form-control form-control-sm"
+                    min="10" max="100" />
+                  <mat-error
+                    *ngIf="mechanicalForm.get('strainAtBreak_Conditioned')?.hasError('min') || mechanicalForm.get('strainAtBreak_Conditioned')?.hasError('max')">
+                    Value must be between 10 and 100
+                  </mat-error>
+                </td>
+
+                <td>
+                  <input type="number" formControlName="strainAtBreak_Conditioned_Mm_Min"
+                    class="form-control form-control-sm" min="50" />
+                  <mat-error *ngIf="mechanicalForm.get('strainAtBreak_Conditioned_Mm_Min')?.hasError('min')">
+                    Minimum value is 50
+                  </mat-error>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-start">Charpy Notched Impact Strength (23°C)</td>
+                <td>
+                  <input type="number" formControlName="charpyNotchedImpact23" class="form-control form-control-sm"
+                    min="1" max="1000" />
+                  <mat-error
+                    *ngIf="mechanicalForm.get('charpyNotchedImpact23')?.hasError('min') || mechanicalForm.get('charpyNotchedImpact23')?.hasError('max')">
+                    Value must be between 1 and 1000
+                  </mat-error>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+
+
+              <tr>
+                <td class="text-start">Charpy Notched Impact Strength (-30°C)</td>
+                <td><input type="number" formControlName="charpyNotchedImpactMinus30"
+                    class="form-control form-control-sm" min="-30" />
+                  <mat-error *ngIf="mechanicalForm.get('charpyNotchedImpactMinus30')?.hasError('min')">
+                    Minimum value is 50
+                  </mat-error>
                 </td>
                 <td></td>
                 <td></td>
               </tr>
 
               <tr>
-                <td class="text-start">
-                  Charpy Notched Impact Strength (-30°C)
+                <td class="text-start">Flexural strain at break (2 mm/min | ISO 178)</td>
+                <td>
+                  <input type="number" formControlName="flexuralStrainBreak_DAM" class="form-control form-control-sm"
+                    min="1" max="100" />
+                  <mat-error
+                    *ngIf="mechanicalForm.get('flexuralStrainBreak_DAM')?.hasError('min') || mechanicalForm.get('flexuralStrainBreak_DAM')?.hasError('max')">
+                    Value must be between 1 and 100
+                  </mat-error>
                 </td>
                 <td>
-                  <input
-                    type="number"
-                    formControlName="charpyNotchedImpactMinus30"
-                    class="form-control form-control-sm"
-                  />
-                </td>
-                <td></td>
-                <td></td>
-              </tr>
-
-              <tr>
-                <td class="text-start">
-                  Flexural strain at break(2 mm/min | ISO 178)
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="flexuralStrainBreak_DAM"
-                    class="form-control form-control-sm"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="flexuralStrainBreak_Conditioned"
-                    class="form-control form-control-sm"
-                  />
+                  <input type="number" formControlName="flexuralStrainBreak_Conditioned"
+                    class="form-control form-control-sm" min="1" max="100" />
+                  <mat-error
+                    *ngIf="mechanicalForm.get('flexuralStrainBreak_Conditioned')?.hasError('min') || mechanicalForm.get('flexuralStrainBreak_Conditioned')?.hasError('max')">
+                    Value must be between 1 and 100
+                  </mat-error>
                 </td>
                 <td></td>
               </tr>
 
-              <tr>
-                <td class="text-start">
-                  Charpy impact strength(23°C | ISO 179-1/1eU)
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="charpyImpact_DAM"
-                    class="form-control form-control-sm"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="charpyImpact_Conditioned"
-                    class="form-control form-control-sm"
-                  />
-                </td>
-                <td></td>
-              </tr>
 
               <tr>
-                <td class="text-start">
-                  Izod-notched impact strength(23°C | ISO 180/1A)
+                <td class="text-start">Charpy impact strength (23°C | ISO 179-1/1eU)</td>
+                <td>
+                  <input type="number" formControlName="charpyImpact_DAM" class="form-control form-control-sm" min="1"
+                    max="1000" />
+                  <mat-error
+                    *ngIf="mechanicalForm.get('charpyImpact_DAM')?.hasError('min') || mechanicalForm.get('charpyImpact_DAM')?.hasError('max')">
+                    Value must be between 1 and 1000
+                  </mat-error>
                 </td>
                 <td>
-                  <input
-                    type="number"
-                    formControlName="izodNotchedImpact_DAM"
-                    class="form-control form-control-sm"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    formControlName="izodNotchedImpact_Conditioned"
-                    class="form-control form-control-sm"
-                  />
+                  <input type="number" formControlName="charpyImpact_Conditioned" class="form-control form-control-sm"
+                    min="1" max="1000" />
+                  <mat-error
+                    *ngIf="mechanicalForm.get('charpyImpact_Conditioned')?.hasError('min') || mechanicalForm.get('charpyImpact_Conditioned')?.hasError('max')">
+                    Value must be between 1 and 1000
+                  </mat-error>
                 </td>
                 <td></td>
               </tr>
 
               <tr>
-                <td class="text-start">Shore D Hardness(23°C | DIN 53 505)</td>
+                <td class="text-start">Izod-notched impact strength (23°C | ISO 180/1A)</td>
                 <td>
-                  <input
-                    type="number"
-                    formControlName="shoreDHardness_DAM"
-                    class="form-control form-control-sm"
-                  />
+                  <input type="number" formControlName="izodNotchedImpact_DAM" class="form-control form-control-sm"
+                    min="1" max="1000" />
+                  <mat-error
+                    *ngIf="mechanicalForm.get('izodNotchedImpact_DAM')?.hasError('min') || mechanicalForm.get('izodNotchedImpact_DAM')?.hasError('max')">
+                    Value must be between 1 and 1000
+                  </mat-error>
                 </td>
                 <td>
-                  <input
-                    type="number"
-                    formControlName="shoreDHardness_Conditioned"
-                    class="form-control form-control-sm"
-                  />
+                  <input type="number" formControlName="izodNotchedImpact_Conditioned"
+                    class="form-control form-control-sm" min="1" max="1000" />
+                  <mat-error
+                    *ngIf="mechanicalForm.get('izodNotchedImpact_Conditioned')?.hasError('min') || mechanicalForm.get('izodNotchedImpact_Conditioned')?.hasError('max')">
+                    Value must be between 1 and 1000
+                  </mat-error>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="text-start">Shore D Hardness (23°C | DIN 53 505)</td>
+                <td>
+                  <input type="number" formControlName="shoreDHardness_DAM" class="form-control form-control-sm" min="0"
+                    max="100" />
+                  <mat-error
+                    *ngIf="mechanicalForm.get('shoreDHardness_DAM')?.hasError('min') || mechanicalForm.get('shoreDHardness_DAM')?.hasError('max')">
+                    Value must be between 0 and 100
+                  </mat-error>
+                </td>
+                <td>
+                  <input type="number" formControlName="shoreDHardness_Conditioned" class="form-control form-control-sm"
+                    min="0" max="100" />
+                  <mat-error
+                    *ngIf="mechanicalForm.get('shoreDHardness_Conditioned')?.hasError('min') || mechanicalForm.get('shoreDHardness_Conditioned')?.hasError('max')">
+                    Value must be between 0 and 100
+                  </mat-error>
                 </td>
                 <td></td>
               </tr>
@@ -345,300 +342,316 @@
           </table>
 
 
-        <div class="button-group d-flex justify-content-between align-items-center">
-  <!-- Left-aligned Previous button -->
-  <button mat-raised-button color="primary" matStepperPrevious>Previous</button>
+          <div class="button-group d-flex justify-content-end gap-2 align-items-end">
 
-  <!-- Right-aligned Reset and Save & Next buttons -->
-  <div class="d-flex gap-2">
-    <button mat-stroked-button color="warn" type="reset">Reset</button>
-    <button mat-raised-button color="primary" matStepperNext>Save & Next</button>
-  </div>
-</div>
+            <button mat-stroked-button color="warn" type="reset">Reset</button>
+            <button mat-raised-button color="primary" matStepperNext>Save & Next</button>
+
+          </div>
 
 
         </form>
+
       </mat-step>
 
       <!-- Step 2: Temperature Properties -->
       <mat-step [stepControl]="temperatureForm">
-        <form [formGroup]="temperatureForm" style="margin-top: 10px">
+        <form [formGroup]="temperatureForm" style="margin-top: 10px;">
           <ng-template matStepLabel>Temperature Properties</ng-template>
 
           <div class="row mb-3">
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Heat Deflection Temperature</mat-label>
-                <input matInput type="number" formControlName="tempHdtA" />
+                <input matInput type="number" formControlName="tempHdtA" min="50" max="300" />
+                <mat-error
+                  *ngIf="temperatureForm.get('tempHdtA')?.hasError('min') || temperatureForm.get('tempHdtA')?.hasError('max')">
+                  Value must be between 50°C and 300°C
+                </mat-error>
               </mat-form-field>
+
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Temperature of Deflection Under Load</mat-label>
-                <input matInput type="number" formControlName="tempHdtB" />
+                <input matInput type="number" formControlName="tempHdtB" min="40" max="250" />
+                <mat-error
+                  *ngIf="temperatureForm.get('tempHdtB')?.hasError('min') || temperatureForm.get('tempHdtB')?.hasError('max')">
+                  Value must be between 40°C and 250°C
+                </mat-error>
               </mat-form-field>
+
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Melting Temperature</mat-label>
-                <input matInput type="number" formControlName="meltingTemp" />
+                <input matInput type="number" formControlName="meltingTemp" min="100" max="350" />
+
+                <mat-error
+                  *ngIf="temperatureForm.get('meltingTemp')?.hasError('min') || temperatureForm.get('meltingTemp')?.hasError('max')">
+                  Value must be between 100°C and 350°C
+                </mat-error>
               </mat-form-field>
+
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Thermal Expansion (Parallel)</mat-label>
-                <input
-                  matInput
-                  type="number"
-                  formControlName="coefficientsParallel"
-                />
+                <input matInput type="number" formControlName="coefficientsParallel" min="0" max="200" />
+                <mat-error
+                  *ngIf="temperatureForm.get('coefficientsParallel')?.hasError('min') || temperatureForm.get('coefficientsParallel')?.hasError('max')">
+                  Value must be between 0 and 200
+                </mat-error>
               </mat-form-field>
+
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Thermal Expansion (Transverse)</mat-label>
-                <input
-                  matInput
-                  type="number"
-                  formControlName="coefficientsTransverse"
-                />
+                <input matInput type="number" formControlName="coefficientsTransverse" min="0" max="200" />
+                <mat-error
+                  *ngIf="temperatureForm.get('coefficientsTransverse')?.hasError('min') || temperatureForm.get('coefficientsTransverse')?.hasError('max')">
+                  Value must be between 0 and 200
+                </mat-error>
               </mat-form-field>
+
             </div>
           </div>
 
-  <div class="button-group d-flex justify-content-between align-items-center">
-  <!-- Left-aligned Previous button -->
-  <button mat-raised-button color="primary" matStepperPrevious>Previous</button>
+          <div class="button-group d-flex justify-content-end gap-2 align-items-end">
+            <button mat-stroked-button color="warn" type="reset">Reset</button>
 
-  <!-- Right-aligned Reset and Save & Next buttons -->
-  <div class="d-flex gap-2">
-    <button mat-stroked-button color="warn"  type="reset">Reset</button>
-    <button mat-raised-button color="primary" matStepperNext>Save & Next</button>
-  </div>
-</div>
+            <button mat-raised-button color="primary" matStepperPrevious>Previous</button>
+            <button mat-raised-button color="primary" matStepperNext>Save & Next</button>
+          </div>
 
-  </form>
-</mat-step>
+
+        </form>
+      </mat-step>
 
       <!-- Step 3: Flammability Properties -->
       <mat-step [stepControl]="flammabilityForm">
-        <form [formGroup]="flammabilityForm" style="margin-top: 10px">
+        <form [formGroup]="flammabilityForm" style="margin-top: 10px;">
           <ng-template matStepLabel>Flammability Properties</ng-template>
 
           <div class="row mb-3">
+
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Burning Rate</mat-label>
-                <input
-                  matInput
-                  type="number"
-                  formControlName="burningRateWallThickness"
-                />
+                <mat-label>Burning Rate (UL 94) – 1.6mm Wall Thickness</mat-label>
+                <input matInput type="number" formControlName="burningRateWallThickness" min="0" max="100" />
+                <mat-error
+                  *ngIf="flammabilityForm.get('burningRateWallThickness')?.hasError('min') || flammabilityForm.get('burningRateWallThickness')?.hasError('max')">
+                  Value must be between 0 and 100
+                </mat-error>
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>GWFI</mat-label>
-                <input matInput type="number" formControlName="gwfi" />
+                <mat-label>GWFI (IEC 60695-2-12) – 1.6mm Wall Thickness</mat-label>
+                <input matInput type="number" formControlName="gwfi" min="0" max="1000" />
+                <mat-error
+                  *ngIf="flammabilityForm.get('gwfi')?.hasError('min') || flammabilityForm.get('gwfi')?.hasError('max')">
+                  Value must be between 0 and 1000
+                </mat-error>
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>GWFT</mat-label>
-                <input matInput type="number" formControlName="gwft" />
+                <mat-label>GWIT (IEC 60695-2-13) – 1.6mm Wall Thickness</mat-label>
+                <input matInput type="number" formControlName="gwft" min="0" max="1000" />
+                <mat-error
+                  *ngIf="flammabilityForm.get('gwft')?.hasError('min') || flammabilityForm.get('gwft')?.hasError('max')">
+                  Value must be between 0 and 1000
+                </mat-error>
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Burning Rate (Thickness 1)</mat-label>
-                <input
-                  matInput
-                  type="number"
-                  formControlName="burningRateThickness1"
-                />
+                <mat-label>Burning Rate (&lt;100 mm/min) – Thickness &gt; 1 mm (FMVSS 302)</mat-label>
+                <input matInput type="number" formControlName="burningRateThickness1" min="0" max="100" />
+                <mat-error
+                  *ngIf="flammabilityForm.get('burningRateThickness1')?.hasError('min') || flammabilityForm.get('burningRateThickness1')?.hasError('max')">
+                  Value must be between 0 and 100
+                </mat-error>
               </mat-form-field>
             </div>
 
-      <div class="col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Burning Rate (Thickness 2)</mat-label>
-          <input matInput type="number" formControlName="burningRateThickness2" />
-        </mat-form-field>
-      </div>
-    </div>
-<div class="button-group d-flex justify-content-between align-items-center">
-  <!-- Left-aligned Previous button -->
-  <button mat-raised-button color="primary" matStepperPrevious>Previous</button>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Burning Rate (Additional)</mat-label>
+                <input matInput type="number" formControlName="burningRateThickness2" min="0" max="100" />
+                <mat-error
+                  *ngIf="flammabilityForm.get('burningRateThickness2')?.hasError('min') || flammabilityForm.get('burningRateThickness2')?.hasError('max')">
+                  Value must be between 0 and 100
+                </mat-error>
+              </mat-form-field>
+            </div>
 
-  <!-- Right-aligned Reset and Save & Next buttons -->
-  <div class="d-flex gap-2">
-    <button mat-stroked-button color="warn" type="reset">Reset</button>
-    <button mat-raised-button color="primary" matStepperNext>Save & Next</button>
-  </div>
-</div>
-  </form>
-</mat-step>
+          </div>
+
+          <div class="button-group d-flex justify-content-end gap-2 align-items-end">
+            <button mat-stroked-button color="warn" type="reset">Reset</button>
+
+            <button mat-raised-button color="primary" matStepperPrevious>Previous</button>
+            <button mat-raised-button color="primary" matStepperNext>Save & Next</button>
+
+          </div>
+        </form>
+      </mat-step>
+
 
       <!-- Step 4: General Properties -->
       <mat-step [stepControl]="generalForm">
-        <form [formGroup]="generalForm" style="margin-top: 10px">
+        <form [formGroup]="generalForm" style="margin-top: 10px;">
           <ng-template matStepLabel>General Properties</ng-template>
 
           <div class="row mb-3">
+
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Density</mat-label>
-                <input matInput type="number" formControlName="density" />
+                <mat-label>Density (23°C | ISO 1183)</mat-label>
+                <input matInput type="number" formControlName="density" min="0" max="100" />
+                <mat-error
+                  *ngIf="generalForm.get('density')?.hasError('min') || generalForm.get('density')?.hasError('max')">
+                  Value must be between 0 and 100
+                </mat-error>
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Humidity absorption</mat-label>
-                <input
-                  matInput
-                  type="number"
-                  formControlName="humidityAbsorption"
-                />
+                <mat-label>Humidity absorption (70°C, 62% r.H. | ISO 1110)</mat-label>
+                <input matInput type="number" formControlName="humidityAbsorption" min="0" max="100" />
+                <mat-error
+                  *ngIf="generalForm.get('humidityAbsorption')?.hasError('min') || generalForm.get('humidityAbsorption')?.hasError('max')">
+                  Value must be between 0 and 100
+                </mat-error>
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Modal Shrinkage Flow</mat-label>
-                <input
-                  matInput
-                  type="number"
-                  formControlName="moldingShrinkageFlow"
-                />
+                <mat-label>Molding Shrinkage Flow (flow | ISO 294-4)</mat-label>
+                <input matInput type="number" formControlName="moldingShrinkageFlow" min="0" max="50" />
+                <mat-error
+                  *ngIf="generalForm.get('moldingShrinkageFlow')?.hasError('min') || generalForm.get('moldingShrinkageFlow')?.hasError('max')">
+                  Value must be between 0 and 50
+                </mat-error>
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Modal Shrinkage Transverse</mat-label>
-                <input
-                  matInput
-                  type="number"
-                  formControlName="moldingShrinkageTransverse"
-                />
+                <mat-label>Molding Shrinkage Transverse (transverse | ISO 294-4)</mat-label>
+                <input matInput type="number" formControlName="moldingShrinkageTransverse" min="0" max="50" />
+                <mat-error
+                  *ngIf="generalForm.get('moldingShrinkageTransverse')?.hasError('min') || generalForm.get('moldingShrinkageTransverse')?.hasError('max')">
+                  Value must be between 0 and 50
+                </mat-error>
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>MFR</mat-label>
-                <input matInput type="number" formControlName="mfr" />
+                <input matInput type="number" formControlName="mfr" min="0" max="1000" />
+                <mat-error *ngIf="generalForm.get('mfr')?.hasError('min') || generalForm.get('mfr')?.hasError('max')">
+                  Value must be between 0 and 1000
+                </mat-error>
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>MVR</mat-label>
-                <input matInput type="number" formControlName="mvr" />
+                <input matInput type="number" formControlName="mvr" min="0" max="1000" />
+                <mat-error *ngIf="generalForm.get('mvr')?.hasError('min') || generalForm.get('mvr')?.hasError('max')">
+                  Value must be between 0 and 1000
+                </mat-error>
               </mat-form-field>
             </div>
+
           </div>
 
-          <div class="button-group">
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
+          <div class="button-group d-flex justify-content-end gap-2 align-items-end">
+            <button mat-stroked-button color="warn" type="reset">Reset</button>
+
+            <button mat-raised-button color="primary" matStepperPrevious>Previous</button>
+
+            <button mat-raised-button color="primary" matStepperNext>Save & Next</button>
+
           </div>
         </form>
       </mat-step>
 
       <!-- Step 5: Electrical Properties -->
       <mat-step [stepControl]="electricalForm">
-        <form [formGroup]="electricalForm" style="margin-top: 10px">
+        <form [formGroup]="electricalForm" style="margin-top: 10px;">
           <ng-template matStepLabel>Electrical Properties</ng-template>
 
-      <div class="col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>MVR</mat-label>
-          <input matInput type="number" formControlName="mvr" />
-        </mat-form-field>
-      </div>
-    </div>
-<div class="button-group d-flex justify-content-between align-items-center">
-  <!-- Left-aligned Previous button -->
-  <button mat-raised-button color="primary" matStepperPrevious>Previous</button>
-
-  <!-- Right-aligned Reset and Save & Next buttons -->
-  <div class="d-flex gap-2">
-    <button mat-stroked-button color="warn" type="reset">Reset</button>
-    <button mat-raised-button color="primary" matStepperNext>Save & Next</button>
-  </div>
-</div>
-  </form>
-</mat-step>
+          <div class="row mb-3">
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Surface Resistivity</mat-label>
-                <input
-                  matInput
-                  type="number"
-                  formControlName="surfaceResistivity"
-                />
+                <mat-label>Volume Resistivity (DIN EN 62631-3-1)</mat-label>
+                <input matInput type="number" formControlName="volumeResistivity1" min="0" />
+                <mat-error *ngIf="electricalForm.get('volumeResistivity1')?.hasError('min') ">
+                  Minimum value is 0
+                </mat-error>
               </mat-form-field>
             </div>
 
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Volume Resistivity 1</mat-label>
-          <input matInput type="number" formControlName="volumeResistivity1" />
-        </mat-form-field>
-      </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Volume Resistivity (DIN EN 62631-3-1)</mat-label>
+                <input matInput type="number" formControlName="volumeResistivity2" min="0" />
+                <mat-error *ngIf="electricalForm.get('volumeResistivity2')?.hasError('min') ">
+                  Minimum value is 0
+                </mat-error>
+              </mat-form-field>
+            </div>
 
-      <div class="col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Volume Resistivity 2</mat-label>
-          <input matInput type="number" formControlName="volumeResistivity2" />
-        </mat-form-field>
-      </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Surface Resistivity (DIN EN 62631-3-2)</mat-label>
+                <input matInput type="number" formControlName="surfaceResistivity" min="0" />
+                <mat-error *ngIf="electricalForm.get('surfaceResistivity')?.hasError('min') ">
+                  Minimum value is 0
+                </mat-error>
+              </mat-form-field>
+            </div>
 
-      <div class="col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Surface Resistivity</mat-label>
-          <input matInput type="number" formControlName="surfaceResistivity" />
-        </mat-form-field>
-      </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Comparative Tracking Index (IEC 60112)</mat-label>
+                <input matInput type="number" formControlName="comparativeTracking" min="0" max="600" />
+                <mat-error
+                  *ngIf="electricalForm.get('comparativeTracking')?.hasError('min') || electricalForm.get('comparativeTracking')?.hasError('max')">
+                  Value must be between 0 and 600
+                </mat-error>
+              </mat-form-field>
+            </div>
 
-      <div class="col-md-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Comparative tracking index</mat-label>
-          <input matInput type="number" formControlName="comparativeTracking" />
-        </mat-form-field>
-      </div>
-    </div>
+          </div>
 
-<div class="button-group d-flex justify-content-between align-items-center">
-  <!-- Left-aligned Previous button -->
-  <button mat-raised-button color="primary" matStepperPrevious>Previous</button>
+          <div class="button-group d-flex justify-content-end gap-2 align-items-end">
+            <button mat-stroked-button color="warn" type="reset">Reset</button>
 
-  <!-- Right-aligned Reset and Save & Next buttons -->
-  <div class="d-flex gap-2">
-    <button mat-stroked-button color="warn" type="reset">Reset</button>
-    <button mat-raised-button color="primary" matStepperNext>Save & Next</button>
-  </div>
-</div>
-  </form>
-</mat-step>
+            <button mat-raised-button color="primary" matStepperPrevious>Previous</button>
+            <button mat-raised-button color="primary" matStepperNext>Save & Next</button>
 
-          <div class="button-group">
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
           </div>
         </form>
       </mat-step>
+
 
       <!-- Step 6: Properties -->
       <mat-step [stepControl]="propertiesForm">
@@ -647,84 +660,52 @@
 
           <div class="row mb-3">
             <div class="col-md-3" *ngIf="propertiesForm">
-              <mat-checkbox formControlName="sustainable"
-                >Sustainable</mat-checkbox
-              >
+              <mat-checkbox formControlName="sustainable">Sustainable</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="surfaceModified"
-                >Impact Modified</mat-checkbox
-              >
+              <mat-checkbox formControlName="surfaceModified">Impact Modified</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="flameRetardant"
-                >Flame retardant</mat-checkbox
-              >
+              <mat-checkbox formControlName="flameRetardant">Flame retardant</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="heatStabilized130"
-                >Heat stabilized 130</mat-checkbox
-              >
+              <mat-checkbox formControlName="heatStabilized130">Heat stabilized 130</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="heatStabilized160"
-                >Heat stabilized 160</mat-checkbox
-              >
+              <mat-checkbox formControlName="heatStabilized160">Heat stabilized 160</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="heatStabilized230"
-                >Heat stabilized 230</mat-checkbox
-              >
+              <mat-checkbox formControlName="heatStabilized230">Heat stabilized 230</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="hydrolysisStabilized"
-                >Hydrolysis/Chemical Stabilized</mat-checkbox
-              >
+              <mat-checkbox formControlName="hydrolysisStabilized">Hydrolysis/Chemical Stabilized</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="laserTransparent"
-                >Laser Transparent</mat-checkbox
-              >
+              <mat-checkbox formControlName="laserTransparent">Laser Transparent</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="laserMarkable"
-                >Laser Markable</mat-checkbox
-              >
+              <mat-checkbox formControlName="laserMarkable">Laser Markable</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="lowWarpage"
-                >Low warpage</mat-checkbox
-              >
+              <mat-checkbox formControlName="lowWarpage">Low warpage</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="reducedDensity"
-                >Reduced Density</mat-checkbox
-              >
+              <mat-checkbox formControlName="reducedDensity">Reduced Density</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="reducedMoisture"
-                >Reduced Moisture</mat-checkbox
-              >
+              <mat-checkbox formControlName="reducedMoisture">Reduced Moisture</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="electricallyNeutral"
-                >Electrically neutral</mat-checkbox
-              >
+              <mat-checkbox formControlName="electricallyNeutral">Electrically neutral</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="uvStabilized"
-                >UV-stabilized</mat-checkbox
-              >
+              <mat-checkbox formControlName="uvStabilized">UV-stabilized</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="adhesionModified"
-                >Adhesion Modified</mat-checkbox
-              >
+              <mat-checkbox formControlName="adhesionModified">Adhesion Modified</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="tribologicalModified"
-                >Tribological Modified</mat-checkbox
-              >
+              <mat-checkbox formControlName="tribologicalModified">Tribological Modified</mat-checkbox>
             </div>
             <div class="col-md-3">
               <mat-checkbox formControlName="easyFlow">Easy Flow</mat-checkbox>
@@ -733,41 +714,31 @@
               <mat-checkbox formControlName="nucleated">Nucleated</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="processImproved"
-                >Process Improved</mat-checkbox
-              >
+              <mat-checkbox formControlName="processImproved">Process Improved</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="fluidInjection"
-                >Fluid Injection (GIT/WIT/FIT)</mat-checkbox
-              >
+              <mat-checkbox formControlName="fluidInjection">Fluid Injection (GIT/WIT/FIT)</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="recycledContent"
-                >Recycled Content</mat-checkbox
-              >
+              <mat-checkbox formControlName="recycledContent">Recycled Content</mat-checkbox>
             </div>
             <div class="col-md-3">
-              <mat-checkbox formControlName="additiveManufacturing"
-                >3D Printing/Additive Manufacturing</mat-checkbox
-              >
+              <mat-checkbox formControlName="additiveManufacturing">3D Printing/Additive Manufacturing</mat-checkbox>
             </div>
           </div>
 
-         <div class="d-flex justify-content-between align-items-center mt-3">
-  <!-- Left-aligned Previous button -->
-  <button mat-raised-button color="primary" matStepperPrevious>Previous</button>
-
-  <!-- Right-aligned Reset, Save, Cancel buttons -->
-  <div class="d-flex gap-2">
-    <button mat-stroked-button color="warn" type="reset">Reset</button>
-    <button mat-raised-button color="primary" type="submit">Save</button>
-    <button mat-raised-button type="button" (click)="onCancel()">Cancel</button>
-  </div>
-</div>
+          <div class="button-group d-flex justify-content-end gap-2 align-items-end">
+            <button mat-stroked-button color="warn" type="reset">Reset</button>
+            <button mat-raised-button color="primary" matStepperPrevious>Previous</button>
+            <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Save</button>
+          </div>
 
         </form>
+
       </mat-step>
+
+
+
     </mat-horizontal-stepper>
   </form>
 </div>

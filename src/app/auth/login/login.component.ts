@@ -5,6 +5,7 @@ import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angula
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2'; // Import SweetAlert2
+import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,8 @@ import Swal from 'sweetalert2'; // Import SweetAlert2
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
+    ForgotPasswordComponent
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -97,4 +99,9 @@ export class LoginComponent implements OnInit {
   togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
+
+  forgotPassword(): void {
+     console.log('Redirecting to forgot-password');
+  this.router.navigate(['/forgot-password']);
+}
 }
