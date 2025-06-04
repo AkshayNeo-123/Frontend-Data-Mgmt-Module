@@ -25,7 +25,6 @@ import { RecipedetailsComponent } from './dashboard/recipedetails/recipedetails.
 import { PermissionServiceService } from './services/permission-service.service';
 import { permissionGuard } from './permission.guard';
 import { AddTestComponent } from './dashboard/add-test/add-test.component';
-import { GetTestComponent } from './dashboard/get-test/get-test.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 
 
@@ -115,6 +114,7 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 //   { path: '', redirectTo: 'login', pathMatch: 'full' },
 //   { path: '**', redirectTo: 'login' }
 // ];
+import { GetTestComponent } from './dashboard/get-test/get-test.component';
 
 
 export const routes: Routes = [

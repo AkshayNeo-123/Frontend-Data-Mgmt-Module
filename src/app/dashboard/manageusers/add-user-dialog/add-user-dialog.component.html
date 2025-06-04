@@ -82,7 +82,16 @@
     </div>
 
     <mat-dialog-actions align="end" class="btnFix">
-      <button mat-raised-button color="primary" type="submit">Save</button>
+      <!-- <button mat-raised-button color="primary" type="submit">Save</button> -->
+       <button mat-raised-button color="primary" type="submit" [disabled]="isLoading">
+  <span *ngIf="!isLoading">
+    <!-- <i class="fas fa-save me-2"></i> Save --> Save
+  </span>
+  <span *ngIf="isLoading">
+    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+    Saving...
+  </span>
+</button>
       <button mat-raised-button type="button" (click)="onCancel()">Cancel</button>
     </mat-dialog-actions>
   </form>
