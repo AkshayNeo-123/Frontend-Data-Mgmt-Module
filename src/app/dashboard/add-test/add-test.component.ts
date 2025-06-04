@@ -185,76 +185,107 @@ export class AddTestComponent {
   }
 
   handleAddToTechnicalSheet(): void {
-  const isPublish = this.sharedForm.get('isPublish')?.value;
+    console.log("buttopn click for Technical Data Sheet ")
+    this.sharedForm.patchValue({ isPublish: true });
+    console.log('isPublish value now:', this.sharedForm.get('isPublish')?.value);
 
-  if (isPublish) {
-    // Already published, just submit
-    this.onSubmit();
-  } else {
-    // Show confirmation dialog
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '400px',
-      data: {
-        title: 'Confirmation',
-        message: 'Do you want to add data in technical sheet?'
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // User confirmed
-        this.sharedForm.patchValue({ isPublish: true });
-        this.onSubmit();
-      }
-    });
+    this.toastr.success('Added to Technical Data Sheet successfully');
   }
-}
 
 
-onSubmit() {
-  const adduserId = localStorage.getItem('UserId');
+  onSubmit() {
+    const adduserId = localStorage.getItem('UserId');
 
-  if (this.sharedForm.invalid) {
-    if (this.sharedForm.get('productName')?.hasError('required')) {
-      this.toastr.error('Please select a Recipe Name.', 'Validation Error');
+    if (this.sharedForm.invalid) {
+      if (this.sharedForm.get('productName')?.hasError('required')) {
+        this.toastr.error('Please select a Recipe Name.', 'Validation Error');
+      }
+      return;
     }
-    return;
+
+    const isFormEmpty = (form: FormGroup): boolean => {
+      return Object.values(form.value).every(
+        (value) => value === null || value === '' || value === false
+      );
+    };
+
+    const isPublish = this.sharedForm.get('isPublish')?.value;
+
+    if (!isPublish) {
+      // Show confirmation dialog if isPublish is false
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        width: '400px',
+        data: {
+          title: 'Confirmation',
+          message: 'Do you want to add data in technical sheet?',
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          // User confirmed: set isPublish to true and submit
+          this.sharedForm.patchValue({
+            isPublish: true,
+            createdBy: adduserId ? parseInt(adduserId, 10) : 0,
+            createdDate: new Date().toISOString(),
+          });
+
+          const requestBody = this.buildRequestBody(isFormEmpty);
+          this.submitForm(requestBody);
+          this.toastr.success('Added in technical sheet');
+        }
+      });
+      return; // Wait for dialog response, do not continue
+    }
+
+    // If isPublish is true, submit form directly
+    this.sharedForm.patchValue({
+      createdBy: adduserId ? parseInt(adduserId, 10) : 0,
+      createdDate: new Date().toISOString(),
+    });
+
+    const requestBody = this.buildRequestBody(isFormEmpty);
+    this.submitForm(requestBody);
   }
 
-  const isFormEmpty = (form: FormGroup): boolean => {
-    return Object.values(form.value).every(value =>
-      value === null || value === '' || value === false
+  private buildRequestBody(isFormEmpty: (form: FormGroup) => boolean) {
+    return {
+      test: this.sharedForm.getRawValue(),
+      mechanicalProperty: isFormEmpty(this.mechanicalForm)
+        ? {}
+        : this.mechanicalForm.value,
+      temperatureProperty: isFormEmpty(this.temperatureForm)
+        ? {}
+        : this.temperatureForm.value,
+      flammabilityProperty: isFormEmpty(this.flammabilityForm)
+        ? {}
+        : this.flammabilityForm.value,
+      generalProperty: isFormEmpty(this.generalForm)
+        ? {}
+        : this.generalForm.value,
+      electricalProperty: isFormEmpty(this.electricalForm)
+        ? {}
+        : this.electricalForm.value,
+      properties: isFormEmpty(this.propertiesForm)
+        ? {}
+        : this.propertiesForm.value,
+    };
+  }
+
+  private submitForm(requestBody: any) {
+    this.testService.addTest(requestBody).subscribe(
+      (response) => {
+        this.toastr.success('Submitted successfully');
+        this.resetAllForms();
+        this.router.navigate(['/gettest']);
+      },
+      (error) => {
+        console.error('Error submitting form:', error);
+        this.toastr.error('Failed to submit form');
+      }
     );
-  };
+  }
 
-  this.sharedForm.patchValue({
-    createdBy: adduserId ? parseInt(adduserId, 10) : 0,
-    createdDate: new Date().toISOString()
-  });
-
-  const requestBody = {
-    test: this.sharedForm.getRawValue(),
-    mechanicalProperty: isFormEmpty(this.mechanicalForm) ? {} : this.mechanicalForm.value,
-    temperatureProperty: isFormEmpty(this.temperatureForm) ? {} : this.temperatureForm.value,
-    flammabilityProperty: isFormEmpty(this.flammabilityForm) ? {} : this.flammabilityForm.value,
-    generalProperty: isFormEmpty(this.generalForm) ? {} : this.generalForm.value,
-    electricalProperty: isFormEmpty(this.electricalForm) ? {} : this.electricalForm.value,
-    properties: isFormEmpty(this.propertiesForm) ? {} : this.propertiesForm.value
-  };
-
-  console.log('Request Body:', requestBody);
-
-  this.testService.addTest(requestBody).subscribe(
-    response => {
-      this.toastr.success('Submitted successfully');
-      this.resetAllForms();
-      this.router.navigate(['/gettest']);
-    },
-    error => {
-      console.error('Error submitting form:', error);
-    }
-  );
-}
 
 
 
