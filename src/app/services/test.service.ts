@@ -13,7 +13,7 @@ export class TestService {
   getAllTest(): Observable<any[]> {
       return this.http.get<any[]>(`${this.baseUrl}/GetAllTestData`);
     }
-// ?testId=
+
 
 deleteTest(testid:number,deletedBY:number): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}?testId=${testid}&deletedBy=${deletedBY}`);
@@ -23,5 +23,10 @@ deleteTest(testid:number,deletedBY:number): Observable<any> {
  addTest(data: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/AddTest`, data);
   }
+
+
+  getRecipeDataForTest(): Observable<any[]> {
+      return this.http.get<any[]>(`${this.baseUrl}/GetRecipeDataForTestList`);
+    }
 
 }
