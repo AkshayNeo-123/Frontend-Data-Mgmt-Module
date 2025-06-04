@@ -298,55 +298,40 @@
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Heat Deflection Temperature</mat-label>
-                <input matInput type="number" formControlName="tempHdtA" min="50" max="300" />
-                <mat-error
-                  *ngIf="temperatureForm.get('tempHdtA')?.hasError('min') || temperatureForm.get('tempHdtA')?.hasError('max')">
-                  Value must be between 50°C and 300°C
-                </mat-error>
+                <input matInput type="number" formControlName="tempHdtA">
+               
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Temperature of Deflection Under Load</mat-label>
-                <input matInput type="number" formControlName="tempHdtB" min="40" max="250" />
-                <mat-error
-                  *ngIf="temperatureForm.get('tempHdtB')?.hasError('min') || temperatureForm.get('tempHdtB')?.hasError('max')">
-                  Value must be between 40°C and 250°C
-                </mat-error>
+                <input matInput type="number" formControlName="tempHdtB" />
+                
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Melting Temperature</mat-label>
-                <input matInput type="number" formControlName="meltingTemp" min="100" max="350" />
-                <mat-error
-                  *ngIf="temperatureForm.get('meltingTemp')?.hasError('min') || temperatureForm.get('meltingTemp')?.hasError('max')">
-                  Value must be between 100°C and 350°C
-                </mat-error>
+                <input matInput type="number" formControlName="meltingTemp" />
+
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Thermal Expansion (Parallel)</mat-label>
-                <input matInput type="number" formControlName="coefficientsParallel" min="0" max="200" />
-                <mat-error
-                  *ngIf="temperatureForm.get('coefficientsParallel')?.hasError('min') || temperatureForm.get('coefficientsParallel')?.hasError('max')">
-                  Value must be between 0 and 200
-                </mat-error>
+                <input matInput type="number" formControlName="coefficientsParallel" />
+                
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Thermal Expansion (Transverse)</mat-label>
-                <input matInput type="number" formControlName="coefficientsTransverse" min="0" max="200" />
-                <mat-error
-                  *ngIf="temperatureForm.get('coefficientsTransverse')?.hasError('min') || temperatureForm.get('coefficientsTransverse')?.hasError('max')">
-                  Value must be between 0 and 200
-                </mat-error>
+                <input matInput type="number" formControlName="coefficientsTransverse" />
+                
               </mat-form-field>
             </div>
           </div>
@@ -367,55 +352,40 @@
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Burning Rate (UL 94) – 1.6mm Wall Thickness</mat-label>
-                <input matInput type="number" formControlName="burningRateWallThickness" min="0" max="100" />
-                <mat-error
-                  *ngIf="flammabilityForm.get('burningRateWallThickness')?.hasError('min') || flammabilityForm.get('burningRateWallThickness')?.hasError('max')">
-                  Value must be between 0 and 100
-                </mat-error>
+                <input matInput type="number" formControlName="burningRateWallThickness" />
+                
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>GWFI (IEC 60695-2-12) – 1.6mm Wall Thickness</mat-label>
-                <input matInput type="number" formControlName="gwfi" min="0" max="1000" />
-                <mat-error
-                  *ngIf="flammabilityForm.get('gwfi')?.hasError('min') || flammabilityForm.get('gwfi')?.hasError('max')">
-                  Value must be between 0 and 1000
-                </mat-error>
+                <input matInput type="number" formControlName="gwfi"/>
+                
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>GWIT (IEC 60695-2-13) – 1.6mm Wall Thickness</mat-label>
-                <input matInput type="number" formControlName="gwft" min="0" max="1000" />
-                <mat-error
-                  *ngIf="flammabilityForm.get('gwft')?.hasError('min') || flammabilityForm.get('gwft')?.hasError('max')">
-                  Value must be between 0 and 1000
-                </mat-error>
+                <input matInput type="number" formControlName="gwft" />
+               
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Burning Rate (&lt;100 mm/min) – Thickness &gt; 1 mm (FMVSS 302)</mat-label>
-                <input matInput type="number" formControlName="burningRateThickness1" min="0" max="100" />
-                <mat-error
-                  *ngIf="flammabilityForm.get('burningRateThickness1')?.hasError('min') || flammabilityForm.get('burningRateThickness1')?.hasError('max')">
-                  Value must be between 0 and 100
-                </mat-error>
+                <input matInput type="number" formControlName="burningRateThickness1"/>
+               
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Burning Rate (Additional)</mat-label>
-                <input matInput type="number" formControlName="burningRateThickness2" min="0" max="100" />
-                <mat-error
-                  *ngIf="flammabilityForm.get('burningRateThickness2')?.hasError('min') || flammabilityForm.get('burningRateThickness2')?.hasError('max')">
-                  Value must be between 0 and 100
-                </mat-error>
+                <input matInput type="number" formControlName="burningRateThickness2" />
+              
               </mat-form-field>
             </div>
           </div>
@@ -436,64 +406,48 @@
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Density (23°C | ISO 1183)</mat-label>
-                <input matInput type="number" formControlName="density" min="0" max="100" />
-                <mat-error
-                  *ngIf="generalForm.get('density')?.hasError('min') || generalForm.get('density')?.hasError('max')">
-                  Value must be between 0 and 100
-                </mat-error>
+                <input matInput type="number" formControlName="density" />
+               
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Humidity absorption (70°C, 62% r.H. | ISO 1110)</mat-label>
-                <input matInput type="number" formControlName="humidityAbsorption" min="0" max="100" />
-                <mat-error
-                  *ngIf="generalForm.get('humidityAbsorption')?.hasError('min') || generalForm.get('humidityAbsorption')?.hasError('max')">
-                  Value must be between 0 and 100
-                </mat-error>
+                <input matInput type="number" formControlName="humidityAbsorption" />
+               
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Molding Shrinkage Flow (flow | ISO 294-4)</mat-label>
-                <input matInput type="number" formControlName="moldingShrinkageFlow" min="0" max="50" />
-                <mat-error
-                  *ngIf="generalForm.get('moldingShrinkageFlow')?.hasError('min') || generalForm.get('moldingShrinkageFlow')?.hasError('max')">
-                  Value must be between 0 and 50
-                </mat-error>
+                <input matInput type="number" formControlName="moldingShrinkageFlow" />
+                
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Molding Shrinkage Transverse (transverse | ISO 294-4)</mat-label>
-                <input matInput type="number" formControlName="moldingShrinkageTransverse" min="0" max="50" />
-                <mat-error
-                  *ngIf="generalForm.get('moldingShrinkageTransverse')?.hasError('min') || generalForm.get('moldingShrinkageTransverse')?.hasError('max')">
-                  Value must be between 0 and 50
-                </mat-error>
+                <input matInput type="number" formControlName="moldingShrinkageTransverse" />
+               
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>MFR</mat-label>
-                <input matInput type="number" formControlName="mfr" min="0" max="1000" />
-                <mat-error *ngIf="generalForm.get('mfr')?.hasError('min') || generalForm.get('mfr')?.hasError('max')">
-                  Value must be between 0 and 1000
-                </mat-error>
+                <input matInput type="number" formControlName="mfr" />
+               
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>MVR</mat-label>
-                <input matInput type="number" formControlName="mvr" min="0" max="1000" />
-                <mat-error *ngIf="generalForm.get('mvr')?.hasError('min') || generalForm.get('mvr')?.hasError('max')">
-                  Value must be between 0 and 1000
-                </mat-error>
+                <input matInput type="number" formControlName="mvr"/>
+                
               </mat-form-field>
             </div>
           </div>
@@ -514,41 +468,32 @@
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Volume Resistivity (DIN EN 62631-3-1)</mat-label>
-                <input matInput type="number" formControlName="volumeResistivity1" min="0" />
-                <mat-error *ngIf="electricalForm.get('volumeResistivity1')?.hasError('min') ">
-                  Minimum value is 0
-                </mat-error>
+                <input matInput type="number" formControlName="volumeResistivity1" />
+              
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Volume Resistivity (DIN EN 62631-3-1)</mat-label>
-                <input matInput type="number" formControlName="volumeResistivity2" min="0" />
-                <mat-error *ngIf="electricalForm.get('volumeResistivity2')?.hasError('min') ">
-                  Minimum value is 0
-                </mat-error>
+                <input matInput type="number" formControlName="volumeResistivity2" />
+               
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Surface Resistivity (DIN EN 62631-3-2)</mat-label>
-                <input matInput type="number" formControlName="surfaceResistivity" min="0" />
-                <mat-error *ngIf="electricalForm.get('surfaceResistivity')?.hasError('min') ">
-                  Minimum value is 0
-                </mat-error>
+                <input matInput type="number" formControlName="surfaceResistivity" />
+               
               </mat-form-field>
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Comparative Tracking Index (IEC 60112)</mat-label>
-                <input matInput type="number" formControlName="comparativeTracking" min="0" max="600" />
-                <mat-error
-                  *ngIf="electricalForm.get('comparativeTracking')?.hasError('min') || electricalForm.get('comparativeTracking')?.hasError('max')">
-                  Value must be between 0 and 600
-                </mat-error>
+                <input matInput type="number" formControlName="comparativeTracking" />
+               
               </mat-form-field>
             </div>
           </div>
