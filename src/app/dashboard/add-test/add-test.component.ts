@@ -20,7 +20,7 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { MatIcon } from '@angular/material/icon';
-import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component'; 
+import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 
@@ -53,22 +53,24 @@ export class AddTestComponent {
   electricalForm: FormGroup;
   propertiesForm: FormGroup;
   recipeData: RecipeDataforTest[] = [];
-  
+
 
   constructor(private _formBuilder: FormBuilder,
     private testService: TestService,
- private router: Router,
-     private toastr: ToastrService,
-       private dialog: MatDialog
+    private router: Router,
+    private toastr: ToastrService,
+    private dialog: MatDialog
 
-  
+
   ) {
     // Common fields shown outside stepper
     this.sharedForm = this._formBuilder.group({
-        productName: ['', Validators.required],
+      productName: ['', Validators.required],
       recipeNumber: [{ value: '', disabled: true }],
       comment: [''],
-      isPublish:[false]
+      isPublish: [false],
+      createdBy: [0],
+      createdDate: ['']
     });
 
     this.mechanicalForm = this._formBuilder.group({
@@ -161,137 +163,111 @@ export class AddTestComponent {
       additiveManufacturing: [false]
     });
   }
-  
+
 
   ngOnInit(): void {
     this.loadRecipeData();
-  
-}
 
- goBack() {
+  }
+
+  goBack() {
     this.router.navigate(['/gettest']);
   }
 
-resetAllForms() {
-  this.sharedForm.reset();
-  this.mechanicalForm.reset();
-  this.temperatureForm.reset();
-  this.flammabilityForm.reset();
-  this.generalForm.reset();
-  this.electricalForm.reset();
-  this.propertiesForm.reset();
-}
-
-
-
-  // onSubmit() {
-  //   console.log('cllicked')
-  //   if (this.sharedForm.invalid) {
-  //   // Check specifically if productName is not selected
-  //   if (this.sharedForm.get('productName')?.hasError('required')) {
-  //     this.toastr.error('Please select a Recipe Name.', 'Validation Error');
-  //   } 
-  //   return;
-  // }
-  //   const requestBody = {
-  //     // ...this.sharedForm.value,
-  //    test: this.sharedForm.getRawValue(),
-  //     mechanicalProperty: this.mechanicalForm.value,
-  //     temperatureProperty: this.temperatureForm.value,
-  //     flammabilityProperty: this.flammabilityForm.value,
-  //     generalProperty: this.generalForm.value,
-  //     electricalProperty: this.electricalForm.value,
-  //     properties: this.propertiesForm.value
-  //   };
-
-  //   console.log('Request Body:', requestBody);
-
-  //   // Optional: Submit to API
-  //   this.testService.addTest(requestBody).subscribe(
-  //     response => {
-  //       console.log('Form submitted successfully:', response);
-  //           this.toastr.success('submitted successfully');
-  //            this.resetAllForms(); 
-  //            this.router.navigate(['/gettest']);
-
-  //     },
-  //     error => {
-  //       console.error('Error submitting form:', error);
-  //     }
-  //   );
-  // }
-
-  onSubmit() {
-  if (this.sharedForm.invalid) {
-    if (this.sharedForm.get('productName')?.hasError('required')) {
-      this.toastr.error('Please select a Recipe Name.', 'Validation Error');
-    }
-    return;
+  resetAllForms() {
+    this.sharedForm.reset();
+    this.mechanicalForm.reset();
+    this.temperatureForm.reset();
+    this.flammabilityForm.reset();
+    this.generalForm.reset();
+    this.electricalForm.reset();
+    this.propertiesForm.reset();
   }
 
-  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-    width: '400px',
-    data: {
-      title: 'Confirmation',
-      message: 'Do you want to add data in technical sheet?'
-    }
-  });
+  onSubmit() {
+    const adduserId = localStorage.getItem('UserId');
 
-  dialogRef.afterClosed().subscribe(result => {
-this.sharedForm.patchValue({ isPublish: result ? true : false });
-
-    const requestBody = {
-      test: this.sharedForm.getRawValue(),
-      mechanicalProperty: this.mechanicalForm.value,
-      temperatureProperty: this.temperatureForm.value,
-      flammabilityProperty: this.flammabilityForm.value,
-      generalProperty: this.generalForm.value,
-      electricalProperty: this.electricalForm.value,
-      properties: this.propertiesForm.value
-    };
-
-    console.log('Request Body:', requestBody);
-
-    this.testService.addTest(requestBody).subscribe(
-      response => {
-        this.toastr.success('Submitted successfully');
-        this.resetAllForms();
-        this.router.navigate(['/gettest']);
-      },
-      error => {
-        console.error('Error submitting form:', error);
+    if (this.sharedForm.invalid) {
+      if (this.sharedForm.get('productName')?.hasError('required')) {
+        this.toastr.error('Please select a Recipe Name.', 'Validation Error');
       }
-    );
-  });
-}
+      return;
+    }
 
-  loadRecipeData(){
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Confirmation',
+        message: 'Do you want to add data in technical sheet?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.sharedForm.patchValue({ isPublish: result ? true : false });
+
+      // Helper function to check if all values are default/null/false
+      const isFormEmpty = (form: FormGroup): boolean => {
+        return Object.values(form.value).every(value =>
+          value === null || value === '' || value === false
+        );
+      };
+
+      this.sharedForm.patchValue({
+        createdBy: adduserId ? parseInt(adduserId, 10) : 0,
+        createdDate: new Date().toISOString()
+      });
+
+      const requestBody = {
+        test: this.sharedForm.getRawValue(),
+        mechanicalProperty: isFormEmpty(this.mechanicalForm) ? {} : this.mechanicalForm.value,
+        temperatureProperty: isFormEmpty(this.temperatureForm) ? {} : this.temperatureForm.value,
+        flammabilityProperty: isFormEmpty(this.flammabilityForm) ? {} : this.flammabilityForm.value,
+        generalProperty: isFormEmpty(this.generalForm) ? {} : this.generalForm.value,
+        electricalProperty: isFormEmpty(this.electricalForm) ? {} : this.electricalForm.value,
+        properties: isFormEmpty(this.propertiesForm) ? {} : this.propertiesForm.value
+      };
+
+      console.log('Request Body:', requestBody);
+
+      this.testService.addTest(requestBody).subscribe(
+        response => {
+          this.toastr.success('Submitted successfully');
+          this.resetAllForms();
+          this.router.navigate(['/gettest']);
+        },
+        error => {
+          console.error('Error submitting form:', error);
+        }
+      );
+    });
+  }
+
+
+  loadRecipeData() {
     this.testService.getRecipeDataForTest().subscribe({
-      next:(data:RecipeDataforTest[])=>{
-        this.recipeData=data;
+      next: (data: RecipeDataforTest[]) => {
+        this.recipeData = data;
         console.log(this.recipeData);
-        
+
       },
-        error: (err) => {
+      error: (err) => {
         console.error('Error fetching recipe data:', err);
       }
     })
   }
 
-onRecipeSelect(event: any) {
-  const selectedRecipe = this.recipeData.find(r => r.receipeId === event.value);
-  if (selectedRecipe) {
-    this.sharedForm.patchValue({
-      recipeNumber: selectedRecipe.receipeId
-    });
+  onRecipeSelect(event: any) {
+    const selectedRecipe = this.recipeData.find(r => r.receipeId === event.value);
+    if (selectedRecipe) {
+      this.sharedForm.patchValue({
+        recipeNumber: selectedRecipe.receipeId
+      });
+    }
   }
-}
-
-
 
   onCancel() {
     this.resetAllForms();
-   this.router.navigate(['/gettest']); 
+    this.router.navigate(['/gettest']);
   }
 
 }
