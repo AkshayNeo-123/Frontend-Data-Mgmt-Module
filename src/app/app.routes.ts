@@ -24,8 +24,8 @@ import { GetCompInjectComponent } from './dashboard/get-comp-inject/get-comp-inj
 import { RecipedetailsComponent } from './dashboard/recipedetails/recipedetails.component';
 import { PermissionServiceService } from './services/permission-service.service';
 import { permissionGuard } from './permission.guard';
-import { GetTestComponent } from './dashboard/get-test/get-test.component';
 import { AddTestComponent } from './dashboard/add-test/add-test.component';
+import { GetTestComponent } from './dashboard/get-test/get-test.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 
 
@@ -144,13 +144,26 @@ export const routes: Routes = [
 
   { path: 'compounding', component: AddCompoundingComponent },
   { path: 'updatecompounding', component: UpdateCompoundingComponent },
+  {path: 'rolemaster' , component:RolemasterComponent,
 
-  { path: 'rolemaster', component: RolemasterComponent, canActivate: [permissionGuard], data: { resource: 'Role Management', action: 'canView' }},
-
-  { path: 'manageusers', component: ManageusersComponent, canActivate: [permissionGuard], data: { resource: 'User Management', action: 'canView' }},
-
-  { path: 'comp-inject', component: GetCompInjectComponent },
-  { path: 'recipedetails', component: RecipedetailsComponent },
+    canActivate: [permissionGuard],
+    data: {
+      resource: 'Role Management',
+      action: 'canView'
+    }
+  },
+  {path:'addRecipe', component:AddRecipyComponent},
+  // { path: 'GetAllProject', component: ProjectComponent },
+  { path: 'updaetInjection', component: UpdateInjectionMoldingComponent },
+  { path: 'manageusers', component: ManageusersComponent ,
+    canActivate: [permissionGuard],
+    data: {
+      resource: 'User Management',
+      action: 'canView'
+    }
+  },
+  { path: 'comp-inject', component:GetCompInjectComponent},
+   { path: 'recipedetails', component: RecipedetailsComponent },
 
   { path: 'gettest', component: GetTestComponent, canActivate: [permissionGuard], data: { resource: 'Testing', action: 'canView' }},
   { path: 'add-test', component: AddTestComponent},

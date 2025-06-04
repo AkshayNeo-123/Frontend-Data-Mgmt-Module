@@ -7,6 +7,20 @@
 
 
 }
+.progress-item{
+  width: 170px;
+  height: 90px;
+  background-color: rgb(170, 228, 112);
+  border: 2px solid rgb(204, 200, 200);
+      text-align: center;
+    font-weight: 300;
+} 
+.progress-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);   gap: 10px;
+  margin-top: 20px;
+   align-items: start;
+}
 
 .pdf-download-btn::after {
   content: "Download to PDF";
@@ -61,7 +75,7 @@
 .custom-dark-border th,
 .custom-dark-border td {
   border: 1px solid #343a40;
-   width: 150px;
+   max-width: 150px; word-break: break-word;
 }
 
 .custom-dark-border thead th {
@@ -76,4 +90,100 @@
     right: 0;
     margin-top: 18px;
     gap: 20px;
+}
+
+
+.properties-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  gap: 1rem;
+  align-items: start;
+
+  p {
+    margin: 0.3rem 0;
+  }
+
+  .full-width {
+    grid-column: span 3;
+  }
+}
+
+.custom-scope table{
+  width: 100%;
+  table-layout: fixed;
+word-break: break-word;}
+
+.table.no-borders td,
+.table.no-borders th {
+  border: none !important;
+}
+
+
+
+
+
+
+.bcolor{
+  font-size: 14px;
+  /* font-weight:lighter; */
+  color: #000000c0;
+}
+.mcolor{
+  color: #aaabad;
+}
+
+.recipe-card, .recipe-info {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+}
+.recipe-info dt {
+  font-weight: bold;
+}
+.recipe-info dd {
+  margin-bottom: 1em;
+}
+
+
+.pdf-checkbox {
+    display: inline-block;
+   
+    border-radius: 3px;
+    text-align: center;
+    line-height: 16px;
+    font-size: 13px;
+    font-weight: bold;
+    color: rgb(48, 46, 46);
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .pdf-checkbox.checked {
+    color: rgb(48, 46, 46);
+    /* border: 2px solid #888; */
+  }
+ 
+
+ .property-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.property-grid {
+  flex: 1;
+  min-width: 300px;
+  display: grid;
+ grid-template-columns: repeat(2, 1fr);  gap: 12px;
+}
+
+.property-item {  color: #000000c0;font-weight: bold;
+
+  display: flex;
+  align-items: center;
+  font-size: 14px;  font-size: 14px;
+
+}
+
+.page-break {
+  page-break-before: avoid;
 }
