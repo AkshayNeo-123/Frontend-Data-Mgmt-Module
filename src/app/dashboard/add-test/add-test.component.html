@@ -304,7 +304,6 @@
                   Value must be between 50°C and 300°C
                 </mat-error>
               </mat-form-field>
-
             </div>
 
             <div class="col-md-4">
@@ -316,20 +315,17 @@
                   Value must be between 40°C and 250°C
                 </mat-error>
               </mat-form-field>
-
             </div>
 
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Melting Temperature</mat-label>
                 <input matInput type="number" formControlName="meltingTemp" min="100" max="350" />
-
                 <mat-error
                   *ngIf="temperatureForm.get('meltingTemp')?.hasError('min') || temperatureForm.get('meltingTemp')?.hasError('max')">
                   Value must be between 100°C and 350°C
                 </mat-error>
               </mat-form-field>
-
             </div>
 
             <div class="col-md-4">
@@ -341,7 +337,6 @@
                   Value must be between 0 and 200
                 </mat-error>
               </mat-form-field>
-
             </div>
 
             <div class="col-md-4">
@@ -353,18 +348,14 @@
                   Value must be between 0 and 200
                 </mat-error>
               </mat-form-field>
-
             </div>
           </div>
 
           <div class="button-group d-flex justify-content-end gap-2 align-items-end">
             <button mat-stroked-button color="warn" type="reset">Reset</button>
-
             <button mat-raised-button color="primary" matStepperPrevious>Previous</button>
             <button mat-raised-button color="primary" matStepperNext>Save & Next</button>
           </div>
-
-
         </form>
       </mat-step>
 
@@ -372,9 +363,7 @@
       <mat-step [stepControl]="flammabilityForm">
         <form [formGroup]="flammabilityForm" style="margin-top: 10px;">
           <ng-template matStepLabel>Flammability Properties</ng-template>
-
           <div class="row mb-3">
-
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Burning Rate (UL 94) – 1.6mm Wall Thickness</mat-label>
@@ -429,27 +418,21 @@
                 </mat-error>
               </mat-form-field>
             </div>
-
           </div>
 
           <div class="button-group d-flex justify-content-end gap-2 align-items-end">
             <button mat-stroked-button color="warn" type="reset">Reset</button>
-
             <button mat-raised-button color="primary" matStepperPrevious>Previous</button>
             <button mat-raised-button color="primary" matStepperNext>Save & Next</button>
-
           </div>
         </form>
       </mat-step>
-
 
       <!-- Step 4: General Properties -->
       <mat-step [stepControl]="generalForm">
         <form [formGroup]="generalForm" style="margin-top: 10px;">
           <ng-template matStepLabel>General Properties</ng-template>
-
           <div class="row mb-3">
-
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Density (23°C | ISO 1183)</mat-label>
@@ -513,16 +496,12 @@
                 </mat-error>
               </mat-form-field>
             </div>
-
           </div>
 
           <div class="button-group d-flex justify-content-end gap-2 align-items-end">
             <button mat-stroked-button color="warn" type="reset">Reset</button>
-
             <button mat-raised-button color="primary" matStepperPrevious>Previous</button>
-
             <button mat-raised-button color="primary" matStepperNext>Save & Next</button>
-
           </div>
         </form>
       </mat-step>
@@ -531,9 +510,7 @@
       <mat-step [stepControl]="electricalForm">
         <form [formGroup]="electricalForm" style="margin-top: 10px;">
           <ng-template matStepLabel>Electrical Properties</ng-template>
-
           <div class="row mb-3">
-
             <div class="col-md-4">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Volume Resistivity (DIN EN 62631-3-1)</mat-label>
@@ -574,19 +551,15 @@
                 </mat-error>
               </mat-form-field>
             </div>
-
           </div>
 
           <div class="button-group d-flex justify-content-end gap-2 align-items-end">
             <button mat-stroked-button color="warn" type="reset">Reset</button>
-
             <button mat-raised-button color="primary" matStepperPrevious>Previous</button>
             <button mat-raised-button color="primary" matStepperNext>Save & Next</button>
-
           </div>
         </form>
       </mat-step>
-
 
       <!-- Step 6: Properties -->
       <mat-step [stepControl]="propertiesForm">
@@ -667,13 +640,8 @@
             <button mat-raised-button color="primary" matStepperPrevious>Previous</button>
             <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Save</button>
           </div>
-
         </form>
-
       </mat-step>
-
-
-
     </mat-horizontal-stepper>
   </form>
 </div>
