@@ -26,6 +26,96 @@ import { PermissionServiceService } from './services/permission-service.service'
 import { permissionGuard } from './permission.guard';
 import { AddTestComponent } from './dashboard/add-test/add-test.component';
 import { GetTestComponent } from './dashboard/get-test/get-test.component';
+import { AddTestComponent } from './dashboard/add-test/add-test.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+
+
+// export const routes: Routes = [
+//   { path: 'login', component: LoginComponent },
+//   { path: 'register', component: RegisterComponent },
+
+//   { path: 'dashboard', component: DashboardComponent , canActivate: [authGuard]
+//   },
+//   { path: 'recipe',
+//      component: RecipyComponent,
+//      canActivate: [permissionGuard],
+//     data: {
+//       resource: 'Recipe',
+//       action: 'canView'
+//     }
+//      },
+//   { path: 'getmaterials', component: GetmaterialsComponent ,
+//     canActivate: [permissionGuard],
+//     data: {
+//       resource: 'Materials',
+//       action: 'canView'
+//     }
+//   },
+//   { path: 'getproject', component: ProjectComponent ,
+//     canActivate: [permissionGuard],
+//     data: {
+//       resource: 'Project',
+//       action: 'canView'
+//     }
+//   },
+//   { path: 'injectionMolding', component: AddInjectionMoldingComponent },
+//   { path: 'mastertable', component: MastertableComponent },
+//   { path: 'contacts', component: ContactsComponent ,
+//     canActivate: [permissionGuard],
+//     data: {
+//       resource: 'Contacts',
+//       action: 'canView'
+//     }
+//   },
+//   { path: 'get-all-additives', component: GetAllAdditivesComponent,canActivate: [permissionGuard],
+//     data: {
+//       resource: 'Additive',
+//       action: 'canView'
+//     } },
+//   { path: 'all-main-polymers', component: AllMainPolymersComponent,
+//     canActivate: [permissionGuard],
+//     data: {
+//       resource: 'Main Polymer',
+//       action: 'canView'
+//     }
+
+//    },
+//   { path: 'compounding', component: AddCompoundingComponent },
+//   { path: 'updateinjectionMolding', component: UpdateInjectionMoldingComponent },
+//   { path: 'updatecompounding', component: UpdateCompoundingComponent },
+//   {path: 'rolemaster' , component:RolemasterComponent,
+
+//     canActivate: [permissionGuard],
+//     data: {
+//       resource: 'Role Management',
+//       action: 'canView'
+//     }
+//   },
+//   {path:'addRecipe', component:AddRecipyComponent},
+//   // { path: 'GetAllProject', component: ProjectComponent },
+//   { path: 'updaetInjection', component: UpdateInjectionMoldingComponent },
+//   { path: 'manageusers', component: ManageusersComponent ,
+//     canActivate: [permissionGuard],
+//     data: {
+//       resource: 'User Management',
+//       action: 'canView'
+//     }
+//   },
+//   { path: 'comp-inject', component:GetCompInjectComponent},
+//    { path: 'recipedetails', component: RecipedetailsComponent },
+
+//   {path: 'gettest',component:GetTestComponent,
+//     canActivate: [permissionGuard],
+//     data: {
+//       resource: 'Testing',
+//       action: 'canView'
+//     }
+//   },
+//   {path:'addtest',component:AddTestComponent},
+
+//   { path: '', redirectTo: 'login', pathMatch: 'full' },
+//   { path: '**', redirectTo: 'login' }
+// ];
 
 
 export const routes: Routes = [
@@ -78,7 +168,12 @@ export const routes: Routes = [
 
   { path: 'gettest', component: GetTestComponent, canActivate: [permissionGuard], data: { resource: 'Testing', action: 'canView' }},
   { path: 'add-test', component: AddTestComponent},
-
+  { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' }
+  { path: '**', redirectTo: 'login' },
+  
+//   {
+//   path: 'forgot-password',
+//   loadComponent: () => import('./auth/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent)
+// }
 ];

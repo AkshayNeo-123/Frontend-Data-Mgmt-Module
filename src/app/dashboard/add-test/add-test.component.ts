@@ -4,6 +4,7 @@ import {
   FormGroup,
   Validators,
   ReactiveFormsModule,
+  FormControl,
 } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,6 +13,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TestService } from '../../services/test.service';
+import { Router } from '@angular/router';
+import { RecipeDataforTest } from '../../models/test';
+import { MatOption } from '@angular/material/core';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { MatIcon } from '@angular/material/icon';
+import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-test',
@@ -23,7 +34,12 @@ import { TestService } from '../../services/test.service';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatOption,
+    MatSelectModule,
+    MatIcon,
+    ConfirmDialogComponent,
+    MatDialogModule
   ],
   templateUrl: './add-test.component.html',
   styleUrls: ['./add-test.component.css'],
@@ -36,87 +52,94 @@ export class AddTestComponent {
   generalForm: FormGroup;
   electricalForm: FormGroup;
   propertiesForm: FormGroup;
+  recipeData: RecipeDataforTest[] = [];
 
 
   constructor(private _formBuilder: FormBuilder,
-      private testService: TestService
+    private testService: TestService,
+    private router: Router,
+    private toastr: ToastrService,
+    private dialog: MatDialog
+
 
   ) {
     // Common fields shown outside stepper
     this.sharedForm = this._formBuilder.group({
-      productName: [''],
-      recipeNumber: [''],
+      productName: ['', Validators.required],
+      recipeNumber: [{ value: '', disabled: true }],
       comment: [''],
+      isPublish: [false],
+      createdBy: [0],
+      createdDate: ['']
     });
 
     this.mechanicalForm = this._formBuilder.group({
-      tensileModulus_DAM: [''],
-      tensileModulus_Conditioned: [''],
-      tensileModulus_Conditioned_Mm_Min: [''],
-      stressAtYield_DAM: [''],
-      stressAtYield_Conditioned: [''],
-      stressAtYield_Conditioned_Mm_Min: [''],
-      strainAtYield_DAM: [''],
-      strainAtYield_Conditioned: [''],
-      strainAtYield_Conditioned_Mm_Min: [''],
-      strainAtBreak_DAM: [''],
-      strainAtBreak_Conditioned: [''],
-      strainAtBreak_Conditioned_Mm_Min: [''],
-      flexuralModulus_DAM: [''],
-      flexuralModulus_Conditioned: [''],
-      flexuralModulus_Conditioned_Mm_Min: [''],
-      charpyNotchedImpact23: [''],
-      charpyNotchedImpactMinus30: [''],
-      flexuralStrength_DAM: [''],
-      flexuralStrength_Conditioned: [''],
-      flexuralStrength_Conditioned_Mm_Min: [''],
-      flexuralStrainBreak_DAM: [''],
-      flexuralStrainBreak_Conditioned: [''],
-      charpyImpact_DAM: [''],
-      charpyImpact_Conditioned: [''],
-      izodNotchedImpact_DAM: [''],
-      izodNotchedImpact_Conditioned: [''],
-      shoreDHardness_DAM: [''],
-      shoreDHardness_Conditioned: ['']
-
+      tensileModulus_DAM: [null],
+      tensileModulus_Conditioned: [null],
+      tensileModulus_Conditioned_Mm_Min: [null],
+      stressAtYield_DAM: [null],
+      stressAtYield_Conditioned: [null],
+      stressAtYield_Conditioned_Mm_Min: [null],
+      strainAtYield_DAM: [null],
+      strainAtYield_Conditioned: [null],
+      strainAtYield_Conditioned_Mm_Min: [null],
+      strainAtBreak_DAM: [null],
+      strainAtBreak_Conditioned: [null],
+      strainAtBreak_Conditioned_Mm_Min: [null],
+      flexuralModulus_DAM: [null],
+      flexuralModulus_Conditioned: [null],
+      flexuralModulus_Conditioned_Mm_Min: [null],
+      charpyNotchedImpact23: [null],
+      charpyNotchedImpactMinus30: [null],
+      flexuralStrength_DAM: [null],
+      flexuralStrength_Conditioned: [null],
+      flexuralStrength_Conditioned_Mm_Min: [null],
+      flexuralStrainBreak_DAM: [null],
+      flexuralStrainBreak_Conditioned: [null],
+      charpyImpact_DAM: [null],
+      charpyImpact_Conditioned: [null],
+      izodNotchedImpact_DAM: [null],
+      izodNotchedImpact_Conditioned: [null],
+      shoreDHardness_DAM: [null],
+      shoreDHardness_Conditioned: [null]
     });
 
+
     this.temperatureForm = this._formBuilder.group({
-      heatDeflectionTemp: [''],
-      deflectionTempUnderLoad: [''],
-      meltingTemp: [''],
-      linearExpansionParallel: [''],
-      linearExpansionTransverse: [''],
+      tempHdtA: [null],
+      tempHdtB: [null],
+      meltingTemp: [null],
+      coefficientsParallel: [null],
+      coefficientsTransverse: [null],
 
     });
 
     this.flammabilityForm = this._formBuilder.group({
-      burningRateWallThickness: [''],
-      gwfi: [''],
-      gwft: [''],
-      burningRateThickness1: [''],
-      burningRateThickness2: [''],
+      burningRateWallThickness: [null],
+      gwfi: [null],
+      gwft: [null],
+      burningRateThickness1: [null],
+      burningRateThickness2: [null],
     })
 
     this.generalForm = this._formBuilder.group({
-      density: [''],
-      humidityAbsorption: [''],
-      moldingShrinkageFlow: [''],
-      moldingShrinkageTransverse: [''],
-      mfr: [''],
-      mvr: [''],
-    })
+      density: [null],
+      humidityAbsorption: [null],
+      moldingShrinkageFlow: [null],
+      moldingShrinkageTransverse: [null],
+      mfr: [null],
+      mvr: [null],
+    });
 
     this.electricalForm = this._formBuilder.group({
-      volumeResistivity1: [''],
-      volumeResistivity2: [''],
-      surfaceResistivity: [''],
-      comparativeTracking: [''],
+      volumeResistivity1: [null],
+      volumeResistivity2: [null],
+      surfaceResistivity: [null],
+      comparativeTracking: [null],
+    });
 
-    })
     this.propertiesForm = this._formBuilder.group({
       sustainable: [false],
-      impactModified: [false],
       flameRetardant: [false],
       heatStabilized130: [false],
       heatStabilized160: [false],
@@ -139,28 +162,93 @@ export class AddTestComponent {
       recycledContent: [false],
       additiveManufacturing: [false]
     });
-
-
   }
 
 
+  ngOnInit(): void {
+    this.loadRecipeData();
+
+  }
+
+  goBack() {
+    this.router.navigate(['/gettest']);
+  }
+
+  resetAllForms() {
+    this.sharedForm.reset();
+    this.mechanicalForm.reset();
+    this.temperatureForm.reset();
+    this.flammabilityForm.reset();
+    this.generalForm.reset();
+    this.electricalForm.reset();
+    this.propertiesForm.reset();
+  }
+
+  handleAddToTechnicalSheet(): void {
+  const isPublish = this.sharedForm.get('isPublish')?.value;
+
+  if (isPublish) {
+    // Already published, just submit
+    this.onSubmit();
+  } else {
+    // Show confirmation dialog
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Confirmation',
+        message: 'Do you want to add data in technical sheet?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // User confirmed
+        this.sharedForm.patchValue({ isPublish: true });
+        this.onSubmit();
+      }
+    });
+  }
+}
+
+
 onSubmit() {
+  const adduserId = localStorage.getItem('UserId');
+
+  if (this.sharedForm.invalid) {
+    if (this.sharedForm.get('productName')?.hasError('required')) {
+      this.toastr.error('Please select a Recipe Name.', 'Validation Error');
+    }
+    return;
+  }
+
+  const isFormEmpty = (form: FormGroup): boolean => {
+    return Object.values(form.value).every(value =>
+      value === null || value === '' || value === false
+    );
+  };
+
+  this.sharedForm.patchValue({
+    createdBy: adduserId ? parseInt(adduserId, 10) : 0,
+    createdDate: new Date().toISOString()
+  });
+
   const requestBody = {
-    ...this.sharedForm.value,
-    mechanicalProperty: this.mechanicalForm.value,
-    temperatureProperty: this.temperatureForm.value,
-    flammabilityProperty: this.flammabilityForm.value,
-    generalProperty: this.generalForm.value,
-    electricalProperty: this.electricalForm.value,
-    properties: this.propertiesForm.value
+    test: this.sharedForm.getRawValue(),
+    mechanicalProperty: isFormEmpty(this.mechanicalForm) ? {} : this.mechanicalForm.value,
+    temperatureProperty: isFormEmpty(this.temperatureForm) ? {} : this.temperatureForm.value,
+    flammabilityProperty: isFormEmpty(this.flammabilityForm) ? {} : this.flammabilityForm.value,
+    generalProperty: isFormEmpty(this.generalForm) ? {} : this.generalForm.value,
+    electricalProperty: isFormEmpty(this.electricalForm) ? {} : this.electricalForm.value,
+    properties: isFormEmpty(this.propertiesForm) ? {} : this.propertiesForm.value
   };
 
   console.log('Request Body:', requestBody);
 
-  // Optional: Submit to API
   this.testService.addTest(requestBody).subscribe(
     response => {
-      console.log('Form submitted successfully:', response);
+      this.toastr.success('Submitted successfully');
+      this.resetAllForms();
+      this.router.navigate(['/gettest']);
     },
     error => {
       console.error('Error submitting form:', error);
@@ -169,12 +257,32 @@ onSubmit() {
 }
 
 
-  onCancel() {
-    this.sharedForm.reset();
-    this.mechanicalForm.reset();
-    this.temperatureForm.reset();
-    this.flammabilityForm.reset();
-    this.generalForm.reset();
-    this.propertiesForm.reset();
+
+  loadRecipeData() {
+    this.testService.getRecipeDataForTest().subscribe({
+      next: (data: RecipeDataforTest[]) => {
+        this.recipeData = data;
+        console.log(this.recipeData);
+
+      },
+      error: (err) => {
+        console.error('Error fetching recipe data:', err);
+      }
+    })
   }
+
+  onRecipeSelect(event: any) {
+    const selectedRecipe = this.recipeData.find(r => r.receipeId === event.value);
+    if (selectedRecipe) {
+      this.sharedForm.patchValue({
+        recipeNumber: selectedRecipe.receipeId
+      });
+    }
+  }
+
+  onCancel() {
+    this.resetAllForms();
+    this.router.navigate(['/gettest']);
+  }
+
 }
