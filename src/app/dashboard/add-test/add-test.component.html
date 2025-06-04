@@ -3,7 +3,9 @@
     <h4 class="fw-bold mb-3">Recipe Test</h4>
 
     <div class="d-flex gap-2">
-      <button mat-raised-button color="primary">Add to Technical Data Sheet</button>
+<button mat-raised-button color="primary" (click)="handleAddToTechnicalSheet()">
+  Add to Technical Data Sheet
+</button>
 
       <button (click)="goBack()" class="custom-back-button mb-3">
         <mat-icon>arrow_back</mat-icon>
@@ -58,20 +60,14 @@
             </thead>
             <tbody>
               <tr>
-                <td class="text-start">Tensile modulus (1 mm/min | ISO 527-2)</td>
+                <td class="text-start">Tensile modulus (ISO 527-2)</td>
                 <td><input type="number" formControlName="tensileModulus_DAM" class="form-control form-control-sm "
-                    min="100" max="1000" />
-                  <mat-error
-                    *ngIf="mechanicalForm.get('tensileModulus_DAM')?.hasError('min') || mechanicalForm.get('tensileModulus_DAM')?.hasError('max')">
-                    Value must be between 100 and 10000
-                  </mat-error>
+                   />
+                 
                 </td>
                 <td><input type="number" formControlName="tensileModulus_Conditioned"
-                    class="form-control form-control-sm" min="100" max="1000" />
-                  <mat-error
-                    *ngIf="mechanicalForm.get('tensileModulus_Conditioned')?.hasError('min') || mechanicalForm.get('tensileModulus_Conditioned')?.hasError('max')">
-                    Value must be between 100 and 10000
-                  </mat-error>
+                    class="form-control form-control-sm"/>
+                 
                 </td>
                 <td><input type="number" formControlName="tensileModulus_Conditioned_Mm_Min"
                     class="form-control form-control-sm" min="1" />
@@ -81,23 +77,16 @@
                 </td>
               </tr>
               <tr>
-                <td class="text-start">Stress at yield(50 mm/min | ISO 527-2)</td>
+                <td class="text-start">Stress at yield (ISO 527-2)</td>
 
                 <td>
-                  <input type="number" formControlName="stressAtYield_DAM" class="form-control form-control-sm" min="10"
-                    max="100">
-                  <mat-error
-                    *ngIf="mechanicalForm.get('stressAtYield_DAM')?.hasError('min') || mechanicalForm.get('stressAtYield_DAM')?.hasError('max')">
-                    Value must be between 10 and 100
-                  </mat-error>
+                  <input type="number" formControlName="stressAtYield_DAM" class="form-control form-control-sm" >
+                 
                 </td>
                 <td>
                   <input type="number" formControlName="stressAtYield_Conditioned" class="form-control form-control-sm"
-                    min="10" max="100">
-                  <mat-error
-                    *ngIf="mechanicalForm.get('stressAtYield_Conditioned')?.hasError('min') || mechanicalForm.get('stressAtYield_Conditioned')?.hasError('max')">
-                    Value must be between 10 and 100
-                  </mat-error>
+                   >
+                 
                 </td>
                 <td>
                   <input type="number" formControlName="stressAtYield_Conditioned_Mm_Min"
@@ -109,24 +98,18 @@
               </tr>
 
               <tr>
-                <td class="text-start">Flexural modulus(2 mm/min | ISO 178)</td>
+                <td class="text-start">Flexural modulus(ISO 178)</td>
 
                 <td>
                   <input type="number" formControlName="flexuralModulus_DAM" class="form-control form-control-sm"
-                    min="10" max="100">
-                  <mat-error
-                    *ngIf="mechanicalForm.get('flexuralModulus_DAM')?.hasError('min') || mechanicalForm.get('flexuralModulus_DAM')?.hasError('max')">
-                    Value must be between 10 and 100
-                  </mat-error>
+                    >
+                 
                 </td>
 
                 <td>
                   <input type="number" formControlName="flexuralModulus_Conditioned"
-                    class="form-control form-control-sm" min="10" max="100">
-                  <mat-error
-                    *ngIf="mechanicalForm.get('flexuralModulus_Conditioned')?.hasError('min') || mechanicalForm.get('flexuralModulus_Conditioned')?.hasError('max')">
-                    Value must be between 10 and 100
-                  </mat-error>
+                    class="form-control form-control-sm" >
+                  
                 </td>
 
                 <td>
@@ -139,24 +122,18 @@
               </tr>
 
               <tr>
-                <td class="text-start">Flexural strength(2 mm/min | ISO 178)</td>
+                <td class="text-start">Flexural strength (ISO 178)</td>
 
                 <td>
                   <input type="number" formControlName="flexuralStrength_DAM" class="form-control form-control-sm"
-                    min="10" max="100">
-                  <mat-error
-                    *ngIf="mechanicalForm.get('flexuralStrength_DAM')?.hasError('min') || mechanicalForm.get('flexuralStrength_DAM')?.hasError('max')">
-                    Value must be between 10 and 100
-                  </mat-error>
+                   >
+                  
                 </td>
 
                 <td>
                   <input type="number" formControlName="flexuralStrength_Conditioned"
-                    class="form-control form-control-sm" min="10" max="100">
-                  <mat-error
-                    *ngIf="mechanicalForm.get('flexuralStrength_Conditioned')?.hasError('min') || mechanicalForm.get('flexuralStrength_Conditioned')?.hasError('max')">
-                    Value must be between 10 and 100
-                  </mat-error>
+                    class="form-control form-control-sm">
+                  
                 </td>
 
                 <td>
@@ -169,24 +146,17 @@
               </tr>
 
               <tr>
-                <td class="text-start">Strain at yield (50 mm/min | ISO 527-2)</td>
+                <td class="text-start">Strain at yield (ISO 527-2)</td>
 
                 <td>
-                  <input type="number" formControlName="strainAtYield_DAM" class="form-control form-control-sm" min="10"
-                    max="100" />
-                  <mat-error
-                    *ngIf="mechanicalForm.get('strainAtYield_DAM')?.hasError('min') || mechanicalForm.get('strainAtYield_DAM')?.hasError('max')">
-                    Value must be between 10 and 100
-                  </mat-error>
+                  <input type="number" formControlName="strainAtYield_DAM" class="form-control form-control-sm" />
+                 
                 </td>
 
                 <td>
                   <input type="number" formControlName="strainAtYield_Conditioned" class="form-control form-control-sm"
-                    min="10" max="100" />
-                  <mat-error
-                    *ngIf="mechanicalForm.get('strainAtYield_Conditioned')?.hasError('min') || mechanicalForm.get('strainAtYield_Conditioned')?.hasError('max')">
-                    Value must be between 10 and 100
-                  </mat-error>
+                   />
+                 
                 </td>
 
                 <td>
@@ -202,21 +172,15 @@
                 <td class="text-start">Strain at break (50 mm/min | ISO 527-2)</td>
 
                 <td>
-                  <input type="number" formControlName="strainAtBreak_DAM" class="form-control form-control-sm" min="10"
-                    max="100" />
-                  <mat-error
-                    *ngIf="mechanicalForm.get('strainAtBreak_DAM')?.hasError('min') || mechanicalForm.get('strainAtBreak_DAM')?.hasError('max')">
-                    Value must be between 10 and 100
-                  </mat-error>
+                  <input type="number" formControlName="strainAtBreak_DAM" class="form-control form-control-sm"
+                    />
+                 
                 </td>
 
                 <td>
                   <input type="number" formControlName="strainAtBreak_Conditioned" class="form-control form-control-sm"
-                    min="10" max="100" />
-                  <mat-error
-                    *ngIf="mechanicalForm.get('strainAtBreak_Conditioned')?.hasError('min') || mechanicalForm.get('strainAtBreak_Conditioned')?.hasError('max')">
-                    Value must be between 10 and 100
-                  </mat-error>
+                    />
+                
                 </td>
 
                 <td>
@@ -232,11 +196,8 @@
                 <td class="text-start">Charpy Notched Impact Strength (23°C)</td>
                 <td>
                   <input type="number" formControlName="charpyNotchedImpact23" class="form-control form-control-sm"
-                    min="1" max="1000" />
-                  <mat-error
-                    *ngIf="mechanicalForm.get('charpyNotchedImpact23')?.hasError('min') || mechanicalForm.get('charpyNotchedImpact23')?.hasError('max')">
-                    Value must be between 1 and 1000
-                  </mat-error>
+                   />
+                  
                 </td>
                 <td></td>
                 <td></td>
@@ -248,7 +209,7 @@
                 <td><input type="number" formControlName="charpyNotchedImpactMinus30"
                     class="form-control form-control-sm" min="-30" />
                   <mat-error *ngIf="mechanicalForm.get('charpyNotchedImpactMinus30')?.hasError('min')">
-                    Minimum value is 50
+                    Minimum value is -30
                   </mat-error>
                 </td>
                 <td></td>
@@ -259,19 +220,13 @@
                 <td class="text-start">Flexural strain at break (2 mm/min | ISO 178)</td>
                 <td>
                   <input type="number" formControlName="flexuralStrainBreak_DAM" class="form-control form-control-sm"
-                    min="1" max="100" />
-                  <mat-error
-                    *ngIf="mechanicalForm.get('flexuralStrainBreak_DAM')?.hasError('min') || mechanicalForm.get('flexuralStrainBreak_DAM')?.hasError('max')">
-                    Value must be between 1 and 100
-                  </mat-error>
+                    />
+                  
                 </td>
                 <td>
                   <input type="number" formControlName="flexuralStrainBreak_Conditioned"
-                    class="form-control form-control-sm" min="1" max="100" />
-                  <mat-error
-                    *ngIf="mechanicalForm.get('flexuralStrainBreak_Conditioned')?.hasError('min') || mechanicalForm.get('flexuralStrainBreak_Conditioned')?.hasError('max')">
-                    Value must be between 1 and 100
-                  </mat-error>
+                    class="form-control form-control-sm" />
+                 
                 </td>
                 <td></td>
               </tr>
@@ -280,20 +235,13 @@
               <tr>
                 <td class="text-start">Charpy impact strength (23°C | ISO 179-1/1eU)</td>
                 <td>
-                  <input type="number" formControlName="charpyImpact_DAM" class="form-control form-control-sm" min="1"
-                    max="1000" />
-                  <mat-error
-                    *ngIf="mechanicalForm.get('charpyImpact_DAM')?.hasError('min') || mechanicalForm.get('charpyImpact_DAM')?.hasError('max')">
-                    Value must be between 1 and 1000
-                  </mat-error>
+                  <input type="number" formControlName="charpyImpact_DAM" class="form-control form-control-sm"/>
+                  
                 </td>
                 <td>
                   <input type="number" formControlName="charpyImpact_Conditioned" class="form-control form-control-sm"
-                    min="1" max="1000" />
-                  <mat-error
-                    *ngIf="mechanicalForm.get('charpyImpact_Conditioned')?.hasError('min') || mechanicalForm.get('charpyImpact_Conditioned')?.hasError('max')">
-                    Value must be between 1 and 1000
-                  </mat-error>
+                   />
+                 
                 </td>
                 <td></td>
               </tr>
@@ -302,39 +250,26 @@
                 <td class="text-start">Izod-notched impact strength (23°C | ISO 180/1A)</td>
                 <td>
                   <input type="number" formControlName="izodNotchedImpact_DAM" class="form-control form-control-sm"
-                    min="1" max="1000" />
-                  <mat-error
-                    *ngIf="mechanicalForm.get('izodNotchedImpact_DAM')?.hasError('min') || mechanicalForm.get('izodNotchedImpact_DAM')?.hasError('max')">
-                    Value must be between 1 and 1000
-                  </mat-error>
+                   />
+                 
                 </td>
                 <td>
                   <input type="number" formControlName="izodNotchedImpact_Conditioned"
-                    class="form-control form-control-sm" min="1" max="1000" />
-                  <mat-error
-                    *ngIf="mechanicalForm.get('izodNotchedImpact_Conditioned')?.hasError('min') || mechanicalForm.get('izodNotchedImpact_Conditioned')?.hasError('max')">
-                    Value must be between 1 and 1000
-                  </mat-error>
+                    class="form-control form-control-sm" />
+                  
                 </td>
                 <td></td>
               </tr>
               <tr>
                 <td class="text-start">Shore D Hardness (23°C | DIN 53 505)</td>
                 <td>
-                  <input type="number" formControlName="shoreDHardness_DAM" class="form-control form-control-sm" min="0"
-                    max="100" />
-                  <mat-error
-                    *ngIf="mechanicalForm.get('shoreDHardness_DAM')?.hasError('min') || mechanicalForm.get('shoreDHardness_DAM')?.hasError('max')">
-                    Value must be between 0 and 100
-                  </mat-error>
+                  <input type="number" formControlName="shoreDHardness_DAM" class="form-control form-control-sm" />
+                 
                 </td>
                 <td>
                   <input type="number" formControlName="shoreDHardness_Conditioned" class="form-control form-control-sm"
-                    min="0" max="100" />
-                  <mat-error
-                    *ngIf="mechanicalForm.get('shoreDHardness_Conditioned')?.hasError('min') || mechanicalForm.get('shoreDHardness_Conditioned')?.hasError('max')">
-                    Value must be between 0 and 100
-                  </mat-error>
+                   />
+                 
                 </td>
                 <td></td>
               </tr>

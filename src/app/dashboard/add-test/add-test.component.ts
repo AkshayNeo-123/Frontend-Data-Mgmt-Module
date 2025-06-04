@@ -184,16 +184,14 @@ export class AddTestComponent {
     this.propertiesForm.reset();
   }
 
-  onSubmit() {
-    const adduserId = localStorage.getItem('UserId');
+  handleAddToTechnicalSheet(): void {
+  const isPublish = this.sharedForm.get('isPublish')?.value;
 
-    if (this.sharedForm.invalid) {
-      if (this.sharedForm.get('productName')?.hasError('required')) {
-        this.toastr.error('Please select a Recipe Name.', 'Validation Error');
-      }
-      return;
-    }
-
+  if (isPublish) {
+    // Already published, just submit
+    this.onSubmit();
+  } else {
+    // Show confirmation dialog
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '400px',
       data: {
@@ -203,44 +201,61 @@ export class AddTestComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.sharedForm.patchValue({ isPublish: result ? true : false });
-
-      // Helper function to check if all values are default/null/false
-      const isFormEmpty = (form: FormGroup): boolean => {
-        return Object.values(form.value).every(value =>
-          value === null || value === '' || value === false
-        );
-      };
-
-      this.sharedForm.patchValue({
-        createdBy: adduserId ? parseInt(adduserId, 10) : 0,
-        createdDate: new Date().toISOString()
-      });
-
-      const requestBody = {
-        test: this.sharedForm.getRawValue(),
-        mechanicalProperty: isFormEmpty(this.mechanicalForm) ? {} : this.mechanicalForm.value,
-        temperatureProperty: isFormEmpty(this.temperatureForm) ? {} : this.temperatureForm.value,
-        flammabilityProperty: isFormEmpty(this.flammabilityForm) ? {} : this.flammabilityForm.value,
-        generalProperty: isFormEmpty(this.generalForm) ? {} : this.generalForm.value,
-        electricalProperty: isFormEmpty(this.electricalForm) ? {} : this.electricalForm.value,
-        properties: isFormEmpty(this.propertiesForm) ? {} : this.propertiesForm.value
-      };
-
-      console.log('Request Body:', requestBody);
-
-      this.testService.addTest(requestBody).subscribe(
-        response => {
-          this.toastr.success('Submitted successfully');
-          this.resetAllForms();
-          this.router.navigate(['/gettest']);
-        },
-        error => {
-          console.error('Error submitting form:', error);
-        }
-      );
+      if (result) {
+        // User confirmed
+        this.sharedForm.patchValue({ isPublish: true });
+        this.onSubmit();
+      }
     });
   }
+}
+
+
+onSubmit() {
+  const adduserId = localStorage.getItem('UserId');
+
+  if (this.sharedForm.invalid) {
+    if (this.sharedForm.get('productName')?.hasError('required')) {
+      this.toastr.error('Please select a Recipe Name.', 'Validation Error');
+    }
+    return;
+  }
+
+  const isFormEmpty = (form: FormGroup): boolean => {
+    return Object.values(form.value).every(value =>
+      value === null || value === '' || value === false
+    );
+  };
+
+  this.sharedForm.patchValue({
+    createdBy: adduserId ? parseInt(adduserId, 10) : 0,
+    createdDate: new Date().toISOString()
+  });
+
+  const requestBody = {
+    test: this.sharedForm.getRawValue(),
+    mechanicalProperty: isFormEmpty(this.mechanicalForm) ? {} : this.mechanicalForm.value,
+    temperatureProperty: isFormEmpty(this.temperatureForm) ? {} : this.temperatureForm.value,
+    flammabilityProperty: isFormEmpty(this.flammabilityForm) ? {} : this.flammabilityForm.value,
+    generalProperty: isFormEmpty(this.generalForm) ? {} : this.generalForm.value,
+    electricalProperty: isFormEmpty(this.electricalForm) ? {} : this.electricalForm.value,
+    properties: isFormEmpty(this.propertiesForm) ? {} : this.propertiesForm.value
+  };
+
+  console.log('Request Body:', requestBody);
+
+  this.testService.addTest(requestBody).subscribe(
+    response => {
+      this.toastr.success('Submitted successfully');
+      this.resetAllForms();
+      this.router.navigate(['/gettest']);
+    },
+    error => {
+      console.error('Error submitting form:', error);
+    }
+  );
+}
+
 
 
   loadRecipeData() {
