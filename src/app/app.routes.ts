@@ -26,7 +26,6 @@ import { PermissionServiceService } from './services/permission-service.service'
 import { permissionGuard } from './permission.guard';
 import { AddTestComponent } from './dashboard/add-test/add-test.component';
 import { GetTestComponent } from './dashboard/get-test/get-test.component';
-import { AddTestComponent } from './dashboard/add-test/add-test.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 
 

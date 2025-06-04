@@ -46,7 +46,7 @@
         <div class="progress-grid mb-3">
           <div class="progress-item">
             <label class="progress-label">
-              <b>Tensile Modulus in MPa <br>{{ rec.tensileModulus_DAM }}</b>
+              <b>Tensile Modulus  <br>{{ rec.tensileModulus_DAM }}</b>
             </label>
             <div class="progress">
               <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="rec.tensileModulus_DAM"
@@ -57,7 +57,7 @@
 
           <div class="progress-item">
             <label class="progress-label">
-              <b>Charpy IStrength in KJ/m³ <br>{{ rec.charpyImpact_DAM }}</b>
+              <b>Charpy IStrength  <br>{{ rec.charpyImpact_DAM }}</b>
             </label>
             <div class="progress">
               <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="rec.charpyImpact_DAM" aria-valuemin="0"
@@ -80,7 +80,7 @@
 
 
 
-        <div *ngIf="testData" class="container custom-scope">
+        <div *ngIf="testData" class="container">
 
           <!-- <hr *ngIf="hasAnyProperty(testData)">
           <h4 *ngIf="hasAnyProperty(testData)"><b> Testing Properties</b></h4>
