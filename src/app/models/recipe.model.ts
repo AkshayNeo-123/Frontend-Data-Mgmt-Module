@@ -43,6 +43,10 @@ export interface RecipeAndProject{
   productName?:string;
   projectNumber?:string,
   description?:string
+  tensileModulus_DAM?:number,
+  charpyImpact_DAM?:number,
+  flexuralStrength_DAM?:number;
+
  
 }
 

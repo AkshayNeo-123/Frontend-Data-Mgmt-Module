@@ -46,6 +46,7 @@ recipeId!:number;
     recipeNumber: 0
     
   };
+  classes: string = "col-md-6";
 
 compoundingData?:  CompoundingDataDTO[] | null = null;
 injectionData:AddInjectionMoulding[]|null=null;
@@ -125,9 +126,20 @@ injectionData:AddInjectionMoulding[]|null=null;
       this.recipeService.getTestByRecipe(recipeId).subscribe({
       next:(data)=>{
         this.testData=data;
+        console.log({"this.testData?.mechanicalPropertyDto": this.testData?.mechanicalPropertyDto});
+        if (!this.testData?.mechanicalPropertyDto) {
+          this.classes = "col-md-12"
+        }
+        
         console.log("test data is:",this.testData);
       },
-      error:(err)=>console.error('Error fetching recipe details', err)
+      error:(err)=>{
+        console.log({"this.testData?.mechanicalPropertyDto": this.testData?.mechanicalPropertyDto});
+        if (!this.testData?.mechanicalPropertyDto) {
+          this.classes = "col-md-12"
+        }
+        console.error('Error fetching recipe details', err)
+      }
       })
 
     }
@@ -143,11 +155,11 @@ downloadPDF(): void {
     }
 
     const options = {
-       margin:10,
+       margin:4 ,
       
       filename: 'recipeDetails.pdf',
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 3 },
+      html2canvas: { scale: 2 },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       pagebreak: { mode: ['avoid-all','css', 'legacy'] },
       avoid: ['.no-break'] 
@@ -180,5 +192,10 @@ get hasCompoundingData(): boolean {
 get hasInjectionData():boolean{
   return Array.isArray(this.injectionData)&& this.injectionData?.length>0;
 }
+
+
+
+
+
 }
 
