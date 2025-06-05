@@ -99,8 +99,8 @@ export class GetTestComponent implements OnInit {
     this.router.navigate(['/add-test']);
   }
 
-  editTest(row: any) {
-    console.log('Edit:', row);
+  editTest(test: any) {
+    this.router.navigate(['/addtest', test.testId]);
   }
 
   // deleteTest(name: string) {
