@@ -197,7 +197,7 @@ export class AddTestComponent implements OnInit {
   patchFormsWithData(data: any): void {
     // Patch shared form
     this.sharedForm.patchValue({
-      productName: data.test.recipeNumber, // assuming recipeNumber is the ID
+      productName: data.test.recipeNumber, 
       recipeNumber: data.test.recipeNumber,
       comment: data.test.comment,
       isPublish: data.test.isPublish,
@@ -359,10 +359,21 @@ export class AddTestComponent implements OnInit {
       electricalProperty: isFormEmpty(this.electricalForm) ? {} : this.electricalForm.value,
       properties: isFormEmpty(this.propertiesForm) ? {} : this.propertiesForm.value
     };
+    const requestBodyforupdate = {
+      test: this.sharedForm.getRawValue(),
+      mechanicalProperty: isFormEmpty(this.mechanicalForm) ? null : this.mechanicalForm.value,
+      temperatureProperty: isFormEmpty(this.temperatureForm) ? null : this.temperatureForm.value,
+      flammabilityProperty: isFormEmpty(this.flammabilityForm) ? null : this.flammabilityForm.value,
+      generalProperty: isFormEmpty(this.generalForm) ? null : this.generalForm.value,
+      electricalProperty: isFormEmpty(this.electricalForm) ? null : this.electricalForm.value,
+      properties: isFormEmpty(this.propertiesForm) ? null : this.propertiesForm.value
+    };
 
     if (this.isUpdateMode && this.testId) {
       // Update existing test
-      this.testService.updateTest(this.testId, requestBody).subscribe(
+      console.log("updatyed Data",requestBody);
+      
+      this.testService.updateTest(this.testId, requestBodyforupdate).subscribe(
         response => {
           this.toastr.success('Test updated successfully');
           this.router.navigate(['/gettest']);
