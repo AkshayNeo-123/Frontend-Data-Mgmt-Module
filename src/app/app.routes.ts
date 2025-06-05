@@ -167,6 +167,8 @@ export const routes: Routes = [
 
   { path: 'gettest', component: GetTestComponent, canActivate: [permissionGuard], data: { resource: 'Testing', action: 'canView' }},
   { path: 'add-test', component: AddTestComponent},
+  { path: 'addtest/:id', component: AddTestComponent },
+  { path: 'addtest', component: AddTestComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' },

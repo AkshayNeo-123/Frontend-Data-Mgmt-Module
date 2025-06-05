@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -39,12 +40,12 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSelectModule,
     MatIcon,
     ConfirmDialogComponent,
-    MatDialogModule
+    MatDialogModule,
   ],
   templateUrl: './add-test.component.html',
   styleUrls: ['./add-test.component.css'],
 })
-export class AddTestComponent {
+export class AddTestComponent implements OnInit {
   sharedForm: FormGroup;
   mechanicalForm: FormGroup;
   temperatureForm: FormGroup;
@@ -53,15 +54,17 @@ export class AddTestComponent {
   electricalForm: FormGroup;
   propertiesForm: FormGroup;
   recipeData: RecipeDataforTest[] = [];
+  isUpdateMode = false;
+  testId: number | null = null;
 
 
-  constructor(private _formBuilder: FormBuilder,
+  constructor(
+    private _formBuilder: FormBuilder,
     private testService: TestService,
     private router: Router,
     private toastr: ToastrService,
-    private dialog: MatDialog
-
-
+    private dialog: MatDialog,
+    private route: ActivatedRoute,
   ) {
     // Common fields shown outside stepper
     this.sharedForm = this._formBuilder.group({
@@ -168,6 +171,69 @@ export class AddTestComponent {
   ngOnInit(): void {
     this.loadRecipeData();
 
+    //checking if we're in update mode
+    this.route.params.subscribe(params => {
+      if (params['id']) {
+        this.isUpdateMode = true;
+        this.testId = +params['id'];
+        this.loadTestData(this.testId);
+      }
+    });
+
+  } 
+
+  loadTestData(testId: number): void {
+    this.testService.getTestById(testId).subscribe({
+      next: (testData) => {
+        this.patchFormsWithData(testData);
+      },
+      error: (err) => {
+        console.error('Error loading test data:', err);
+        this.toastr.error('Failed to load test data');
+      }
+    });
+  }
+
+  patchFormsWithData(data: any): void {
+    // Patch shared form
+    this.sharedForm.patchValue({
+      productName: data.test.recipeNumber, // assuming recipeNumber is the ID
+      recipeNumber: data.test.recipeNumber,
+      comment: data.test.comment,
+      isPublish: data.test.isPublish,
+      createdBy: data.test.createdBy,
+      createdDate: data.test.createdDate
+    });
+
+    // Patch mechanical properties if they exist
+    if (data.mechanicalProperty) {
+      this.mechanicalForm.patchValue(data.mechanicalProperty);
+    }
+
+    // Patch temperature properties if they exist
+    if (data.temperatureProperty) {
+      this.temperatureForm.patchValue(data.temperatureProperty);
+    }
+
+    // Patch flammability properties if they exist
+    if (data.flammabilityProperty) {
+      this.flammabilityForm.patchValue(data.flammabilityProperty);
+    }
+
+    // Patch general properties if they exist
+    if (data.generalProperty) {
+      this.generalForm.patchValue(data.generalProperty);
+    }
+
+    // Patch electrical properties if they exist
+    if (data.electricalProperty) {
+      this.electricalForm.patchValue(data.electricalProperty);
+    }
+
+    // Patch properties if they exist
+    if (data.properties) {
+      this.propertiesForm.patchValue(data.properties);
+    }
   }
 
   goBack() {
@@ -193,6 +259,76 @@ export class AddTestComponent {
   }
 
 
+  // onSubmit() {
+  //   const adduserId = localStorage.getItem('UserId');
+
+  //   if (this.sharedForm.invalid) {
+  //     if (this.sharedForm.get('productName')?.hasError('required')) {
+  //       this.toastr.error('Please select a Recipe Name.', 'Validation Error');
+  //     }
+  //     return;
+  //   }
+
+  //   const isFormEmpty = (form: FormGroup): boolean => {
+  //     return Object.values(form.value).every(
+  //       (value) => value === null || value === '' || value === false
+  //     );
+  //   };
+
+  //   this.sharedForm.patchValue({
+  //     createdBy: adduserId ? parseInt(adduserId, 10) : 0,
+  //     createdDate: new Date().toISOString()
+  //   });
+
+  //   const requestBody = {
+  //     test: this.sharedForm.getRawValue(),
+  //     mechanicalProperty: isFormEmpty(this.mechanicalForm) ? {} : this.mechanicalForm.value,
+  //     temperatureProperty: isFormEmpty(this.temperatureForm) ? {} : this.temperatureForm.value,
+  //     flammabilityProperty: isFormEmpty(this.flammabilityForm) ? {} : this.flammabilityForm.value,
+  //     generalProperty: isFormEmpty(this.generalForm) ? {} : this.generalForm.value,
+  //     electricalProperty: isFormEmpty(this.electricalForm) ? {} : this.electricalForm.value,
+  //     properties: isFormEmpty(this.propertiesForm) ? {} : this.propertiesForm.value
+  //   };
+
+  //   const isPublish = this.sharedForm.get('isPublish')?.value;
+
+  //   if (!isPublish) {
+  //     // Show confirmation dialog if isPublish is false
+  //     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+  //       width: '400px',
+  //       data: {
+  //         title: 'Confirmation',
+  //         message: 'Do you want to add data in technical sheet?',
+  //       },
+  //     });
+
+  //     dialogRef.afterClosed().subscribe((result) => {
+  //       if (result) {
+  //         // User confirmed: set isPublish to true and submit
+  //         this.sharedForm.patchValue({
+  //           isPublish: true,
+  //           createdBy: adduserId ? parseInt(adduserId, 10) : 0,
+  //           createdDate: new Date().toISOString(),
+  //         });
+
+  //         const requestBody = this.buildRequestBody(isFormEmpty);
+  //         this.submitForm(requestBody);
+  //         this.toastr.success('Added in technical sheet');
+  //       }
+  //     });
+  //     return; // Wait for dialog response, do not continue
+  //   }
+
+  //   // If isPublish is true, submit form directly
+  //   this.sharedForm.patchValue({
+  //     createdBy: adduserId ? parseInt(adduserId, 10) : 0,
+  //     createdDate: new Date().toISOString(),
+  //   });
+
+  //   const requestBody = this.buildRequestBody(isFormEmpty);
+  //   this.submitForm(requestBody);
+  // }
+
   onSubmit() {
     const adduserId = localStorage.getItem('UserId');
 
@@ -204,48 +340,51 @@ export class AddTestComponent {
     }
 
     const isFormEmpty = (form: FormGroup): boolean => {
-      return Object.values(form.value).every(
-        (value) => value === null || value === '' || value === false
+      return Object.values(form.value).every(value =>
+        value === null || value === '' || value === false
       );
     };
 
-    const isPublish = this.sharedForm.get('isPublish')?.value;
-
-    if (!isPublish) {
-      // Show confirmation dialog if isPublish is false
-      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-        width: '400px',
-        data: {
-          title: 'Confirmation',
-          message: 'Do you want to add data in technical sheet?',
-        },
-      });
-
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          // User confirmed: set isPublish to true and submit
-          this.sharedForm.patchValue({
-            isPublish: true,
-            createdBy: adduserId ? parseInt(adduserId, 10) : 0,
-            createdDate: new Date().toISOString(),
-          });
-
-          const requestBody = this.buildRequestBody(isFormEmpty);
-          this.submitForm(requestBody);
-          this.toastr.success('Added in technical sheet');
-        }
-      });
-      return; // Wait for dialog response, do not continue
-    }
-
-    // If isPublish is true, submit form directly
     this.sharedForm.patchValue({
       createdBy: adduserId ? parseInt(adduserId, 10) : 0,
-      createdDate: new Date().toISOString(),
+      createdDate: new Date().toISOString()
     });
 
-    const requestBody = this.buildRequestBody(isFormEmpty);
-    this.submitForm(requestBody);
+    const requestBody = {
+      test: this.sharedForm.getRawValue(),
+      mechanicalProperty: isFormEmpty(this.mechanicalForm) ? {} : this.mechanicalForm.value,
+      temperatureProperty: isFormEmpty(this.temperatureForm) ? {} : this.temperatureForm.value,
+      flammabilityProperty: isFormEmpty(this.flammabilityForm) ? {} : this.flammabilityForm.value,
+      generalProperty: isFormEmpty(this.generalForm) ? {} : this.generalForm.value,
+      electricalProperty: isFormEmpty(this.electricalForm) ? {} : this.electricalForm.value,
+      properties: isFormEmpty(this.propertiesForm) ? {} : this.propertiesForm.value
+    };
+
+    if (this.isUpdateMode && this.testId) {
+      // Update existing test
+      this.testService.updateTest(this.testId, requestBody).subscribe(
+        response => {
+          this.toastr.success('Test updated successfully');
+          this.router.navigate(['/gettest']);
+        },
+        error => {
+          console.error('Error updating test:', error);
+          this.toastr.error('Failed to update test');
+        }
+      );
+    } else {
+      // Create new test
+      this.testService.addTest(requestBody).subscribe(
+        response => {
+          this.toastr.success('Submitted successfully');
+          this.resetAllForms();
+          this.router.navigate(['/gettest']);
+        },
+        error => {
+          console.error('Error submitting form:', error);
+        }
+      );
+    }
   }
 
   private buildRequestBody(isFormEmpty: (form: FormGroup) => boolean) {
