@@ -38,7 +38,7 @@
 
   <table
     mat-table
-    [dataSource]="testList"
+    [dataSource]="dataSource"
     matSort
     class="styled-table table table-bordered table-striped table-hover mat-elevation-z8"
   >
@@ -154,8 +154,10 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
-  <mat-paginator
-    [pageSizeOptions]="[5, 10, 25]"
-    showFirstLastButtons
-  ></mat-paginator>
+  <mat-paginator 
+  [length]="dataSource.data.length"
+  [pageSize]="5"
+  [pageSizeOptions]="[5, 10, 25]" 
+  showFirstLastButtons>
+</mat-paginator>
 </div>

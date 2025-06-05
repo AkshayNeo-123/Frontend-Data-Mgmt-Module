@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -40,11 +40,15 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './get-test.component.html',
   styleUrls: ['./get-test.component.css'],
 })
-export class GetTestComponent implements OnInit {
-  constructor(private toastr: ToastrService, private router: Router,private testService:TestService,private dialog:MatDialog) {} // ✅ injected Router
-    
+export class GetTestComponent implements OnInit,AfterViewInit {
+  constructor(
+    private toastr: ToastrService,
+    private router: Router,
+    private testService: TestService,
+    private dialog: MatDialog
+  ) {}
+
   testList: Test[] = [];
-  
 
   displayedColumns: string[] = [
     'productName',
@@ -59,16 +63,18 @@ export class GetTestComponent implements OnInit {
     'actions',
   ];
 
-  dataSource = new MatTableDataSource([
-  ]);
+  dataSource = new MatTableDataSource<Test>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
+    
+    this.getdata();
+  }
+  ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.getdata();
   }
 
   applyFilter(event: Event) {
@@ -77,24 +83,22 @@ export class GetTestComponent implements OnInit {
       .toLowerCase();
     this.dataSource.filter = filterValue;
   }
-  getdata(){
+  getdata() {
     this.testService.getAllTest().subscribe({
-      next:(data:Test[])=>{
-        this.testList=data;
+      next: (data: Test[]) => {
+        this.testList = data;
+        this.dataSource.data = this.testList;
         console.log(this.testList);
+        // console.log('data'+this.dataSource);
+       
         
-
       },
       error: (err) => {
-      console.error('Error fetching test data:', err);
-    }
-    })
-
+        console.error('Error fetching test data:', err);
+      },
+    });
   }
 
-
-
-  
   goToAddPage() {
     this.router.navigate(['/add-test']);
   }
@@ -107,47 +111,44 @@ export class GetTestComponent implements OnInit {
   //   console.log('Delete:', name);
   // }
 
- deleteTest(id: any) {
-  console.log('testId='+id);
-  
-  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-    width: '350px',
-    data: {
-      title: 'Confirm Deletion',
-      message: 'Are you sure you want to delete this Project?'
-    }
-  });
-  
-  const deletedBY = Number(localStorage.getItem('UserId'));
-  
-  dialogRef.afterClosed().subscribe(result => {
-    if (result === true) {
-      this.testService.deleteTest(id, deletedBY).subscribe({
-        next: (data: any) => {
-          this.toastr.success('Deleted successfully', 'Success', {
-            timeOut: 5000
-          });
-          this.getdata();
-          if (this.paginator) {
-            this.paginator.firstPage();
-          }
-          // You might want to refresh the list here or remove the deleted item from data source
-        },
-        error: (err: any) => {
-          console.error('Error:', err);
-          this.toastr.error('Something went wrong!', 'Error', {
-            timeOut: 5000
-          });
-        }
-      });
-    } else {
-      this.toastr.info('Deletion cancelled','',{
-        timeOut: 5000
-      });
-    }
-  });
-}
+  deleteTest(id: any) {
+    console.log('testId=' + id);
 
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Confirm Deletion',
+        message: 'Are you sure you want to delete this Project?',
+      },
+    });
 
-  
+    const deletedBY = Number(localStorage.getItem('UserId'));
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.testService.deleteTest(id, deletedBY).subscribe({
+          next: (data: any) => {
+            this.toastr.success('Deleted successfully', 'Success', {
+              timeOut: 5000,
+            });
+            this.getdata();
+            if (this.paginator) {
+              this.paginator.firstPage();
+            }
+            // You might want to refresh the list here or remove the deleted item from data source
+          },
+          error: (err: any) => {
+            console.error('Error:', err);
+            this.toastr.error('Something went wrong!', 'Error', {
+              timeOut: 5000,
+            });
+          },
+        });
+      } else {
+        this.toastr.info('Deletion cancelled', '', {
+          timeOut: 5000,
+        });
+      }
+    });
+  }
 }
