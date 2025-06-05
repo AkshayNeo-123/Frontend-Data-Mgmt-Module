@@ -34,7 +34,7 @@ deleteTest(testid:number,deletedBY:number): Observable<any> {
 }
 
     updateTest(testId: number, data: any): Observable<any> {
-  return this.http.put<any>(`${this.baseUrl}/UpdateTest/${testId}`, data);
+  return this.http.put<any>(`${this.baseUrl}/Update/${testId}`, data);
 }
 
 }
