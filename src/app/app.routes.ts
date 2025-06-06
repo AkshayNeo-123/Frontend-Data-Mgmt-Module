@@ -165,7 +165,7 @@ export const routes: Routes = [
   { path: 'comp-inject', component:GetCompInjectComponent},
    { path: 'recipedetails', component: RecipedetailsComponent },
 
-  { path: 'gettest', component: GetTestComponent, canActivate: [permissionGuard], data: { resource: 'Testing', action: 'canView' }},
+  { path: 'gettest', component: GetTestComponent, canActivate: [permissionGuard], data: { resource: 'Test List', action: 'canView' }},
   { path: 'add-test', component: AddTestComponent},
   { path: 'addtest/:id', component: AddTestComponent },
   { path: 'addtest', component: AddTestComponent },

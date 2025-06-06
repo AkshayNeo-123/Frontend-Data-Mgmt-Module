@@ -74,9 +74,9 @@ export class GetTestComponent implements OnInit,AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
-    this.canAddTest = this.permissionService.hasPermission('Testing', 'canCreate');
-    this.canEditTest = this.permissionService.hasPermission('Testing', 'canEdit');
-    this.canDeleteTest = this.permissionService.hasPermission('Testing', 'canDelete');
+    this.canAddTest = this.permissionService.hasPermission('Test List', 'canCreate');
+    this.canEditTest = this.permissionService.hasPermission('Test List', 'canEdit');
+    this.canDeleteTest = this.permissionService.hasPermission('Test List', 'canDelete');
     if(this.canEditTest||this.canDeleteTest){
       this.displayedColumns.push('actions');
     } 
