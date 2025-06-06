@@ -148,7 +148,7 @@ export const routes: Routes = [
 
     canActivate: [permissionGuard],
     data: {
-      resource: 'Role Management',
+      resource: 'Role',
       action: 'canView'
     }
   },
@@ -158,7 +158,7 @@ export const routes: Routes = [
   { path: 'manageusers', component: ManageusersComponent ,
     canActivate: [permissionGuard],
     data: {
-      resource: 'User Management',
+      resource: 'User',
       action: 'canView'
     }
   },

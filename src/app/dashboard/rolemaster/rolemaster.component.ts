@@ -54,9 +54,9 @@ export class RolemasterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.canAddRole = this.permissionService.hasPermission('Role Management', 'canCreate');
-    this.canEditRole = this.permissionService.hasPermission('Role Management', 'canEdit');
-    this.canDeleteRole = this.permissionService.hasPermission('Role Management', 'canDelete');
+    this.canAddRole = this.permissionService.hasPermission('Role', 'canCreate');
+    this.canEditRole = this.permissionService.hasPermission('Role', 'canEdit');
+    this.canDeleteRole = this.permissionService.hasPermission('Role', 'canDelete');
     if (this.canEditRole || this.canDeleteRole) {
       this.displayedColumns.push('actions');
     }

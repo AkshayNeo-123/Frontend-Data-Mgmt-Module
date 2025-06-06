@@ -20,6 +20,7 @@ export class ForgotPasswordComponent {
     otpSent:boolean = false;
     otpVerified = false;
     errorMessage='';
+    showConfirmPassword = false;
 
   constructor(private fb: FormBuilder, private authService: AuthService, @Inject(Router) private router: Router) {
     this.forgotForm = this.fb.group({
@@ -104,5 +105,11 @@ export class ForgotPasswordComponent {
 
     });
   }
+
+  
+toggleConfirmPasswordVisibility() {
+  this.showConfirmPassword = !this.showConfirmPassword;
+}
+
 
 }
