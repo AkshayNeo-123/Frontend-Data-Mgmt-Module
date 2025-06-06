@@ -26,7 +26,7 @@
 
     <div>
       <button
-        
+        *ngIf="canAddTest"
         mat-raised-button
         class="me-5 add-material-btn w-100"
         (click)="goToAddPage()"
@@ -133,15 +133,15 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="actions">
+    <ng-container *ngIf="canEditTest || canDeleteTest" matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let element">
-        <i
+        <i *ngIf="canEditTest"
         class="fas fa-pencil-alt me-2"
         (click)="editTest(element)"
         matTooltip="Edit"
         ></i>
-        <i
+        <i *ngIf="canDeleteTest"
         class="fas fa-trash-alt"
         (click)="deleteTest(element.testId)"
         matTooltip="Delete"

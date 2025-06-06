@@ -18,6 +18,7 @@ import { TestService } from '../../services/test.service';
 import { Test } from '../../models/test';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { ToastrService } from 'ngx-toastr';
+import { PermissionServiceService } from '../../services/permission-service.service';
 
 @Component({
   selector: 'app-get-test',
@@ -41,11 +42,15 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./get-test.component.css'],
 })
 export class GetTestComponent implements OnInit,AfterViewInit {
+  canAddTest = false;
+  canEditTest = false;
+  canDeleteTest = false;
   constructor(
     private toastr: ToastrService,
     private router: Router,
     private testService: TestService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private permissionService: PermissionServiceService
   ) {}
 
   testList: Test[] = [];
@@ -60,7 +65,7 @@ export class GetTestComponent implements OnInit,AfterViewInit {
     'flammability',
     'electrical',
     'properties',
-    'actions',
+    // 'actions',
   ];
 
   dataSource = new MatTableDataSource<Test>([]);
@@ -69,7 +74,12 @@ export class GetTestComponent implements OnInit,AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
-    
+    this.canAddTest = this.permissionService.hasPermission('Testing', 'canCreate');
+    this.canEditTest = this.permissionService.hasPermission('Testing', 'canEdit');
+    this.canDeleteTest = this.permissionService.hasPermission('Testing', 'canDelete');
+    if(this.canEditTest||this.canDeleteTest){
+      this.displayedColumns.push('actions');
+    } 
     this.getdata();
   }
   ngAfterViewInit() {
