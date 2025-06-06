@@ -71,9 +71,9 @@ export class ManageusersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.canAddUser = this.permissionService.hasPermission('User Management', 'canCreate');
-    this.canEditUser = this.permissionService.hasPermission('User Management', 'canEdit');
-    this.canDeleteUser = this.permissionService.hasPermission('User Management', 'canDelete');
+    this.canAddUser = this.permissionService.hasPermission('User', 'canCreate');
+    this.canEditUser = this.permissionService.hasPermission('User', 'canEdit');
+    this.canDeleteUser = this.permissionService.hasPermission('User', 'canDelete');
     this.fetchUsers();
     if (this.canEditUser || this.canDeleteUser) {
     this.displayedColumns.push('actions');
