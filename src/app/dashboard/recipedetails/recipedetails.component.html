@@ -42,45 +42,63 @@
             </tr>
           </tbody>
         </table>
-        <p class="text-muted"></p>
-        <div class="progress-grid mb-3">
-          <div class="progress-item">
-            <label class="progress-label">
-              <b>Tensile Modulus  <br>{{ rec.tensileModulus_DAM }}</b>
-            </label>
-            <div class="progress">
-              <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="rec.tensileModulus_DAM"
-                aria-valuemin="0" aria-valuemax="1000" [style.width.%]="(rec.tensileModulus_DAM ?? 0) / 1000 * 100">
-              </div>
-            </div>
-          </div>
+      
+       <div class="progress-grid mb-3">
+  <div class="progress-item" *ngIf="testData.mechanicalPropertyDto?.tensileModulus_DAM!=null">
+    <label class="progress-label">
+      <b>Tensile Modulus<br>in MPa {{ testData?.mechanicalPropertyDto?.tensileModulus_DAM ?? 0 }}</b>
+    </label>
+    <div class="progress">
+      <div class="progress-bar"
+           role="progressbar"
+           [attr.aria-valuenow]="testData?.mechanicalPropertyDto?.tensileModulus_DAM ?? 0"
+           aria-valuemin="0"
+           aria-valuemax="1000"
+           [style.width.%]="(testData?.mechanicalPropertyDto?.tensileModulus_DAM ?? 0) / 1000 * 100">
+      </div>
+    </div>
+  </div>
 
-          <div class="progress-item">
-            <label class="progress-label">
-              <b>Charpy IStrength  <br>{{ rec.charpyImpact_DAM }}</b>
-            </label>
-            <div class="progress">
-              <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="rec.charpyImpact_DAM" aria-valuemin="0"
-                aria-valuemax="100" [style.width.%]="rec.charpyImpact_DAM">
-              </div>
-            </div>
-          </div>
-          <div class="progress-item">
-            <label class="progress-label"><b>Tensile Strength <br>{{rec.flexuralStrength_DAM}} </b></label>
-            <div class="progress">
-              <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="rec.flexuralStrength_DAM"
-                aria-valuemin="0" aria-valuemax="100" [style.width.%]="rec.flexuralStrength_DAM">
-              </div>
-            </div>
-          </div>
-        </div>
+  <div class="progress-item" *ngIf="testData.mechanicalPropertyDto?.charpyImpact_DAM!=null">
+    <label class="progress-label">
+      <b>Charpy IStrength<br>in KJ/m3 {{ testData?.mechanicalPropertyDto?.charpyImpact_DAM ?? 0 }}</b>
+    </label>
+    <div class="progress">
+      <div class="progress-bar"
+           role="progressbar"
+           [attr.aria-valuenow]="testData?.mechanicalPropertyDto?.charpyImpact_DAM ?? 0"
+           aria-valuemin="0"
+           aria-valuemax="100"
+           [style.width.%]="testData?.mechanicalPropertyDto?.charpyImpact_DAM ?? 0">
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-item" *ngIf="testData?.mechanicalPropertyDto?.flexuralStrength_DAM !=null">
+    <label class="progress-label">
+      <b>Tensile Strength<br>{{ testData?.mechanicalPropertyDto?.flexuralStrength_DAM ?? 0 }}</b>
+    </label>
+    <div class="progress">
+      <div class="progress-bar"
+           role="progressbar"
+           [attr.aria-valuenow]="testData?.mechanicalPropertyDto?.flexuralStrength_DAM ?? 0"
+           aria-valuemin="0"
+           aria-valuemax="100"
+           [style.width.%]="testData?.mechanicalPropertyDto?.flexuralStrength_DAM ?? 0">
+      </div>
+    </div>
+  </div>
+  
+</div>
 
 
 
 
 
 
-        <div *ngIf="testData" class="container">
+
+        <div *ngIf="testData" class="container mb-3" 
+  >
 
           <!-- <hr *ngIf="hasAnyProperty(testData)">
           <h4 *ngIf="hasAnyProperty(testData)"><b> Testing Properties</b></h4>
@@ -89,7 +107,7 @@
 
        
 
-            <div *ngIf="testData.electricalPropertyDto" class="mb-3 page-break  ">
+            <div *ngIf="testData.electricalPropertyDto" class="mb-3  " style="break-inside: avoid;">
               <h5><b>Electrical Properties</b></h5>
               <table class="table no-borders" style="width: 100%;">
                 <thead>
@@ -116,9 +134,9 @@
               <hr>
             </div>
 
-            <div *ngIf="testData.generalPropertyDto" class="mb-3 page-break ">
+            <div *ngIf="testData.generalPropertyDto" class="mb-3 ">
               <h5><b>General Properties</b></h5>
-              <table class="table no-borders" style="width: 100%;">
+              <table class="table no-borders" style="width: 100%; break-inside: avoid;">
                 <thead>
                   <tr>
                     <th class="bcolor">Density</th>
@@ -150,7 +168,7 @@
 
 
 
-            <div *ngIf="testData.temperaturePropertyDto" class="mb-3 page-break ">
+            <div *ngIf="testData.temperaturePropertyDto" class="mb-3" style="break-inside: avoid;">
               <h5><b>Temperature Properties</b></h5>
 
               <table class="table no-borders" style="width: 100%;">
@@ -186,7 +204,7 @@
 
 
 
-            <div *ngIf="testData.flammabilityPropertyDto" class="mb-3 page-break ">
+            <div *ngIf="testData.flammabilityPropertyDto" class="mb-3 " style="break-inside: avoid;">
               <h5><b>Flammability Properties</b></h5>
 
               <table class="table no-borders" style="width: 100%;">
@@ -222,7 +240,7 @@
 
 
 
-            <div *ngIf="testData.propertiesDto" class="mb-3 page-break ">
+            <div *ngIf="testData.propertiesDto" class="mb-3" style="page-break-inside:auto;break-inside: avoid;">
               <h5><b>Other Properties</b></h5>
 
               <div class="property-columns">
@@ -406,7 +424,7 @@
         </div>
       </div>
 
-      <div [class]="classes" *ngIf="testData.mechanicalPropertyDto">
+      <div [class]="classes" *ngIf="testData.mechanicalPropertyDto" style="page-break-inside: avoid">
         <div class="table-responsive mt-3 ">
           <h5><b>Mechanical Properties</b></h5>
           <table class="table no-borders ">
@@ -555,7 +573,7 @@
 
 
 
-    <div *ngIf="hasCompoundingData">
+    <div *ngIf="hasCompoundingData" style="page-break-inside: avoid">
       <hr>
       <h5><b>Compounding Details</b></h5>
       <hr>
@@ -612,7 +630,7 @@
       </div>
     </div>
 
-    <div *ngIf="hasInjectionData">
+    <div *ngIf="hasInjectionData" style="page-break-inside: avoid">
       <hr>
 
       <h5><b>Injection Moulding Details</b></h5>

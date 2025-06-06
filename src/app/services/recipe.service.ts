@@ -51,8 +51,8 @@ export class RecipeService {
   }
 
 
-  getTestByRecipe(id:number):Observable<CommonTest>{
-    return this.http.get<CommonTest>(`${this.baseUrl}/GetTestByRecipe?id=${id}`)
+  getTestPropertiesByRecipe(id:number):Observable<CommonTest>{
+    return this.http.get<CommonTest>(`${this.baseUrl}/GetTestPropertiesByRecipe?id=${id}`)
   }
 
 

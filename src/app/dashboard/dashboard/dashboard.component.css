@@ -235,6 +235,7 @@ input:focus {
   
   color: #1f2020;
   margin-right: 10px;
+  padding-left: 5px;
 }
 
 .progress {
