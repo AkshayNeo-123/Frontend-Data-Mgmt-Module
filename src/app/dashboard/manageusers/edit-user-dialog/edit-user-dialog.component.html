@@ -58,11 +58,11 @@
   <mat-label>Password</mat-label>
   <!-- <input matInput [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="newUser.passwordHash" #password="ngModel" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{6,}$" /> -->
   <input matInput [type]="showPassword ? 'text' : 'password'" name="password"  [(ngModel)]="user.passwordHash" #password="ngModel" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{6,}$" />
-  <button mat-icon-button matSuffix type="button" 
+  <!-- <button mat-icon-button matSuffix type="button" 
           (click)="togglePasswordVisibility()" 
           tabindex="-1">
     <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-  </button>
+  </button> -->
   <mat-error *ngIf="password.errors?.['required'] && password.touched">
     Password is required.
   </mat-error>

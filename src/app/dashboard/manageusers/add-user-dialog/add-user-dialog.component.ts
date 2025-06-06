@@ -25,12 +25,13 @@
       MatSelectModule,
       MatOptionModule,
       MatIconModule,
-      MatRadioModule
+      MatRadioModule,
     ],
     templateUrl: './add-user-dialog.component.html',
     styleUrl: './add-user-dialog.component.css'
   })
   export class AddUserDialogComponent {
+    isLoading:boolean = false;
     newUser = {
       userId: '',
       firstName: '',
@@ -111,17 +112,7 @@
     }  
 
     onSubmit(form: NgForm) {
-      // if (form.invalid) {
-      //   // alert('Please fill all fields correctly.');
-        // this.toastr.error(
-        //   'Saved successfully!' ,
-        //   'Success',{
-        //     timeOut:5000
-        //   }
-        // );
-      //   return;
-      // }
-    
+      
       if (!this.newUser.firstName || !this.newUser.lastName || !this.newUser.email || !this.newUser.passwordHash || !this.newUser.confirmPasswordHash || !this.newUser.phone || !this.newUser.roleId) {
         // alert('All fields are required.');
         this.toastr.error(
@@ -181,13 +172,14 @@
         alert('Please select a role.');
         return;
       }
-    
+      this.isLoading = true;
       const uId=Number(localStorage.getItem('UserId'));
       this.newUser.createdBy=uId;
 
       this.userService.addUser(this.newUser).subscribe({
         next: (res) => {
           // alert('Saved successfully!');
+          this.isLoading = false;
           this.toastr.success(
             'Saved successfully!' ,
             'Success',{
@@ -197,8 +189,9 @@
           this.dialogRef.close(true);
         },
         error: (err) => {
-          console.error(err);
+          // console.error(err);
           // alert('Failed to add user.');
+          this.isLoading = false;
           this.toastr.error(
             'Something went wrong' ,
             'Error',{

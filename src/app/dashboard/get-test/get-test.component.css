@@ -1,31 +1,40 @@
+/* Center the container in the viewport */
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;      /* Full viewport height */
+  width: 100vw;       /* Full viewport width */
+}
 
+/* Custom checkbox styling */
 .custom-checkbox {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   position: relative;
-  padding-left: 28px; /* space for box */
-  cursor: default;
-  user-select: none;
+  cursor: pointer;
+  font-size: 18px;
 }
 
 /* Hide native checkbox */
 .custom-checkbox input[type="checkbox"] {
   position: absolute;
   opacity: 0;
-  cursor: default;
+  cursor: pointer;
   height: 0;
   width: 0;
 }
 
-/* Create custom checkbox box */
+/* Custom checkbox box */
 .custom-checkbox span {
-  position: absolute;
-  top: 0;
-  left: 0;
   height: 20px;
   width: 20px;
   border: 2px solid #ccc;
   background-color: transparent;
   border-radius: 4px;
+  display: inline-block;
+  margin-right: 10px;
+  position: relative;
 }
 
 /* Checked state */
@@ -34,7 +43,7 @@
   border-color: green;
 }
 
-/* The checkmark */
+/* Checkmark */
 .custom-checkbox span::after {
   content: "";
   position: absolute;
@@ -51,8 +60,4 @@
 /* Show checkmark when checked */
 .custom-checkbox input[type="checkbox"]:checked + span::after {
   display: block;
-  
-}
-label{
-  margin-left: 30px;
 }
