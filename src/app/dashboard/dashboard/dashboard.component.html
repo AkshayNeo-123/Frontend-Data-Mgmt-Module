@@ -89,14 +89,14 @@
     </div>
   </div>
   <div  class="progress-item">
-    <label class="progress-label"><b>Strength :{{recipe.flexuralStrength_DAM}}</b></label>
+    <label class="progress-label"><b>Strength :{{recipe.stressAtYield_DAM}}</b></label>
     <div class="progress">
       <div class="progress-bar"
            role="progressbar"
-           [attr.aria-valuenow]="recipe.flexuralStrength_DAM"
+           [attr.aria-valuenow]="recipe.stressAtYield_DAM"
            aria-valuemin="0"
            aria-valuemax="100"
-           [style.width.%]="recipe.flexuralStrength_DAM">
+           [style.width.%]="recipe.stressAtYield_DAM">
       </div>
     </div>
   </div>

@@ -74,17 +74,17 @@
     </div>
   </div>
 
-  <div class="progress-item" *ngIf="testData?.mechanicalPropertyDto?.flexuralStrength_DAM !=null">
+  <div class="progress-item" *ngIf="testData?.mechanicalPropertyDto?.stressAtYield_DAM !=null">
     <label class="progress-label">
-      <b>Tensile Strength<br>{{ testData?.mechanicalPropertyDto?.flexuralStrength_DAM ?? 0 }}</b>
+      <b>Tensile Strength<br>{{ testData?.mechanicalPropertyDto?.stressAtYield_DAM ?? 0 }}</b>
     </label>
     <div class="progress">
       <div class="progress-bar"
            role="progressbar"
-           [attr.aria-valuenow]="testData?.mechanicalPropertyDto?.flexuralStrength_DAM ?? 0"
+           [attr.aria-valuenow]="testData?.mechanicalPropertyDto?.stressAtYield_DAM ?? 0"
            aria-valuemin="0"
            aria-valuemax="100"
-           [style.width.%]="testData?.mechanicalPropertyDto?.flexuralStrength_DAM ?? 0">
+           [style.width.%]="testData?.mechanicalPropertyDto?.stressAtYield_DAM?? 0">
       </div>
     </div>
   </div>
@@ -415,7 +415,6 @@
                 </div>
               </div>
 
-              <hr />
             </div>
 
 
