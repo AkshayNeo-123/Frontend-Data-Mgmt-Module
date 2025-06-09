@@ -36,6 +36,8 @@ import { Router, RouterModule } from '@angular/router';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { AddCompoundingRequest } from '../../models/compounding.model';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Options } from '@angular-slider/ngx-slider';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -95,6 +97,13 @@ currentIndex=0;
 itemsPerPage=3;
 totalPages:number=0;
 
+
+charpyMin: number =0;
+charpyMax: number=1000;
+stressMin: number =0;
+stressMax: number=1000;
+
+ 
   displayedColumns: string[] = ['recipeId','productName','projectNumber', 'description'];
   dataSource: MatTableDataSource<RecipeAndProject> = new MatTableDataSource<RecipeAndProject>();
 
@@ -110,6 +119,8 @@ totalPages:number=0;
     this.currentPage
     =1;
     this.loadRecipes();
+
+    
     
   }
 
@@ -149,7 +160,11 @@ totalPages:number=0;
   }
 
   applyCustomFilter(): void {
-    this.recipeService.getRecipeAndProject(this.projectFilter).subscribe({
+    this.recipeService.getRecipeAndProject(this.projectFilter
+      ,this.tensileMax,this.tensileMin,
+        this.charpyMax,this.charpyMin,
+        this.stressMax,this.stressMin
+    ).subscribe({
       next: (data) => {
         this.recipyAndProject = data;
 
@@ -169,6 +184,64 @@ totalPages:number=0;
       error: (err) => console.error('Error filtering recipes', err)
     });
   }
+
+  tensileMin: number = 0;
+tensileMax: number = 1000;
+trackStyle = {};
+
+updateTrack() {
+  if (this.tensileMin > this.tensileMax) {
+    const temp = this.tensileMin;
+    this.tensileMin = this.tensileMax;
+    this.tensileMax = temp;
+  }
+
+  const min = this.tensileMin;
+  const max = this.tensileMax;
+
+  const minPercent = ((min - 1) / (1000 - 1)) * 100;
+  const maxPercent = ((max - 1) / (1000 - 1)) * 100;
+
+  this.trackStyle = {
+    left: `${minPercent}%`,
+    width: `${maxPercent - minPercent}%`
+  };
+}
+
+
+charpyTrackStyle: any = {};
+
+
+stressTrackStyle: any = {};
+
+updateCharpyTrack(): void {
+  if (this.charpyMin > this.charpyMax) {
+    [this.charpyMin, this.charpyMax] = [this.charpyMax, this.charpyMin];
+  }
+
+  const minPercent = (this.charpyMin / 1000) * 100;
+  const maxPercent = (this.charpyMax / 1000) * 100;
+
+  this.charpyTrackStyle = {
+    left: `${minPercent}%`,
+    width: `${maxPercent - minPercent}%`
+  };
+}
+
+updateStressTrack(): void {
+  if (this.stressMin > this.stressMax) {
+    [this.stressMin, this.stressMax] = [this.stressMax, this.stressMin];
+  }
+
+  const minPercent = (this.stressMin / 1000) * 100;
+  const maxPercent = (this.stressMax / 1000) * 100;
+
+  this.stressTrackStyle = {
+    left: `${minPercent}%`,
+    width: `${maxPercent - minPercent}%`
+  };
+}
+
 
   resetFilter(): void {
     this.projectFilter = '';
@@ -202,5 +275,6 @@ totalPages:number=0;
 
      }
 
+     
     
 }
