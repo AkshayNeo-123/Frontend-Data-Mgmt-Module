@@ -45,7 +45,7 @@ export interface RecipeAndProject{
   description?:string
   tensileModulus_DAM?:number,
   charpyImpact_DAM?:number,
-  flexuralStrength_DAM?:number;
+  stressAtYield_DAM?:number;
 
  
 }

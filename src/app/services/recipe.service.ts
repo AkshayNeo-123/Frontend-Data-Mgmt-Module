@@ -37,8 +37,28 @@ export class RecipeService {
         return this.http.delete<Recipe>(`${this.baseUrl}/deleteRecipesData?id=${id}&deletedBy=${deletedBy}`)
       }
 
-  getRecipeAndProject(search: string = ''): Observable<RecipeAndProject[]> {
-    const params = new HttpParams().set('search', search);
+  getRecipeAndProject(search: string = '',
+     
+  tensileModulusMax?: number,
+  tensileModulusMin?: number,
+ 
+  charpyImpactMax?: number,
+   charpyImpactMin?: number,
+ 
+  stressAtYieldMax?: number,
+   stressAtYieldMin?: number,
+  ): Observable<RecipeAndProject[]> {
+    let params = new HttpParams().set('search', search);
+    if(tensileModulusMax!=null)params=params.set('tensileModulusMax',tensileModulusMax);
+    if(tensileModulusMin!=null)params=params.set('tensileModulusMin',tensileModulusMin);
+    
+  if (charpyImpactMax != null) params = params.set('charpyImpactMax', charpyImpactMax);
+    if (charpyImpactMin != null) params = params.set('charpyImpactMin', charpyImpactMin);
+
+  if (stressAtYieldMax != null) params = params.set('stressAtYieldMax', stressAtYieldMax);
+    if (stressAtYieldMin != null) params = params.set('stressAtYieldMin', stressAtYieldMin);
+
+
     return this.http.get<RecipeAndProject[]>(`${this.baseUrl}/GetRecipeAndProject`, { params });
   }
 
@@ -51,8 +71,8 @@ export class RecipeService {
   }
 
 
-  getTestByRecipe(id:number):Observable<CommonTest>{
-    return this.http.get<CommonTest>(`${this.baseUrl}/GetTestByRecipe?id=${id}`)
+  getTestPropertiesByRecipe(id:number):Observable<CommonTest>{
+    return this.http.get<CommonTest>(`${this.baseUrl}/GetTestPropertiesByRecipe?id=${id}`)
   }
 
 

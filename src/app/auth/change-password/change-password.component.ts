@@ -50,9 +50,9 @@ export class ChangePasswordComponent {
      showPassword = false;
     showConfirmPassword = false;
 
-    togglePasswordVisibility() {
-      this.showPassword = !this.showPassword;
-    }
+    // togglePasswordVisibility() {
+    //   this.showPassword = !this.showPassword;
+    // }
 
     toggleConfirmPasswordVisibility() {
       this.showConfirmPassword = !this.showConfirmPassword;
@@ -79,14 +79,14 @@ errorMessage='';
   }
 
   if (oldPassword === newPassword) {
-    this.toastr.error('New password must be different from current password.', 'Error', {
+    this.toastr.error('Changed password must be different from current password.', 'Error', {
       timeOut: 5000,
     });
     return;
   }
 
   if (newPassword !== confirmPasswordHash) {
-    this.toastr.error('New password and confirm password do not match.', 'Error', {
+    this.toastr.error('Changed password and confirm password do not match.', 'Error', {
       timeOut: 5000,
     });
     return;
