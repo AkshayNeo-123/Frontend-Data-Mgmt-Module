@@ -120,7 +120,9 @@ stressMax: number=1000;
     =1;
     this.loadRecipes();
 
-    
+     this.updateTrack();
+  this.updateCharpyTrack();
+  this.updateStressTrack();
     
   }
 
@@ -204,7 +206,7 @@ updateTrack() {
 
   this.trackStyle = {
     left: `${minPercent}%`,
-    width: `${maxPercent - minPercent}%`
+    width: `${maxPercent - minPercent}%`,  backgroundColor: '#b1d536'
   };
 }
 
@@ -224,7 +226,7 @@ updateCharpyTrack(): void {
 
   this.charpyTrackStyle = {
     left: `${minPercent}%`,
-    width: `${maxPercent - minPercent}%`
+    width: `${maxPercent - minPercent}%`,  backgroundColor: '#b1d536'
   };
 }
 
@@ -238,7 +240,7 @@ updateStressTrack(): void {
 
   this.stressTrackStyle = {
     left: `${minPercent}%`,
-    width: `${maxPercent - minPercent}%`
+    width: `${maxPercent - minPercent}%`,  backgroundColor: '#b1d536'
   };
 }
 
