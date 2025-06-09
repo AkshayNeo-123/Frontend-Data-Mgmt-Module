@@ -16,9 +16,11 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class ForgotPasswordComponent {
     forgotForm!: FormGroup;
-    isSendingOtp: boolean = false;
+    isSendingOtp: boolean = false;  
     otpSent:boolean = false;
     otpVerified = false;
+    errorMessage='';
+    showConfirmPassword = false;
 
   constructor(private fb: FormBuilder, private authService: AuthService, @Inject(Router) private router: Router) {
     this.forgotForm = this.fb.group({
@@ -49,9 +51,16 @@ export class ForgotPasswordComponent {
         this.isSendingOtp = false;
         Swal.fire('OTP Sent', 'Please check your email', 'info');
       },
-      error: () => {
+      error: (error) => {
         this.isSendingOtp = false;
-        Swal.fire('Error', 'Failed to send OTP', 'error')
+          this.errorMessage=JSON.stringify(error.error.message);
+          Swal.fire({
+                        title: 'Failed to send OTP',
+                        text: this.errorMessage,
+                        icon: 'error',
+                        confirmButtonText: 'Try Again'
+                      });
+        // Swal.fire('Error', 'Failed to send OTP', 'error')
       }
     });
     // this.forgotForm.get('email')?.disable();
@@ -83,8 +92,24 @@ export class ForgotPasswordComponent {
         })
 
       },
-      error: () => Swal.fire('Error', 'Failed to reset password', 'error')
+      error: (error) =>{
+        this.errorMessage=JSON.stringify(error.error.message);
+          Swal.fire({
+                        title: 'Failed to reset password',
+                        text: this.errorMessage,
+                        icon: 'error',
+                        confirmButtonText: 'Try Again'
+                      });
+      } 
+        // Swal.fire('Error', 'Failed to reset password', 'error')
+
     });
   }
+
+  
+toggleConfirmPasswordVisibility() {
+  this.showConfirmPassword = !this.showConfirmPassword;
+}
+
 
 }

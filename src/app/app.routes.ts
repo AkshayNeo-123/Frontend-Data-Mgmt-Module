@@ -148,7 +148,7 @@ export const routes: Routes = [
 
     canActivate: [permissionGuard],
     data: {
-      resource: 'Role Management',
+      resource: 'Role',
       action: 'canView'
     }
   },
@@ -158,15 +158,17 @@ export const routes: Routes = [
   { path: 'manageusers', component: ManageusersComponent ,
     canActivate: [permissionGuard],
     data: {
-      resource: 'User Management',
+      resource: 'User',
       action: 'canView'
     }
   },
   { path: 'comp-inject', component:GetCompInjectComponent},
    { path: 'recipedetails', component: RecipedetailsComponent },
 
-  { path: 'gettest', component: GetTestComponent, canActivate: [permissionGuard], data: { resource: 'Testing', action: 'canView' }},
+  { path: 'gettest', component: GetTestComponent, canActivate: [permissionGuard], data: { resource: 'Test List', action: 'canView' }},
   { path: 'add-test', component: AddTestComponent},
+  { path: 'addtest/:id', component: AddTestComponent },
+  { path: 'addtest', component: AddTestComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' },
