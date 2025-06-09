@@ -6,6 +6,7 @@ import {
   Validators,
   ReactiveFormsModule,
   FormControl,
+  FormsModule,
 } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -41,6 +42,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatIcon,
     ConfirmDialogComponent,
     MatDialogModule,
+    FormsModule
   ],
   templateUrl: './add-test.component.html',
   styleUrls: ['./add-test.component.css'],
@@ -56,6 +58,9 @@ export class AddTestComponent implements OnInit {
   recipeData: RecipeDataforTest[] = [];
   isUpdateMode = false;
   testId: number | null = null;
+  filteredRecipeData: any[] = [];     // filtered list for display
+recipeSearchTerm: string = '';      // input search text
+selectedRecipeId: number | null = null;  // currently selected recipe
 
 
   constructor(
@@ -258,6 +263,20 @@ export class AddTestComponent implements OnInit {
     this.toastr.success('Added to Technical Data Sheet successfully');
   }
 
+  handleToggleTechnicalSheet(): void {
+  const isPublished = this.sharedForm.get('isPublish')?.value;
+
+  this.sharedForm.patchValue({ isPublish: !isPublished }); // toggle value
+
+  if (!isPublished) {
+    this.toastr.success('Added to Technical Data Sheet successfully');
+  } else {
+    this.toastr.warning('Removed from Technical Data Sheet');
+  }
+
+  console.log('isPublish is now:', this.sharedForm.get('isPublish')?.value);
+}
+
 
   // onSubmit() {
   //   const adduserId = localStorage.getItem('UserId');
@@ -444,6 +463,7 @@ export class AddTestComponent implements OnInit {
       next: (data: RecipeDataforTest[]) => {
         this.recipeData = data;
         console.log(this.recipeData);
+        this.filteredRecipeData = [...this.recipeData]; // initially show all
 
       },
       error: (err) => {
@@ -465,5 +485,22 @@ export class AddTestComponent implements OnInit {
     this.resetAllForms();
     this.router.navigate(['/gettest']);
   }
+  filterRecipeList() {
+  const searchTerm = this.recipeSearchTerm.toLowerCase().trim();
+  this.filteredRecipeData = this.recipeData.filter(recipe =>
+    recipe.productName.toLowerCase().includes(searchTerm)
+  );
+}
+// onRecipeSelect(event: any) {
+//   this.selectedRecipeId = event.value;
+//   const selectedRecipe = this.recipeData.find(r => r.receipeId === event.value);
+//   console.log('Selected Recipe:', selectedRecipe);
+// }
+onDropdownOpenChange(opened: boolean) {
+  if (!opened) {
+    this.recipeSearchTerm = '';
+    this.filteredRecipeData = [...this.recipeData]; // reset list
+  }
+}
 
 }

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ExportTestDataDto } from '../models/test';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,10 @@ deleteTest(testid:number,deletedBY:number): Observable<any> {
     updateTest(testId: number, data: any): Observable<any> {
   return this.http.put<any>(`${this.baseUrl}/Update/${testId}`, data);
 }
+
+
+ExportData(): Observable<ExportTestDataDto[]> {
+      return this.http.get<ExportTestDataDto[]>(`${this.baseUrl}/ExpoortTestData`);
+    }
 
 }

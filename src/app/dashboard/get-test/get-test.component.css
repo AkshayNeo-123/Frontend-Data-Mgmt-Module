@@ -61,3 +61,42 @@
 .custom-checkbox input[type="checkbox"]:checked + span::after {
   display: block;
 }
+
+.add-user-btn {
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-bottom: 40px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.add-user-btn:hover {
+  background-color: #388e3c;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+.add-user-btn:focus {
+  outline: none;
+}
+
+.no-wrap-text {
+  white-space: nowrap;
+}
+
+/* .export-btn {
+  background-color: white !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.export-btn:hover {
+  background-color: white !important;
+}
+
+.export-btn.mat-raised-button.mat-primary {
+  color: inherit;
+} */

@@ -3,8 +3,8 @@
     <h4 class="fw-bold mb-3">{{ isUpdateMode ? 'Update' : 'Add' }} Recipe Test</h4>
 
     <div class="d-flex gap-2">
-<button mat-raised-button color="primary" (click)="handleAddToTechnicalSheet()">
-  Add to Technical Data Sheet
+<button mat-raised-button color="primary" (click)="handleToggleTechnicalSheet()">
+  {{ sharedForm.get('isPublish')?.value ? 'Remove from Technical Data Sheet' : 'Add to Technical Data Sheet' }}
 </button>
 
       <button (click)="goBack()" class="custom-back-button mb-3">
@@ -27,6 +27,12 @@
           </mat-select>
         </mat-form-field>
       </div>
+
+
+ 
+
+
+
 
       <div class="col-md-4">
         <mat-form-field appearance="outline" class="w-100">
