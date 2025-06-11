@@ -2,14 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Cities, Contact, States } from '../models/contacts';
+import { APP_CONSTANTS } from './Constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactsService {
 
-  private baseUrl = 'https://localhost:7030/api/Contact'; 
-  private apiUrl='https://localhost:7030/api/States';
+  private baseUrl = `${APP_CONSTANTS.apiUrls.loadApiUrl}/Contact`; 
+  private apiUrl=`${APP_CONSTANTS.apiUrls.loadApiUrl}/States`;
 
 
    contactid?:number;
@@ -34,7 +35,7 @@ GetAllStates():Observable<States[]>{
   
 }
 getCitiesByState(stateId: number):Observable<Cities[]> {
-  return this.http.get<Cities[]>(`https://localhost:7030/api/States/cities?id=${stateId}`);
+  return this.http.get<Cities[]>(`${APP_CONSTANTS.apiUrls.loadApiUrl}/States/cities?id=${stateId}`);
 }
 getContact(id:number):Observable<Contact>
 
@@ -48,7 +49,7 @@ deleteContact(id: number,deletedBy:number): Observable<any> {
 }
 
 addCity(cityName: string, stateId: number): Observable<any> {
-  const url = `https://localhost:7030/api/States/addCities?cityName=${cityName}&stateId=${stateId}`;
+  const url = `${APP_CONSTANTS.apiUrls.loadApiUrl}/States/addCities?cityName=${cityName}&stateId=${stateId}`;
   return this.http.post<any>(url, { cityName, stateId });
 }
 

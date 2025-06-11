@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -14,12 +19,12 @@ import { ProjectService } from '../../services/project.service';
 import { AddInjectionMoulding } from '../../models/injection-molding';
 import { InjectionMoldingService } from '../../services/injection-molding.service';
 import { ToastrService } from 'ngx-toastr';
-import { Location } from '@angular/common'
-
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-injection-molding',
-  imports: [ReactiveFormsModule,
+  imports: [
+    ReactiveFormsModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
@@ -30,328 +35,327 @@ import { Location } from '@angular/common'
     MatRadioModule,
     MatNativeDateModule,
     // RouterModule,
-    CommonModule],
+    CommonModule,
+  ],
   templateUrl: './add-injection-molding.component.html',
-  styleUrl: './add-injection-molding.component.css'
+  styleUrl: './add-injection-molding.component.css',
 })
 export class AddInjectionMoldingComponent {
-injectionForm!: FormGroup;
-projects: any[] = [];
-filteredProjects: any[] = [];
-parameterSetpreviousdata!:number;
-RecipeId!: number;
+  injectionForm!: FormGroup;
+  projects: any[] = [];
+  filteredProjects: any[] = [];
+  parameterSetpreviousdata!: number;
+  RecipeId!: number;
 
-constructor( private location: Location,private fb: FormBuilder,private injectionservice:InjectionMoldingService,private toastr: ToastrService,private projectservice:ProjectService,private route:Router) {
-  this.injectionForm = this.fb.group({
-    projectId: ['',Validators.required],
-    parameterSet: [{value:'', disabled: true}],
-    recipeId: [{value:this.RecipeId, disabled: true}],
-    repetition: ['0'],
-    additive: [''],
-    reference:[false],
-    notes:[''],
+  constructor(
+    private location: Location,
+    private fb: FormBuilder,
+    private injectionservice: InjectionMoldingService,
+    private toastr: ToastrService,
+    private projectservice: ProjectService,
+    private route: Router
+  ) {
+    this.injectionForm = this.fb.group({
+      projectId: ['', Validators.required],
+      parameterSet: [{ value: '', disabled: true }],
+      recipeId: [{ value: this.RecipeId, disabled: true }],
+      repetition: ['0'],
+      additive: [''],
+      reference: [false],
+      notes: [''],
 
-    pretreatmentNone: [false],
-    pretreatmentDryTest: [false],
-    dryingTemperature: [''],
-    dryingTime: [''],
-    residualMoisture: [''],
-    notMeasured: [false],
-    processingMoisture: [''],
+      pretreatmentNone: [false],
+      pretreatmentDryTest: [false],
+      dryingTemperature: [''],
+      dryingTime: [''],
+      residualMoisture: [''],
+      notMeasured: [false],
+      processingMoisture: [''],
 
-    plasticizingVolume: [''],
-    decompressionVolume: [''],
-    holdingPressure: [''],
-    switchingPoint: [''],
-    screwSpeed: [''],
-    speedMms: [{ value: 0, disabled: true }],
-    injectionSpeed: [''],
-    injectionPressure: [''],
+      plasticizingVolume: [''],
+      decompressionVolume: [''],
+      holdingPressure: [''],
+      switchingPoint: [''],
+      screwSpeed: [''],
+      speedMms: [{ value: 0, disabled: true }],
+      injectionSpeed: [''],
+      injectionPressure: [''],
 
-    temperatureZone: [''],
-    meltTemperature: [''],
-    nozzleTemperature: [''],
-    mouldTemperature: ['']
-  });
-  this.route.events.subscribe((event) => {
-    if (event instanceof NavigationEnd) {
-      window.scrollTo(0, 0);
-    }
-  });
+      temperatureZone: [''],
+      meltTemperature: [''],
+      nozzleTemperature: [''],
+      mouldTemperature: [''],
+    });
+    this.route.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        window.scrollTo(0, 0);
+      }
+    });
+  }
 
- 
+  ngOnInit(): void {
+    this.RecipeId = history.state.id;
+    this.injectionForm.get('recipeId')?.setValue(this.RecipeId);
 
-  
-}
+    this.loadMaster();
+    this.repetitionCount = Number(
+      this.injectionForm.get('repetition')?.value || 0
+    );
+    this.injectionForm
+      .get('parameterSet')
+      ?.setValue(this.parameterSetpreviousdata);
 
-ngOnInit(): void {
-  this.RecipeId = history.state.id;
-  this.injectionForm.get('recipeId')?.setValue(this.RecipeId);
-  
-  this.loadMaster();
-  this.repetitionCount = Number(this.injectionForm.get('repetition')?.value || 0);
-  this.injectionForm.get('parameterSet')?.setValue(this.parameterSetpreviousdata);
-  
-  this.injectionForm.get('screwSpeed')!.valueChanges.subscribe(value => {
-    const converted = Number(value) * 1000; // Convert m/s to mm/s
-    this.injectionForm.get('speedMms')!.setValue(converted, { emitEvent: false });
-  });
-  
-  
-  
-}
-repetitionCount = 0;
+    this.injectionForm.get('screwSpeed')!.valueChanges.subscribe((value) => {
+      const converted = Number(value) * 1000; // Convert m/s to mm/s
+      this.injectionForm
+        .get('speedMms')!
+        .setValue(converted, { emitEvent: false });
+    });
+  }
+  repetitionCount = 0;
 
-increaseRepetition() {
-  this.repetitionCount++;
-  this.injectionForm.get('repetition')?.setValue(this.repetitionCount);
-}
-
-decreaseRepetition() {
-  if (this.repetitionCount > 0) {
-    this.repetitionCount--;
+  increaseRepetition() {
+    this.repetitionCount++;
     this.injectionForm.get('repetition')?.setValue(this.repetitionCount);
   }
-}
 
-
-onSubmit() {
-  if (this.injectionForm.invalid) {
-    this.showValidationErrors();
-    return;
-  }
-  const userJson = localStorage.getItem('user');
-  const user = userJson ? JSON.parse(userJson) : null;
-
-  if (!user) {
-    console.error('No user found in localStorage!');
-    return;
-  }
-  const adduserId=localStorage.getItem('UserId');
-  let formData = this.injectionForm.value;
-  if (Array.isArray(formData.projectId)) {
-    formData.projectId = formData.projectId.join(','); // e.g., "P123,P456"
+  decreaseRepetition() {
+    if (this.repetitionCount > 0) {
+      this.repetitionCount--;
+      this.injectionForm.get('repetition')?.setValue(this.repetitionCount);
+    }
   }
 
-  // Convert empty strings to null
-  const cleanedData = this.convertEmptyToNull(formData);
+  onSubmit() {
+    if (this.injectionForm.invalid) {
+      this.showValidationErrors();
+      return;
+    }
+    const userJson = localStorage.getItem('user');
+    const user = userJson ? JSON.parse(userJson) : null;
 
-  console.log('Cleaned Data:', cleanedData);
-  const newInjectionMolding: AddInjectionMoulding = {
-          ...cleanedData,
-          recipeId: this.injectionForm.get('recipeId')?.value,
-          parameterSet:this.injectionForm.get('parameterSet')?.value,
-          createdBy:adduserId,
-          
-        };
-        console.log(newInjectionMolding);
-        this.injectionservice.AddInjection(newInjectionMolding).subscribe({
-          next: (response) => {
-            console.log('Project added successfully', response);
-            this.toastr.success('Save successfully');
-            this.injectionForm.reset();
-            // this.route.navigate(['/comp-inject'],{
-            //   state:{id: this.RecipeId}
-            // });
-            this.location.back();
-            
-          },
-          error: (error) => {
-            console.error('Error adding project:', error);
-            this.toastr.error('Something went wrong?');
-          }
+    if (!user) {
+      console.error('No user found in localStorage!');
+      return;
+    }
+    const adduserId = localStorage.getItem('UserId');
+    let formData = this.injectionForm.value;
+    if (Array.isArray(formData.projectId)) {
+      formData.projectId = formData.projectId.join(','); // e.g., "P123,P456"
+    }
+
+    // Convert empty strings to null
+    const cleanedData = this.convertEmptyToNull(formData);
+
+    console.log('Cleaned Data:', cleanedData);
+    const newInjectionMolding: AddInjectionMoulding = {
+      ...cleanedData,
+      recipeId: this.injectionForm.get('recipeId')?.value,
+      parameterSet: this.injectionForm.get('parameterSet')?.value,
+      createdBy: adduserId,
+    };
+    console.log(newInjectionMolding);
+    this.injectionservice.AddInjection(newInjectionMolding).subscribe({
+      next: (response) => {
+        console.log('Project added successfully', response);
+        
+        this.toastr.success('Save successfully.', '', {
+          timeOut: 5000,
         });
-
-}
-onCancel() {
-  this.location.back();
-
-}
-
-
-convertEmptyToNull(obj: any): any {
-  const result: any = {};
-  for (let key in obj) {
-    if (obj[key] === '') {
-      result[key] = null;
-    } else if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
-      // Recursively clean nested objects
-      result[key] = this.convertEmptyToNull(obj[key]);
-    } else {
-      result[key] = obj[key];
-    }
-  }
-  return result;
-}
-
-loadMaster(){
-  this.projectservice.getAllProjects().subscribe({
-    next: (data) => (this.projects = data),
-    error: (err) => console.error('Error fetching project types:', err)
-  });
-  console.log(`ProjectData:${this.projects}`);
-  this.filteredProjects = [...this.projects];
-
-  this.injectionservice.getparemeterSet().subscribe({
-  next: (data) => {
-    if (data == null) {
-      data = 0;
-    }
-
-    data++;
-
-    console.log('Received:', data);
-    this.injectionForm.get('parameterSet')?.setValue(data);
-  },
-  error: (err) => console.error('Error fetching project types:', err)
-});
-  // console.log(this.parameterSetpreviousdata);
-  // this.parameterSetpreviousdata++;
-  // console.log(this.parameterSetpreviousdata);
-  
-  
-}
-
-// filterProjects() {
-//   const search = this.projectFilter.toLowerCase();
-//   this.filteredProjects = this.projects.filter(p =>
-//     p.projectNumber.toLowerCase().includes(search)
-//   );
-// }
-
-
-
-// Block number input
-blockNumbers(event: KeyboardEvent) {
-  const charCode = event.key;
-  if (/\d/.test(charCode)) {
-    event.preventDefault(); 
-  }
-}
-
-// allowOnlyNumber(event: KeyboardEvent): void {
-//   const char = event.key;
-//   const input = event.target as HTMLInputElement;
-
-//   // Allow: digits, dot, minus
-//   if (!/^[0-9.-]$/.test(char)) {
-//     event.preventDefault();
-//     return;
-//   }
-
-//   // Only one dot allowed
-//   if (char === '.' && input.value.includes('.')) {
-//     event.preventDefault();
-//     return;
-//   }
-
-//   // Only one minus at the beginning allowed
-//   if (char === '-') {
-//     if (input.selectionStart !== 0 || input.value.includes('-')) {
-//       event.preventDefault();
-//       return;
-//     }
-//   }
-// }
-
-allowOnlyNumber(event: KeyboardEvent): void {
-  const invalidChars = ['e', 'E', '+'];
-  const input = event.target as HTMLInputElement;
-  const currentValue = input.value;
-  const key = event.key;
-
-  // Block e, E, and +
-  if (invalidChars.includes(key)) {
-    event.preventDefault();
-    return;
-  }
-
-  // Allow minus sign only at the beginning and only once
-  if (key === '-') {
-    if (currentValue.length > 0 || currentValue.includes('-')) {
-      event.preventDefault();
-    }
-    return;
-  }
-
-  // Allow only digits
-  if (!/^[0-9.-]$/.test(key)) {
-    event.preventDefault();
-  }
-}
-
-
-
-showValidationErrors() {
-  const errors: string[] = [];
-
-  Object.keys(this.injectionForm.controls).forEach(controlName => {
-    const control = this.injectionForm.get(controlName);
-    if (control && control.invalid) {
-      control.markAsTouched(); // to trigger errors in UI too
-      const controlErrors = control.errors;
-      if (controlErrors) {
-        Object.keys(controlErrors).forEach(errorKey => {
-          errors.push(this.getErrorMessage(controlName, errorKey));
+        this.injectionForm.reset();
+        this.location.back();
+      },
+      error: (error) => {
+        console.error('Error adding project:', error);
+        // this.toastr.error('Something went wrong?');
+        this.toastr.error('Something went wrong?', '', {
+          timeOut: 5000,
         });
+      },
+    });
+  }
+  onCancel() {
+    this.location.back();
+  }
+
+  convertEmptyToNull(obj: any): any {
+    const result: any = {};
+    for (let key in obj) {
+      if (obj[key] === '') {
+        result[key] = null;
+      } else if (
+        typeof obj[key] === 'object' &&
+        obj[key] !== null &&
+        !Array.isArray(obj[key])
+      ) {
+        // Recursively clean nested objects
+        result[key] = this.convertEmptyToNull(obj[key]);
+      } else {
+        result[key] = obj[key];
       }
     }
-  });
-
-  if (errors.length > 0) {
-    const message = errors.join('\n');
-    this.toastr.error(message,'Error',{
-  timeOut:5000
-         });
+    return result;
   }
-}
 
+  loadMaster() {
+    this.projectservice.getAllProjects().subscribe({
+      next: (data) => (this.projects = data),
+      error: (err) => console.error('Error fetching project types:', err),
+    });
+    console.log(`ProjectData:${this.projects}`);
+    this.filteredProjects = [...this.projects];
 
+    this.injectionservice.getparemeterSet().subscribe({
+      next: (data) => {
+        if (data == null) {
+          data = 0;
+        }
 
-getErrorMessage(controlName: string, errorKey: string): string {
-  const labels: { [key: string]: string } = {
-    projectId: 'Project ID',
-    parameterSet: 'Parameter Set',
-    recipeId: 'Recipe Number',
-    repetition: 'Repetition',
-    additive: 'Additive',
-    reference: 'Reference',
-    notes: 'Notes',
-    pretreatmentNone: 'Pretreatment None',
-    pretreatmentDryTest: 'Pretreatment Dry Test',
-    dryingTemperature: 'Drying Temperature',
-    dryingTime: 'Drying Time',
-    residualMoisture: 'Residual Moisture',
-    notMeasured: 'Not Measured',
-    processingMoisture: 'Processing Moisture',
-    plasticizingVolume: 'Plasticizing Volume',
-    decompressionVolume: 'Decompression Volume',
-    holdingPressure: 'Holding Pressure',
-    switchingPoint: 'Switching Point',
-    screwSpeed: 'Screw Speed',
-    speedMms: 'Speed (mm/s)',
-    injectionSpeed: 'Injection Speed',
-    injectionPressure: 'Injection Pressure',
-    temperatureZone: 'Temperature Zone',
-    meltTemperature: 'Melt Temperature',
-    nozzleTemperature: 'Nozzle Temperature',
-    mouldTemperature: 'Mould Temperature'
-  };
+        data++;
 
-  const label = labels[controlName] || controlName;
-
-  switch (errorKey) {
-    case 'required': return `${label} is required.`;
-    case 'maxlength': return `${label} exceeds maximum length.`;
-    case 'min': return `${label} is below minimum allowed value.`;
-    case 'max': return `${label} exceeds maximum allowed value.`;
-    default: return `${label} is invalid.`;
+        console.log('Received:', data);
+        this.injectionForm.get('parameterSet')?.setValue(data);
+      },
+      error: (err) => console.error('Error fetching project types:', err),
+    });
+    // console.log(this.parameterSetpreviousdata);
+    // this.parameterSetpreviousdata++;
+    // console.log(this.parameterSetpreviousdata);
   }
-}
 
+  // filterProjects() {
+  //   const search = this.projectFilter.toLowerCase();
+  //   this.filteredProjects = this.projects.filter(p =>
+  //     p.projectNumber.toLowerCase().includes(search)
+  //   );
+  // }
 
+  // Block number input
+  blockNumbers(event: KeyboardEvent) {
+    const charCode = event.key;
+    if (/\d/.test(charCode)) {
+      event.preventDefault();
+    }
+  }
 
+  // allowOnlyNumber(event: KeyboardEvent): void {
+  //   const char = event.key;
+  //   const input = event.target as HTMLInputElement;
 
+  //   // Allow: digits, dot, minus
+  //   if (!/^[0-9.-]$/.test(char)) {
+  //     event.preventDefault();
+  //     return;
+  //   }
 
+  //   // Only one dot allowed
+  //   if (char === '.' && input.value.includes('.')) {
+  //     event.preventDefault();
+  //     return;
+  //   }
 
+  //   // Only one minus at the beginning allowed
+  //   if (char === '-') {
+  //     if (input.selectionStart !== 0 || input.value.includes('-')) {
+  //       event.preventDefault();
+  //       return;
+  //     }
+  //   }
+  // }
+
+  allowOnlyNumber(event: KeyboardEvent): void {
+    const invalidChars = ['e', 'E', '+'];
+    const input = event.target as HTMLInputElement;
+    const currentValue = input.value;
+    const key = event.key;
+
+    // Block e, E, and +
+    if (invalidChars.includes(key)) {
+      event.preventDefault();
+      return;
+    }
+
+    // Allow minus sign only at the beginning and only once
+    if (key === '-') {
+      if (currentValue.length > 0 || currentValue.includes('-')) {
+        event.preventDefault();
+      }
+      return;
+    }
+
+    // Allow only digits
+    if (!/^[0-9.-]$/.test(key)) {
+      event.preventDefault();
+    }
+  }
+
+  showValidationErrors() {
+    const errors: string[] = [];
+
+    Object.keys(this.injectionForm.controls).forEach((controlName) => {
+      const control = this.injectionForm.get(controlName);
+      if (control && control.invalid) {
+        control.markAsTouched(); // to trigger errors in UI too
+        const controlErrors = control.errors;
+        if (controlErrors) {
+          Object.keys(controlErrors).forEach((errorKey) => {
+            errors.push(this.getErrorMessage(controlName, errorKey));
+          });
+        }
+      }
+    });
+
+    if (errors.length > 0) {
+      const message = errors.join('\n');
+      this.toastr.error(message, 'Error', {
+        timeOut: 5000,
+      });
+    }
+  }
+
+  getErrorMessage(controlName: string, errorKey: string): string {
+    const labels: { [key: string]: string } = {
+      projectId: 'Project ID',
+      parameterSet: 'Parameter Set',
+      recipeId: 'Recipe Number',
+      repetition: 'Repetition',
+      additive: 'Additive',
+      reference: 'Reference',
+      notes: 'Notes',
+      pretreatmentNone: 'Pretreatment None',
+      pretreatmentDryTest: 'Pretreatment Dry Test',
+      dryingTemperature: 'Drying Temperature',
+      dryingTime: 'Drying Time',
+      residualMoisture: 'Residual Moisture',
+      notMeasured: 'Not Measured',
+      processingMoisture: 'Processing Moisture',
+      plasticizingVolume: 'Plasticizing Volume',
+      decompressionVolume: 'Decompression Volume',
+      holdingPressure: 'Holding Pressure',
+      switchingPoint: 'Switching Point',
+      screwSpeed: 'Screw Speed',
+      speedMms: 'Speed (mm/s)',
+      injectionSpeed: 'Injection Speed',
+      injectionPressure: 'Injection Pressure',
+      temperatureZone: 'Temperature Zone',
+      meltTemperature: 'Melt Temperature',
+      nozzleTemperature: 'Nozzle Temperature',
+      mouldTemperature: 'Mould Temperature',
+    };
+
+    const label = labels[controlName] || controlName;
+
+    switch (errorKey) {
+      case 'required':
+        return `${label} is required.`;
+      case 'maxlength':
+        return `${label} exceeds maximum length.`;
+      case 'min':
+        return `${label} is below minimum allowed value.`;
+      case 'max':
+        return `${label} exceeds maximum allowed value.`;
+      default:
+        return `${label} is invalid.`;
+    }
+  }
 }

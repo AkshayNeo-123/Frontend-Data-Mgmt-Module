@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { APP_CONSTANTS } from './Constants';
 
 export interface LoggedInUser {
   name: string;
@@ -13,8 +14,8 @@ export interface LoggedInUser {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://localhost:7030/api/Account';
-  private passwordApiUrl = 'https://localhost:7030/api/Password';
+  private apiUrl = `${APP_CONSTANTS.apiUrls.loadApiUrl}/Account`;
+  private passwordApiUrl = `${APP_CONSTANTS.apiUrls.loadApiUrl}/Password`;
   // https://localhost:7030/api/Account/login
 
   constructor(private http: HttpClient) { }

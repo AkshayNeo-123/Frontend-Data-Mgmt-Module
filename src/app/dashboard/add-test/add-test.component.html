@@ -29,11 +29,11 @@
   </div>
 
   <form [formGroup]="sharedForm" class="" >
-    <!-- <div class="row mb-3">
+    <div class="row mb-3">
       <div class="col-md-4" *ngIf="!isUpdateMode">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Recipe Name</mat-label>
-          <mat-select
+          <mat-select 
             formControlName="productName"
             (selectionChange)="onRecipeSelect($event)"
           >
@@ -60,7 +60,7 @@
           <input matInput formControlName="comment" />
         </mat-form-field>
       </div>
-    </div> -->
+    </div>
     <!-- Stepper -->
     <mat-horizontal-stepper linear style="background-color: white">
       <mat-step [stepControl]="mechanicalForm">

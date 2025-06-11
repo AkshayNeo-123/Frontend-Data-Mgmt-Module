@@ -5,13 +5,14 @@ import {
 } from '../models/injection-molding';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { APP_CONSTANTS } from './Constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InjectionMoldingService {
   constructor(private http: HttpClient) {}
-  private apiUrl = 'https://localhost:7030/api';
+  private apiUrl = `${APP_CONSTANTS.apiUrls.loadApiUrl}`;
   AddInjection(
     injection: AddInjectionMoulding
   ): Observable<AddInjectionMoulding> {

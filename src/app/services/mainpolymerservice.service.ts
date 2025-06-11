@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MainPolymer } from '../models/contacts';
+import { APP_CONSTANTS } from './Constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MainpolymerserviceService {
 
-  private baseUrl="https://localhost:7030/api/MainPolymer";
+  private baseUrl=`${APP_CONSTANTS.apiUrls.loadApiUrl}/MainPolymer`;
   constructor(private http:HttpClient) { }
      
   getAllPolymers():Observable<MainPolymer[]>{

@@ -118,7 +118,7 @@ export class GetTestComponent implements OnInit,AfterViewInit {
   }
 
   editTest(test: any) {
-    this.router.navigate(['/addtest', test.testId]);
+    this.router.navigate(['/add-test', test.testId]);
   }
  
   export() {
@@ -364,7 +364,9 @@ const workbook = XLSX.utils.book_new();
   const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
   const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
   saveAs(blob, 'Test_Report_Exact.xlsx');
-  this.toastr.success('Downloaded successfully.');
+  this.toastr.success('Downloaded successfully.', '', {
+  timeOut: 5000  
+});
 
     },
     error: (err) => {
