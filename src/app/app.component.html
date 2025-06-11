@@ -22,7 +22,7 @@
   <div class="app-body" [ngClass]="{ 'collapsed-sidebar': !isSidebarOpen }">
    <app-sidebar *ngIf="showSidebar" class="app-sidebar" [isOpen]="isSidebarOpen"></app-sidebar>
 
-    <main class="app-content" [ngClass]="{ 'auth-bg': isCurrentRoute(['/login','/forgot-password']) }">
+    <main class="app-content" [ngClass]="{ 'auth-bg': isCurrentRoute(['/login','/forgot-password', '/pagenotfound']) }">
       <router-outlet></router-outlet>
     </main>
   </div>

@@ -1,0 +1,63 @@
+<!-- <p>pagenotfound works!</p> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 | Resource Not Found</title>
+    <link rel="stylesheet" href="pagenotfound.component.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="industrial-container">
+        <header class="industrial-header">
+            <h1>SYSTEM ALERT</h1>
+            <h2>Resource Locator Failure</h2>
+        </header>
+
+        <div class="error-display">
+            <div class="error-code">
+                <span class="code">ERROR 404</span>
+                <span class="status">PAGE NOT FOUND</span>
+            </div>
+            
+            <div class="error-message">
+                <div class="error-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#e74c3c">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                    </svg>
+                </div>
+                <div class="error-details">
+                    <h3>Resource Location Failed</h3>
+                    <p>The specified data path could not be resolved in our systems.</p>
+                    <p>Possible causes:</p>
+                    <ul>
+                        <li>Incorrect URL entry</li>
+                        <li>Resource has been moved or archived</li>
+                        <li>Temporary system routing issue</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="action-panel">
+                <button class="industrial-btn primary" onclick="window.location.href='/dashboard'">
+                    Return to Dashboard
+                </button>
+                <button class="industrial-btn secondary" onclick="window.history.back()">
+                    Previous Location
+                </button>
+            </div>
+        </div>
+
+        <!-- <footer class="industrial-footer">
+            <p>System timestamp: <span id="datetime"></span></p>
+            <p>Industrial Data Systems © <script>document.write(new Date().getFullYear())</script></p>
+        </footer> -->
+    </div>
+
+    <script>
+        document.getElementById('datetime').textContent = new Date().toLocaleString();
+    </script>
+</body>
+</html>
