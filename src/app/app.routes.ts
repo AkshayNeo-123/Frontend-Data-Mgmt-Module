@@ -30,6 +30,7 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 
 
 import { GetTestComponent } from './dashboard/get-test/get-test.component';
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 
 
 export const routes: Routes = [
@@ -59,8 +60,8 @@ export const routes: Routes = [
 
   { path: 'compounding', component: AddCompoundingComponent },
   { path: 'updatecompounding', component: UpdateCompoundingComponent },
+  { path: 'pagenotfound', component: PagenotfoundComponent },
   {path: 'rolemaster' , component:RolemasterComponent,
-
     canActivate: [permissionGuard],
     data: {
       resource: 'Role',
@@ -86,7 +87,8 @@ export const routes: Routes = [
   // { path: 'addtest', component: AddTestComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' },
+  // { path: '**', redirectTo: 'login' },
+  { path: '**', redirectTo: 'pagenotfound' },
   
 
 ];

@@ -47,7 +47,7 @@ export class AppComponent {
   }
 
   get needSideBar(): boolean {
-    return this.isCurrentRoute(['/login', '/forgot-password']);
+    return this.isCurrentRoute(['/login', '/forgot-password', '/pagenotfound']);
   }
   // isSidebarOpen = true;
   // onToggleSidebar(): void {
@@ -62,7 +62,7 @@ export class AppComponent {
     return !this.isStartPage;
   }
   get showBackButton(): boolean {
-    return !this.isCurrentRoute(['/login', '/forgot-password']);
+    return !this.isCurrentRoute(['/login', '/forgot-password', '/pagenotfound']);
   }
 
   onToggleSidebar(): void {

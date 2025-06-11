@@ -13,7 +13,7 @@ export const permissionGuard: CanActivateFn = (route, state) => {
   const hasPermission = permissionService.hasPermission(resource, action);
 
   if (!hasPermission) {
-    router.navigate(['/login']); // Or any fallback page
+    router.navigate(['/pagenotfound']); // Or any fallback page
     return false;
   }
 
