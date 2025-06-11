@@ -252,7 +252,7 @@ selectedRecipeId: number | null = null;  // currently selected recipe
     this.flammabilityForm.reset();
     this.generalForm.reset();
     this.electricalForm.reset();
-    this.propertiesForm.reset();
+    this.propertiesForm.reset();    
   }
 
   handleAddToTechnicalSheet(): void {
@@ -369,7 +369,7 @@ selectedRecipeId: number | null = null;  // currently selected recipe
       createdDate: new Date().toISOString()
     });
 
-    const requestBody = {
+    const requestBody = {   
       test: this.sharedForm.getRawValue(),
       mechanicalProperty: isFormEmpty(this.mechanicalForm) ? {} : this.mechanicalForm.value,
       temperatureProperty: isFormEmpty(this.temperatureForm) ? {} : this.temperatureForm.value,

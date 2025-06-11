@@ -253,14 +253,14 @@ input:focus {
 .slider-container {
   width: 250px;
   height: 100px;
-  border: 2px solid black;
-  margin: 10px;
+  border: 2px solid rgb(173, 171, 171);
+  margin: 15px;
 }
 
 .slider-label {
   font-weight: 600;
-  margin-bottom: 9px;
-  text-align: center;
+ margin-left: 7px;
+ margin-top: 5px;
   display: block;
 }
 
@@ -276,7 +276,6 @@ input[type='range'] {
   height: 36px;
   position: absolute;
   background: transparent;
-  pointer-events: none;
 }
 
 input[type='range']::-webkit-slider-thumb {
@@ -286,7 +285,6 @@ input[type='range']::-webkit-slider-thumb {
   width: 16px;
   background: #d9c9f2;
   border-radius: 50%;
-  pointer-events: all;
   cursor: pointer;
   position: relative;
   z-index: 3;
@@ -301,32 +299,37 @@ input[type='range']::-webkit-slider-thumb {
   cursor: pointer;
   position: relative;
   z-index: 3;
-} */
+}  */
 
 .slider-base-track {
   position: absolute;
   top: 50%;
   height: 10px;
   width: 100%;
-  background-color: #333; /* black/dark background */
+  background-color: #333; 
   border-radius: 10px;
   transform: translateY(-50%);
   z-index: 1;
+}
+
+input[type='range']:focus::-webkit-slider-thumb {
+  z-index: 4;
 }
 
 .slider-track {
   position: absolute;
   top: 50%;
   height: 10px;
-  background: #b1d536; /* green/yellow active range */
+  background: #b1d536; 
   border-radius: 4px;
   transform: translateY(-50%);
   z-index: 2;
 }
 
 .range-values {
-  text-align: center;
+  /* text-align: center; */
   margin-top: 8px;
   font-weight: bold;
+  margin-left: 7px;
 }
 

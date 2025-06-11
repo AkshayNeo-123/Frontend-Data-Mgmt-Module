@@ -21,10 +21,10 @@
                       <mat-label>Search</mat-label>
                       <input matInput [(ngModel)]="projectFilter" />
                     </mat-form-field>
-                    <button class="mr-3 filter-recipe me-4" (click)="applyCustomFilter()">
+                    <button class="mr-3 filter-recipe me-3" (click)="applyCustomFilter()">
                       <i class="me-2"></i> Filter
                     </button>
-                    <button class="mr-3 reset-contact-btn btn btn me-4" (click)="resetFilter()">
+                    <button class="mr-3 reset-contact-btn btn btn " (click)="resetFilter()">
                       Reset
                     </button>
                   </div>
@@ -34,103 +34,54 @@
                 <div class="mr-3 me-4 count-box">Total Recipes {{ count }}</div>
               </div>
 
-              
-              
-                <!-- <div class="mb-4">
- 
-                   <label class="form-label mt-2">Tensile Modulus (Max)</label>
-                  <input type="range" class="form-range tensile custom-slider" min="1" max="1000" 
-                    [(ngModel)]="tensileMax">
-                  <span>{{ tensileMax }}</span>
 
-                  <label class="form-label">Tensile Modulus (Min)</label>
-                  <input type="range" class="form-range tensile" min="1" max="1000" 
-                    [(ngModel)]="tensileMin">
-                  <span>{{ tensileMin }}</span>
 
-                 
-                </div> -->
-                <div class="d-flex">
-<div class="slider-container">
-  <label class="slider-label">Tensile Modules in MPa</label>
-  <div class="slider-wrapper">
-    <input
-      type="range"
-      min="0"
-      max="1000"
-      [(ngModel)]="tensileMin"
-      (input)="updateTrack()"
-      class="thumb thumb-min"
-    />
-    <input
-      type="range"
-      min="0"
-      max="1000"
-      [(ngModel)]="tensileMax"
-      (input)="updateTrack()"
-      class="thumb thumb-max"
-    />
-    <div class="slider-base-track"></div>
-    <div class="slider-track" [ngStyle]="trackStyle"></div>
-  </div>
-  <div class="range-values">
-    {{ tensileMin }} - {{ tensileMax }}
-  </div>
-</div>
 
-<div class="slider-container">
-  <label class="slider-label">Charpy impact strength in kJ/m²</label>
-  <div class="slider-wrapper">
-    <input
-      type="range"
-      min="0"
-      max="1000"
-      [(ngModel)]="charpyMin"
-      (input)="updateCharpyTrack()"
-      class="thumb thumb-min"
-    />
-    <input
-      type="range"
-      min="0"
-      max="1000"
-      [(ngModel)]="charpyMax"
-      (input)="updateCharpyTrack()"
-      class="thumb thumb-max"
-    />
-    <div class="slider-base-track"></div>
-    <div class="slider-track" [ngStyle]="charpyTrackStyle"></div>
-  </div>
-  <div class="range-values">
-    {{ charpyMin }} - {{ charpyMax }}
-  </div>
-</div>
-<div class="slider-container">
-  <label class="slider-label">StressAtYield in MPa</label>
-  <div class="slider-wrapper">
-    <input
-      type="range"
-      min="0"
-      max="1000"
-      [(ngModel)]="stressMin"
-      (input)="updateStressTrack()"
-      class="thumb thumb-min"
-    />
-    <input
-      type="range"
-      min="0"
-      max="1000"
-      [(ngModel)]="stressMax"
-      (input)="updateStressTrack()"
-      class="thumb thumb-max"
-    />
-    <div class="slider-base-track"></div>
-    <div class="slider-track" [ngStyle]="stressTrackStyle"></div>
-  </div>
-  <div class="range-values">
-    {{ stressMin }} - {{ stressMax }}
-  </div>
-</div>
-</div>
+              <div class="d-flex gap-5 mb-3 p-2">
+                <div class="slider-container">
+                  <label class="slider-label">Tensile Modules in MPa</label>
+                  <div class="slider-wrapper">
+                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="tensileMin" (input)="updateTrack()"
+                      class="thumb thumb-min" />
+                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="tensileMax" (input)="updateTrack()"
+                      class="thumb thumb-max" />
+                    <div class="slider-base-track"></div>
+                    <div class="slider-track" [ngStyle]="trackStyle"></div>
+                  </div>
+                  <div class="range-values">
+                    {{ tensileMin }} - {{ tensileMax }}
+                  </div>
+                </div>
+
+                <div class="slider-container">
+                  <label class="slider-label">Charpy impact strength in kJ/m²</label>
+                  <div class="slider-wrapper">
+                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="charpyMin" (input)="updateCharpyTrack()"
+                      class="thumb thumb-min" />
+                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="charpyMax" (input)="updateCharpyTrack()"
+                      class="thumb thumb-max" />
+                    <div class="slider-base-track"></div>
+                    <div class="slider-track" [ngStyle]="charpyTrackStyle"></div>
+                  </div>
+                  <div class="range-values">
+                    {{ charpyMin }} - {{ charpyMax }}
+                  </div>
+                </div>
+                <div class="slider-container">
+                  <label class="slider-label">StressAtYield in MPa</label>
+                  <div class="slider-wrapper">
+                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="stressMin" (input)="updateStressTrack()"
+                      class="thumb thumb-min" />
+                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="stressMax" (input)="updateStressTrack()"
+                      class="thumb thumb-max" />
+                    <div class="slider-base-track"></div>
+                    <div class="slider-track" [ngStyle]="stressTrackStyle"></div>
+                  </div>
+                  <div class="range-values">
+                    {{ stressMin }} - {{ stressMax }}
+                  </div>
+                </div>
+              </div>
 
 
 
@@ -168,7 +119,7 @@
 
                       <div class="progress-info-box">
                         <div class="progress-item">
-                          <label class="progress-label"><b>Tensile Modulus:{{recipe.tensileModulus_DAM}}</b></label>
+                          <label class="progress-label"><b>Tensile Modulus : </b>{{recipe.tensileModulus_DAM}}</label>
                           <div class="progress">
                             <div class="progress-bar" role="progressbar"
                               [attr.aria-valuenow]="recipe.tensileModulus_DAM" aria-valuemin="0" aria-valuemax="1000"
@@ -178,18 +129,20 @@
                         </div>
 
                         <div class="progress-item">
-                          <label class="progress-label"><b>Impact:{{recipe.charpyImpact_DAM}}</b></label>
+                          <label class="progress-label"><b>Impact : </b>{{recipe.charpyImpact_DAM}}</label>
                           <div class="progress">
                             <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="recipe.charpyImpact_DAM"
-                              aria-valuemin="0" aria-valuemax="100" [style.width.%]="recipe.charpyImpact_DAM">
+                              aria-valuemin="0" aria-valuemax="1000"
+                              [style.width.%]="(recipe.charpyImpact_DAM ?? 0) / 1000 * 100 ">
                             </div>
                           </div>
                         </div>
                         <div class="progress-item">
-                          <label class="progress-label"><b>Strength :{{recipe.stressAtYield_DAM}}</b></label>
+                          <label class="progress-label"><b>StressAtYield  : </b>{{recipe.stressAtYield_DAM}}</label>
                           <div class="progress">
                             <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="recipe.stressAtYield_DAM"
-                              aria-valuemin="0" aria-valuemax="100" [style.width.%]="recipe.stressAtYield_DAM">
+                              aria-valuemin="0" aria-valuemax="100"
+                              [style.width.%]="(recipe.stressAtYield_DAM ?? 0) / 1000 * 100">
                             </div>
                           </div>
                         </div>

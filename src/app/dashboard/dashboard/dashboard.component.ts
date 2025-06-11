@@ -169,11 +169,18 @@ stressMax: number=1000;
     ).subscribe({
       next: (data) => {
         this.recipyAndProject = data;
-
+      console.log(this.projectFilter);
         console.log(this.recipyAndProject);
-        
+         console.log(this.tensileMax);
+         console.log(this.tensileMin);
+         console.log(this.charpyMax);
+         console.log(this.charpyMin);
+         console.log(this.stressMax);
+         console.log(this.stressMin);
+
 
         this.count = data.length;
+           this.currentPage = 1;
         // this.currentPage = page;
         this.totalPages = Math.ceil(data.length / this.pageSize);
 
@@ -198,10 +205,10 @@ updateTrack() {
     this.tensileMax = temp;
   }
 
-  const min = this.tensileMin;
-  const max = this.tensileMax;
+  const min = this.tensileMin;   //100
+  const max = this.tensileMax;   //1000
 
-  const minPercent = ((min - 1) / (1000 - 1)) * 100;
+  const minPercent = ((min - 1) / (1000 - 1)) * 100;  //(100-1)/(1000-1)*'1000
   const maxPercent = ((max - 1) / (1000 - 1)) * 100;
 
   this.trackStyle = {
@@ -247,8 +254,18 @@ updateStressTrack(): void {
 
   resetFilter(): void {
     this.projectFilter = '';
+    this.tensileMin=0;
+    this.tensileMax=1000;
+    this.charpyMin=0;
+    this.charpyMax=1000;
+    this.stressMax=1000;
+    this.stressMin=0;
+    this.currentPage = 1;
+    this.updateTrack();
+    this.updateCharpyTrack();
+    this.updateStressTrack();
     
-    //  this.currentPage
+    
     this.loadRecipes();
   }
 

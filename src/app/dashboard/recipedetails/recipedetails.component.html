@@ -68,23 +68,23 @@
            role="progressbar"
            [attr.aria-valuenow]="testData?.mechanicalPropertyDto?.charpyImpact_DAM ?? 0"
            aria-valuemin="0"
-           aria-valuemax="100"
-           [style.width.%]="testData?.mechanicalPropertyDto?.charpyImpact_DAM ?? 0">
+           aria-valuemax="1000"
+           [style.width.%]="(testData?.mechanicalPropertyDto?.charpyImpact_DAM ?? 0)/1000*100">
       </div>
     </div>
   </div>
 
   <div class="progress-item" *ngIf="testData?.mechanicalPropertyDto?.stressAtYield_DAM !=null">
     <label class="progress-label">
-      <b>Tensile Strength<br>{{ testData?.mechanicalPropertyDto?.stressAtYield_DAM ?? 0 }}</b>
+      <b>StressAtYield<br> in MPa {{ testData?.mechanicalPropertyDto?.stressAtYield_DAM ?? 0 }}</b>
     </label>
     <div class="progress">
       <div class="progress-bar"
            role="progressbar"
            [attr.aria-valuenow]="testData?.mechanicalPropertyDto?.stressAtYield_DAM ?? 0"
            aria-valuemin="0"
-           aria-valuemax="100"
-           [style.width.%]="testData?.mechanicalPropertyDto?.stressAtYield_DAM?? 0">
+           aria-valuemax="1000"
+           [style.width.%]="(testData?.mechanicalPropertyDto?.stressAtYield_DAM?? 0)/1000 * 100">
       </div>
     </div>
   </div>
@@ -121,13 +121,13 @@
                 <tbody>
                   <tr>
                     <td>{{ testData.electricalPropertyDto.volumeResistivity1 ?
-                      (testData.electricalPropertyDto.volumeResistivity1 + ' cm') : '-' }}</td>
+                      (testData.electricalPropertyDto.volumeResistivity1 ) : '-' }}</td>
                     <td>{{ testData.electricalPropertyDto.volumeResistivity2 ?
-                      (testData.electricalPropertyDto.volumeResistivity2 + ' cm') : '-' }}</td>
+                      (testData.electricalPropertyDto.volumeResistivity2 ) : '-' }}</td>
                     <td>{{ testData.electricalPropertyDto.surfaceResistivity ?
-                      (testData.electricalPropertyDto.surfaceResistivity + ' cm') : '-' }}</td>
+                      (testData.electricalPropertyDto.surfaceResistivity ) : '-' }}</td>
                     <td>{{ testData.electricalPropertyDto.comparativeTracking ?
-                      (testData.electricalPropertyDto.comparativeTracking + ' V') : '-' }}</td>
+                      (testData.electricalPropertyDto.comparativeTracking ) : '-' }}</td>
                   </tr>
                 </tbody>
               </table>
