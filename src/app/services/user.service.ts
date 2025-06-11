@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { APP_CONSTANTS } from './Constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl = 'https://localhost:7030/api/User'; //backend API
+  private baseUrl = `${APP_CONSTANTS.apiUrls.userUrl}`;
 
   constructor(private http: HttpClient) { }
 
@@ -31,7 +32,7 @@ export class UserService {
   }
 
   getRoles() {
-    return this.http.get<any[]>('https://localhost:7030/api/Role');
+    return this.http.get<any[]>(`${APP_CONSTANTS.apiUrls.roleUrl}`);
   }
 
   changePassword(userId:number,payload: { oldPassword: string, newPassword: string }){

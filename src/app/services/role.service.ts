@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Menu } from '../models/menu.model';
+import { APP_CONSTANTS } from './Constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoleService {
-  private baseUrl = 'https://localhost:7030/api/Role'; 
+  // private baseUrl = 'https://localhost:7030/api/Role'; 
+  private baseUrl = `${APP_CONSTANTS.apiUrls.roleUrl}`; 
+
 
   constructor(private http: HttpClient) {}
 
@@ -38,7 +41,7 @@ export class RoleService {
   }
 
   getAllMenus(): Observable<Menu[]> {
-  return this.http.get<Menu[]>(`https://localhost:7030/api/Menu`);
+  return this.http.get<Menu[]>(`${APP_CONSTANTS.apiBaseUrl}/api/Menu`);
   }
 
 }

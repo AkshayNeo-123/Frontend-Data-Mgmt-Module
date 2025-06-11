@@ -2,12 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ExportTestDataDto } from '../models/test';
+import { APP_CONSTANTS } from './Constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TestService {
-  private baseUrl = 'https://localhost:7030/api/Test';
+  // private baseUrl = 'https://localhost:7030/api/Test';
+  private baseUrl = `${APP_CONSTANTS.apiUrls.testUrl}`
 
   constructor(private http: HttpClient) { }
 

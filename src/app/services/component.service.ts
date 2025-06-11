@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
+import { APP_CONSTANTS } from './Constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ComponentService {
-  private baseUrl = 'https://localhost:7030/api/RecipeComponent';
-  private componentUrl = 'https://localhost:7030/api/Component';
+  private baseUrl = `${APP_CONSTANTS.apiUrls.loadApiUrl}/RecipeComponent`;
+  private componentUrl = `${APP_CONSTANTS.apiUrls.loadApiUrl}/Component`;
 
 
   constructor(private http: HttpClient) {}

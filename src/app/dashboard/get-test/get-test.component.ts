@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { RouterModule, Router } from '@angular/router'; // ✅ added RouterModule + Router
+import { RouterModule, Router } from '@angular/router'; 
 
 import { AddTestComponent } from '../add-test/add-test.component';
 import { TestService } from '../../services/test.service';
@@ -38,7 +38,7 @@ import { saveAs } from 'file-saver';
     MatIconModule,
     MatCheckboxModule,
     MatDialogModule,
-    RouterModule, // ✅ added RouterModule for routerLink
+    RouterModule, 
   ],
   templateUrl: './get-test.component.html',
   styleUrls: ['./get-test.component.css'],
@@ -68,7 +68,7 @@ export class GetTestComponent implements OnInit,AfterViewInit {
     'flammability',
     'electrical',
     'properties',
-    // 'actions',
+ 
   ];
 
   exportdata= new MatTableDataSource<ExportTestDataDto>([]);
@@ -118,121 +118,24 @@ export class GetTestComponent implements OnInit,AfterViewInit {
   }
 
   editTest(test: any) {
-    this.router.navigate(['/addtest', test.testId]);
+    this.router.navigate(['/add-test', test.testId]);
   }
-  // export(){
-  //   this.testService.ExportData().subscribe({
-  //     next: (data: ExportTestDataDto[]) => {
-  //       // this.exportdata = data;
-  //       this.exportdata.data = data;
-  //       console.log(this.exportdata.data);
-
-  //       const exportArray = this.exportdata.data.map(item => ({
-  //     'Test ID': item.testId,
-  //     'Recipe Number': item.test?.recipeNumber ?? '',
-  //     'Recipe Name': item.test?.recipeName ?? '',
-  //     'Main Polymer Name': item.test?.mainPplymerName ?? '',
-  //     'Comment': item.test?.comment ?? '',
-  //     'Created By': item.test?.createdBy ?? '',
-  //     'Created Date': item.test?.createdDate ? new Date(item.test.createdDate).toLocaleDateString() : '',
-  //     'Is Publish': item.test?.isPublish ?? '',
-
-  //     // Mechanical Properties
-  //     'Tensile Modulus DAM': item.mechanicalProperty?.tensileModulus_DAM ?? '',
-  //     'Stress At Yield Conditioned': item.mechanicalProperty?.stressAtYield_Conditioned ?? '',
-  //     'Flexural Strength DAM': item.mechanicalProperty?.flexuralStrength_DAM ?? '',
-
-  //     // Temperature Properties
-  //     'Temp HDT B': item.temperatureProperty?.tempHdtB ?? '',
-
-  //     // Electrical Properties
-  //     'Volume Resistivity 1': item.electricalProperty?.volumeResistivity1 ?? '',
-
-  //     // General Properties
-  //     'Molding Shrinkage Flow': item.generalProperty?.moldingShrinkageFlow ?? '',
-
-  //     // Additional Flags
-  //     'Fluid Injection': item.properties?.fluidInjection ?? ''
-  //   }));
-
-  //   // Create worksheet and workbook
-  //   const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportArray, { header: Object.keys(exportArray[0]) });
-  //   const workbook: XLSX.WorkBook = {
-  //     Sheets: { 'Exported Data': worksheet },
-  //     SheetNames: ['Exported Data']
-  //   };
-
-  //   // Write workbook and trigger download
-  //   const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-  //   const blob: Blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-  //   saveAs(blob, 'TestExport.xlsx');
-  // }
-
-       
-        
-  //     },
-  //     error: (err) => {
-  //       console.error('Error fetching test data:', err);
-  //     },
-  //   });
-  // }
-
-  
-
-  // deleteTest(name: string) {
-  //   console.log('Delete:', name);
-  // }
+ 
   export() {
   this.testService.ExportData().subscribe({
     next: (data: ExportTestDataDto[]) => {
       this.exportdata.data = data;
       console.log(this.exportdata.data);
 
-      // const exportArray = this.exportdata.data.map(item => ({
-      //   'Test ID': item.testId,
-      //   'Recipe Number': item.test?.recipeNumber ?? '',
-      //   'Recipe Name': item.test?.recipeName ?? '',
-      //   'Main Polymer Name': item.test?.mainPplymerName ?? '',
-      //   'Comment': item.test?.comment ?? '',
-      //   'Created By': item.test?.createdBy ?? '',
-      //   'Created Date': item.test?.createdDate ? new Date(item.test.createdDate).toLocaleDateString() : '',
-      //   'Is Publish': item.test?.isPublish ?? '',
-
-      //   'Tensile Modulus DAM': item.mechanicalProperty?.tensileModulus_DAM ?? '',
-      //   'Stress At Yield Conditioned': item.mechanicalProperty?.stressAtYield_Conditioned ?? '',
-      //   'Flexural Strength DAM': item.mechanicalProperty?.flexuralStrength_DAM ?? '',
-
-      //   'Temp HDT B': item.temperatureProperty?.tempHdtB ?? '',
-
-      //   'Volume Resistivity 1': item.electricalProperty?.volumeResistivity1 ?? '',
-
-      //   'Molding Shrinkage Flow': item.generalProperty?.moldingShrinkageFlow ?? '',
-
-      //   'Fluid Injection': item.properties?.fluidInjection ?? ''
-      // }));
-
-      // if (!exportArray.length) {
-      //   console.warn('No data to export');
-      //   return;
-      // }
-
-      // const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportArray, { header: Object.keys(exportArray[0]) });
-      // const workbook: XLSX.WorkBook = {
-      //   Sheets: { 'Exported Data': worksheet },
-      //   SheetNames: ['Exported Data']
-      // };
-
-      // const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-      // const blob: Blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      // saveAs(blob, 'TestExport.xlsx');
+     
 
        this.worksheetData.push([
     'Recipe Number',
     'Recipe Name',
     'Main Polymer',
     'Comments',
-    'Temperature Properties', '', '', '','', 
     'Mechanical Properties', '', '','', '', '','', '', '','', '', '','', '', '','', '', '','', '', '','','', '','', '', '','',// spans 3 mechanical props
+    'Temperature Properties', '', '', '','', 
     'Flammability Properties', '', '','','',
     'General Properties', '', '','', '', '',
     'Electrical Properties', '', '','',
@@ -240,23 +143,10 @@ export class GetTestComponent implements OnInit,AfterViewInit {
   ]);
 
    this.worksheetData.push([
-  // Test info
-  // 'Test ID',
-  // 'Recipe Number',
-  // 'Recipe Name',
-  // 'Main Polymer Name',
-  // 'Comment',
-  // 'Created By',
-  // 'Created Date',
-  // 'Is Publish',
+
   '', '','','',
 
-  // TemperaturePropertyDto
-  'TempHdtA',
-  'TempHdtB',
-  'MeltingTemp',
-  'CoefficientsParallel',
-  'CoefficientsTransverse',
+  
 
   // MechanicalPropertyDto
   'TensileModulus_DAM',
@@ -287,6 +177,13 @@ export class GetTestComponent implements OnInit,AfterViewInit {
   'IzodNotchedImpact_Conditioned',
   'ShoreDHardness_DAM',
   'ShoreDHardness_Conditioned',
+
+  // TemperaturePropertyDto
+  'TempHdtA',
+  'TempHdtB',
+  'MeltingTemp',
+  'CoefficientsParallel',
+  'CoefficientsTransverse',
 
   // FlammabilityPropertyDto
   'BurningRateWallThickness',
@@ -429,8 +326,8 @@ worksheet['!merges'] = [
     { s: { r: 0, c: 1 }, e: { r: 1, c: 1 } }, // Recipe Name
     { s: { r: 0, c: 2 }, e: { r: 1, c: 2 } }, // Main Polymer
     { s: { r: 0, c: 3 }, e: { r: 1, c: 3 } }, // Main Polymer
-    { s: { r: 0, c: 4 }, e: { r: 0, c: 8 } }, // Temperature Properties
-    { s: { r: 0, c: 9 }, e: { r: 0, c: 36 } }, // Mechanical Properties
+    { s: { r: 0, c: 4 }, e: { r: 0, c: 31 } }, // Temperature Properties
+    { s: { r: 0, c: 31 }, e: { r: 0, c: 36 } }, // Mechanical Properties
     { s: { r: 0, c: 37 }, e: { r: 0, c: 41 } }, 
     { s: { r: 0, c: 42 }, e: { r: 0, c: 47 } }, 
     { s: { r: 0, c:  48}, e: { r: 0, c: 51 } }, 
@@ -449,13 +346,13 @@ worksheet['!merges'] = [
   }
 };
 
-// Apply styles to merged headers
+
 worksheet['A1'].s = centerStyle; // Recipe Number
 worksheet['B1'].s = centerStyle; // Recipe Name
 worksheet['C1'].s = centerStyle; // Main Polymer
 worksheet['D1'].s = centerStyle; // Comments
 worksheet['E1'].s = centerStyle; // Temperature Properties
-worksheet['J1'].s = centerStyle; // Mechanical Properties
+worksheet['AG1'].s = centerStyle; // Mechanical Properties
 worksheet['AL1'].s = centerStyle; // Flammability
 worksheet['AQ1'].s = centerStyle; // General
 worksheet['AW1'].s = centerStyle; // Electrical
@@ -467,7 +364,9 @@ const workbook = XLSX.utils.book_new();
   const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
   const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
   saveAs(blob, 'Test_Report_Exact.xlsx');
-  this.toastr.success('Downloaded successfully.');
+  this.toastr.success('Downloaded successfully.', '', {
+  timeOut: 5000  
+});
 
     },
     error: (err) => {
@@ -476,7 +375,19 @@ const workbook = XLSX.utils.book_new();
   });
 }
 getValue(value: any): string {
-  return value === null || value === undefined || value === '' ? '-' : value;
+  if (value === null || value === undefined || value === '') {
+    return '-';
+  }
+
+  if (value === true) {
+    return 'Yes';
+  }
+
+  if (value === false) {
+    return 'No';
+  }
+
+  return value;
 }
 
   deleteTest(id: any) {
@@ -503,7 +414,7 @@ getValue(value: any): string {
             if (this.paginator) {
               this.paginator.firstPage();
             }
-            // You might want to refresh the list here or remove the deleted item from data source
+            
           },
           error: (err: any) => {
             console.error('Error:', err);
