@@ -358,7 +358,7 @@ export class AddCompoundingComponent implements OnInit {
     this.compoundingService.addCompoundingData(requestBody).subscribe({
       next: (res) => {
         console.log('API Success:', res);
-        this.toastr.success('Saved successfully.', 'Success', {
+        this.toastr.success('Saved successfully.', '', {
           timeOut: 3000
         });
         this.compoundForm.reset();
@@ -369,7 +369,7 @@ export class AddCompoundingComponent implements OnInit {
       },
       error: (err) => {
         console.error('API Error:', err);
-        this.toastr.error('Failed to submit the form.', 'Error', { timeOut: 3000 });
+        this.toastr.error('Failed to submit the form.', '', { timeOut: 3000 });
       }
     });
   }

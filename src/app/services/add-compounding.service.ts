@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AddCompoundingRequest } from './../models/compounding.model'; 
+import { APP_CONSTANTS } from './Constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddCompoundingService {
-  private addCompounding = 'https://localhost:7030/api/CompoundingData';
+  private addCompounding = `${APP_CONSTANTS.apiUrls.loadApiUrl}/CompoundingData`;
 
   constructor(private http: HttpClient) {}
 
@@ -45,7 +46,7 @@ getCompoundingDataByRecipeId(recipeId: number, searchDate?: string): Observable<
 
 
 deleteCompoundingData(compoundingId: number, deletedBy: number): Observable<any> {
-  return this.http.delete(`https://localhost:7030/api/CompoundingData?CompoundingId=${compoundingId}&DeletedBy=${deletedBy}`);
+  return this.http.delete(`${APP_CONSTANTS.apiUrls.loadApiUrl}/CompoundingData?CompoundingId=${compoundingId}&DeletedBy=${deletedBy}`);
 }
 
 getLastCommonSet(): Observable<any> {

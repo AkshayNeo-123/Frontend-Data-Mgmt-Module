@@ -3,12 +3,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { CommonTest, Recipe, RecipeAndProject } from '../models/recipe.model';
+import { APP_CONSTANTS } from './Constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
-  private baseUrl = 'https://localhost:7030/api/Recipe';
+  // private baseUrl = 'https://localhost:7030/api/Recipe';
+  private baseUrl = `${APP_CONSTANTS.apiUrls.recipeUrl}`;
 
   constructor(private http: HttpClient) {}
 
