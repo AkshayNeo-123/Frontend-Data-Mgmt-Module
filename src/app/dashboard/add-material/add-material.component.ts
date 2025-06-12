@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { APP_CONSTANTS } from '../../services/Constants';
 
 @Component({
   selector: 'app-add-material',
@@ -38,7 +39,7 @@ export class AddMaterialComponent implements OnInit {
   storageLocations: any[] = [];
   materials: Material[] = [];
 
-  baseUrl = 'https://localhost:7030'; 
+  baseUrl = `${APP_CONSTANTS.apiBaseUrl}`; 
 
   constructor(
     private fb: FormBuilder,
@@ -170,14 +171,14 @@ export class AddMaterialComponent implements OnInit {
 
     request$.subscribe({
       next: () => {
-        this.toastr.success(this.isEditMode ? 'Updated successfully.' : 'Saved successfully.', 'Success', {
+        this.toastr.success(this.isEditMode ? 'Updated successfully.' : 'Saved successfully.', '', {
           timeOut: 5000
         });
         this.dialogRef.close(true);
       },
       error: (err) => {
         console.error('Save error:', err);
-        this.toastr.error('Something went wrong while saving material.', 'Error', {
+        this.toastr.error('Something went wrong while saving material.', '', {
           timeOut: 5000
         });
       }
@@ -190,7 +191,7 @@ export class AddMaterialComponent implements OnInit {
   
     if (file) {
       if (file.type !== 'application/pdf') {
-        this.toastr.error('Only PDF files are allowed.', 'Invalid File', { timeOut: 3000 });
+        this.toastr.error('Only PDF files are allowed.', '', { timeOut: 3000 });
         input.value = '';
         return;
       }
@@ -204,7 +205,7 @@ export class AddMaterialComponent implements OnInit {
           },
           error: (err) => {
             console.error('File upload failed:', err);
-            this.toastr.error('File upload failed.', 'Error', { timeOut: 3000 });
+            this.toastr.error('File upload failed.', '', { timeOut: 3000 });
           }
         });
       } else {
@@ -215,7 +216,7 @@ export class AddMaterialComponent implements OnInit {
           },
           error: (err) => {
             console.error('File upload failed:', err);
-            this.toastr.error('File upload failed.', 'Error', { timeOut: 3000 });
+            this.toastr.error('File upload failed.', '', { timeOut: 3000 });
           }
         });
       }

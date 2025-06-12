@@ -2,19 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Material } from '../models/material.model'; 
+import { APP_CONSTANTS } from './Constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MaterialService {
 
-  private apiUrl = 'https://localhost:7030/api/Materials/GetMaterials';
-  private addMaterialapi = 'https://localhost:7030/api/Materials/AddMaterials'; 
-  private deleteMaterialapi = 'https://localhost:7030/api/Materials/'; 
-  private updateMaterialApi = 'https://localhost:7030/api/Materials/UpdateMaterials';
-private GetMvrMfr='https://localhost:7030/api/MaterialMaster/mvrmfr';
-private GetStorageLocation='https://localhost:7030/api/MaterialMaster/storage';
-private apifileUrl = 'https://localhost:7030/api/File/FileUpload';
+  private apiUrl = `${APP_CONSTANTS.apiUrls.loadApiUrl}/Materials/GetMaterials`;
+  private addMaterialapi = `${APP_CONSTANTS.apiUrls.loadApiUrl}/Materials/AddMaterials`; 
+  private deleteMaterialapi = `${APP_CONSTANTS.apiUrls.loadApiUrl}/Materials`; 
+  private updateMaterialApi = `${APP_CONSTANTS.apiUrls.loadApiUrl}/Materials/UpdateMaterials`;
+private GetMvrMfr=`${APP_CONSTANTS.apiUrls.loadApiUrl}/MaterialMaster/mvrmfr`;
+private GetStorageLocation=`${APP_CONSTANTS.apiUrls.loadApiUrl}/MaterialMaster/storage`;
+private apifileUrl = `${APP_CONSTANTS.apiUrls.loadApiUrl}/File/FileUpload`;
   constructor(private http: HttpClient) { }
 
   // Method to fetch materials data
@@ -27,7 +28,7 @@ private apifileUrl = 'https://localhost:7030/api/File/FileUpload';
   }
 
   deleteMaterial(materialId: number): Observable<any> {
-    const url = `https://localhost:7030/api/Materials/${materialId}`;
+    const url = `${this.deleteMaterialapi}/${materialId}`;
     return this.http.delete(url, { responseType: 'text' });
   }
   
@@ -60,7 +61,7 @@ private apifileUrl = 'https://localhost:7030/api/File/FileUpload';
     formData.append('file', file, file.name);
     formData.append('oldFilePath', oldFilePath);  // Add the old file path
   
-    return this.http.post<any>('https://localhost:7030/api/File/FileUpdate', formData);
+    return this.http.post<any>(`${APP_CONSTANTS.apiUrls.loadApiUrl}/File/FileUpdate`, formData);
   }
   
 }

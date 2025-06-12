@@ -19,11 +19,12 @@ import { AddInjectionMoulding, InjectionMolding } from '../../models/injection-m
 import { AddInjectionMoldingComponent } from '../add-injection-molding/add-injection-molding.component';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-recipedetails',
   standalone:true,
-  imports: [CommonModule,MatDialogActions,  MatButtonModule,MatIcon,MatTooltipModule],
+  imports: [CommonModule,MatDialogActions,  MatButtonModule,MatIcon,MatTooltipModule,MatCheckboxModule],
   templateUrl: './recipedetails.component.html',
   styleUrl: './recipedetails.component.css'
 })
@@ -45,6 +46,7 @@ recipeId!:number;
     recipeNumber: 0
     
   };
+  classes: string = "col-md-6";
 
 compoundingData?:  CompoundingDataDTO[] | null = null;
 injectionData:AddInjectionMoulding[]|null=null;
@@ -121,12 +123,23 @@ injectionData:AddInjectionMoulding[]|null=null;
     loadTestByRecipe(recipeId:number):void{
         console.log('Calling getTestByRecipe with ID:', recipeId); 
 
-      this.recipeService.getTestByRecipe(recipeId).subscribe({
+      this.recipeService.getTestPropertiesByRecipe(recipeId).subscribe({
       next:(data)=>{
         this.testData=data;
+        console.log({"this.testData?.mechanicalPropertyDto": this.testData?.mechanicalPropertyDto});
+        if (!this.testData?.mechanicalPropertyDto) {
+          this.classes = "col-md-12"
+        }
+        
         console.log("test data is:",this.testData);
       },
-      error:(err)=>console.error('Error fetching recipe details', err)
+      error:(err)=>{
+        console.log({"this.testData?.mechanicalPropertyDto": this.testData?.mechanicalPropertyDto});
+        if (!this.testData?.mechanicalPropertyDto) {
+          this.classes = "col-md-12"
+        }
+        console.error('Error fetching recipe details', err)
+      }
       })
 
     }
@@ -142,13 +155,13 @@ downloadPDF(): void {
     }
 
     const options = {
-       margin:10,
+       margin:4 ,
       
-      filename: 'recipeDetails.pdf',
+      filename: 'RecipeDetails.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      pagebreak: { mode: ['avoid-all','css', 'legacy'] },
+      pagebreak: { mode: [,'css', 'legacy'] },
       avoid: ['.no-break'] 
     };
 
@@ -179,5 +192,10 @@ get hasCompoundingData(): boolean {
 get hasInjectionData():boolean{
   return Array.isArray(this.injectionData)&& this.injectionData?.length>0;
 }
+
+
+
+
+
 }
 

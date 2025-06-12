@@ -2,14 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { AddPRoject, Project, UpdateProject } from '../models/project.model';  
+import { APP_CONSTANTS } from './Constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
 
-  private apiUrl = 'https://localhost:7030/api/Projects';
-  private loadApiUrl='https://localhost:7030/api';
+  // private apiUrl = 'https://localhost:7030/api/Projects';
+  private apiUrl = `${APP_CONSTANTS.apiUrls.projectUrl}`;
+  // private loadApiUrl='https://localhost:7030/api';
+  private loadApiUrl=`${APP_CONSTANTS.apiUrls.loadApiUrl}`;
   constructor(private http: HttpClient) {}
 
   getAllProjects(): Observable<Project[]> {

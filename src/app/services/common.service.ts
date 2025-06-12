@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RecipeComponentType } from '../models/recipe-component-type.model';
 import { RecipeAndComponent } from '../models/project.model';
+import { APP_CONSTANTS } from './Constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CommonService {
-  private apiUrl = 'https://localhost:7030/api'; 
+  private apiUrl = `${APP_CONSTANTS.apiUrls.loadApiUrl}`; 
 
   constructor(private http: HttpClient) {}
 

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {  Additives } from '../models/contacts';
+import { APP_CONSTANTS } from './Constants';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import {  Additives } from '../models/contacts';
 export class AdditiveservicesService {
 
 
-  private baseUrl = 'https://localhost:7030/api/Additive'; 
+  private baseUrl = `${APP_CONSTANTS.apiUrls.loadApiUrl}/Additive`; 
   private additiveid?:number;
   constructor(private http:HttpClient) { }
 

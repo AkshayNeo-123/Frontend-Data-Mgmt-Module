@@ -7,6 +7,20 @@
 
 
 }
+.progress-item{
+  width: 170px;
+  height: 90px;
+  background-color: rgb(170, 228, 112);
+  border: 2px solid rgb(204, 200, 200);
+      text-align: center;
+    font-weight: 300;
+} 
+.progress-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);   gap: 10px;
+  margin-top: 20px;
+   align-items: start;
+}
 
 .pdf-download-btn::after {
   content: "Download to PDF";
@@ -61,7 +75,7 @@
 .custom-dark-border th,
 .custom-dark-border td {
   border: 1px solid #343a40;
-   width: 150px;
+   max-width: 150px; word-break: break-word;
 }
 
 .custom-dark-border thead th {
@@ -79,9 +93,9 @@
 }
 
 
-.property-grid {
+.properties-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   align-items: start;
 
@@ -90,57 +104,86 @@
   }
 
   .full-width {
-    grid-column: span 4;
+    grid-column: span 3;
   }
 }
+
+.custom-scope table{
+  width: 100%;
+  table-layout: fixed;
+word-break: normal;}
 
 .table.no-borders td,
 .table.no-borders th {
   border: none !important;
 }
-.properties-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px 24px;
+
+
+
+
+
+
+.bcolor{
+  font-size: 14px;
+  /* font-weight:lighter; */
+  color: #000000c0;
+}
+.mcolor{
+  color: #aaabad;
 }
 
-.property-item {
+.recipe-card, .recipe-info {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+}
+.recipe-info dt {
+  font-weight: bold;
+}
+.recipe-info dd {
+  margin-bottom: 1em;
+}
+
+
+.pdf-checkbox {
+    display: inline-block;
+   
+    border-radius: 3px;
+    text-align: center;
+    line-height: 16px;
+    font-size: 13px;
+    font-weight: bold;
+    color: rgb(48, 46, 46);
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .pdf-checkbox.checked {
+    color: rgb(48, 46, 46);
+    /* border: 2px solid #888; */
+  }
+ 
+
+ .property-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.property-grid {
+  flex: 1;
+  min-width: 300px;
+  display: grid;
+ grid-template-columns: repeat(2, 1fr);  gap: 12px;
+}
+
+.property-item {  color: #000000c0;font-weight: bold;
+
   display: flex;
   align-items: center;
-  gap: 8px;
+  font-size: 14px;  font-size: 14px;
+
 }
 
-.custom-checkbox {
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border: 2px solid #ccc;
-  border-radius: 3px;
-  position: relative;
-  cursor: not-allowed;
-  background-color: white;
+.page-break {
+  page-break-before: avoid;
 }
-
-.custom-checkbox:checked {
-  background-color: #28a745;
-  border-color: #28a745;
-}
-
-.custom-checkbox:checked::after {
-  content: '✓';
-  color: white;
-  font-size: 14px;
-  position: absolute;
-  top: -2px;
-  left: 3px;
-}
-
-.no-break {
-  break-inside: avoid;
-  page-break-inside: avoid;
-  display: block;
-}
-
-
-
-
