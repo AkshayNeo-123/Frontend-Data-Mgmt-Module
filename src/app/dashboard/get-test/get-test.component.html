@@ -33,8 +33,9 @@
   </div>
 
   <div *ngIf="loading" class="spinner-container">
-  <mat-spinner></mat-spinner>
-</div>
+  <!-- <mat-spinner></mat-spinner>Loading... -->
+     <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...
+  </div>
 
 
 <div *ngIf="!loading">
