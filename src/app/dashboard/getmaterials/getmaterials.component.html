@@ -23,8 +23,12 @@
     </div>
   </div>
 
+  <div *ngIf="loading" class="spinner-container">
+    <!-- <mat-spinner></mat-spinner> -->
+     <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...
+  </div>
 
-  <div class="table-responsive">
+  <div *ngIf="!loading" class="table-responsive">
     <table mat-table [dataSource]="dataSource" matSort matSortStart="desc" matSortDisableClear="true"
       disableClear="true" class="table table-bordered table-striped table-hover mat-elevation-z8">
       <!-- Material Name Column -->

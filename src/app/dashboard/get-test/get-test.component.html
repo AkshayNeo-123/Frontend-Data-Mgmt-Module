@@ -30,9 +30,15 @@
       <i class="fas fa-plus me-2"></i> Add New Test
     </button>
     </div>
-
   </div>
 
+  <div *ngIf="loading" class="spinner-container">
+  <!-- <mat-spinner></mat-spinner>Loading... -->
+     <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...
+  </div>
+
+
+<div *ngIf="!loading">
   <table
     mat-table
     [dataSource]="dataSource"
@@ -150,6 +156,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
+  </div>
 
   <mat-paginator 
   [length]="dataSource.data.length"

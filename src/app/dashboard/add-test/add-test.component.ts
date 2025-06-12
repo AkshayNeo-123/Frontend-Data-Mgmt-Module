@@ -25,6 +25,7 @@ import { MatIcon } from '@angular/material/icon';
 import { ConfirmDialogComponent } from '../CommonTs/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-test',
@@ -55,6 +56,7 @@ export class AddTestComponent implements OnInit {
   generalForm: FormGroup;
   electricalForm: FormGroup;
   propertiesForm: FormGroup;
+  testIdForUpdate!: number;
   recipeData: RecipeDataforTest[] = [];
   isUpdateMode = false;
   testId: number | null = null;
@@ -70,6 +72,7 @@ selectedRecipeId: number | null = null;  // currently selected recipe
     private toastr: ToastrService,
     private dialog: MatDialog,
     private route: ActivatedRoute,
+    private location: Location
   ) {
     // Common fields shown outside stepper
     this.sharedForm = this._formBuilder.group({
@@ -177,13 +180,32 @@ selectedRecipeId: number | null = null;  // currently selected recipe
     this.loadRecipeData();
 
     //checking if we're in update mode
-    this.route.params.subscribe(params => {
-      if (params['id']) {
-        this.isUpdateMode = true;
-        this.testId = +params['id'];
-        this.loadTestData(this.testId);
-      }
-    });
+    // this.route.params.subscribe(params => {
+    //   if (params['id']) {
+    //     this.isUpdateMode = true;
+    //     this.testId = +params['id'];
+    //     this.loadTestData(this.testId);
+    //   }
+    // });
+
+   const state = this.location.getState() as { testIdUpdate?: number };
+
+  if (state?.testIdUpdate) {
+    this.isUpdateMode = true;
+    this.testId = +state.testIdUpdate;
+    this.loadTestData(this.testId);
+  } else {
+    this.isUpdateMode = false;
+    // handle create mode
+  }
+
+    // this.testIdForUpdate = history.state.testIdUpdate;
+    // if(this.testIdForUpdate!=0){
+    //   this.isUpdateMode = true;
+    //     // this.testId = +params['id'];
+    //     this.loadTestData(this.testIdForUpdate);
+    // }
+    // // this.testIdForUpdate=0
 
   } 
 
@@ -396,6 +418,7 @@ selectedRecipeId: number | null = null;  // currently selected recipe
         response => {
           this.toastr.success('Test updated successfully');
           this.router.navigate(['/gettest']);
+          // this.testIdForUpdate=0
         },
         error => {
           console.error('Error updating test:', error);

@@ -16,6 +16,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { Location } from '@angular/common'
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { APP_CONSTANTS } from '../../services/Constants';
 
 
 @Component({
@@ -44,7 +45,7 @@ export class UpdateCompoundingComponent implements OnInit {
   componentOptions: any[] = [];
   repetitionCount = 0;
   maxRepetition: number = 230;
-  baseUrl = `https://localhost:7030`
+  baseUrl = `${APP_CONSTANTS.apiBaseUrl}`; 
   today = new Date();
   get components() {
     return (this.compoundForm.get('components') as FormArray).controls;

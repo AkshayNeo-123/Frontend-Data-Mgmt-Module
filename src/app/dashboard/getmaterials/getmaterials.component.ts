@@ -17,6 +17,8 @@ import { HttpClient } from '@angular/common/http';
 import * as XLSX from 'xlsx';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PermissionServiceService } from '../../services/permission-service.service';
+import { APP_CONSTANTS } from '../../services/Constants';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @Component({
@@ -30,17 +32,18 @@ import { PermissionServiceService } from '../../services/permission-service.serv
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    MatTooltipModule
-
+    MatTooltipModule,
+    MatProgressSpinnerModule
   ],
   
 })
 export class GetmaterialsComponent implements AfterViewInit, OnInit {
-  downloadBaseUrl: string = 'https://localhost:7030/api/File/FileDownload?url=';
+  downloadBaseUrl: string = `${APP_CONSTANTS.apiBaseUrl}/api/File/FileDownload?url=`;
   displayedColumns: string[] = [
   'materialName', 'AdditiveId', 'MainPolymerId','manufacturerId', 'quantity',  'storageLocationId',
    'density','mvrMfrId',"testMethod",'tdsFilePath','msdsFilePath'
   ];
+  loading: boolean = true;
   canAddMaterial = false;
   canEditMaterial = false;
   canDeleteMaterial = false;
@@ -91,8 +94,10 @@ export class GetmaterialsComponent implements AfterViewInit, OnInit {
       .subscribe((data: Material[]) => {
         console.log('Loaded materials:', data);
         this.dataSource.data = data;
+        this.loading=false;
       }, error => {
         console.error('Error fetching materials:', error);
+        this.loading=false;
       });
   }
 

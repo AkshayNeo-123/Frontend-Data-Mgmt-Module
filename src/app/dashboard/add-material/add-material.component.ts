@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { APP_CONSTANTS } from '../../services/Constants';
 
 @Component({
   selector: 'app-add-material',
@@ -38,7 +39,7 @@ export class AddMaterialComponent implements OnInit {
   storageLocations: any[] = [];
   materials: Material[] = [];
 
-  baseUrl = 'https://localhost:7030'; 
+  baseUrl = `${APP_CONSTANTS.apiBaseUrl}`; 
 
   constructor(
     private fb: FormBuilder,
