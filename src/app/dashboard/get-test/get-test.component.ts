@@ -54,6 +54,7 @@ export class GetTestComponent implements OnInit,AfterViewInit {
     private testService: TestService,
     private dialog: MatDialog,
     private permissionService: PermissionServiceService
+    
   ) {}
 
   testList: Test[] = [];
@@ -117,8 +118,18 @@ export class GetTestComponent implements OnInit,AfterViewInit {
     this.router.navigate(['/add-test']);
   }
 
-  editTest(test: any) {
-    this.router.navigate(['/add-test', test.testId]);
+  // editTest(test: any) {
+  //   this.router.navigate(['/add-test', test.testId]);
+  // }
+   editTest(test: any) {
+    // this.router.navigate(['/add-test', test.testId]);
+    this.router.navigate(['/add-test'], {
+        state: {
+          testIdUpdate:test.testId,
+          // compoundingId: compoundingId,
+          // recipeId: this.idOfRecipe,
+        },
+      });
   }
  
   export() {
