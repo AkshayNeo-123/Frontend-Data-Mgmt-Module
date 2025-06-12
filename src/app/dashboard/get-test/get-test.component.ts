@@ -21,6 +21,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PermissionServiceService } from '../../services/permission-service.service';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-get-test',
@@ -38,12 +39,14 @@ import { saveAs } from 'file-saver';
     MatIconModule,
     MatCheckboxModule,
     MatDialogModule,
-    RouterModule, 
+    RouterModule, // ✅ added RouterModule for routerLink
+    MatProgressSpinnerModule
   ],
   templateUrl: './get-test.component.html',
   styleUrls: ['./get-test.component.css'],
 })
 export class GetTestComponent implements OnInit,AfterViewInit {
+  loading: boolean = true;
   canAddTest = false;
   canEditTest = false;
   canDeleteTest = false;
@@ -103,13 +106,12 @@ export class GetTestComponent implements OnInit,AfterViewInit {
       next: (data: Test[]) => {
         this.testList = data;
         this.dataSource.data = this.testList;
+        this.loading=false;
         console.log(this.testList);
-        // console.log('data'+this.dataSource);
-       
-        
       },
       error: (err) => {
         console.error('Error fetching test data:', err);
+        this.loading=false;
       },
     });
   }

@@ -87,6 +87,14 @@
   white-space: nowrap;
 }
 
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px; /* adjust height based on your layout */
+}
+
+
 /* .export-btn {
   background-color: white !important;
   border: none !important;

@@ -20,6 +20,8 @@ import { Location } from '@angular/common';
 import * as XLSX from 'xlsx';
 import { PermissionServiceService } from '../../services/permission-service.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 @Component({
   selector: 'app-project',
@@ -34,7 +36,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatFormFieldModule,
     MatInputModule,
     RouterModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatProgressSpinnerModule
   ]
 })
 export class ProjectComponent implements OnInit {
@@ -45,6 +48,7 @@ export class ProjectComponent implements OnInit {
   canAddProject = false;
   canEditProject = false;
   canDeleteProject = false;
+  loading: boolean = true;
   dataSource = new MatTableDataSource<Project>([]); // Using your Project model
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -56,7 +60,13 @@ export class ProjectComponent implements OnInit {
     private toastr: ToastrService,
     private location: Location,
     private permissionService: PermissionServiceService
-  ) {}
+  ) {
+    console.log('projectService:', projectService);
+    console.log('dialog:', dialog);
+    console.log('tostr:', toastr);
+    console.log('location:', location);
+    console.log('permissionService:', permissionService);
+  }
 
 
   ngOnInit() {
@@ -95,10 +105,10 @@ export class ProjectComponent implements OnInit {
         console.log('Loaded projects:', data);
         this.dataSource.data = data;
         this.dataSource.paginator = this.paginator;
-       
-
+        this.loading=false;
       }, error => {
         console.error('Error fetching materials:', error);
+        this.loading=false;
       });
   }
  
