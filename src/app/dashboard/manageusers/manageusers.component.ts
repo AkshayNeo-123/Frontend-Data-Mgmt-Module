@@ -36,6 +36,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 export class ManageusersComponent implements OnInit {
   // displayedColumns: string[] = ['userId', 'firstName', 'lastName', 'email', 'roleId', 'status', 'actions'];
   displayedColumns: string[] = ['userId', 'userName', 'status', 'roleId'];
+  loading:boolean=true;
   canAddUser = false;
   canEditUser = false;
   canDeleteUser = false;
@@ -100,9 +101,11 @@ export class ManageusersComponent implements OnInit {
               return item[property];
           }
         };
+        this.loading=false;
        },
       error: (err) => {
         console.error('Error fetching users:', err);
+        this.loading=false;
       }
     });
   }

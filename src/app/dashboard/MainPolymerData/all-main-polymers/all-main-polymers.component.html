@@ -28,7 +28,11 @@
   </div>
   <div>
 
-    <div class="w-auto">
+    <div *ngIf="loading" class="spinner-container">
+       <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...
+    </div>
+
+    <div *ngIf="!loading" class="w-auto">
       <table mat-table [dataSource]="dataSource" matSort matSortStart="desc" matSortDisableClear="true" disableClear="true" class="table table-bordered table-striped table-hover mat-elevation-z8"
              style="table-layout: fixed; width: 100%; text-align: center;">
 

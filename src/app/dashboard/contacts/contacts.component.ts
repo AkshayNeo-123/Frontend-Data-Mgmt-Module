@@ -43,6 +43,7 @@ export class ContactsComponent implements OnInit, AfterViewInit {
   canAddContact = false;
   canEditContact = false;
   canDeleteContact = false;
+  loading:boolean=true;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -90,9 +91,11 @@ export class ContactsComponent implements OnInit, AfterViewInit {
       next: (data) => {
         this.dataSource.data = data;
         console.log(data);
+        this.loading=false;
       },
       error: (err) => {
         console.error('Error fetching contacts', err);
+        this.loading=false;
       }
     });
   }

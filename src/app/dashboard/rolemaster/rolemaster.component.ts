@@ -42,6 +42,7 @@ export class RolemasterComponent implements OnInit {
   canEditRole = false;
   canDeleteRole = false;
   dataSource = new MatTableDataSource<any>();
+  loading:boolean=true;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -86,9 +87,11 @@ export class RolemasterComponent implements OnInit {
         this.dataSource = new MatTableDataSource(roles);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.loading=false;
       },
       error: (err) => {
         console.error('Error fetching roles:', err);
+        this.loading=false;
       }
     });
   }

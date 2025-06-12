@@ -54,6 +54,7 @@ export class AllMainPolymersComponent implements OnInit {
   canAddMainPolymer = false;
   canEditMainPolymer = false;
   canDeleteMainPolymer = false;
+  loading:boolean=true;
 
 
   ngOnInit(): void {
@@ -71,6 +72,7 @@ export class AllMainPolymersComponent implements OnInit {
       this.dataSource.data = data;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.loading=false;
      
     });
   }

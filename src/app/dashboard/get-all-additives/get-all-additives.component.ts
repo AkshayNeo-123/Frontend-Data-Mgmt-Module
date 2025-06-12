@@ -55,6 +55,7 @@ export class GetAllAdditivesComponent implements OnInit,AfterViewInit  {
   canAddAdditive = false;
   canEditAdditive = false;
   canDeleteAdditive = false;
+  loading:boolean=true;
   ngOnInit(): void {
     this.getAllAdditivesData();
       this.canAddAdditive = this.permissionService.hasPermission('Additive', 'canCreate');
@@ -83,7 +84,7 @@ export class GetAllAdditivesComponent implements OnInit,AfterViewInit  {
   getAllAdditivesData() {
     this.getAllAdditivesService.getAllAdditives().subscribe((data) => {
       this.dataSource.data = data;
-   
+      this.loading=false;
     });
   }
 
