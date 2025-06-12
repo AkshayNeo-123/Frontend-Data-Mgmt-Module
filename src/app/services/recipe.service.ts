@@ -65,6 +65,29 @@ export class RecipeService {
   }
 
 
+//   getRecipeAndProject(
+//   search: string,
+//   tensileMax: number | null,
+//   tensileMin: number | null,
+//   charpyMax: number | null,
+//   charpyMin: number | null,
+//   stressMax: number | null,
+//   stressMin: number | null
+// ): Observable<any> {
+//   const params = new HttpParams()
+//     .set('search', search ?? '')
+//     .set('tensileMax', tensileMax !== null ? tensileMax.toString() : '')
+//     .set('tensileMin', tensileMin !== null ? tensileMin.toString() : '')
+//     .set('charpyMax', charpyMax !== null ? charpyMax.toString() : '')
+//     .set('charpyMin', charpyMin !== null ? charpyMin.toString() : '')
+//     .set('stressMax', stressMax !== null ? stressMax.toString() : '')
+//     .set('stressMin', stressMin !== null ? stressMin.toString() : '');
+
+//   return this.http.get(`${this.baseUrl}/api/Recipe/GetRecipeAndProject`, { params });
+// }
+
+
+
   
 
 

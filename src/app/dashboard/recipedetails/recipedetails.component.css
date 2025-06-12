@@ -111,7 +111,7 @@
 .custom-scope table{
   width: 100%;
   table-layout: fixed;
-word-break: break-word;}
+word-break: normal;}
 
 .table.no-borders td,
 .table.no-borders th {

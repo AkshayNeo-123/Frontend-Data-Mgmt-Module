@@ -41,9 +41,9 @@
                 <div class="slider-container">
                   <label class="slider-label">Tensile Modules in MPa</label>
                   <div class="slider-wrapper">
-                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="tensileMin" (input)="updateTrack()"
+                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="tensileMin" (change)="onTensileChange()" (input)="updateTrack()"
                       class="thumb thumb-min" />
-                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="tensileMax" (input)="updateTrack()"
+                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="tensileMax" (change)="onTensileChange()" (input)="updateTrack()"
                       class="thumb thumb-max" />
                     <div class="slider-base-track"></div>
                     <div class="slider-track" [ngStyle]="trackStyle"></div>
@@ -56,9 +56,9 @@
                 <div class="slider-container">
                   <label class="slider-label">Charpy impact strength in kJ/m²</label>
                   <div class="slider-wrapper">
-                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="charpyMin" (input)="updateCharpyTrack()"
+                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="charpyMin" (change)="onCharpyChange()" (input)="updateCharpyTrack()"
                       class="thumb thumb-min" />
-                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="charpyMax" (input)="updateCharpyTrack()"
+                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="charpyMax" (change)="onCharpyChange()" (input)="updateCharpyTrack()"
                       class="thumb thumb-max" />
                     <div class="slider-base-track"></div>
                     <div class="slider-track" [ngStyle]="charpyTrackStyle"></div>
@@ -70,9 +70,9 @@
                 <div class="slider-container">
                   <label class="slider-label">StressAtYield in MPa</label>
                   <div class="slider-wrapper">
-                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="stressMin" (input)="updateStressTrack()"
+                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="stressMin" (change)="onStressChange()" (input)="updateStressTrack()"
                       class="thumb thumb-min" />
-                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="stressMax" (input)="updateStressTrack()"
+                    <input type="range" min="0" max="1000" step="1" [(ngModel)]="stressMax" (change)="onStressChange()" (input)="updateStressTrack()"
                       class="thumb thumb-max" />
                     <div class="slider-base-track"></div>
                     <div class="slider-track" [ngStyle]="stressTrackStyle"></div>
@@ -81,6 +81,8 @@
                     {{ stressMin }} - {{ stressMax }}
                   </div>
                 </div>
+
+                
               </div>
 
 
@@ -119,7 +121,7 @@
 
                       <div class="progress-info-box">
                         <div class="progress-item">
-                          <label class="progress-label"><b>Tensile Modulus : </b>{{recipe.tensileModulus_DAM}}</label>
+                          <label class="progress-label"><b>Tensile Modulus : </b>{{recipe.tensileModulus_DAM}} MPa</label>
                           <div class="progress">
                             <div class="progress-bar" role="progressbar"
                               [attr.aria-valuenow]="recipe.tensileModulus_DAM" aria-valuemin="0" aria-valuemax="1000"
@@ -129,7 +131,7 @@
                         </div>
 
                         <div class="progress-item">
-                          <label class="progress-label"><b>Impact : </b>{{recipe.charpyImpact_DAM}}</label>
+                          <label class="progress-label"><b>Charpy Impact : </b>{{recipe.charpyImpact_DAM}} KJ/m3</label>
                           <div class="progress">
                             <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="recipe.charpyImpact_DAM"
                               aria-valuemin="0" aria-valuemax="1000"
@@ -138,7 +140,7 @@
                           </div>
                         </div>
                         <div class="progress-item">
-                          <label class="progress-label"><b>StressAtYield  : </b>{{recipe.stressAtYield_DAM}}</label>
+                          <label class="progress-label"><b>StressAtYield  : </b><br>{{recipe.stressAtYield_DAM}} MPa</label>
                           <div class="progress">
                             <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="recipe.stressAtYield_DAM"
                               aria-valuemin="0" aria-valuemax="100"
