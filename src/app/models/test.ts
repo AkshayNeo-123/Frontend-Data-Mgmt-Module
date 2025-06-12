@@ -11,6 +11,7 @@ export interface Test {
   electricalProperties: boolean;
   generalProperties: boolean;
   mechanicalProperty: boolean;
+  
 }
 export interface RecipeDataforTest{
     receipeId:number;

@@ -18,6 +18,7 @@ import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
  import { MatTooltipModule } from '@angular/material/tooltip';
 import { PermissionServiceService } from '../../services/permission-service.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
  
 @Component({
   selector: 'app-recipy',
@@ -34,7 +35,9 @@ import { PermissionServiceService } from '../../services/permission-service.serv
     MatDialogModule,
     MatIconModule,
     MatButtonModule,
-MatTooltipModule  ],
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+  ],
 })
 export class RecipyComponent implements OnInit {
   private readonly EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
@@ -54,6 +57,7 @@ export class RecipyComponent implements OnInit {
     canAddRecipe = false;
     canEditRecipe = false;
     canDeleteRecipe = false;
+    loading=true;
   dataSource: MatTableDataSource<Recipe> = new MatTableDataSource<Recipe>();
  
   @ViewChild(MatSort) sort!: MatSort;
@@ -96,8 +100,12 @@ goToAddPage(receipeId: number | undefined): void {
         this.dataSource = new MatTableDataSource(this.recipyList);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
+        this.loading=false;
       },
-      error: (err) => console.error('Error fetching recipes', err),
+      error: (err) => {
+        console.error('Error fetching recipes', err),
+        this.loading=false;
+      }
     });
   }
  

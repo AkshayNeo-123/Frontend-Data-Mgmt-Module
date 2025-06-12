@@ -17,10 +17,14 @@
   </div>
 
 
+    <div *ngIf="loading" class="spinner-container">
+  <!-- <mat-spinner></mat-spinner>Loading... -->
+     <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...
+  </div>
+
+  <div *ngIf="!loading">
   <table mat-table [dataSource]="dataSource" matSort
     class="styled-table table table-bordered table-striped table-hover mat-elevation-z8 ">
-
-
 
     <ng-container matColumnDef="recipeId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> RecipeId </th>
@@ -74,6 +78,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  </div>
 
   <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
 </div>
