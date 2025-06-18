@@ -82,6 +82,13 @@
     <mat-radio-button value="Active">Active</mat-radio-button>
     <mat-radio-button value="InActive">InActive</mat-radio-button>
   </mat-radio-group>
+
+  <!-- <label class="mb-2">Account Status *</label>
+  <mat-button-toggle-group name="status" [(ngModel)]="user.status" appearance="legacy">
+    <mat-button-toggle value="Active">Active</mat-button-toggle>
+    <mat-button-toggle value="Inactive">InActive</mat-button-toggle>
+  </mat-button-toggle-group> -->
+  
   <div class="text-danger" *ngIf="!user.status && userForm.submitted">
     Account Status is required
   </div>

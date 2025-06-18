@@ -11,11 +11,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatOptionModule } from '@angular/material/core';
 import { ToastrService } from 'ngx-toastr';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-edit-user-dialog',
   standalone: true,
   imports: [
+    MatButtonToggleModule,
     CommonModule,
     FormsModule,
     MatFormFieldModule,
